@@ -23,7 +23,7 @@ jobs:
           ISSUE_TITLE_CLEAN="${ISSUE_TITLE// /-}"               # 공백을 '-'로 대체
           ISSUE_TITLE_CLEAN="${ISSUE_TITLE_CLEAN//[^a-zA-Z0-9가-힣_-]/}" # 영문, 한글, 숫자, '_'만 남김
 
-          BRANCH_NAME="#${ISSUE_NUMBER}_${ISSUE_TITLE_CLEAN}"
+          BRANCH_NAME="feature/#${ISSUE_NUMBER}_${ISSUE_TITLE_CLEAN}"
 
           # 'feature' 브랜치를 기준으로 새 브랜치 생성 및 푸시
           git checkout feature
