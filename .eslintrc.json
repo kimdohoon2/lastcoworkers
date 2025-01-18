@@ -33,7 +33,7 @@
     "react/jsx-props-no-spreading": "off",
     "react/jsx-no-useless-fragment": "off",
     "react/button-has-type": "off",
-    "react/require-default-prop": "off",
+    "react/require-default-props": "off",
     "prettier/prettier": "error" // 써보고 쓸데없는 오류가 발생할 경우 직접 설정
   }
 }
