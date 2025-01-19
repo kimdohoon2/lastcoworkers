@@ -1,8 +1,7 @@
 import { MouseEvent, ReactNode, useState } from 'react';
 import { useFormContext, RegisterOptions } from 'react-hook-form';
-import Visibility from '@public/icons/ic_visibility.svg';
-import InVisibility from '@public/icons/ic_invisibility.svg';
-import Image from 'next/image';
+import IconVisibility from '@/app/components/icons/IconVisibility';
+import IconInVisibility from '@/app/components/icons/IconInVisibility';
 
 type AuthInputProps = {
   name: string; // 필드 이름 (폼 데이터의 키)
@@ -67,16 +66,7 @@ function AuthInput({
             type="button"
             onClick={handleToggleClick}
           >
-            {isVisibleToggle ? (
-              <Image src={Visibility} alt="보이게하기" width={24} height={24} />
-            ) : (
-              <Image
-                src={InVisibility}
-                alt="안보이게하기"
-                width={24}
-                height={24}
-              />
-            )}
+            {isVisibleToggle ? <IconVisibility /> : <IconInVisibility />}
           </button>
         )}
       </div>
