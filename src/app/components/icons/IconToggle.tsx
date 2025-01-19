@@ -1,6 +1,11 @@
-function IconToggle() {
+interface IconToggleProps {
+  className?: string;
+}
+
+function IconToggle({ className }: IconToggleProps) {
   return (
     <svg
+      className={`${className || ''}`}
       width="14"
       height="8"
       viewBox="0 0 14 8"
