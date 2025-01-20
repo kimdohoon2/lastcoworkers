@@ -10,52 +10,83 @@ function TestPage() {
   };
 
   return (
-    <div className="flex items-start gap-5 p-8">
-      <div className="flex gap-4">
-        <div className="flex flex-col gap-4">
-          <Button variant="primary" size="large" onClick={handleClick}>
-            생성하기
-          </Button>
-          <Button variant="primary" size="large" disabled>
-            생성하기
-          </Button>
+    <div className="flex flex-col gap-20 p-8">
+      <div className="flex items-start gap-5">
+        <div className="flex gap-4">
+          <div className="flex flex-col gap-2">
+            <Button variant="primary" size="large" onClick={handleClick}>
+              생성하기
+            </Button>
+            <Button variant="primary" size="large" disabled>
+              생성하기
+            </Button>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Button variant="inverse" size="large" onClick={handleClick}>
+              생성하기
+            </Button>
+            <Button variant="inverse" size="large" disabled>
+              생성하기
+            </Button>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Button variant="secondary" size="large" onClick={handleClick}>
+              생성하기
+            </Button>
+            <Button variant="danger" size="large" onClick={handleClick}>
+              생성하기
+            </Button>
+          </div>
         </div>
 
-        <div className="flex flex-col gap-4">
-          <Button variant="inverse" size="large" onClick={handleClick}>
-            생성하기
-          </Button>
-          <Button variant="inverse" size="large" disabled>
-            생성하기
-          </Button>
-        </div>
+        <div className="flex gap-2">
+          <div className="flex flex-col gap-2">
+            <Button variant="primary" size="small" onClick={handleClick}>
+              생성하기
+            </Button>
+            <Button variant="primary" size="small" disabled>
+              생성하기
+            </Button>
+          </div>
 
-        <div className="flex flex-col gap-4">
-          <Button variant="secondary" size="large" onClick={handleClick}>
-            생성하기
-          </Button>
-          <Button variant="danger" size="large" onClick={handleClick}>
-            생성하기
-          </Button>
+          <div className="flex flex-col gap-2">
+            <Button variant="inverse" size="small" onClick={handleClick}>
+              생성하기
+            </Button>
+            <Button variant="inverse" size="small" disabled>
+              생성하기
+            </Button>
+          </div>
         </div>
       </div>
 
       <div className="flex gap-4">
-        <div className="flex flex-col gap-4">
-          <Button variant="primary" size="small" onClick={handleClick}>
-            생성하기
+        <div className="flex flex-col gap-2">
+          <Button variant="plus" size="plus" onClick={handleClick}>
+            할 일 추가
           </Button>
-          <Button variant="primary" size="small" disabled>
-            생성하기
+          <Button variant="plus" size="plus" disabled>
+            할 일 추가
           </Button>
         </div>
 
-        <div className="flex flex-col gap-4">
-          <Button variant="inverse" size="small" onClick={handleClick}>
-            생성하기
+        <div className="flex flex-col gap-2">
+          <Button variant="complete" size="complete" onClick={handleClick}>
+            완료하기
           </Button>
-          <Button variant="inverse" size="small" disabled>
-            생성하기
+          <Button variant="complete" size="complete" disabled>
+            완료하기
+          </Button>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <Button variant="cancel" size="cancel" onClick={handleClick}>
+            완료 취소하기
+          </Button>
+          <Button variant="cancel" size="cancel" disabled>
+            완료 취소하기
           </Button>
         </div>
       </div>
