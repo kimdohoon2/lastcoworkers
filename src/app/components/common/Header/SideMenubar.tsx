@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import HeaderBoardButton from '@/app/components/common/Header/Boards';
+import IconClose from '@/app/components/icons/IconClose';
 
 interface SlidemenuBarType {
   visible: boolean;
@@ -28,7 +29,7 @@ export default function SideMenuBar({ visible, onClose }: SlidemenuBarType) {
       role="menubar"
       tabIndex={0}
       style={{ backgroundColor: 'rgba(15, 23, 42, 0.5)' }}
-      className={`fixed left-0 top-0 z-50 h-screen w-full transition-opacity duration-300 ease-in-out md:hidden ${
+      className={`fixed left-0 top-0 z-50 h-screen w-full transition-opacity duration-300 ease-in-out tablet:hidden ${
         visible ? 'opacity-100' : 'pointer-events-none opacity-0'
       }`}
       onClick={onClose}
@@ -42,10 +43,10 @@ export default function SideMenuBar({ visible, onClose }: SlidemenuBarType) {
             onClick={onClose}
             aria-label="Close Menu"
           >
-            닫기
+            <IconClose />
           </button>
           <div className="flex flex-col gap-6">
-            <HeaderBoardButton className="block md:hidden" />
+            <HeaderBoardButton className="block text-md tablet:hidden" />
           </div>
         </div>
       </div>

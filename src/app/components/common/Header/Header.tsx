@@ -15,11 +15,11 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed left-0 top-0 z-40 w-full bg-background-secondary px-4 py-5 md:px-6 xl:px-[22.5rem] xl:py-3">
+      <header className="fixed left-0 top-0 z-40 w-full bg-background-secondary px-4 py-5 tablet:px-6 xl:px-[22.5rem] xl:py-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4 md:gap-8 xl:gap-10">
+          <div className="flex items-center gap-4 tablet:gap-8 xl:gap-10">
             <button
-              className="md:hidden"
+              className="tablet:hidden"
               onClick={handleOpenSlideMenubar}
               aria-label="Open Menu"
             >
@@ -37,7 +37,7 @@ export default function Header() {
               </Link>
             </div>
             {/* 자유게시판 버튼 */}
-            <HeaderBoardButton className="hidden md:block" />
+            <HeaderBoardButton className="hidden tablet:block" />
           </div>
           <div>
             <Link
