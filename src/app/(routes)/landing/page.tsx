@@ -9,7 +9,9 @@ export default function LandingPage() {
         </span>
         <IconRepair />
       </div>
-      <div className="text-[4rem] font-semibold">Coworkers</div>
+      <div className="from-brand-gradient-from to-brand-gradient-to inline-block bg-gradient-to-r bg-clip-text text-[4rem] font-semibold text-transparent">
+        Coworkers
+      </div>
     </div>
   );
 }
