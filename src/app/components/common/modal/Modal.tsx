@@ -7,7 +7,7 @@ import IconClose from '@/app/components/icons/IconClose';
 interface ModalProps {
   hasCloseBtn?: boolean;
   portalRoot?: HTMLElement;
-  isOpen?: boolean;
+  isOpen: boolean;
   closeModal: () => void;
 }
 
@@ -18,12 +18,22 @@ function Modal({
   isOpen,
   children,
 }: PropsWithChildren<ModalProps>) {
-  const [isMounted, setIsMounted] = useState(false);
+  const [renderModal, setRenderModal] = useState(isOpen);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    setIsMounted(true);
+    if (isOpen) {
+      setRenderModal(true); // isOpen이 true면 렌더링 활성화
+    }
+  }, [isOpen]);
 
+  const handleAnimationEnd = () => {
+    if (!isOpen) {
+      setRenderModal(false); // 애니메이션 종료 후 렌더링 중단
+    }
+  };
+
+  useEffect(() => {
     // 모달 외부 클릭 시 닫히도록 이벤트 처리
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && modalRef.current.contains(event.target as Node)) {
@@ -40,17 +50,19 @@ function Modal({
     };
   }, [closeModal]);
 
-  if (!isMounted) return null;
+  if (!renderModal) return null;
 
   return createPortal(
     <div
       className={`fixed inset-0 z-50 flex flex-col items-center justify-end transition-opacity md:justify-center ${
-        isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
+        isOpen ? 'opacity-100' : 'pointer-events-none hidden opacity-0'
       }`}
+      style={{ display: renderModal ? 'flex' : 'none' }}
     >
       <div ref={modalRef} className="absolute inset-0 bg-black opacity-50" />
       <div
         className={`relative flex max-h-[80%] w-full transform flex-col items-center overflow-y-hidden rounded-t-xl bg-background-secondary pb-8 pt-12 transition-transform md:w-96 md:rounded-b-xl ${isOpen ? 'translate-y-0' : 'translate-y-4'}`}
+        onTransitionEnd={handleAnimationEnd}
       >
         {hasCloseBtn && (
           <button
