@@ -7,6 +7,7 @@ import IconClose from '@/app/components/icons/IconClose';
 interface ModalProps {
   hasCloseBtn?: boolean;
   portalRoot?: HTMLElement;
+  isOpen?: boolean;
   closeModal: () => void;
 }
 
@@ -14,6 +15,7 @@ function Modal({
   hasCloseBtn = false,
   portalRoot, // Modal 렌더링할 상위 DOM 노드
   closeModal,
+  isOpen,
   children,
 }: PropsWithChildren<ModalProps>) {
   const [isMounted, setIsMounted] = useState(false);
@@ -41,9 +43,15 @@ function Modal({
   if (!isMounted) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center max-[744px]:justify-end">
+    <div
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-end transition-opacity md:justify-center ${
+        isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
+      }`}
+    >
       <div ref={modalRef} className="absolute inset-0 bg-black opacity-50" />
-      <div className="relative flex w-96 flex-col items-center rounded-xl bg-background-secondary pb-8 pt-12 max-[744px]:w-full max-[744px]:rounded-b-none">
+      <div
+        className={`relative flex w-full transform flex-col items-center rounded-t-xl bg-background-secondary pb-8 pt-12 transition-transform md:w-96 md:rounded-b-xl ${isOpen ? 'translate-y-0' : 'translate-y-4'}`}
+      >
         {hasCloseBtn && (
           <button
             type="button"
