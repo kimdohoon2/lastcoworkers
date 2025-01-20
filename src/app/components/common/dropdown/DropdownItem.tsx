@@ -21,7 +21,7 @@ export default function DropdownItem({
           onClick();
           onClose();
         }}
-        className={`w-full whitespace-nowrap rounded-xl px-4 py-3 text-center text-md font-normal text-text-primary hover:bg-background-tertiary ${className}`}
+        className={`w-full truncate rounded-xl px-4 py-3 text-center text-md font-normal text-text-primary hover:bg-background-tertiary ${className}`}
       >
         {children}
       </button>
