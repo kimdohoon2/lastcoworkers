@@ -1,6 +1,11 @@
-export default function DropDownArrow() {
+interface DropdownArrowProps {
+  className?: string;
+}
+
+export default function DropDownArrow({ className }: DropdownArrowProps) {
   return (
     <svg
+      className={`${className || ''}`}
       width="10"
       height="6"
       viewBox="0 0 10 6"
