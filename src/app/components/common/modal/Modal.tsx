@@ -50,7 +50,7 @@ function Modal({
     >
       <div ref={modalRef} className="absolute inset-0 bg-black opacity-50" />
       <div
-        className={`relative flex w-full transform flex-col items-center rounded-t-xl bg-background-secondary pb-8 pt-12 transition-transform md:w-96 md:rounded-b-xl ${isOpen ? 'translate-y-0' : 'translate-y-4'}`}
+        className={`relative flex max-h-[80%] w-full transform flex-col items-center overflow-y-scroll rounded-t-xl bg-background-secondary pb-8 pt-12 transition-transform md:w-96 md:rounded-b-xl ${isOpen ? 'translate-y-0' : 'translate-y-4'}`}
       >
         {hasCloseBtn && (
           <button
