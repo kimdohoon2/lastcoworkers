@@ -17,7 +17,6 @@ export default function Header() {
     <>
       <header className="fixed left-0 top-0 z-40 w-full bg-background-secondary px-4 py-5 md:px-6 xl:px-[22.5rem] xl:py-3">
         <div className="flex items-center justify-between">
-          {/* Left Section */}
           <div className="flex items-center gap-4 md:gap-8 xl:gap-10">
             <button
               className="md:hidden"
