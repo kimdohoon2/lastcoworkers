@@ -7,20 +7,6 @@
   --text-primary: #f8fafc;
 }
 
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/subsets/Pretendard-dynamic-subset.css');
-  font-display: swap;
-  crossorigin: anonymous;
-}
-
-/* 추가 기능으로 다크모드 적용시 우선 주석 처리 합니다. */
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0F172A;
-  }
-} */
-
 body {
   color: var(--text-primary);
   background: var(--background-primary);
