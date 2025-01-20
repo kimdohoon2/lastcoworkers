@@ -1,7 +1,6 @@
-export default function IconCheck({ color = '#F8FAFC' }: { color?: string }) {
+export default function IconCheck() {
   return (
     <svg
-      className={`stroke-${color} hover:stroke-${color}`}
       width="16"
       height="16"
       viewBox="0 0 16 16"
