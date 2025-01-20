@@ -3,7 +3,7 @@ import { PropsWithChildren } from 'react';
 
 interface DropdownListProps {
   className?: string;
-  isOpen: boolean;
+  isOpen: boolean; // 드롭다운 열림 여부 판단 변수
 }
 
 export default function DropdownList({

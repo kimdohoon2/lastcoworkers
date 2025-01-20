@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 interface DropdownProps {
   className?: string;
-  onClose: () => void;
+  onClose: () => void; // 드롭다운을 닫는 함수
 }
 
 export default function Dropdown({
