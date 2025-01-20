@@ -21,6 +21,11 @@ function Button({
   const baseStyles = 'items-center font-semibold justify-center rounded-xl';
 
   const variantStyles = {
+    /** primary: 기본 버튼
+     * inverse: 닫기 버튼
+     * secondary: 회원 탈퇴 기능에서 danger 버튼과 함께 쓰이는 닫기 버튼
+     * danger: 회원 탈퇴 시 확인 버튼
+     */
     primary:
       'bg-brand-primary text-text-default hover:bg-interaction-hover active:bg-interaction-pressed',
     inverse:
