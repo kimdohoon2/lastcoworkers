@@ -25,7 +25,7 @@ function Button({
   onClick,
   disabled = false,
 }: ButtonProps) {
-  const baseStyles = 'items-center font-semibold justify-center rounded-xl';
+  const baseStyles = 'items-center font-semibold justify-center';
 
   const variantStyles = {
     /** primary: 기본 버튼
@@ -67,11 +67,11 @@ function Button({
   };
 
   const sizeStyles = {
-    small: 'text-md w-20 h-[32px]',
-    large: 'text-lg w-[332px] h-12',
+    small: 'text-md w-20 h-[32px] rounded-xl',
+    large: 'text-lg w-[332px] h-12 rounded-xl',
     plus: 'text-lg w-[125px] h-[48px] rounded-[40px] ',
-    complete: 'text-md w-[111px] h-[40px] rounded-[40px] ',
-    cancel: 'text-md w-[138px] h-[40px] rounded-[40px] ',
+    complete: 'text-md w-[111px] h-10 rounded-[40px] ',
+    cancel: 'text-md w-[138px] h-10 rounded-[40px] ',
   };
 
   return (
@@ -83,7 +83,7 @@ function Button({
       onClick={onClick}
       disabled={disabled}
     >
-      {children}
+      <span className="flex items-center justify-center gap-1">{children}</span>
     </button>
   );
 }

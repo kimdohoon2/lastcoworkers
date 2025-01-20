@@ -2,6 +2,8 @@
 
 import React from 'react';
 import Button from '@/app/components/common/button/Button';
+import IconCheck from '@/app/components/icons/IconCheck';
+import IconPlus from '@/app/components/icons/IconPlus';
 
 function TestPage() {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -65,27 +67,31 @@ function TestPage() {
       <div className="flex gap-4">
         <div className="flex flex-col gap-2">
           <Button variant="plus" size="plus" onClick={handleClick}>
-            할 일 추가
+            <IconPlus />할 일 추가
           </Button>
           <Button variant="plus" size="plus" disabled>
-            할 일 추가
+            <IconPlus />할 일 추가
           </Button>
         </div>
 
         <div className="flex flex-col gap-2">
           <Button variant="complete" size="complete" onClick={handleClick}>
+            <IconCheck />
             완료하기
           </Button>
           <Button variant="complete" size="complete" disabled>
+            <IconCheck />
             완료하기
           </Button>
         </div>
 
         <div className="flex flex-col gap-2">
           <Button variant="cancel" size="cancel" onClick={handleClick}>
+            <IconCheck />
             완료 취소하기
           </Button>
           <Button variant="cancel" size="cancel" disabled>
+            <IconCheck />
             완료 취소하기
           </Button>
         </div>
