@@ -1,9 +1,8 @@
-import { ReactNode } from 'react';
 import clsx from 'clsx';
+import { PropsWithChildren } from 'react';
 
 interface DropdownListProps {
   className?: string;
-  children: ReactNode;
   isOpen: boolean;
 }
 
@@ -11,7 +10,7 @@ export default function DropdownList({
   className,
   children,
   isOpen,
-}: DropdownListProps) {
+}: PropsWithChildren<DropdownListProps>) {
   if (!isOpen) return null;
 
   return (

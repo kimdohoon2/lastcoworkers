@@ -1,8 +1,7 @@
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 
 interface DropdownToggleProps {
   className?: string;
-  children: ReactNode;
   onClick: React.MouseEventHandler<HTMLButtonElement>; // 드롭다운 열고 닫는 함수
 }
 
@@ -10,7 +9,7 @@ export default function DropdownToggle({
   className,
   children,
   onClick,
-}: DropdownToggleProps) {
+}: PropsWithChildren<DropdownToggleProps>) {
   return (
     <button type="button" className={className} onClick={onClick}>
       {children}

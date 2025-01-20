@@ -1,9 +1,8 @@
-import { ReactNode, useEffect, useRef } from 'react';
+import { PropsWithChildren, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 
 interface DropdownProps {
   className?: string;
-  children: ReactNode;
   onClose: () => void;
 }
 
@@ -11,7 +10,7 @@ export default function Dropdown({
   children,
   onClose,
   className,
-}: DropdownProps) {
+}: PropsWithChildren<DropdownProps>) {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

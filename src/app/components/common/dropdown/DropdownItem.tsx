@@ -1,8 +1,7 @@
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 
 interface DropdownItemProps {
   className?: string;
-  children: ReactNode;
   onClick: () => void;
   onClose: () => void;
 }
@@ -12,7 +11,7 @@ export default function DropdownItem({
   children,
   onClick,
   onClose,
-}: DropdownItemProps) {
+}: PropsWithChildren<DropdownItemProps>) {
   return (
     <li className="list-none">
       <button
