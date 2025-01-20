@@ -8,6 +8,12 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        tablet: '744px', // 반응형 태플릿 기준(744px추가)
+      },
+      fontFamily: {
+        sans: ['Pretendard', 'sans-serif'],
+      },
       colors: {
         brand: {
           primary: '#10B981',
