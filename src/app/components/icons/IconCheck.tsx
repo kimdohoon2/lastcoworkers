@@ -1,6 +1,7 @@
 export default function IconCheck({ color = '#F8FAFC' }: { color?: string }) {
   return (
     <svg
+      className={`stroke-${color} hover:stroke-${color}`}
       width="16"
       height="16"
       viewBox="0 0 16 16"
@@ -9,7 +10,7 @@ export default function IconCheck({ color = '#F8FAFC' }: { color?: string }) {
     >
       <path
         d="M4 7.14286L6.90909 10L12 5"
-        stroke={color}
+        stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
