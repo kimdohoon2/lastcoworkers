@@ -96,6 +96,7 @@ function TestPage() {
           </Button>
         </div>
       </div>
+      <Button className="w-[460px] text-sm">커스터마이즈 버튼</Button>
     </div>
   );
 }

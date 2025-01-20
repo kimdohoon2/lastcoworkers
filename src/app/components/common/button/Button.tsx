@@ -16,6 +16,7 @@ interface ButtonProps {
   size?: 'small' | 'large' | 'plus' | 'complete' | 'cancel';
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
+  className?: string;
 }
 
 function Button({
@@ -24,6 +25,7 @@ function Button({
   size = 'large',
   onClick,
   disabled = false,
+  className,
 }: ButtonProps) {
   const baseStyles = 'items-center font-semibold justify-center';
 
@@ -76,10 +78,15 @@ function Button({
 
   return (
     <button
-      className={clsx(baseStyles, sizeStyles[size], {
-        [variantStyles[variant]]: !disabled,
-        [disabledStyles[variant]]: disabled,
-      })}
+      className={clsx(
+        baseStyles,
+        sizeStyles[size],
+        {
+          [variantStyles[variant]]: !disabled,
+          [disabledStyles[variant]]: disabled,
+        },
+        className,
+      )}
       onClick={onClick}
       disabled={disabled}
     >
