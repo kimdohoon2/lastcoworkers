@@ -44,13 +44,13 @@ function AuthInput({
 
   return (
     <div className="flex flex-col gap-3">
-      <label className="text-text-primary text-base font-medium" htmlFor={name}>
+      <label className="text-base font-medium text-text-primary" htmlFor={name}>
         {title}
       </label>
 
       <div className="relative">
         <input
-          className={`focus:border-interaction-focus placeholder:text-text-danger text-text-primary h-full w-full rounded-xl border px-4 py-[0.85rem] placeholder:text-lg focus:outline-none ${backgroundColor} ${inputBorderClass}`}
+          className={`h-full w-full rounded-xl border px-4 py-[0.85rem] text-text-primary placeholder:text-lg placeholder:text-text-danger focus:border-interaction-focus focus:outline-none ${backgroundColor} ${inputBorderClass}`}
           {...register(name, validationRules)}
           type={inputType}
           id={name}
@@ -72,7 +72,7 @@ function AuthInput({
       </div>
 
       {errors[name] && (
-        <span className="text-status-danger text-sm">
+        <span className="text-sm text-status-danger">
           {errors[name]?.message as string}
         </span>
       )}
