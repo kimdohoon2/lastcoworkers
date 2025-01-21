@@ -56,9 +56,8 @@ export default {
           primary: '#F8FAFC',
           secondary: '#CBD5E1',
           tertiary: '#E2E8F0',
-          danger: '#64748B',
-          default: '#FFFFFF',
-          inverse: '#94A3B8',
+          default: '#64748B',
+          inverse: '#FFFFFF',
           disabled: '#94A3B8',
         },
         status: {
