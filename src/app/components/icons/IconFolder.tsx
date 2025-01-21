@@ -1,4 +1,4 @@
-function IconLandingFolder() {
+function IconFolder() {
   return (
     <svg
       width="24"
@@ -43,4 +43,4 @@ function IconLandingFolder() {
   );
 }
 
-export default IconLandingFolder;
+export default IconFolder;
