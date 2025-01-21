@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        custom: ' 0px 0px 12px 2px #FFFFFF40',
+      },
       backgroundImage: {
         'landing-top-large': "url('/contents/landing-top-large.png')",
       },
