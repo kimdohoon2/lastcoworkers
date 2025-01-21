@@ -1,4 +1,4 @@
-export function IconRepair() {
+function IconRepair() {
   return (
     <svg
       width="56"
@@ -57,3 +57,5 @@ export function IconRepair() {
     </svg>
   );
 }
+
+export default IconRepair;
