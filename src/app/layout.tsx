@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import '@/app/styles/globals.css';
+import Header from './components/common/Header/Header';
 
 export const metadata: Metadata = {
   title: 'Coworkers',
@@ -21,7 +22,10 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/subsets/Pretendard-dynamic-subset.css"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
