@@ -41,6 +41,9 @@
 }
 .react-calendar__navigation button:enabled:hover {
   color: #64748b;
+  transition:
+    background-color 300ms ease-in-out,
+    color 300ms ease-in-out;
 }
 .react-calendar__navigation button:focus {
   color: #ffffff;
@@ -78,6 +81,9 @@
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
   background-color: #10b981;
+  transition:
+    background-color 300ms ease-in-out,
+    color 300ms ease-in-out;
 }
 
 .react-calendar__tile:disabled {

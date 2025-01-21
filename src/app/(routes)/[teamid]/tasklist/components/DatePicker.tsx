@@ -58,8 +58,15 @@ export default function DatePicker() {
           <IconCalendar />
         </button>
 
-        {isCalendarOpen && (
-          <div ref={calendarRef} className="absolute top-full z-10 mt-2">
+        <div
+          ref={calendarRef}
+          className={`absolute top-full z-10 mt-2 transform transition-all duration-500 ease-in-out ${
+            isCalendarOpen
+              ? 'scale-100 opacity-100'
+              : 'pointer-events-none scale-95 opacity-0'
+          }`}
+        >
+          {isCalendarOpen && (
             <CustomCalendar
               selectedDate={selectedDate}
               onDateChange={(date) => {
@@ -67,8 +74,8 @@ export default function DatePicker() {
                 setIsCalendarOpen(false);
               }}
             />
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
