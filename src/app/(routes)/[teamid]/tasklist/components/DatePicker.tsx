@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import useClickOutside from '@/app/hooks/useClickOutside';
 import IconPrevDate from '@/app/components/icons/IconPrevDate';
 import IconNextDate from '@/app/components/icons/IconNextDate';
 import IconCalendar from '@/app/components/icons/IconCalendar';
@@ -10,7 +11,8 @@ export default function DatePicker() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useClickOutside(calendarRef, () => setIsCalendarOpen(false));
 
   const handlePrevDate = () => {
     setSelectedDate((prevDate) => {
@@ -33,24 +35,6 @@ export default function DatePicker() {
     setIsCalendarOpen((prev) => !prev);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        calendarRef.current &&
-        buttonRef.current &&
-        !calendarRef.current.contains(event.target as Node) &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setIsCalendarOpen(false);
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
-
   return (
     <div className="flex-col">
       <div className="relative flex items-center">
@@ -70,7 +54,7 @@ export default function DatePicker() {
           </button>
         </div>
 
-        <button ref={buttonRef} onClick={toggleCalendar}>
+        <button onClick={toggleCalendar}>
           <IconCalendar />
         </button>
 
