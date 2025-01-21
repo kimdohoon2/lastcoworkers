@@ -10,16 +10,18 @@ import IconDone from '@/app/components/icons/IconDone';
 export default function LandingPage() {
   return (
     <div>
-      <div className="bg-landing-top-large mt-14 flex h-[67.5rem] w-full flex-col items-center justify-between pb-8">
-        <div className="flex flex-col items-center gap-5">
-          <div className="mt-[5.25rem] flex gap-6">
-            <span className="text-5xl font-semibold text-text-primary">
-              함께 만들어가는 투두 리스트
-            </span>
-            <IconRepair />
-          </div>
-          <div className="inline-block bg-gradient-to-r from-brand-gradient-from to-brand-gradient-to bg-clip-text text-[4rem] font-semibold text-transparent">
-            Coworkers
+      <div className="mt-14 flex h-[40rem] w-full flex-col items-center justify-between pb-8 tablet:h-[58.75rem] tablet:pb-[10.5rem] xl:h-[67.5rem] xl:pb-28">
+        <div className="bg-landing-top-small tablet:bg-landing-top-medium xl:bg-landing-top-large h-full w-full bg-cover">
+          <div className="flex flex-col items-center gap-5">
+            <div className="mt-[5.25rem] flex gap-6">
+              <span className="text-2xl font-semibold text-text-primary tablet:text-4xl xl:text-5xl">
+                함께 만들어가는 투두 리스트
+              </span>
+              <IconRepair />
+            </div>
+            <div className="inline-block bg-gradient-to-r from-brand-gradient-from to-brand-gradient-to bg-clip-text text-[4rem] font-semibold text-transparent">
+              Coworkers
+            </div>
           </div>
         </div>
         <button className="cursor-pointer rounded-[2rem] bg-gradient-to-r from-brand-primary to-brand-tertiary px-36 py-3 text-base font-semibold text-white">
@@ -78,6 +80,19 @@ export default function LandingPage() {
               <br />
               체크해요
             </p>
+          </div>
+        </div>
+      </div>
+      <div className="bg-landing-bottom-small tablet:bg-landing-bottom-medium xl:bg-landing-bottom-large mt-14 flex h-[40rem] w-full flex-col items-center tablet:h-[58.75rem] xl:h-[67.5rem]">
+        <div className="flex flex-col items-center gap-4 tablet:gap-6">
+          <div className="mt-[5.25rem] flex gap-6">
+            <span className="text-2xl font-semibold text-text-primary tablet:text-4xl xl:text-5xl">
+              지금 바로 시작해보세요
+            </span>
+          </div>
+          <div className="text-center text-base font-medium text-text-primary tablet:text-2xl">
+            팀원 모두와 같은 방향,<span className="block tablet:inline"></span>{' '}
+            같은 속도로 나아가는 가장 쉬운 방법
           </div>
         </div>
       </div>

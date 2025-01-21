@@ -13,6 +13,11 @@ export default {
       },
       backgroundImage: {
         'landing-top-large': "url('/contents/landing-top-large.png')",
+        'landing-top-medium': "url('/contents/landing-top-medium.png')",
+        'landing-top-small': "url('/contents/landing-top-small.png')",
+        'landing-bottom-large': "url('/contents/landing-bottom-large.png')",
+        'landing-bottom-medium': "url('/contents/landing-bottom-medium.png')",
+        'landing-bottom-small': "url('/contents/landing-bottom-small.png')",
       },
       screens: {
         tablet: '744px', // 반응형 태플릿 기준(744px추가)
