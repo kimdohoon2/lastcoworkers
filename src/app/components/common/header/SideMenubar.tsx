@@ -1,5 +1,7 @@
+'use client';
+
 import { useRef, useEffect } from 'react';
-import HeaderBoardButton from '@/app/components/common/Header/Boards';
+import HeaderBoardButton from '@/app/components/common/header/Boards';
 import IconClose from '@/app/components/icons/IconClose';
 
 interface SlidemenuBarType {
@@ -23,6 +25,10 @@ export default function SideMenuBar({ visible, onClose }: SlidemenuBarType) {
     }
   }, [visible]);
 
+  const stopPropagation = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
     <div
       ref={divRef}
@@ -36,7 +42,14 @@ export default function SideMenuBar({ visible, onClose }: SlidemenuBarType) {
       onKeyDown={handleKeyDown}
       aria-label="Close Menu"
     >
-      <div className="h-screen w-1/2 bg-background-secondary transition-all duration-300 ease-in-out">
+      <div
+        role="menubar"
+        tabIndex={0}
+        className="h-screen w-1/2 bg-background-secondary transition-all duration-300 ease-in-out"
+        onClick={stopPropagation}
+        aria-label="Close Menu"
+        onKeyDown={handleKeyDown}
+      >
         <div className="flex flex-col px-4 pt-5">
           <button
             className="mb-9 flex self-end"
