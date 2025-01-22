@@ -4,3 +4,12 @@ export interface FormData {
   password: string;
   passwordConfirmation: string;
 }
+
+export interface SignUpResponse {
+  user: {
+    id: string;
+    email: string;
+    nickname: string;
+  };
+  message: string;
+}

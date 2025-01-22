@@ -1,15 +1,6 @@
 import axios from 'axios';
-import { FormData } from '@/app/types/AuthType';
+import { FormData, SignUpResponse } from '@/app/types/AuthType';
 import instance from '@/app/lib/instance';
-
-interface SignUpResponse {
-  user: {
-    id: string;
-    email: string;
-    nickname: string;
-  };
-  message: string;
-}
 
 const SignUpApi = async (formData: FormData): Promise<SignUpResponse> => {
   try {
