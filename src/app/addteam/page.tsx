@@ -1,29 +1,11 @@
 'use client';
 
-import Image from 'next/image';
-import { useState } from 'react';
-import { FieldValues, FormProvider, useForm } from 'react-hook-form';
-import Input from '@/app/components/common/input/Input';
-import IconProfile from '@/app/components/icons/IconProfile';
+import { FieldValues } from 'react-hook-form';
 import postImage from '@/app/lib/image/postImage';
 import postGroup, { PostGroupData } from '@/app/lib/group/postGroup';
-import Button from '@/app/components/common/button/Button';
-import IconProfileEdit from '@/app/components/icons/IconProfileEdit';
+import TeamForm from '@/app/components/addteam/TeamForm';
 
 function Page() {
-  const [profileImage, setProfileImage] = useState('');
-  const method = useForm();
-  const { register, handleSubmit } = method;
-
-  // 파일 처리하는 함수
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file); // 미리보기 URL 생성
-      setProfileImage(url); // 미리보기 이미지 업데이트
-    }
-  };
-
   const onSubmit = async ({ profile, name }: FieldValues) => {
     let imageUrl: string | null = null;
 
@@ -72,72 +54,10 @@ function Page() {
         <h2 className="mb-6 text-center text-2xl font-medium text-text-primary tablet:mb-20">
           팀 생성하기
         </h2>
-        <FormProvider {...method}>
-          <form
-            className="flex flex-col gap-6"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <div>
-              <span className="mb-3 inline-block">팀 프로필</span>
-              <label
-                htmlFor="profile"
-                className="relative block h-16 w-16 cursor-pointer"
-              >
-                <input
-                  id="profile"
-                  className="sr-only"
-                  type="file"
-                  accept="image/*"
-                  {...register('profile')}
-                  onChange={handleFileChange}
-                />
-                {profileImage ? (
-                  <>
-                    <Image
-                      src={profileImage}
-                      className="rounded-full border-2 border-border-primary"
-                      fill
-                      alt="프로필 이미지"
-                    />
-                    <IconProfileEdit className="absolute bottom-0 right-0" />
-                  </>
-                ) : (
-                  <IconProfile />
-                )}
-              </label>
-            </div>
-            <Input
-              name="name"
-              title="팀 이름"
-              type="text"
-              placeholder="팀 이름을 입력해주세요."
-              validationRules={{
-                required: '이름을 입력해주세요.',
-                minLength: {
-                  value: 1,
-                  message: '이름은 최소 1글자 이상입니다.',
-                },
-                maxLength: {
-                  value: 30,
-                  message: '이름은 최대 30글자까지 입력 가능합니다.',
-                },
-                validate: (value) =>
-                  value.trim() !== '' || '팀 이름에 공백만 입력할 수 없습니다.',
-              }}
-              autoComplete="off"
-            />
-          </form>
-          <Button
-            variant="primary"
-            className="mt-10 w-full text-white"
-            onClick={handleSubmit(onSubmit)}
-          >
-            생성하기
-          </Button>
-          <div className="mt-6 text-center text-md text-text-primary tablet:text-lg">
-            팀 이름은 회사명이나 모임 이름 등으로 설정하면 좋아요.
-          </div>
-        </FormProvider>
+        <TeamForm onSubmit={onSubmit} />
+        <div className="mt-6 text-center text-md text-text-primary tablet:text-lg">
+          팀 이름은 회사명이나 모임 이름 등으로 설정하면 좋아요.
+        </div>
       </div>
     </div>
   );
