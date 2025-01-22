@@ -1,4 +1,4 @@
-import DatePicker from '@/app/(routes)/[teamid]/tasklist/components/DatePicker';
+import DatePicker from '@/app/components/tasklist/DatePicker';
 
 export default function DatePickerExample() {
   return (
