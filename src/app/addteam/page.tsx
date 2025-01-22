@@ -22,17 +22,26 @@ function Page() {
   };
 
   const onSubmit = async ({ profile, name }: FieldValues) => {
-    try {
-      if (profile && profile[0] instanceof File) {
+    let imageUrl = null;
+
+    /**
+     * 이미지 업로드
+     * 프로필 이미지 선택 안한 경우 생략
+     */
+    if (profile && profile[0] instanceof File) {
+      try {
         const formData = new FormData();
 
         formData.append('image', profile[0]);
 
-        const img = await postImage(formData);
-        console.log(img);
+        const {
+          data: { url },
+        } = await postImage(formData);
+
+        imageUrl = url;
+      } catch (error) {
+        alert('이미지 업로드에 실패했습니다.');
       }
-    } catch (error) {
-      alert(`팀 생성에 실패했습니다`);
     }
   };
 
