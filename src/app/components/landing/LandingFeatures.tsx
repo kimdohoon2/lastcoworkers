@@ -46,7 +46,7 @@ export default function LandingFeatures() {
           </p>
         </div>
       </div>
-      <div className="mx-auto flex h-[29.1875rem] w-[21.4375rem] flex-col gap-10 rounded-[2.5rem] bg-state-950 pl-[3.125rem] tablet:h-[22.125rem] tablet:w-[43.5rem] tablet:flex-row tablet:items-start tablet:gap-[8.75rem] xl:h-[26.1875rem] xl:w-[62.25rem] xl:gap-[12.0625rem]">
+      <div className="mx-auto flex h-[29.1875rem] w-[21.4375rem] flex-col gap-10 rounded-[2.5rem] bg-state-950 pl-[3.125rem] tablet:h-[22.125rem] tablet:w-[43.5rem] tablet:flex-row tablet:items-start tablet:justify-center tablet:gap-[8.75rem] xl:h-[26.1875rem] xl:w-[62.25rem] xl:gap-[12.0625rem]">
         <Image
           src={LandingSection3}
           alt="랜딩 페이지 이미지3"
