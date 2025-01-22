@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
-import SideMenuBar from '@/app/components/common/Header/SideMenubar';
+import SideMenuBar from '@/app/components/common/header/SideMenubar';
 import HeaderMenuBar from '@/app/components/icons/HeaderMenuBar';
-import HeaderBoardButton from '@/app/components/common/Header/Boards';
+import HeaderBoardButton from '@/app/components/common/header/Boards';
 
 export default function Header() {
   const [visible, setVisible] = useState<boolean>(false);
@@ -15,8 +15,8 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed left-0 top-0 z-40 w-full bg-background-secondary px-4 py-5 tablet:px-6 xl:px-[22.5rem] xl:py-3">
-        <div className="flex items-center justify-between">
+      <header className="fixed left-0 top-0 z-40 w-full bg-background-secondary px-4 py-5 tablet:px-6 xl:px-0 xl:py-3">
+        <div className="mx-auto flex items-center justify-between xl:max-w-[75rem]">
           <div className="flex items-center gap-4 tablet:gap-8 xl:gap-10">
             <button
               className="tablet:hidden"
