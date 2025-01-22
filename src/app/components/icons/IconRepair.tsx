@@ -1,8 +1,7 @@
 function IconRepair() {
   return (
     <svg
-      width="56"
-      height="56"
+      className="h-6 w-6 tablet:h-12 tablet:w-12 xl:h-14 xl:w-14"
       viewBox="0 0 56 56"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
