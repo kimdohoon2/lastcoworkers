@@ -54,14 +54,14 @@ function Modal({
 
   return createPortal(
     <div
-      className={`tablet:justify-center fixed inset-0 z-50 flex flex-col items-center justify-end transition-opacity ${
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-end transition-opacity tablet:justify-center ${
         isOpen ? 'opacity-100' : 'pointer-events-none hidden opacity-0'
       }`}
       style={{ display: renderModal ? 'flex' : 'none' }}
     >
       <div ref={modalRef} className="absolute inset-0 bg-black opacity-50" />
       <div
-        className={`tablet:w-96 tablet:rounded-b-xl relative flex max-h-[80%] w-full transform flex-col items-center overflow-y-hidden rounded-t-xl bg-background-secondary pb-8 pt-12 transition-transform ${isOpen ? 'translate-y-0' : 'translate-y-4'}`}
+        className={`relative flex max-h-[80%] w-full transform flex-col items-center overflow-y-hidden rounded-t-xl bg-background-secondary pb-8 pt-12 transition-transform tablet:w-96 tablet:rounded-b-xl ${isOpen ? 'translate-y-0' : 'translate-y-4'}`}
         onTransitionEnd={handleAnimationEnd}
       >
         {hasCloseBtn && (
