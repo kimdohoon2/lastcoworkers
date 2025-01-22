@@ -50,7 +50,7 @@ function AuthInput({
 
       <div className="relative">
         <input
-          className={`h-full w-full rounded-xl border px-4 py-[0.85rem] text-text-primary placeholder:text-lg placeholder:text-text-danger focus:border-interaction-focus focus:outline-none ${backgroundColor} ${inputBorderClass}`}
+          className={`placeholder:text-text-danger h-full w-full rounded-xl border px-4 py-[0.85rem] text-text-primary placeholder:text-lg focus:border-interaction-focus focus:outline-none ${backgroundColor} ${inputBorderClass}`}
           {...register(name, validationRules)}
           type={inputType}
           id={name}
