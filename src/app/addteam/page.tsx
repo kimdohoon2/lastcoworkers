@@ -111,6 +111,19 @@ function Page() {
               title="팀 이름"
               type="text"
               placeholder="팀 이름을 입력해주세요."
+              validationRules={{
+                required: '이름을 입력해주세요.',
+                minLength: {
+                  value: 1,
+                  message: '이름은 최소 1글자 이상입니다.',
+                },
+                maxLength: {
+                  value: 30,
+                  message: '이름은 최대 30글자까지 입력 가능합니다.',
+                },
+                validate: (value) =>
+                  value.trim() !== '' || '팀 이름에 공백만 입력할 수 없습니다.',
+              }}
               autoComplete="off"
             />
           </form>
