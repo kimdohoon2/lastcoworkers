@@ -1,6 +1,6 @@
 import axios from '@/app/lib/instance';
 
-const uploadImage = (img: FormData) => {
+const postImage = (img: FormData) => {
   const res = axios.post('images/upload', img, {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -11,4 +11,4 @@ const uploadImage = (img: FormData) => {
   return res;
 };
 
-export default uploadImage;
+export default postImage;
