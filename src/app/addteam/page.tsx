@@ -8,6 +8,7 @@ import IconProfile from '@/app/components/icons/IconProfile';
 import postImage from '@/app/lib/image/postImage';
 import postGroup, { PostGroupData } from '@/app/lib/group/postGroup';
 import Button from '@/app/components/common/button/Button';
+import IconProfileEdit from '@/app/components/icons/IconProfileEdit';
 
 function Page() {
   const [profileImage, setProfileImage] = useState('');
@@ -91,7 +92,15 @@ function Page() {
                   onChange={handleFileChange}
                 />
                 {profileImage ? (
-                  <Image src={profileImage} fill alt="프로필 이미지" />
+                  <>
+                    <Image
+                      src={profileImage}
+                      className="rounded-full border-2 border-border-primary"
+                      fill
+                      alt="프로필 이미지"
+                    />
+                    <IconProfileEdit className="absolute bottom-0 right-0" />
+                  </>
                 ) : (
                   <IconProfile />
                 )}
