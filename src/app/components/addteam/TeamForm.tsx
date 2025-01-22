@@ -1,7 +1,7 @@
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import Button from '@/app/components/common/button/Button';
 import Input from '@/app/components/common/input/Input';
-import ProfileUploader from '@/app/components/addteam/profileUploader';
+import ProfileUploader from '@/app/components/addteam/ProfileUploader';
 
 interface TeamFormProps {
   onSubmit: (data: FieldValues) => Promise<void>;
