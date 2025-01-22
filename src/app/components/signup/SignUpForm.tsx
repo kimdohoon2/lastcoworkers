@@ -2,21 +2,19 @@
 
 import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import AuthInput from '@/app/components/common/input/Input';
+import Input from '@/app/components/common/input/Input';
 import Button from '@/app/components/common/button/Button';
 import { FormData } from '@/app/types/AuthType';
+import useSignUp from '@/app/hooks/useSignUp';
 
 export default function SignUpComponent() {
-  const methods = useForm<FormData>();
+  const methods = useForm<FormData>({
+    mode: 'onChange',
+  });
+  const signUpMutation = useSignUp();
 
   const onSubmit = (data: FormData) => {
-    const formattedData = {
-      email: data.email,
-      nickname: data.name,
-      password: data.password,
-      passwordConfirmation: data.passwordConfirm,
-    };
-    console.log(formattedData);
+    signUpMutation.mutate(data);
   };
 
   return (
@@ -27,8 +25,8 @@ export default function SignUpComponent() {
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="mb-10 flex flex-col gap-6">
-            <AuthInput
-              name="name"
+            <Input
+              name="nickname"
               title="이름"
               type="text"
               placeholder="이름을 입력해주세요."
@@ -41,7 +39,7 @@ export default function SignUpComponent() {
                 },
               }}
             />
-            <AuthInput
+            <Input
               name="email"
               title="이메일"
               type="email"
@@ -55,7 +53,7 @@ export default function SignUpComponent() {
                 },
               }}
             />
-            <AuthInput
+            <Input
               name="password"
               title="비밀번호"
               type="password"
@@ -71,8 +69,8 @@ export default function SignUpComponent() {
                 },
               }}
             />
-            <AuthInput
-              name="passwordConfirm"
+            <Input
+              name="passwordConfirmation"
               title="비밀번호 확인"
               type="password"
               placeholder="비밀번호를 다시 한 번 입력해주세요."
@@ -88,7 +86,7 @@ export default function SignUpComponent() {
 
           <Button
             className="w-full text-white"
-            onClick={methods.handleSubmit(onSubmit)}
+            disabled={!methods.formState.isValid}
           >
             회원가입
           </Button>
