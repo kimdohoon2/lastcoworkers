@@ -7,8 +7,10 @@ const instance = axios.create({
   },
 });
 
+export default instance;
+
 // Access Token을 요청 헤더에 동적으로 추가
-instance.interceptors.request.use(
+/* instance.interceptors.request.use(
   (config) => {
     const token = process.env.NEXT_PUBLIC_ACCESS_TOKEN; // 환경변수에서 토큰 가져오기
     if (token) {
@@ -17,6 +19,4 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error),
-);
-
-export default instance;
+); */
