@@ -3,7 +3,7 @@ import { useFormContext, RegisterOptions } from 'react-hook-form';
 import IconVisibility from '@/app/components/icons/IconVisibility';
 import IconInVisibility from '@/app/components/icons/IconInVisibility';
 
-type AuthInputProps = {
+type InputProps = {
   name: string; // 필드 이름 (폼 데이터의 키)
   title: string; // 라벨 제목
   type: string; // input 타입 (예: text, password 등)
@@ -14,7 +14,7 @@ type AuthInputProps = {
   customButton?: ReactNode; // 추가 버튼 컴포넌트
 };
 
-function AuthInput({
+function Input({
   name,
   title,
   type = 'text',
@@ -23,7 +23,7 @@ function AuthInput({
   validationRules,
   backgroundColor = 'bg-background-secondary',
   customButton,
-}: AuthInputProps) {
+}: InputProps) {
   const [isVisibleToggle, setIsVisibleToggle] = useState(false);
   const {
     register,
@@ -50,7 +50,7 @@ function AuthInput({
 
       <div className="relative">
         <input
-          className={`h-full w-full rounded-xl border px-4 py-[0.85rem] text-text-primary placeholder:text-lg placeholder:text-text-danger focus:border-interaction-focus focus:outline-none ${backgroundColor} ${inputBorderClass}`}
+          className={`placeholder:text-text-danger h-full w-full rounded-xl border px-4 py-[0.85rem] text-text-primary placeholder:text-lg focus:border-interaction-focus focus:outline-none ${backgroundColor} ${inputBorderClass}`}
           {...register(name, validationRules)}
           type={inputType}
           id={name}
@@ -80,4 +80,4 @@ function AuthInput({
   );
 }
 
-export default AuthInput;
+export default Input;
