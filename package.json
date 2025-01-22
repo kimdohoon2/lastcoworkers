@@ -18,6 +18,7 @@
     "react-hook-form": "^7.54.2"
   },
   "devDependencies": {
+    "@types/axios": "^0.9.36",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
