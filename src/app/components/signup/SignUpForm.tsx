@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import Input from '@/app/components/common/input/Input';
 import Button from '@/app/components/common/button/Button';
