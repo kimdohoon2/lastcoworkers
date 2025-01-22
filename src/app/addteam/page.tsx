@@ -6,7 +6,8 @@ import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import Input from '@/app/components/common/input/Input';
 import IconProfile from '@/app/components/icons/IconProfile';
 import postImage from '@/app/lib/image/postImage';
-import postGroup, { PostGroupData } from '../lib/group/postGroup';
+import postGroup, { PostGroupData } from '@/app/lib/group/postGroup';
+import Button from '@/app/components/common/button/Button';
 
 function Page() {
   const [profileImage, setProfileImage] = useState('');
@@ -104,6 +105,16 @@ function Page() {
               autoComplete="off"
             />
           </form>
+          <Button
+            variant="primary"
+            className="mt-10 w-full text-white"
+            onClick={handleSubmit(onSubmit)}
+          >
+            생성하기
+          </Button>
+          <div className="mt-6 text-center text-md text-text-primary tablet:text-lg">
+            팀 이름은 회사명이나 모임 이름 등으로 설정하면 좋아요.
+          </div>
         </FormProvider>
       </div>
     </div>
