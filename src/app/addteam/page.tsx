@@ -4,8 +4,11 @@ import { FieldValues } from 'react-hook-form';
 import postImage from '@/app/lib/image/postImage';
 import postGroup, { PostGroupData } from '@/app/lib/group/postGroup';
 import TeamForm from '@/app/components/addteam/TeamForm';
+import { useRouter } from 'next/navigation';
 
 function Page() {
+  const router = useRouter();
+
   const onSubmit = async ({ profile, name }: FieldValues) => {
     let imageUrl: string | null = null;
 
@@ -41,8 +44,11 @@ function Page() {
         teamData.image = imageUrl;
       }
 
-      await postGroup(teamData);
-      alert('팀이 성공적으로 생성되었습니다!');
+      const {
+        data: { id },
+      } = await postGroup(teamData);
+
+      router.push(`/${id}`);
     } catch (error) {
       alert('팀 생성에 실패했습니다.');
     }
