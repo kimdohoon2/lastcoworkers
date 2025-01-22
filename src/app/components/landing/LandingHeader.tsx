@@ -1,4 +1,5 @@
 import IconRepair from '@/app/components/icons/IconRepair';
+import Link from 'next/link';
 
 export default function LandingHeader() {
   return (
@@ -16,9 +17,12 @@ export default function LandingHeader() {
           </div>
         </div>
       </div>
-      <button className="cursor-pointer rounded-[2rem] bg-gradient-to-r from-brand-primary to-brand-tertiary px-[8.9375rem] py-3 text-base font-semibold text-white">
+      <Link
+        href="/login"
+        className="cursor-pointer rounded-[2rem] bg-gradient-to-r from-brand-primary to-brand-tertiary px-[8.9375rem] py-3 text-base font-semibold text-white"
+      >
         지금 시작하기
-      </button>
+      </Link>
     </div>
   );
 }
