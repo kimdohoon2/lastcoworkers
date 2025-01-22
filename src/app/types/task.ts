@@ -5,9 +5,9 @@ enum FrequencyType {
   ONCE,
 }
 
-export interface Task extends BaseTask, TaskAdditionalInfo {}
+interface Task extends BaseTask, TaskAdditionalInfo {}
 
-export interface BaseTask {
+interface BaseTask {
   id: number;
   name: string;
   description: string;
@@ -21,7 +21,7 @@ export interface BaseTask {
   recurringId: number;
 }
 
-export interface TaskAdditionalInfo {
+interface TaskAdditionalInfo {
   doneBy: {
     user: {
       id: number;
@@ -36,57 +36,55 @@ export interface TaskAdditionalInfo {
   };
 }
 
-interface RecurringTaskDataBody {
+interface RecurringTaskData {
   name: string;
   description?: string | null;
   startDate?: string;
 }
 
-interface OnceRecurringTaskData extends RecurringTaskDataBody {
+interface OnceRecurringTaskData extends RecurringTaskData {
   frequencyType: FrequencyType.ONCE;
 }
 
-interface DailyRecurringTaskData extends RecurringTaskDataBody {
+interface DailyRecurringTaskData extends RecurringTaskData {
   frequencyType: FrequencyType.DAILY;
 }
 
-interface WeeklyRecurringTaskData extends RecurringTaskDataBody {
+interface WeeklyRecurringTaskData extends RecurringTaskData {
   frequencyType: FrequencyType.WEEKLY;
   weekDays: number[];
 }
 
-interface MonthlyRecurringTaskData extends RecurringTaskDataBody {
+interface MonthlyRecurringTaskData extends RecurringTaskData {
   frequencyType: FrequencyType.MONTHLY;
   monthDay: number;
 }
 
-type RecurringTaskData =
+type RecurringTaskDataBody =
   | OnceRecurringTaskData
   | DailyRecurringTaskData
   | WeeklyRecurringTaskData
   | MonthlyRecurringTaskData;
 
-interface CreateTaskRequest {
+interface PostTaskRequest {
   groupId: number;
   taskListId: number;
   data: RecurringTaskData;
 }
 
-// 할 일
 interface GetTasksRequest {
   groupId: number;
   taskListId: number;
   date?: string;
 }
 
-// 할 일 상세
 interface GetTaskDetailRequest {
   groupId: number;
   taskListId: number;
   taskId: number;
 }
 
-interface UpdateTaskRequest {
+interface PatchTaskRequest {
   groupId: number;
   taskListId: number;
   taskId: number;
@@ -95,17 +93,17 @@ interface UpdateTaskRequest {
   done?: boolean;
 }
 
-interface DeleteTaskRequest {
-  groupId: number;
-  taskListId: number;
-  taskId: number;
-}
-
-interface UpdateTaskOrderRequest {
+interface PatchTaskOrderRequest {
   groupId: number;
   taskListId: number;
   id: number;
   displayIndex: number;
+}
+
+interface DeleteTaskRequest {
+  groupId: number;
+  taskListId: number;
+  taskId: number;
 }
 
 interface DeleteRecurringRequest {
@@ -116,12 +114,13 @@ interface DeleteRecurringRequest {
 }
 
 export type {
-  CreateTaskRequest,
+  Task,
+  RecurringTaskDataBody,
+  PostTaskRequest,
   GetTasksRequest,
   GetTaskDetailRequest,
-  UpdateTaskRequest,
+  PatchTaskRequest,
+  PatchTaskOrderRequest,
   DeleteTaskRequest,
-  UpdateTaskOrderRequest,
-  RecurringTaskData,
   DeleteRecurringRequest,
 };

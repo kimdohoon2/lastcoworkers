@@ -7,6 +7,7 @@ const createTaskComment = async ({
   content,
 }: PostTaskCommentRequest) => {
   const res = await instance.post(`/tasks/${taskId}/comments`, { content });
+
   return res.data;
 };
 

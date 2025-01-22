@@ -1,16 +1,16 @@
-import { UpdateTaskCommentRequest } from '@/app/types/comment';
+import { PatchTaskCommentRequest } from '@/app/types/comment';
 import instance from '../instance';
 
 // 할 일 댓글 수정
-const updateTaskComment = async ({
+const editTaskComment = async ({
   taskId,
   commentId,
   content,
-}: UpdateTaskCommentRequest) => {
+}: PatchTaskCommentRequest) => {
   const res = await instance.patch(`/tasks/${taskId}/comments/${commentId}`, {
     content,
   });
   return res.data;
 };
 
-export default updateTaskComment;
+export default editTaskComment;

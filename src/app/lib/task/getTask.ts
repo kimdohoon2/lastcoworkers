@@ -11,6 +11,7 @@ export const getTasks = async ({
     `/groups/${groupId}/task-lists/${taskListId}/tasks`,
     { params: { date } },
   );
+
   return res.data;
 };
 
@@ -23,5 +24,6 @@ export const getTask = async ({
   const res = await instance.get(
     `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`,
   );
+
   return res.data;
 };

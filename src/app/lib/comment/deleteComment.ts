@@ -1,6 +1,7 @@
 import { DeleteTaskCommentRequest } from '@/app/types/comment';
 import instance from '../instance';
 
+// 할 일 댓글 삭제
 const deleteTaskComment = async ({
   taskId,
   commentId,

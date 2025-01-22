@@ -1,4 +1,4 @@
-import { CreateRecurringTaskRequest } from '@/app/types/recurring';
+import { PostRecurringTaskRequest } from '@/app/types/recurring';
 import axios from 'axios';
 
 // 반복 할 일 생성
@@ -6,7 +6,7 @@ export const createRecurringTask = async ({
   groupId,
   taskListId,
   data,
-}: CreateRecurringTaskRequest) => {
+}: PostRecurringTaskRequest) => {
   const res = await axios.post(
     `/groups/${groupId}/task-lists/${taskListId}/recurring`,
     data,

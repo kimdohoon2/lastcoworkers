@@ -16,19 +16,39 @@ interface GetTaskListResponse {
   tasks: Task[];
 }
 
-interface UpdateTaskListRequest {
+interface PostTaskListRequest {
   groupId: number;
-  id: number;
   name: string;
 }
 
-interface UpdateTaskListResponse {
+interface PostTaskListResponse {
   displayIndex: number;
   groupId: number;
   updatedAt: string;
   createdAt: string;
   name: string;
   id: number;
+}
+
+interface PatchTaskListRequest {
+  groupId: number;
+  id: number;
+  name: string;
+}
+
+interface PatchTaskListResponse {
+  displayIndex: number;
+  groupId: number;
+  updatedAt: string;
+  createdAt: string;
+  name: string;
+  id: number;
+}
+
+interface PatchTaskListOrderRequest {
+  groupId: number;
+  id: number;
+  displayIndex: number;
 }
 
 interface DeleteTaskListRequest {
@@ -36,33 +56,13 @@ interface DeleteTaskListRequest {
   id: number;
 }
 
-interface CreateTaskListRequest {
-  groupId: number;
-  name: string;
-}
-
-interface CreateTaskListResponse {
-  displayIndex: number;
-  groupId: number;
-  updatedAt: string;
-  createdAt: string;
-  name: string;
-  id: number;
-}
-
-interface UpdateTaskListOrderRequest {
-  groupId: number;
-  id: number;
-  displayIndex: number;
-}
-
 export type {
   GetTaskListRequest,
   GetTaskListResponse,
-  UpdateTaskListRequest,
-  UpdateTaskListResponse,
+  PostTaskListRequest,
+  PostTaskListResponse,
+  PatchTaskListRequest,
+  PatchTaskListResponse,
+  PatchTaskListOrderRequest,
   DeleteTaskListRequest,
-  CreateTaskListRequest,
-  CreateTaskListResponse,
-  UpdateTaskListOrderRequest,
 };

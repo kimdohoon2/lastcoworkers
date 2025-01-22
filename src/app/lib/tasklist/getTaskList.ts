@@ -10,6 +10,7 @@ const getTaskList = async ({
   const res = await instance.get(`/groups/${groupId}/task-lists/${id}`, {
     params: { date },
   });
+
   return res.data;
 };
 

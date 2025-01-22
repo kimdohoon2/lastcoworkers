@@ -1,7 +1,7 @@
-import { RecurringTaskData } from './task';
+import { RecurringTaskDataBody } from './task';
 
-export interface CreateRecurringTaskRequest {
+export interface PostRecurringTaskRequest {
   groupId: number;
   taskListId: number;
-  data: RecurringTaskData;
+  data: RecurringTaskDataBody;
 }

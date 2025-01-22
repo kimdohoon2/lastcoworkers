@@ -1,19 +1,26 @@
-export interface GetTaskCommentRequest {
+interface GetTaskCommentRequest {
   taskId: number;
 }
 
-export interface PostTaskCommentRequest {
+interface PostTaskCommentRequest {
   taskId: number;
   content: string;
 }
 
-export interface UpdateTaskCommentRequest {
+interface PatchTaskCommentRequest {
   taskId: number;
   commentId: number;
   content: string;
 }
 
-export interface DeleteTaskCommentRequest {
+interface DeleteTaskCommentRequest {
   taskId: number;
   commentId: number;
 }
+
+export type {
+  GetTaskCommentRequest,
+  PostTaskCommentRequest,
+  PatchTaskCommentRequest,
+  DeleteTaskCommentRequest,
+};

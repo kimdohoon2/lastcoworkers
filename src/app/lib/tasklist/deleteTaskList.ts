@@ -7,6 +7,7 @@ export const deleteTaskList = async ({
   id,
 }: DeleteTaskListRequest) => {
   const res = await instance.delete(`groups/${groupId}/task-lists/${id}`);
+
   return res.data;
 };
 

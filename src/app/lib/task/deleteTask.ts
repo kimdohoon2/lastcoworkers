@@ -1,6 +1,7 @@
 import { DeleteRecurringRequest, DeleteTaskRequest } from '@/app/types/task';
 import axios from 'axios';
 
+// 할 일 삭제
 export const deleteTask = async ({
   groupId,
   taskListId,
@@ -12,6 +13,7 @@ export const deleteTask = async ({
   return res.data;
 };
 
+// 할 일의 반복만 삭제
 export const deleteRecurring = async ({
   groupId,
   taskListId,

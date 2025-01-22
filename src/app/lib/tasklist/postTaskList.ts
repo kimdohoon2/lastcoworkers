@@ -1,6 +1,6 @@
 import {
-  CreateTaskListRequest,
-  CreateTaskListResponse,
+  PostTaskListRequest,
+  PostTaskListResponse,
 } from '@/app/types/taskList';
 import instance from '../instance';
 
@@ -8,8 +8,9 @@ import instance from '../instance';
 const createTaskList = async ({
   groupId,
   name,
-}: CreateTaskListRequest): Promise<CreateTaskListResponse> => {
+}: PostTaskListRequest): Promise<PostTaskListResponse> => {
   const res = await instance.post(`/groups/${groupId}/task-lists`, { name });
+
   return res.data;
 };
 
