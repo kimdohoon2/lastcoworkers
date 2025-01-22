@@ -122,5 +122,6 @@ export type {
   UpdateTaskRequest,
   DeleteTaskRequest,
   UpdateTaskOrderRequest,
+  RecurringTaskData,
   DeleteRecurringRequest,
 };
