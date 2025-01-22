@@ -18,7 +18,7 @@ export default function LandingFeatures() {
             height={273}
             className="xl:h-[21.125rem] xl:w-[18.1875rem]"
           />
-          <div className="my-auto flex flex-col gap-4">
+          <div className="flex flex-col gap-4 tablet:my-auto">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#F8FAFC1a] bg-background-secondary">
               <IconFolder />
             </div>
