@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import getHistory, { Task } from '@/app/lib/user/getHistory';
+import IconCheckBox from '../icons/IconCheckBox';
 
 // 날짜 표시 변경 함수
 const formatDate = (dateString: string) => {
@@ -68,15 +69,11 @@ export default function HistoryList() {
               <ul>
                 {tasks.map((task) => (
                   <li
-                    className="mb-4 flex h-[44px] items-center rounded-lg bg-background-secondary pl-3.5"
+                    className="mb-4 flex h-[2.75rem] items-center rounded-lg bg-background-secondary pl-3.5"
                     key={task.id}
                   >
-                    <input
-                      type="checkbox"
-                      className="focus:ring-main-lime mr-[11px] h-4 w-4 appearance-none rounded-md border border-gray-300 bg-gray-200 checked:border-0 checked:bg-brand-tertiary"
-                      defaultChecked
-                    />
-                    <p className="text-md">{task.name}</p>
+                    <IconCheckBox />
+                    <p className="ml-[0.4375rem] text-md">{task.name}</p>
                   </li>
                 ))}
               </ul>
