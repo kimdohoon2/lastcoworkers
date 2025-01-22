@@ -27,7 +27,7 @@ export interface Task {
   id: number;
 }
 
-interface GetHistoryResponse {
+export interface GetHistoryResponse {
   tasksDone: Task[];
 }
 
