@@ -6,6 +6,7 @@ import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import Input from '@/app/components/common/input/Input';
 import IconProfile from '@/app/components/icons/IconProfile';
 import postImage from '@/app/lib/image/postImage';
+import postGroup, { PostGroupData } from '../lib/group/postGroup';
 
 function Page() {
   const [profileImage, setProfileImage] = useState('');
@@ -22,7 +23,7 @@ function Page() {
   };
 
   const onSubmit = async ({ profile, name }: FieldValues) => {
-    let imageUrl = null;
+    let imageUrl: string | null = null;
 
     /**
      * 이미지 업로드
@@ -42,6 +43,24 @@ function Page() {
       } catch (error) {
         alert('이미지 업로드에 실패했습니다.');
       }
+    }
+
+    /**
+     * 팀 생성
+     */
+    try {
+      const teamData: PostGroupData = {
+        name,
+      };
+
+      if (imageUrl) {
+        teamData.profile = imageUrl;
+      }
+
+      await postGroup(teamData);
+      alert('팀이 성공적으로 생성되었습니다!');
+    } catch (error) {
+      alert('팀 생성에 실패했습니다.');
     }
   };
 
