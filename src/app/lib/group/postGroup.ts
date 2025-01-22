@@ -1,7 +1,7 @@
 import axios from '@/app/lib/instance';
 
 export interface PostGroupData {
-  profile?: string;
+  image?: string;
   name: string;
 }
 

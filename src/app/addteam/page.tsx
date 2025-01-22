@@ -54,7 +54,7 @@ function Page() {
       };
 
       if (imageUrl) {
-        teamData.profile = imageUrl;
+        teamData.image = imageUrl;
       }
 
       await postGroup(teamData);
