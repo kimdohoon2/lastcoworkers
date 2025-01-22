@@ -2,12 +2,12 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { UseFormRegister } from 'react-hook-form';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 import IconProfileEdit from '@/app/components/icons/IconProfileEdit';
 import IconProfile from '@/app/components/icons/IconProfile';
 
 interface ProfileUploaderProps {
-  register: UseFormRegister<{ profile: FileList }>;
+  register: UseFormRegister<FieldValues>;
 }
 
 function ProfileUploader({ register }: ProfileUploaderProps) {
