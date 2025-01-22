@@ -3,7 +3,7 @@ import { useFormContext, RegisterOptions } from 'react-hook-form';
 import IconVisibility from '@/app/components/icons/IconVisibility';
 import IconInVisibility from '@/app/components/icons/IconInVisibility';
 
-type AuthInputProps = {
+type InputProps = {
   name: string; // 필드 이름 (폼 데이터의 키)
   title: string; // 라벨 제목
   type: string; // input 타입 (예: text, password 등)
@@ -14,7 +14,7 @@ type AuthInputProps = {
   customButton?: ReactNode; // 추가 버튼 컴포넌트
 };
 
-function AuthInput({
+function Input({
   name,
   title,
   type = 'text',
@@ -23,7 +23,7 @@ function AuthInput({
   validationRules,
   backgroundColor = 'bg-background-secondary',
   customButton,
-}: AuthInputProps) {
+}: InputProps) {
   const [isVisibleToggle, setIsVisibleToggle] = useState(false);
   const {
     register,
@@ -80,4 +80,4 @@ function AuthInput({
   );
 }
 
-export default AuthInput;
+export default Input;
