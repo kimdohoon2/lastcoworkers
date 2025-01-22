@@ -1,4 +1,4 @@
-import { Task } from './task.type';
+import { Task } from './task';
 
 interface GetTaskListRequest {
   groupId: number;
