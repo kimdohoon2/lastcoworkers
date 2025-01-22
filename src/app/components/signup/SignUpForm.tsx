@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import AuthInput from '@/app/components/common/input/auth/AuthInput';
+import AuthInput from '@/app/components/common/input/Input';
 import Button from '@/app/components/common/button/Button';
 import { FormData } from '@/app/types/AuthType';
 
