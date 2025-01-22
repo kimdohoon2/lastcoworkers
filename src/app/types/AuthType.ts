@@ -1,6 +1,6 @@
 export interface FormData {
-  name: string;
+  nickname: string;
   email: string;
   password: string;
-  passwordConfirm: string;
+  passwordConfirmation: string;
 }
