@@ -36,7 +36,7 @@ export default async function HistoryList() {
               <ul>
                 {tasks.map((task) => (
                   <li
-                    className="mb-4 flex h-[2.75rem] items-center rounded-lg bg-background-secondary pl-3.5"
+                    className="mb-4 flex items-center rounded-lg bg-background-secondary py-2.5 pl-3.5"
                     key={task.id}
                   >
                     <IconCheckBox />
