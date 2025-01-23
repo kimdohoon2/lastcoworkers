@@ -1,9 +1,5 @@
 import axios from '@/app/lib/instance';
-
-export interface PostGroupData {
-  image?: string;
-  name: string;
-}
+import { PostGroupData } from '@/app/types/group';
 
 type PostGroupResponse = {
   data: {
