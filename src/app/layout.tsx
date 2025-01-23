@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import '@/app/styles/globals.css';
-import Header from './components/common/header/Header';
+import Header from '@/app/components/common/header/Header';
+import TanStackProvider from '@/app/providers/TanStackProvider';
 
 export const metadata: Metadata = {
   title: 'Coworkers',
@@ -23,8 +24,10 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Header />
-        {children}
+        <TanStackProvider>
+          <Header />
+          {children}
+        </TanStackProvider>
       </body>
     </html>
   );

@@ -1,34 +1,19 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import getHistory, { Task } from '@/app/lib/user/getHistory';
 import formatDate from '@/app/utils/formatDate';
 import IconCheckBox from '../icons/IconCheckBox';
 
 export default function HistoryList() {
-  const [history, setHistory] = useState<Task[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  // React Query를 사용해 데이터를 fetching
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['history'], // 쿼리 키 설정
+    queryFn: getHistory, // 데이터 패칭 함수
+  });
 
-  const fetchHistory = async () => {
-    setIsLoading(true);
-    try {
-      const response = await getHistory();
-      console.log(response); // API에서 반환된 데이터 구조 확인
-      setHistory(response.tasksDone || []);
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error('히스토리를 불러오는 중 오류 발생:', error.message);
-      } else {
-        console.error('알 수 없는 오류 발생:', error);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchHistory();
-  }, []);
+  const history: Task[] = data?.tasksDone || [];
 
   // task.date 기준으로 데이터 그룹화
   const groupByDate = (tasks: Task[]) => {
@@ -47,6 +32,14 @@ export default function HistoryList() {
   };
 
   const groupedHistory = groupByDate(history);
+
+  if (isError) {
+    return (
+      <p>
+        오류 발생: {error instanceof Error ? error.message : '알 수 없는 오류'}
+      </p>
+    );
+  }
 
   return (
     <div>
