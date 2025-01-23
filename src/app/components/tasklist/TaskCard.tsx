@@ -4,6 +4,7 @@ import IconComment from '../icons/IconComment';
 import IconCheckBox from '../icons/IconCheckBox';
 import IconUncheckBox from '../icons/IconUncheckBox';
 import DateRepeatInfo from './DateRepeatInfo';
+import TaskCardMenu from './TaskCardDropdown';
 
 export default function TaskCard({ task }: { task: Task }) {
   const { name, commentCount, doneAt, date, frequency } = task;
@@ -21,7 +22,7 @@ export default function TaskCard({ task }: { task: Task }) {
             {commentCount}
           </p>
         </div>
-        {/* 수정/삭제 드롭다운 */}
+        <TaskCardMenu />
       </div>
       <DateRepeatInfo date={date} frequency={frequency} />
     </div>
