@@ -9,7 +9,7 @@ function TaskListPage() {
     new Date().toISOString().split('T')[0],
   );
   return (
-    <div className="desktop:px-12 mx-auto mt-24 flex w-full max-w-[75rem] flex-col gap-6 px-3.5 tablet:px-6">
+    <div className="mx-auto mt-24 flex w-full max-w-[75rem] flex-col gap-6 px-3.5 tablet:px-6">
       <p className="text-xl">할 일</p>
       <DatePicker
         selectedDate={selectedDate}
