@@ -3,7 +3,7 @@
 import { FieldValues } from 'react-hook-form';
 import postImage from '@/app/lib/image/postImage';
 import postGroup from '@/app/lib/group/postGroup';
-import { PostGroupData } from '@/app/types/group';
+import { GroupData } from '@/app/types/group';
 import TeamForm from '@/app/components/team/TeamForm';
 import { useRouter } from 'next/navigation';
 
@@ -37,7 +37,7 @@ function Page() {
      * 팀 생성
      */
     try {
-      const teamData: PostGroupData = {
+      const teamData: GroupData = {
         name,
       };
 

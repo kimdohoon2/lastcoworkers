@@ -1,5 +1,5 @@
 import axios from '@/app/lib/instance';
-import { PostGroupData } from '@/app/types/group';
+import { GroupData } from '@/app/types/group';
 
 type PostGroupResponse = {
   data: {
@@ -7,7 +7,7 @@ type PostGroupResponse = {
   };
 };
 
-const postGroup = async (data: PostGroupData): Promise<PostGroupResponse> => {
+const postGroup = async (data: GroupData): Promise<PostGroupResponse> => {
   const res = await axios.post('groups', data, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_ACCESS_TOKEN}`,
