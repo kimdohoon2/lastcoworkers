@@ -19,7 +19,7 @@ export const getTasks = async ({
   taskListId,
   date,
 }: GetTasksRequest): Promise<Task[]> => {
-  const res = await instance.get(
+  const res = await instance.get<Task[]>(
     `/groups/${groupId}/task-lists/${taskListId}/tasks`,
     { params: { date } },
   );
@@ -33,7 +33,7 @@ export const getTask = async ({
   taskListId,
   taskId,
 }: GetTaskDetailRequest): Promise<Task> => {
-  const res = await instance.get(
+  const res = await instance.get<Task>(
     `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`,
   );
 

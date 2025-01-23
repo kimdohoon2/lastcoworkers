@@ -19,7 +19,10 @@ const createTaskList = async ({
   groupId,
   name,
 }: PostTaskListRequest): Promise<PostTaskListResponse> => {
-  const res = await instance.post(`/groups/${groupId}/task-lists`, { name });
+  const res = await instance.post<PostTaskListResponse>(
+    `/groups/${groupId}/task-lists`,
+    { name },
+  );
 
   return res.data;
 };

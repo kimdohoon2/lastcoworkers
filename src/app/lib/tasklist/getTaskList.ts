@@ -23,9 +23,12 @@ const getTaskList = async ({
   id,
   date,
 }: GetTaskListRequest): Promise<GetTaskListResponse> => {
-  const res = await instance.get(`/groups/${groupId}/task-lists/${id}`, {
-    params: { date },
-  });
+  const res = await instance.get<GetTaskListResponse>(
+    `/groups/${groupId}/task-lists/${id}`,
+    {
+      params: { date },
+    },
+  );
 
   return res.data;
 };
