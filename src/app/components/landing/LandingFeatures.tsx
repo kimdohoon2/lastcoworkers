@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import LandingSection1 from '@public/contents/landging-section1.png';
+import LandingSection1 from '@public/contents/landing-section1.png';
 import LandingSection2 from '@public/contents/landing-section2.png';
 import LandingSection3 from '@public/contents/landing-section3.png';
 import IconMessage from '@/app/components/icons/IconMessage';
@@ -9,7 +9,7 @@ import IconDone from '@/app/components/icons/IconDone';
 export default function LandingFeatures() {
   return (
     <div className="flex flex-col gap-6 xl:gap-20">
-      <div className="mx-auto h-[29.1875rem] w-[21.4375rem] flex-col rounded-[2.5rem] bg-gradient-to-r from-brand-primary to-[#CEF57E] p-[0.0625rem] shadow-custom tablet:h-[22.125rem] tablet:w-[43.5rem] xl:h-[26.1875rem] xl:w-[62.25rem]">
+      <div className="shadow-custom mx-auto h-[29.1875rem] w-[21.4375rem] flex-col rounded-[2.5rem] bg-gradient-to-r from-brand-primary to-[#CEF57E] p-[0.0625rem] tablet:h-[22.125rem] tablet:w-[43.5rem] xl:h-[26.1875rem] xl:w-[62.25rem]">
         <div className="flex h-full w-full flex-wrap-reverse items-start rounded-[2.5rem] bg-background-primary pl-[3.125rem] tablet:justify-center tablet:gap-[8.75rem] tablet:pl-0 xl:gap-[12.0625rem]">
           <Image
             src={LandingSection1}
@@ -46,7 +46,7 @@ export default function LandingFeatures() {
           </p>
         </div>
       </div>
-      <div className="mx-auto flex h-[29.1875rem] w-[21.4375rem] flex-col gap-10 rounded-[2.5rem] bg-state-950 pl-[3.125rem] tablet:h-[22.125rem] tablet:w-[43.5rem] tablet:flex-row tablet:items-start tablet:justify-center tablet:gap-[8.75rem] xl:h-[26.1875rem] xl:w-[62.25rem] xl:gap-[12.0625rem]">
+      <div className="bg-state-950 mx-auto flex h-[29.1875rem] w-[21.4375rem] flex-col gap-10 rounded-[2.5rem] pl-[3.125rem] tablet:h-[22.125rem] tablet:w-[43.5rem] tablet:flex-row tablet:items-start tablet:justify-center tablet:gap-[8.75rem] xl:h-[26.1875rem] xl:w-[62.25rem] xl:gap-[12.0625rem]">
         <Image
           src={LandingSection3}
           alt="랜딩 페이지 이미지3"
