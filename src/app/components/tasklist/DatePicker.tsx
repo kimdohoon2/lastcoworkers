@@ -66,7 +66,7 @@ export default function DatePicker({
           className={`absolute top-full z-10 mt-2 transform transition-all duration-500 ease-in-out ${
             isCalendarOpen
               ? 'scale-100 opacity-100'
-              : 'pointer-events-none scale-95 opacity-0'
+              : 'scale-95·pointer-events-none'
           }`}
         >
           {isCalendarOpen && (

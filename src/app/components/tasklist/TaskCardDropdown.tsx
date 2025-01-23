@@ -14,13 +14,13 @@ export default function TaskCardMenu() {
 
   return (
     <>
-      <Dropdown onClose={closeDropdown} className="relative">
+      <Dropdown onClose={closeDropdown} className="z-40">
         <DropdownToggle onClick={toggleDropdown}>
           <TaskCardDropdown />
         </DropdownToggle>
         <DropdownList
           isOpen={isOpen}
-          className="absolute right-0 w-[94px] overflow-hidden border-2 sm:w-[120px]"
+          className="absolute right-0 w-[5.875rem] overflow-hidden border sm:w-[7.5rem]"
         >
           <DropdownItem
             className="text-xs"

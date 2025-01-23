@@ -6,7 +6,7 @@ export default function TaskCardDropdown() {
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="group cursor-pointer"
+      className="group translate-y-[1.5px] cursor-pointer"
     >
       <circle
         cx="8"
