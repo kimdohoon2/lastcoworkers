@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import SignInApi from '@/app/lib/auth/postSignInApi';
+import postSignInApi from '@/app/lib/auth/postSignInApi';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '@/app/stores/auth/authSlice';
 import { useRouter } from 'next/navigation';
@@ -9,7 +9,7 @@ const useSignIn = () => {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: SignInApi,
+    mutationFn: postSignInApi,
     onSuccess: (data) => {
       const { accessToken, refreshToken, user } = data;
 
