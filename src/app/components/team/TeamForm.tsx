@@ -1,13 +1,14 @@
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import Button from '@/app/components/common/button/Button';
 import Input from '@/app/components/common/input/Input';
-import ProfileUploader from '@/app/components/addteam/ProfileUploader';
+import ProfileUploader from '@/app/components/team/ProfileUploader';
+import { PropsWithChildren } from 'react';
 
 interface TeamFormProps {
   onSubmit: (data: FieldValues) => Promise<void>;
 }
 
-function TeamForm({ onSubmit }: TeamFormProps) {
+function TeamForm({ children, onSubmit }: PropsWithChildren<TeamFormProps>) {
   const method = useForm();
   const { register, handleSubmit } = method;
 
@@ -41,7 +42,7 @@ function TeamForm({ onSubmit }: TeamFormProps) {
         className="mt-10 w-full text-white"
         onClick={handleSubmit(onSubmit)}
       >
-        생성하기
+        {children}
       </Button>
     </FormProvider>
   );
