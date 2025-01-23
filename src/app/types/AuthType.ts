@@ -13,3 +13,17 @@ export interface SignUpResponse {
   };
   message: string;
 }
+
+export interface SignInResponse {
+  accessToken: string;
+  refreshToken: string;
+  user: {
+    id: string;
+    email: string;
+    nickname: string;
+    updatedAt: string;
+    createdAt: string;
+    image: string | null;
+    teamId: string;
+  };
+}
