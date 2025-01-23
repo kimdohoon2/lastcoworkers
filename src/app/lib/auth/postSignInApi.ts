@@ -2,13 +2,12 @@ import axios from 'axios';
 import { FormData, SignInResponse } from '@/app/types/AuthType';
 import instance from '@/app/lib/instance';
 
-const SignInApi = async (formData: FormData): Promise<SignInResponse> => {
+const postSignInApi = async (formData: FormData): Promise<SignInResponse> => {
   try {
     const response = await instance.post<SignInResponse>(
       '/auth/signIn',
       formData,
     );
-    console.log('로그인', response.data);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -19,4 +18,4 @@ const SignInApi = async (formData: FormData): Promise<SignInResponse> => {
   }
 };
 
-export default SignInApi;
+export default postSignInApi;
