@@ -7,27 +7,30 @@ import IconNextDate from '@/app/components/icons/IconNextDate';
 import IconCalendar from '@/app/components/icons/IconCalendar';
 import CustomCalendar from './CustomCalendar';
 
-export default function DatePicker() {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+interface DatePickerProps {
+  selectedDate: string;
+  onDateChange: (date: Date) => void;
+}
+
+export default function DatePicker({
+  selectedDate,
+  onDateChange,
+}: DatePickerProps) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
 
   useClickOutside(calendarRef, () => setIsCalendarOpen(false));
 
   const handlePrevDate = () => {
-    setSelectedDate((prevDate) => {
-      const newDate = new Date(prevDate);
-      newDate.setDate(newDate.getDate() - 1);
-      return newDate;
-    });
+    const prevDate = new Date(selectedDate);
+    prevDate.setDate(prevDate.getDate() - 1);
+    onDateChange(prevDate);
   };
 
   const handleNextDate = () => {
-    setSelectedDate((prevDate) => {
-      const newDate = new Date(prevDate);
-      newDate.setDate(newDate.getDate() + 1);
-      return newDate;
-    });
+    const nextDate = new Date(selectedDate);
+    nextDate.setDate(nextDate.getDate() + 1);
+    onDateChange(nextDate);
   };
 
   const toggleCalendar = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -38,8 +41,8 @@ export default function DatePicker() {
   return (
     <div className="flex-col">
       <div className="relative flex items-center">
-        <div className="w-28 text-center">
-          {selectedDate.toLocaleDateString('ko-KR', {
+        <div className="w-28 text-lg">
+          {new Date(selectedDate).toLocaleDateString('ko-KR', {
             month: 'long',
             day: 'numeric',
             weekday: 'short',
@@ -68,9 +71,9 @@ export default function DatePicker() {
         >
           {isCalendarOpen && (
             <CustomCalendar
-              selectedDate={selectedDate}
+              selectedDate={new Date(selectedDate)}
               onDateChange={(date) => {
-                setSelectedDate(date);
+                onDateChange(date);
                 setIsCalendarOpen(false);
               }}
             />
