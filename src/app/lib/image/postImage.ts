@@ -1,9 +1,7 @@
 import axios from '@/app/lib/instance';
 
 type PostImageResponse = {
-  data: {
-    url: string;
-  };
+  url: string;
 };
 const postImage = async (img: FormData): Promise<PostImageResponse> => {
   const res = await axios.post('images/upload', img, {
@@ -13,7 +11,7 @@ const postImage = async (img: FormData): Promise<PostImageResponse> => {
     },
   });
 
-  return res;
+  return res.data;
 };
 
 export default postImage;
