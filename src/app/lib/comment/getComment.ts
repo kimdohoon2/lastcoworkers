@@ -1,5 +1,8 @@
-import { GetTaskCommentRequest } from '@/app/types/comment';
 import instance from '../instance';
+
+interface GetTaskCommentRequest {
+  taskId: number;
+}
 
 // 할 일 댓글 조회
 const getTaskComment = async ({ taskId }: GetTaskCommentRequest) => {

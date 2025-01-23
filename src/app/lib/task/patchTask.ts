@@ -1,5 +1,20 @@
-import { PatchTaskOrderRequest, PatchTaskRequest } from '@/app/types/task';
 import instance from '../instance';
+
+interface PatchTaskRequest {
+  groupId: number;
+  taskListId: number;
+  taskId: number;
+  name?: string;
+  description?: string;
+  done?: boolean;
+}
+
+interface PatchTaskOrderRequest {
+  groupId: number;
+  taskListId: number;
+  id: number;
+  displayIndex: number;
+}
 
 // 할 일 수정
 export const editTask = async ({

@@ -1,5 +1,9 @@
-import { DeleteTaskListRequest } from '@/app/types/taskList';
 import instance from '../instance';
+
+interface DeleteTaskListRequest {
+  groupId: number;
+  id: number;
+}
 
 // 할 일 목록 삭제
 export const deleteTaskList = async ({

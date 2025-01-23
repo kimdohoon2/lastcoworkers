@@ -1,5 +1,9 @@
-import { PostTaskCommentRequest } from '@/app/types/comment';
 import instance from '../instance';
+
+interface PostTaskCommentRequest {
+  taskId: number;
+  content: string;
+}
 
 // 할 일 댓글 생성
 const createTaskComment = async ({

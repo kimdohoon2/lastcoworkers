@@ -1,5 +1,17 @@
-import { GetTaskDetailRequest, GetTasksRequest, Task } from '@/app/types/task';
+import { Task } from '@/app/types/task';
 import instance from '../instance';
+
+interface GetTasksRequest {
+  groupId: number;
+  taskListId: number;
+  date?: string;
+}
+
+interface GetTaskDetailRequest {
+  groupId: number;
+  taskListId: number;
+  taskId: number;
+}
 
 // 할 일 리스트 조회
 export const getTasks = async ({

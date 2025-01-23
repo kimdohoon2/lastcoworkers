@@ -1,5 +1,11 @@
+import { RecurringTaskData } from '@/app/types/task';
 import axios from 'axios';
-import { PostTaskRequest } from '@/app/types/task';
+
+interface PostTaskRequest {
+  groupId: number;
+  taskListId: number;
+  data: RecurringTaskData;
+}
 
 // 할 일 생성
 export const createTask = async ({

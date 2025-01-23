@@ -1,5 +1,9 @@
-import { DeleteTaskCommentRequest } from '@/app/types/comment';
 import instance from '../instance';
+
+interface DeleteTaskCommentRequest {
+  taskId: number;
+  commentId: number;
+}
 
 // 할 일 댓글 삭제
 const deleteTaskComment = async ({
