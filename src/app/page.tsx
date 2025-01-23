@@ -1,3 +1,9 @@
+import LandingPage from './(routes)/landing/page';
+
 export default function Home() {
-  return <div>메인</div>;
+  return (
+    <div>
+      <LandingPage />
+    </div>
+  );
 }
