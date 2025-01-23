@@ -6,9 +6,7 @@ export interface PostGroupData {
 }
 
 type PostGroupResponse = {
-  data: {
-    id: string;
-  };
+  id: string;
 };
 
 const postGroup = async (data: PostGroupData): Promise<PostGroupResponse> => {
@@ -18,7 +16,7 @@ const postGroup = async (data: PostGroupData): Promise<PostGroupResponse> => {
     },
   });
 
-  return res;
+  return res.data;
 };
 
 export default postGroup;
