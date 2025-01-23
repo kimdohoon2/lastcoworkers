@@ -2,17 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import getHistory, { Task } from '@/app/lib/user/getHistory';
+import formatDate from '@/app/utils/formatDate';
 import IconCheckBox from '../icons/IconCheckBox';
-
-// 날짜 표시 변경 함수
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return new Intl.DateTimeFormat('ko-KR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }).format(date);
-};
 
 export default function HistoryList() {
   const [history, setHistory] = useState<Task[]>([]);
