@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function LandingHeader() {
   return (
-    <div className="mt-14 flex h-[40rem] w-full flex-col items-center justify-between pb-8 tablet:h-[58.75rem] tablet:pb-[10.5rem] xl:h-[67.5rem] xl:pb-28">
+    <div className="mt-14 flex h-[40rem] w-full flex-col items-center justify-between pb-8 tablet:h-[58.75rem] tablet:pb-[10.5rem] xl:h-[67.5rem] xl:pb-[11.25rem]">
       <div className="h-full w-full bg-landing-top-small bg-cover bg-center bg-no-repeat tablet:bg-landing-top-medium xl:bg-landing-top-large">
         <div className="flex flex-col items-center gap-1 tablet:gap-2 xl:gap-5">
           <div className="mt-[5.25rem] flex items-center gap-1 tablet:gap-4 xl:gap-6">

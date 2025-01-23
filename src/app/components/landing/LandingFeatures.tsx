@@ -8,7 +8,7 @@ import IconDone from '@/app/components/icons/IconDone';
 
 export default function LandingFeatures() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 xl:gap-20">
       <div className="mx-auto h-[29.1875rem] w-[21.4375rem] flex-col rounded-[2.5rem] bg-gradient-to-r from-brand-primary to-[#CEF57E] p-[0.0625rem] shadow-custom tablet:h-[22.125rem] tablet:w-[43.5rem] xl:h-[26.1875rem] xl:w-[62.25rem]">
         <div className="flex h-full w-full flex-wrap-reverse items-start rounded-[2.5rem] bg-background-primary pl-[3.125rem] tablet:justify-center tablet:gap-[8.75rem] tablet:pl-0 xl:gap-[12.0625rem]">
           <Image
