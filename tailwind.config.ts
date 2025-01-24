@@ -93,6 +93,9 @@ export default {
         xs: ['0.75rem', { lineHeight: '0.875rem' }], // 12px / 14px
       },
     },
+    scale: {
+      '103': '1.03',
+    },
   },
   plugins: [],
 } satisfies Config;

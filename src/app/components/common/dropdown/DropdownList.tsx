@@ -16,7 +16,7 @@ export default function DropdownList({
   return (
     <div
       className={clsx(
-        'absolute z-20 rounded-xl border border-background-tertiary border-opacity-10 bg-background-secondary',
+        'absolute z-20 overflow-hidden rounded-xl border border-background-tertiary bg-background-secondary',
         className,
       )}
     >
