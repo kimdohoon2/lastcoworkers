@@ -23,6 +23,13 @@ function TaskCardList({
     );
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent, taskId: number) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      handleCardClick(taskId);
+      e.preventDefault();
+    }
+  };
+
   if (isLoading) {
     return <div>로딩 중입니다</div>;
   }
@@ -44,12 +51,7 @@ function TaskCardList({
             role="button"
             tabIndex={0}
             onClick={() => handleCardClick(task.id)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                handleCardClick(task.id);
-                e.preventDefault();
-              }
-            }}
+            onKeyDown={(e) => handleKeyDown(e, task.id)}
             className="cursor-pointer rounded-[0.5rem] border border-transparent transition-all duration-200 ease-in-out hover:border-background-inverse"
           >
             <TaskCard task={task} />
