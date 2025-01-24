@@ -31,16 +31,12 @@ interface GetGroupResponse {
 }
 
 interface GetGroupRequest {
-  teamId: string;
   id: number;
 }
 
 // 그룹 조회
-const getGroup = async ({
-  teamId,
-  id,
-}: GetGroupRequest): Promise<GetGroupResponse> => {
-  const res = await instance.get<GetGroupResponse>(`/${teamId}/groups/${id}`);
+const getGroup = async ({ id }: GetGroupRequest): Promise<GetGroupResponse> => {
+  const res = await instance.get<GetGroupResponse>(`/groups/${id}`);
 
   return res.data;
 };
