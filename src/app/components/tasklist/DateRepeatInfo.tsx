@@ -1,4 +1,5 @@
 import { FrequencyType } from '@/app/types/task';
+import formatDate from '@/app/utils/formatDate';
 import IconRepeat from '../icons/IconRepeat';
 import TaskCardCalendar from '../icons/TaskCardCalendar';
 import VerticalBar from '../icons/VerticalBar';
@@ -20,15 +21,6 @@ export default function DateRepeatInfo({
         : frequency === FrequencyType.MONTHLY
           ? '매월 반복'
           : '반복 없음';
-
-  const formatDate = (selectDate: string | undefined) => {
-    if (!selectDate) return '날짜 없음';
-    return new Date(selectDate).toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
 
   return (
     <div className="flex items-center gap-2.5">
