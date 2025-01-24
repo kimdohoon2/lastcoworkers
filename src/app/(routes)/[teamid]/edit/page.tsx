@@ -68,7 +68,13 @@ function Page() {
         <h2 className="mb-6 text-center text-2xl font-medium text-text-primary tablet:mb-20">
           팀 수정하기
         </h2>
-        <TeamForm onSubmit={onSubmit}>수정하기</TeamForm>
+        <TeamForm
+          initialImage={groupData?.image ?? undefined}
+          initialName={groupData?.name}
+          onSubmit={onSubmit}
+        >
+          수정하기
+        </TeamForm>
         <div className="mt-6 text-center text-md text-text-primary tablet:text-lg">
           팀 이름은 회사명이나 모임 이름 등으로 설정하면 좋아요.
         </div>
