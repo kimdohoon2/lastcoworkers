@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import deleteUser, { DeleteUserResponse } from '@/app/lib/user/deleteUser';
 import Modal from '../common/modal/Modal';
 import IconSubtract from '../icons/IconSubtract';
 import Button from '../common/button/Button';
@@ -9,18 +11,28 @@ import IconAlert from '../icons/IconAlert';
 export default function DeleteAccount() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const mutation = useMutation<DeleteUserResponse, Error>({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      alert('회원 탈퇴가 완료되었습니다.');
+      setIsModalOpen(false);
+      window.location.href = '/';
+    },
+    onError: () => {
+      alert('이미 탈퇴된 회원입니다.');
+    },
+  });
+
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
   const handleDelete = () => {
-    // 회원 탈퇴 로직 추가
-    console.log('회원 탈퇴 처리');
+    mutation.mutate();
     handleCloseModal();
   };
 
   return (
     <div>
-      {/* 회원 탈퇴 버튼 */}
       <button
         onClick={handleOpenModal}
         className="flex cursor-pointer items-center gap-[0.813rem] border-0 bg-transparent p-0 text-left"
