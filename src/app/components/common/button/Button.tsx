@@ -45,7 +45,7 @@ function Button({
         ? 'bg-background-secondary border-brand-primary border-[1px] text-brand-primary hover:border-interaction-hover hover:text-interaction-hover active:border-interaction-pressed active:text-interaction-pressed'
         : 'bg-background-inverse border-brand-primary border-[1px] text-brand-primary hover:border-interaction-hover hover:text-interaction-hover active:border-interaction-pressed active:text-interaction-pressed',
     secondary:
-      'bg-background-inverse text-text-danger border-[1px] border-text-secondary',
+      'bg-background-inverse text-text-default border-[1px] border-text-secondary',
     danger: 'bg-point-red hover:bg-red-600 active:bg-red-700',
     plus: 'bg-brand-primary text-text-default hover:bg-interaction-hover active:bg-interaction-pressed',
     complete:

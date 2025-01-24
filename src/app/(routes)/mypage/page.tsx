@@ -1,10 +1,10 @@
 'use client';
 
 import ProfileChanger from '@/app/components/mypage/ProflieChanger';
-import IconSubtract from '@/app/components/icons/IconSubtract';
 import { useForm } from 'react-hook-form';
 import { useQuery } from '@tanstack/react-query';
 import getUser, { GetUserResponse } from '@/app/lib/user/getUser';
+import DeleteAccount from '@/app/components/mypage/DeleteAccount';
 
 export default function MyPage() {
   const method = useForm();
@@ -68,10 +68,7 @@ export default function MyPage() {
             </div>
           </div>
         </div>
-        <div className="flex cursor-pointer items-center gap-[0.813rem]">
-          <IconSubtract />
-          <div className="text-lg font-light text-point-red">회원 탈퇴하기</div>
-        </div>
+        <DeleteAccount />
       </div>
     </div>
   );
