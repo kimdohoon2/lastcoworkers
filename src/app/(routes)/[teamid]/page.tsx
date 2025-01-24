@@ -18,7 +18,7 @@ export default function TeamPage() {
 
   return (
     <div className="box-border h-full w-full px-4">
-      <div className="border-state-50/10 bg-state-50 relative mx-auto mt-[5.25rem] flex h-16 w-full max-w-[75rem] items-center justify-between rounded-xl border px-6">
+      <div className="border-state-50/10 relative mx-auto mt-[5.25rem] flex h-16 w-full max-w-[75rem] items-center justify-between rounded-xl border bg-background-secondary px-6">
         <span className="z-10 text-xl font-bold">
           경영관리팀테스트테스트테스트
         </span>
