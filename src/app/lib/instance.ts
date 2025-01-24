@@ -13,11 +13,8 @@ instance.interceptors.request.use((config) => {
   const state = store.getState();
   const token = state.auth.accessToken;
 
-  console.log('현재 토큰:', token); // 토큰 값 콘솔 출력
-
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
-    console.log('Authorization 헤더:', config.headers.Authorization);
   }
 
   return config;
