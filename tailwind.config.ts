@@ -53,6 +53,7 @@ export default {
           secondary: '#1E293B',
           tertiary: '#334155',
           inverse: '#FFFFFF',
+          darkPrimary: '#18212F',
         },
         interaction: {
           inactive: '#94A3B8',
