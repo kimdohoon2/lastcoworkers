@@ -27,3 +27,18 @@ export interface SignInResponse {
     teamId: string;
   };
 }
+
+export interface ResetPasswordType {
+  email: string;
+  redirectUrl: string;
+}
+
+export interface ConfirmPasswordType {
+  password: string;
+  passwordConfirmation: string;
+  token: string;
+}
+
+export interface ResetMessage {
+  message: string;
+}
