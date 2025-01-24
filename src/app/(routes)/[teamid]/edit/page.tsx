@@ -62,6 +62,14 @@ function Page() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center text-white">
+        Loading...
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="mx-auto mt-[3.75rem] max-w-[23.4375rem] px-4 pt-[4.5rem] tablet:w-[28.75rem] tablet:px-0 tablet:pt-[6.25rem]">
