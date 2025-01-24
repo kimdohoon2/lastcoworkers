@@ -50,7 +50,7 @@ function TaskCardList({
                 e.preventDefault();
               }
             }}
-            className="cursor-pointer·transition-transform·duration-200·ease-in-out·hover:scale-103"
+            className="cursor-pointer rounded-[0.5rem] border border-transparent transition-all duration-200 ease-in-out hover:border-background-inverse"
           >
             <TaskCard task={task} />
           </div>
