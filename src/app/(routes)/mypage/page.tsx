@@ -1,11 +1,20 @@
+'use client';
+
+import ProfileChanger from '@/app/components/mypage/ProflieChanger';
 import IconSubtract from '@/app/components/icons/IconSubtract';
+import { useForm } from 'react-hook-form';
 
 export default function MyPage() {
+  const method = useForm();
+  const { register } = method;
+
   return (
     <div className="flex justify-center pt-[5.25rem]">
       <div className="flex w-[90%] max-w-[75rem] flex-col">
         <h1 className="mb-6 text-2lg font-bold tablet:text-xl">계정 설정</h1>
-        <div className="mb-6">이미지 업로드 컴포넌트</div>
+        <div className="mb-6">
+          <ProfileChanger register={register} />
+        </div>
         <div className="mb-6 flex flex-col gap-6">
           <div>
             <h2 className="mb-3 text-lg font-light">이름</h2>
