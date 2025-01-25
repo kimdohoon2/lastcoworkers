@@ -41,7 +41,7 @@ export default function DeleteAccount() {
         <span className="text-lg font-light text-point-red">회원 탈퇴하기</span>
       </button>
 
-      <Modal isOpen={isModalOpen} closeModal={handleCloseModal} hasCloseBtn>
+      <Modal isOpen={isModalOpen} closeModal={handleCloseModal}>
         <div className="flex flex-col items-center">
           <IconAlert />
           <div className="mt-4 flex w-[239px] flex-col items-center">
