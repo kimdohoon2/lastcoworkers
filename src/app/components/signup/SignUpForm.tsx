@@ -5,6 +5,7 @@ import Input from '@/app/components/common/input/Input';
 import Button from '@/app/components/common/button/Button';
 import { FormData } from '@/app/types/AuthType';
 import useSignUp from '@/app/hooks/useSignUp';
+import QuickLogin from '@/app/components/login/QuickLogin';
 
 export default function SignUpComponent() {
   const methods = useForm<FormData>({
@@ -91,6 +92,7 @@ export default function SignUpComponent() {
           </Button>
         </form>
       </FormProvider>
+      <QuickLogin />
     </div>
   );
 }
