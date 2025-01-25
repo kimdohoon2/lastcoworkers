@@ -27,9 +27,12 @@ export const editTaskList = async ({
   id,
   name,
 }: PatchTaskListRequest): Promise<PatchTaskListResponse> => {
-  const res = await instance.patch(`groups/${groupId}/task-lists/${id}`, {
-    name,
-  });
+  const res = await instance.patch<PatchTaskListResponse>(
+    `groups/${groupId}/task-lists/${id}`,
+    {
+      name,
+    },
+  );
 
   return res.data;
 };
