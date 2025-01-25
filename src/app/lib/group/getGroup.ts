@@ -36,7 +36,11 @@ interface GetGroupRequest {
 
 // 그룹 조회
 const getGroup = async ({ id }: GetGroupRequest): Promise<GetGroupResponse> => {
-  const res = await instance.get<GetGroupResponse>(`/groups/${id}`);
+  const res = await instance.get<GetGroupResponse>(`/groups/${id}`, {
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_ACCESS_TOKEN}`,
+    },
+  });
 
   return res.data;
 };
