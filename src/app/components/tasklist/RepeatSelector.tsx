@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MonthDays, weekDays } from '@/app/constants/dateConstants';
+import { MONTH_DAYS, WEEK_DAYS } from '@/app/constants/dateConstants';
 import useDropdown from '@/app/hooks/useDropdown';
 import clsx from 'clsx';
 import IconToggle from '../icons/IconToggle';
@@ -73,7 +73,7 @@ export default function RepeatSelector() {
         <div className="mt-4 flex flex-col gap-3">
           <h3 className="w-full text-lg">반복 요일</h3>
           <ul className="flex justify-around">
-            {weekDays.map(({ name, value }) => (
+            {WEEK_DAYS.map(({ name, value }) => (
               <li key={name}>
                 <button
                   className={clsx(
@@ -97,7 +97,7 @@ export default function RepeatSelector() {
         <div className="mt-4 flex flex-col gap-3">
           <h3 className="w-full text-lg">반복 일</h3>
           <div className="grid grid-cols-7 grid-rows-5 rounded-xl border border-interaction-hover p-4">
-            {MonthDays.map((date) => (
+            {MONTH_DAYS.map((date) => (
               <button
                 key={date}
                 type="button"

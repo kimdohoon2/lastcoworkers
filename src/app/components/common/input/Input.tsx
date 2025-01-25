@@ -1,4 +1,4 @@
-import { MouseEvent, ReactNode, useState } from 'react';
+import { MouseEvent, MouseEventHandler, ReactNode, useState } from 'react';
 import { useFormContext, RegisterOptions } from 'react-hook-form';
 import IconVisibility from '@/app/components/icons/IconVisibility';
 import IconInVisibility from '@/app/components/icons/IconInVisibility';
@@ -12,6 +12,10 @@ type InputProps = {
   validationRules?: RegisterOptions; // react-hook-form 유효성 검증 규칙
   backgroundColor?: string; // 입력 필드 배경색
   customButton?: ReactNode; // 추가 버튼 컴포넌트
+  className?: string; // 스타일 추가
+  onClick?: MouseEventHandler<HTMLInputElement>; // 클릭시 이벤트
+  value?: string | undefined; // input에 들어올 value 값
+  readOnly?: boolean; // 직접 값을 입력할 수 없도록(날짜,시간 선택시)
 };
 
 function Input({
@@ -23,6 +27,10 @@ function Input({
   validationRules,
   backgroundColor = 'bg-background-secondary',
   customButton,
+  className,
+  onClick,
+  value,
+  readOnly,
 }: InputProps) {
   const [isVisibleToggle, setIsVisibleToggle] = useState(false);
   const {
@@ -50,12 +58,15 @@ function Input({
 
       <div className="relative">
         <input
-          className={`placeholder:text-text-danger h-full w-full rounded-xl border px-4 py-[0.85rem] text-text-primary placeholder:text-lg focus:border-interaction-focus focus:outline-none ${backgroundColor} ${inputBorderClass}`}
+          className={`placeholder:text-text-danger h-full w-full rounded-xl border px-4 py-[0.85rem] text-text-primary placeholder:text-lg focus:border-interaction-focus focus:outline-none ${backgroundColor} ${inputBorderClass} ${className}`}
           {...register(name, validationRules)}
           type={inputType}
           id={name}
           placeholder={placeholder}
           autoComplete={autoComplete}
+          onClick={onClick}
+          value={value}
+          readOnly={readOnly}
         />
         {isPassword && customButton && (
           <div className="absolute right-4 top-3 z-20">{customButton}</div>
