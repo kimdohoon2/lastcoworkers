@@ -1,21 +1,21 @@
 'use client';
 
-import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import deleteUser, { DeleteUserResponse } from '@/app/lib/user/deleteUser';
+import useModal from '@/app/hooks/useModal';
 import Modal from '../common/modal/Modal';
 import IconSubtract from '../icons/IconSubtract';
 import Button from '../common/button/Button';
 import IconAlert from '../icons/IconAlert';
 
 export default function DeleteAccount() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isOpen: isModalOpen, openModal, closeModal } = useModal();
 
   const mutation = useMutation<DeleteUserResponse, Error>({
     mutationFn: deleteUser,
     onSuccess: () => {
       alert('회원 탈퇴가 완료되었습니다.');
-      setIsModalOpen(false);
+      closeModal();
       window.location.href = '/';
     },
     onError: () => {
@@ -23,25 +23,22 @@ export default function DeleteAccount() {
     },
   });
 
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
-
   const handleDelete = () => {
     mutation.mutate();
-    handleCloseModal();
+    closeModal();
   };
 
   return (
     <div>
       <button
-        onClick={handleOpenModal}
+        onClick={openModal}
         className="flex cursor-pointer items-center gap-[0.813rem] border-0 bg-transparent p-0 text-left"
       >
         <IconSubtract />
         <span className="text-lg font-light text-point-red">회원 탈퇴하기</span>
       </button>
 
-      <Modal isOpen={isModalOpen} closeModal={handleCloseModal}>
+      <Modal isOpen={isModalOpen} closeModal={closeModal}>
         <div className="flex flex-col items-center">
           <IconAlert />
           <div className="mt-4 flex w-[239px] flex-col items-center">
@@ -56,7 +53,7 @@ export default function DeleteAccount() {
 
           <div className="flex justify-end gap-4">
             <Button
-              onClick={handleCloseModal}
+              onClick={closeModal}
               variant="secondary"
               className="w-[8.5rem]"
             >
