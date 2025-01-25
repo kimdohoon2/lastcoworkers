@@ -58,7 +58,7 @@ function Input({
           autoComplete={autoComplete}
         />
         {isPassword && customButton && (
-          <div className="absolute right-4 top-5 z-20">{customButton}</div>
+          <div className="absolute right-4 top-2 z-20">{customButton}</div>
         )}
         {isPassword && !customButton && (
           <button
