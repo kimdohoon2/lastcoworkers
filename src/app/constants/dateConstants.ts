@@ -1,4 +1,4 @@
-const weekDays = [
+const WEEK_DAYS = [
   { name: '일', value: 0 },
   { name: '월', value: 1 },
   { name: '화', value: 2 },
@@ -8,6 +8,6 @@ const weekDays = [
   { name: '토', value: 6 },
 ];
 
-const MonthDays = Array.from({ length: 31 }, (_, i) => i + 1);
+const MONTH_DAYS = Array.from({ length: 31 }, (_, i) => i + 1);
 
-export { weekDays, MonthDays };
+export { WEEK_DAYS, MONTH_DAYS };
