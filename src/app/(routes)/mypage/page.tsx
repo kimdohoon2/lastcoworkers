@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useQuery } from '@tanstack/react-query';
 import getUser, { GetUserResponse } from '@/app/lib/user/getUser';
 import DeleteAccount from '@/app/components/mypage/DeleteAccount';
+import ResetPassword from '@/app/components/mypage/ResetPassword';
 
 export default function MyPage() {
   const method = useForm();
@@ -45,7 +46,7 @@ export default function MyPage() {
         <div className="mb-6 flex flex-col gap-6">
           <div>
             <h2 className="mb-3 text-lg font-light">이름</h2>
-            <div className="rounded-2xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-[0.844rem] pl-4">
+            <div className="rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-[0.844rem] pl-4">
               <p className="text-md font-light tablet:text-lg">
                 {userData.nickname || '이름 없음'}
               </p>
@@ -53,19 +54,14 @@ export default function MyPage() {
           </div>
           <div>
             <h3 className="mb-3 text-lg font-light">이메일</h3>
-            <div className="rounded-2xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-tertiary py-[0.844rem] pl-4">
+            <div className="rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-tertiary py-[0.844rem] pl-4">
               <p className="text-md font-light text-text-disabled tablet:text-lg">
                 {userData.email || '이메일 없음'}
               </p>
             </div>
           </div>
           <div>
-            <h4 className="mb-3 text-lg font-light">비밀번호</h4>
-            <div className="rounded-2xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-tertiary py-[0.844rem] pl-4">
-              <p className="text-md font-light text-text-disabled tablet:text-lg">
-                비밀번호 인풋
-              </p>
-            </div>
+            <ResetPassword />
           </div>
         </div>
         <DeleteAccount />
