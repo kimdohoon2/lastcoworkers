@@ -12,3 +12,12 @@ body {
   background: var(--background-primary);
   font-family: 'Pretendard', sans-serif;
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 2px;
+}
