@@ -32,9 +32,7 @@ function Page() {
 
         formData.append('image', profile[0]);
 
-        const {
-          data: { url },
-        } = await postImage(formData);
+        const { url } = await postImage(formData);
 
         imageUrl = url;
       } catch (error) {
