@@ -17,6 +17,7 @@ interface ButtonProps {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   className?: string;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 function Button({
@@ -26,6 +27,7 @@ function Button({
   onClick,
   disabled = false,
   className,
+  type,
 }: ButtonProps) {
   const baseStyles = 'items-center font-semibold justify-center';
 
@@ -89,6 +91,7 @@ function Button({
       )}
       onClick={onClick}
       disabled={disabled}
+      type={type}
     >
       <span className="flex items-center justify-center gap-1">{children}</span>
     </button>

@@ -2,12 +2,29 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import authReducer from '@/app/stores/auth/authSlice';
+import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 
+const createNoopStorage = () => {
+  return {
+    getItem() {
+      return Promise.resolve(null);
+    },
+    setItem(_key: string, value: string) {
+      return Promise.resolve(value);
+    },
+    removeItem() {
+      return Promise.resolve();
+    },
+  };
+};
+const storage =
+  typeof window === 'undefined'
+    ? createNoopStorage()
+    : createWebStorage('local');
 // Persist 설정 간소화
-const persistConfig = {
+const rootPersistConfig = {
   key: 'root',
   storage,
   // 특정 리듀서만 영구 저장
@@ -20,7 +37,7 @@ const rootReducer = combineReducers({
 });
 
 // Persist 리듀서 생성
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 
 // 스토어 생성
 const store = configureStore({
