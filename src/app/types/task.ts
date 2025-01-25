@@ -1,8 +1,8 @@
-enum FrequencyType {
-  DAILY,
-  WEEKLY,
-  MONTHLY,
-  ONCE,
+export enum FrequencyType {
+  DAILY = 'DAILY',
+  WEEKLY = 'WEEKLY',
+  MONTHLY = 'MONTHLY',
+  ONCE = 'ONCE',
 }
 
 interface Task extends BaseTask, TaskAdditionalInfo {}

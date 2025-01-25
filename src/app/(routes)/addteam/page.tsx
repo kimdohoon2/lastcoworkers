@@ -2,8 +2,9 @@
 
 import { FieldValues } from 'react-hook-form';
 import postImage from '@/app/lib/image/postImage';
-import postGroup, { PostGroupData } from '@/app/lib/group/postGroup';
-import TeamForm from '@/app/components/addteam/TeamForm';
+import postGroup from '@/app/lib/group/postGroup';
+import { GroupData } from '@/app/types/group';
+import TeamForm from '@/app/components/team/TeamForm';
 import { useRouter } from 'next/navigation';
 
 function Page() {
@@ -34,7 +35,7 @@ function Page() {
      * 팀 생성
      */
     try {
-      const teamData: PostGroupData = {
+      const teamData: GroupData = {
         name,
       };
 
@@ -56,7 +57,7 @@ function Page() {
         <h2 className="mb-6 text-center text-2xl font-medium text-text-primary tablet:mb-20">
           팀 생성하기
         </h2>
-        <TeamForm onSubmit={onSubmit} />
+        <TeamForm onSubmit={onSubmit}>생성하기</TeamForm>
         <div className="mt-6 text-center text-md text-text-primary tablet:text-lg">
           팀 이름은 회사명이나 모임 이름 등으로 설정하면 좋아요.
         </div>
