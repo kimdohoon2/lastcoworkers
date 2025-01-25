@@ -33,7 +33,7 @@ export default function MyPage() {
   }
 
   if (!userData) {
-    return <div className="text-center">데이터를 불러올 수 없습니다.</div>;
+    return <div className="text-center">존재하지 않는 사용자입니다.</div>;
   }
 
   return (
