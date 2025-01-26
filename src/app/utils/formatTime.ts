@@ -12,7 +12,11 @@ export const adjustTimeFormat = (time: string, isAM: boolean): string => {
         ? 12
         : hour + 12;
 
-    return `${adjustedHour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00`;
+    const formattedHour =
+      adjustedHour < 10 ? `0${adjustedHour}` : `${adjustedHour}`;
+    const formattedMinute = minute < 10 ? `0${minute}` : `${minute}`;
+
+    return `${formattedHour}:${formattedMinute}:00`;
   } catch (error) {
     return '00:00:00';
   }
