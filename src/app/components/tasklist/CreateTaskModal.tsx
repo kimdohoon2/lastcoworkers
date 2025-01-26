@@ -1,8 +1,7 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
-import useClickOutside from '@/app/hooks/useClickOutside';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { useCallback, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { FrequencyType, RecurringTaskDataBody } from '@/app/types/task';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -10,11 +9,12 @@ import { createRecurringTask } from '@/app/lib/task/postRecurringTask';
 import Modal from '../common/modal/Modal';
 import Input from '../common/input/Input';
 import Button from '../common/button/Button';
-import TimeSelector from './TimeSelector';
-import CustomCalendar from './CustomCalendar';
+
 import RepeatSelector from './RepeatSelector';
 import { useParams } from 'next/navigation';
 import { isFormValid } from '@/app/utils/formValidation';
+import DateTimeSelector from './DateTimeSeletor';
+import { adjustTimeFormat } from '@/app/utils/formatTime';
 
 interface CreateTaskModalProps {
   onClose: () => void;
@@ -24,16 +24,10 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
   const params = useParams();
   const { groupId, taskListId, date } = params;
   const [selectedTime, setSelectedTime] = useState('');
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [isTimeSelectorOpen, setIsTimeSelectorOpen] = useState(false);
-  const calendarRef = useRef<HTMLDivElement>(null);
-  const timeSelectorRef = useRef<HTMLDivElement>(null);
+
   const [repeatData, setRepeatData] = useState<RecurringTaskDataBody>({
     frequencyType: FrequencyType.ONCE,
   });
-
-  useClickOutside(calendarRef, () => setIsCalendarOpen(false));
-  useClickOutside(timeSelectorRef, () => setIsTimeSelectorOpen(false));
 
   const method = useForm<RecurringTaskDataBody>({
     defaultValues: {
@@ -43,7 +37,7 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
       frequencyType: FrequencyType.ONCE,
     } as RecurringTaskDataBody,
   });
-  const { control, setValue, watch, handleSubmit } = method;
+  const { setValue, watch, handleSubmit } = method;
   const allFields = watch();
   const queryClient = useQueryClient();
 
@@ -69,26 +63,6 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
   });
 
   const formValidation = isFormValid(allFields, selectedTime, repeatData);
-
-  const adjustTimeFormat = (time: string, isAM: boolean): string => {
-    try {
-      const [hourStr, minuteStr] = time.split(':');
-      const hour = parseInt(hourStr, 10);
-      const minute = parseInt(minuteStr, 10);
-
-      const adjustedHour = isAM
-        ? hour === 12
-          ? 0
-          : hour
-        : hour === 12
-          ? 12
-          : hour + 12;
-
-      return `${adjustedHour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00`;
-    } catch (error) {
-      return '00:00:00';
-    }
-  };
 
   const onSubmit = (data: RecurringTaskDataBody) => {
     const date = data.startDate || new Date().toISOString().split('T')[0];
@@ -117,20 +91,6 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
     onClose();
   };
 
-  const toggleCalendar = () => {
-    setIsCalendarOpen((prev) => {
-      if (!prev) setIsTimeSelectorOpen(false);
-      return !prev;
-    });
-  };
-
-  const toggleTimeSelector = () => {
-    setIsTimeSelectorOpen((prev) => {
-      if (!prev) setIsCalendarOpen(false);
-      return !prev;
-    });
-  };
-
   return (
     <>
       <Modal isOpen={true} closeModal={handleClose}>
@@ -156,59 +116,12 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
                 placeholder="할 일 제목을 입력해주세요."
                 autoComplete="off"
               />
-              <div className="flex justify-between">
-                <Controller
-                  name="startDate"
-                  control={control}
-                  render={({ field }) => (
-                    <div ref={calendarRef} className="relative w-[12.75rem]">
-                      <Input
-                        {...field}
-                        title="시작 날짜 및 시간"
-                        type="text"
-                        placeholder="시작 날짜"
-                        autoComplete="off"
-                        value={field.value || ''}
-                        onClick={toggleCalendar}
-                        readOnly
-                      />
-
-                      {isCalendarOpen && (
-                        <div className="mt-2">
-                          <CustomCalendar
-                            selectedDate={new Date(field.value || Date.now())}
-                            onDateChange={(date) => {
-                              const localDate = new Date(
-                                date.getTime() -
-                                  date.getTimezoneOffset() * 60000,
-                              )
-                                .toISOString()
-                                .split('T')[0];
-                              setValue('startDate', localDate);
-                              setIsCalendarOpen(false);
-                            }}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  )}
-                />
-                <div
-                  ref={timeSelectorRef}
-                  className={`${isTimeSelectorOpen ? 'mb-[13rem]' : ''}`}
-                >
-                  <TimeSelector
-                    isOpen={isTimeSelectorOpen}
-                    onToggle={toggleTimeSelector}
-                    onClose={() => setIsTimeSelectorOpen(false)}
-                    selectedTime={selectedTime}
-                    onTimeSelect={(time) => {
-                      setSelectedTime(time);
-                      setIsTimeSelectorOpen(false);
-                    }}
-                  />
-                </div>
-              </div>
+              <DateTimeSelector
+                date={allFields.startDate}
+                time={selectedTime}
+                onDateChange={(date) => setValue('startDate', date)}
+                onTimeChange={setSelectedTime}
+              />
               <div>반복 설정</div>
               <RepeatSelector onRepeatChange={handleRepeatChange} />
               <Input

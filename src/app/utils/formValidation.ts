@@ -26,7 +26,11 @@ export const isFormValid = (
   repeatData: RecurringTaskDataBody,
 ): boolean => {
   return (
-    Object.values(fields).every((value) => value && value.trim() !== '') &&
+    Object.values(fields).every((value) =>
+      typeof value === 'string'
+        ? value.trim() !== ''
+        : value !== null && value !== undefined,
+    ) &&
     selectedTime !== '' &&
     isRepeatValid(repeatData)
   );
