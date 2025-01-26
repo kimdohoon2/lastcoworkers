@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 import getGroup from '@/app/lib/group/getGroup';
 import TeamHeader from '@/app/components/team/TeamHeader';
+import TodoList from '@/app/components/team/TodoList';
 
 export default function TeamPage() {
   // URL에서 teamId 가져오기
@@ -34,6 +35,7 @@ export default function TeamPage() {
   return (
     <div className="box-border h-full w-full px-4">
       <TeamHeader groupName={groupData?.name || '그룹 이름 없음'} />
+      <TodoList taskList={groupData?.taskLists} teamId={id!} />
     </div>
   );
 }

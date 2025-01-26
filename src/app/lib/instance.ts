@@ -1,9 +1,13 @@
 import axios from 'axios';
 
+const TOKEN =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTM3OSwidGVhbUlkIjoiMTEtOCIsInNjb3BlIjoiYWNjZXNzIiwiaWF0IjoxNzM3ODk5MDkzLCJleHAiOjE3Mzc5MDI2OTMsImlzcyI6InNwLWNvd29ya2VycyJ9.gNPb2DqY4YHDQI1ojnEZQSOiIIzREQKllk6qLTtw9gA';
+
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
   headers: {
     'Content-Type': 'application/json',
+    Authorization: `Bearer ${TOKEN}`,
   },
 });
 

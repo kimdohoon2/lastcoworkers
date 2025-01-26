@@ -1,4 +1,5 @@
 import instance from '../instance';
+import { Task } from '@/app/types/task';
 
 interface GroupMember {
   role: 'ADMIN' | 'MEMBER';
@@ -7,16 +8,6 @@ interface GroupMember {
   userName: string;
   groupId: number;
   userId: number;
-}
-
-interface Task {
-  displayIndex: number;
-  groupId: number;
-  updatedAt: string;
-  createdAt: string;
-  name: string;
-  id: number;
-  tasks: string[];
 }
 
 interface GetGroupResponse {
