@@ -4,8 +4,11 @@ import { useState } from 'react';
 import DatePicker from '@/app/components/tasklist/DatePicker';
 import TaskCardList from '@/app/components/tasklist/TaskCardList';
 import CreateTaskModal from '@/app/components/tasklist/CreateTaskModal';
+import useModal from '@/app/hooks/useModal';
+import Button from '@/app/components/common/button/Button';
 
 function TaskListPage() {
+  const { isOpen, openModal, closeModal } = useModal();
   const [selectedDate, setSelectedDate] = useState<string>(
     new Date().toISOString().split('T')[0],
   );
@@ -19,7 +22,15 @@ function TaskListPage() {
         }
       />
       <TaskCardList groupId={1771} taskListId={2874} date={selectedDate} />
-      <CreateTaskModal />
+      <Button
+        variant="plus"
+        size="plus"
+        className="fixed bottom-6 right-6 z-20 text-text-inverse"
+        onClick={openModal}
+      >
+        + 할 일 추가
+      </Button>
+      {isOpen && <CreateTaskModal onClose={closeModal} />}
     </div>
   );
 }
