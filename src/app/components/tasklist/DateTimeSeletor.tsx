@@ -44,7 +44,7 @@ export default function DateTimeSelector({
       <div ref={calendarRef} className="relative w-[12.75rem]">
         <Input
           name="startDate"
-          title="날짜 선택"
+          title="시작 날짜 및 시간 *"
           type="text"
           placeholder="시작 날짜"
           autoComplete="off"

@@ -96,7 +96,7 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
       <Modal isOpen={true} closeModal={handleClose}>
         <div className="custom-scrollbar flex flex-col items-center gap-6 overflow-y-scroll px-2">
           <div className="flex w-full flex-col gap-4 text-center">
-            <p className="text-lg">할 일 만들기</p>
+            <p className="text-lg font-medium">할 일 만들기</p>
             <p className="text-md text-text-default">
               할 일은 실제로 행동 가능한 작업 중심으로
               <br />
@@ -111,7 +111,7 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
             >
               <Input
                 name="name"
-                title="할 일 제목"
+                title="할 일 제목 *"
                 type="text"
                 placeholder="할 일 제목을 입력해주세요."
                 autoComplete="off"
@@ -122,14 +122,17 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
                 onDateChange={(date) => setValue('startDate', date)}
                 onTimeChange={setSelectedTime}
               />
-              <div>반복 설정</div>
-              <RepeatSelector onRepeatChange={handleRepeatChange} />
+              <div>
+                <div className="mb-4 text-lg font-medium">반복 설정 *</div>
+                <RepeatSelector onRepeatChange={handleRepeatChange} />
+              </div>
               <Input
                 name="description"
                 title="할 일 메모 *"
                 type="text"
                 placeholder="메모를 입력해주세요."
                 autoComplete="off"
+                className="h-[4.6875rem]"
               />
               <Button
                 className="mt-2 text-text-inverse"
