@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Dropdown from '../common/dropdown/Dropdown';
 import DropdownToggle from '../common/dropdown/DropdownToggle';
 import DropdownList from '../common/dropdown/DropdownList';
@@ -10,8 +11,6 @@ interface TimeSelectorProps {
   onToggle: () => void;
   onClose: () => void;
   selectedTime: string;
-  isAM: boolean;
-  setIsAM: (value: boolean) => void;
   onTimeSelect: (time: string) => void;
 }
 
@@ -20,10 +19,11 @@ export default function TimeSelector({
   onToggle,
   onClose,
   selectedTime,
-  isAM,
-  setIsAM,
+
   onTimeSelect,
 }: TimeSelectorProps) {
+  const [isAM, setIsAM] = useState(true);
+
   const generateTimes = (): string[] => {
     const times: string[] = [];
     for (let hour = 1; hour <= 12; hour += 1) {
@@ -41,10 +41,12 @@ export default function TimeSelector({
     <div className="mt-9 flex">
       <Dropdown onClose={onClose}>
         <DropdownToggle
-          className="flex h-12 w-[7.75rem] items-center rounded-xl border border-[#F8FAFC1A] px-4 py-3 text-text-default focus:border-interaction-focus"
+          className={`flex h-12 w-[7.75rem] items-center rounded-xl border border-[#F8FAFC1A] px-4 py-3 ${
+            selectedTime ? 'text-text-inverse' : 'text-text-default'
+          } focus:border-interaction-focus`}
           onClick={onToggle}
         >
-          {selectedTime}
+          {selectedTime || '시간'}
         </DropdownToggle>
 
         {isOpen && (

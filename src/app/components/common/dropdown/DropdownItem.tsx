@@ -15,6 +15,7 @@ export default function DropdownItem({
   return (
     <li className="list-none">
       <button
+        type="button"
         onClick={(e) => {
           e.stopPropagation();
           onClick();

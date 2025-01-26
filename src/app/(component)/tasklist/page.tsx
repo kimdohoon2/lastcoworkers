@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import DatePicker from '@/app/components/tasklist/DatePicker';
 import TaskCardList from '@/app/components/tasklist/TaskCardList';
+import CreateTaskModal from '@/app/components/tasklist/CreateTaskModal';
 
 function TaskListPage() {
   const [selectedDate, setSelectedDate] = useState<string>(
@@ -18,6 +19,7 @@ function TaskListPage() {
         }
       />
       <TaskCardList groupId={1771} taskListId={2874} date={selectedDate} />
+      <CreateTaskModal />
     </div>
   );
 }
