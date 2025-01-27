@@ -1,8 +1,8 @@
 import useModal from '@/app/hooks/useModal';
-import AddMemberModal from './AddMemberModal';
-import MemberCard from './MemberCard';
 import { useQuery } from '@tanstack/react-query';
 import getInvitation from '@/app/lib/group/getInvitaion';
+import AddMemberModal from './AddMemberModal';
+import MemberCard from './MemberCard';
 
 interface GroupMember {
   role: 'ADMIN' | 'MEMBER';
