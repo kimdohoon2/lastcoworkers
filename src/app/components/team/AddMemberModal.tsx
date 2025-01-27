@@ -5,6 +5,7 @@ import Modal from '@/app/components/common/modal/Modal';
 import copyWithExecCommand from '@/app/utils/copyWithExecCommand';
 
 interface ModalProps {
+  groupId: number;
   token: string;
   isOpen: boolean;
   closeModal: () => void;
@@ -12,12 +13,14 @@ interface ModalProps {
 
 const SERVER_URL = 'localhost:3000/invitation';
 
-function AddMemberModal({ token, isOpen, closeModal }: ModalProps) {
+function AddMemberModal({ token, groupId, isOpen, closeModal }: ModalProps) {
   const handleClick = async () => {
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      await navigator.clipboard.writeText(`${SERVER_URL}?token=${token}`);
+      await navigator.clipboard.writeText(
+        `${SERVER_URL}?token=${token}&groupId=${groupId}`,
+      );
     } else {
-      copyWithExecCommand(`${SERVER_URL}?token=${token}`);
+      copyWithExecCommand(`${SERVER_URL}?token=${token}&groupId=${groupId}`);
     }
     closeModal();
   };
