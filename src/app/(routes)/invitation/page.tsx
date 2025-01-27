@@ -1,19 +1,42 @@
 'use client';
 
 import Button from '@/app/components/common/button/Button';
-import { useSearchParams } from 'next/navigation';
+import postAcceptInvitation from '@/app/lib/group/postAcceptInvitation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 function Page() {
+  const router = useRouter();
   const params = useSearchParams();
   const [token, setToken] = useState('');
+  const [groupId, setGroupId] = useState('');
 
-  const handleClick = () => {};
+  const handleClick = async () => {
+    try {
+      await postAcceptInvitation({
+        /**
+         * 임시로 테스트 계정 추가
+         * 로그인 구현 후 수정
+         */
+        userEmail: 'user03@test.com',
+        token,
+      });
+    } catch (error) {
+      alert('이미 그룹에 소속된 유저입니다.');
+    }
+    router.push(groupId);
+  };
 
   useEffect(() => {
     const tokenParam = params.get('token');
+    const groupIdParam = params.get('groupId');
+
     if (tokenParam) {
       setToken(tokenParam);
+    }
+
+    if (groupIdParam) {
+      setGroupId(groupIdParam);
     }
   }, [params]);
 
