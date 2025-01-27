@@ -12,8 +12,8 @@ interface ModalProps {
 const SERVER_URL = 'localhost:3000/invitation';
 
 function AddMemberModal({ token, isOpen, closeModal }: ModalProps) {
-  const handleClick = () => {
-    navigator.clipboard.writeText(`${SERVER_URL}?token=${token}`);
+  const handleClick = async () => {
+    await navigator.clipboard.writeText(`${SERVER_URL}?token=${token}`);
     closeModal();
   };
 
