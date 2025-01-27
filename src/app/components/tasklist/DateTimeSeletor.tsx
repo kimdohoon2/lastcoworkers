@@ -75,8 +75,8 @@ export default function DateTimeSelector({
           onToggle={toggleTimeSelector}
           onClose={() => setIsTimeSelectorOpen(false)}
           selectedTime={time}
-          onTimeSelect={(time) => {
-            onTimeChange(time);
+          onTimeSelect={(newTime) => {
+            onTimeChange(newTime);
             setIsTimeSelectorOpen(false);
           }}
         />

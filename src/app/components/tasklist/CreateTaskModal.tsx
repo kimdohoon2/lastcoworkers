@@ -4,17 +4,15 @@ import { useCallback, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { FrequencyType, RecurringTaskDataBody } from '@/app/types/task';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import { createRecurringTask } from '@/app/lib/task/postRecurringTask';
+import { useParams } from 'next/navigation';
+import { isFormValid } from '@/app/utils/formValidation';
+import { adjustTimeFormat } from '@/app/utils/formatTime';
 import Modal from '../common/modal/Modal';
 import Input from '../common/input/Input';
 import Button from '../common/button/Button';
-
 import RepeatSelector from './RepeatSelector';
-import { useParams } from 'next/navigation';
-import { isFormValid } from '@/app/utils/formValidation';
 import DateTimeSelector from './DateTimeSeletor';
-import { adjustTimeFormat } from '@/app/utils/formatTime';
 
 interface CreateTaskModalProps {
   onClose: () => void;
@@ -22,7 +20,7 @@ interface CreateTaskModalProps {
 
 export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
   const params = useParams();
-  const { groupId, taskListId, date } = params;
+  const { groupId, taskListId, date: selectedDate } = params;
   const [selectedTime, setSelectedTime] = useState('');
 
   const [repeatData, setRepeatData] = useState<RecurringTaskDataBody>({
@@ -51,7 +49,7 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
           'taskLists',
           Number(taskListId),
           'tasks',
-          date || new Date().toISOString().split('T')[0],
+          selectedDate || new Date().toISOString().split('T')[0],
         ],
       });
 
@@ -65,7 +63,8 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
   const formValidation = isFormValid(allFields, selectedTime, repeatData);
 
   const onSubmit = (data: RecurringTaskDataBody) => {
-    const date = data.startDate || new Date().toISOString().split('T')[0];
+    const formattedDate =
+      data.startDate || new Date().toISOString().split('T')[0];
     const time = selectedTime ? selectedTime.split(' ')[1] : '00:00';
     const isAM = selectedTime.startsWith('오전');
     const adjustedTime = adjustTimeFormat(time, isAM);
@@ -73,7 +72,7 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
     const formData = {
       ...data,
       ...repeatData,
-      startDate: `${date}T${adjustedTime}Z`,
+      startDate: `${formattedDate}T${adjustedTime}Z`,
     };
 
     createRecurringTaskMutation.mutate({
@@ -93,7 +92,7 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
 
   return (
     <>
-      <Modal isOpen={true} closeModal={handleClose}>
+      <Modal isOpen closeModal={handleClose}>
         <div className="custom-scrollbar flex flex-col items-center gap-6 overflow-y-scroll px-2">
           <div className="flex w-full flex-col gap-4 text-center">
             <p className="text-lg font-medium">할 일 만들기</p>

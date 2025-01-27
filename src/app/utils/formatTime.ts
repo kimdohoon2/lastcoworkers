@@ -21,3 +21,5 @@ export const adjustTimeFormat = (time: string, isAM: boolean): string => {
     return '00:00:00';
   }
 };
+
+export default adjustTimeFormat;
