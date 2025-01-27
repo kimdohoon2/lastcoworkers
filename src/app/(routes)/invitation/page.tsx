@@ -11,6 +11,8 @@ function Page() {
   const [token, setToken] = useState('');
   const [groupId, setGroupId] = useState('');
 
+  const [testEmail, setTestEmail] = useState('');
+
   const handleClick = async () => {
     try {
       await postAcceptInvitation({
@@ -46,8 +48,17 @@ function Page() {
         <h2 className="mb-6 text-center text-2xl font-medium text-text-primary tablet:mb-20">
           팀 참여하기
         </h2>
+        {/* 이메일 입력 input - 로그인 구현 전 임시 테스트를 위한 input */}
+        <input
+          className="mb-4 w-full rounded-xl border border-border-primary bg-background-secondary px-4 py-[0.85rem] disabled:cursor-not-allowed disabled:text-text-default"
+          type="text"
+          placeholder="로그인 기능 구현 전 테스트를 위한 임시 input"
+          value={testEmail}
+          onChange={(e) => setTestEmail(e.target.value)}
+        />
         <div className="mb-3 text-lg font-medium">팀 링크</div>
         <input
+          type="text"
           className="w-full rounded-xl border border-border-primary bg-background-secondary px-4 py-[0.85rem] disabled:cursor-not-allowed disabled:text-text-default"
           value={token}
           disabled
