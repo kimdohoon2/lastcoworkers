@@ -8,6 +8,8 @@ import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import useDropdown from '@/app/hooks/useDropdown';
 import useModal from '@/app/hooks/useModal';
 import DetailMemberModal from '@/app/components/team/DetailMemberModal';
+import deleteMember from '@/app/lib/group/deleteMemeber';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface GroupMember {
   role: 'ADMIN' | 'MEMBER';
@@ -19,10 +21,23 @@ interface GroupMember {
 }
 
 function MemberCard({ member }: { member: GroupMember }) {
+  const queryClient = useQueryClient();
   const { isOpen, toggleDropdown, closeDropdown } = useDropdown();
   const { isOpen: isModalOpen, openModal, closeModal } = useModal();
 
-  const handleExpel = () => {};
+  const { mutate: expelMember } = useMutation({
+    mutationFn: deleteMember,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['group', member.groupId] });
+    },
+    onError: () => {
+      alert('멤버 추방을 실패했습니다.');
+    },
+  });
+
+  const handleExpel = async () => {
+    expelMember({ groupId: member.groupId, userId: member.userId });
+  };
 
   return (
     <>
