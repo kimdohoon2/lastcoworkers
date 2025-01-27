@@ -6,31 +6,41 @@ import DropdownList from '../common/dropdown/DropdownList';
 import DropdownToggle from '../common/dropdown/DropdownToggle';
 import TaskCardDropdown from '../icons/TaskCardDropdown';
 import DeleteTaskModal from './DeleteTaskModal';
+import DeleteRecurringModal from './DeleteRecurringModal';
 
 export default function TaskCardMenu({
   groupId,
   taskListId,
   taskId,
   taskName,
+  recurringId,
 }: {
   groupId: number;
   taskListId: number;
   taskId: number;
   taskName: string;
+  recurringId: number;
 }) {
-  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [modalState, setModalState] = useState<{
+    isOpen: boolean;
+    type: 'deleteTask' | 'deleteRecurring' | 'editTask' | null;
+  }>({
+    isOpen: false,
+    type: null,
+  });
+
   const {
     isOpen: isDropdownOpen,
     toggleDropdown,
     closeDropdown,
   } = useDropdown();
 
-  const openDeleteModal = () => {
-    setDeleteModalOpen(true);
+  const openModal = (type: 'editTask' | 'deleteTask' | 'deleteRecurring') => {
+    setModalState({ isOpen: true, type });
   };
 
-  const closeDeleteModal = () => {
-    setDeleteModalOpen(false);
+  const closeModal = () => {
+    setModalState({ isOpen: false, type: null });
   };
 
   return (
@@ -56,6 +66,7 @@ export default function TaskCardMenu({
             className="text-md"
             onClick={() => {
               closeDropdown();
+              openModal('deleteRecurring');
             }}
           >
             반복 제거하기
@@ -64,21 +75,35 @@ export default function TaskCardMenu({
             className="text-md"
             onClick={() => {
               closeDropdown();
-              openDeleteModal();
+              openModal('deleteTask');
             }}
           >
             할 일 삭제하기
           </DropdownItem>
         </DropdownList>
       </Dropdown>
-      <DeleteTaskModal
-        isOpen={isDeleteModalOpen}
-        onClose={closeDeleteModal}
-        groupId={groupId}
-        taskListId={taskListId}
-        taskId={taskId}
-        taskName={taskName}
-      />
+      {modalState.isOpen && modalState.type === 'deleteRecurring' && (
+        <DeleteRecurringModal
+          isOpen={modalState.isOpen}
+          onClose={closeModal}
+          groupId={groupId}
+          taskListId={taskListId}
+          taskId={taskId}
+          recurringId={recurringId}
+          taskName={taskName}
+        />
+      )}
+
+      {modalState.isOpen && modalState.type === 'deleteTask' && (
+        <DeleteTaskModal
+          isOpen={modalState.isOpen}
+          onClose={closeModal}
+          groupId={groupId}
+          taskListId={taskListId}
+          taskId={taskId}
+          taskName={taskName}
+        />
+      )}
     </>
   );
 }

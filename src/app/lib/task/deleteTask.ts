@@ -1,5 +1,4 @@
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import instance from '../instance';
 
 interface DeleteTaskRequest {
@@ -49,9 +48,20 @@ export const deleteRecurring = async ({
   taskId,
   recurringId,
 }: DeleteRecurringRequest) => {
-  const res = await axios.delete(
+  const res = await instance.delete(
     `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}/recurring/${recurringId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ACCESS_TOKEN}`,
+      },
+    },
   );
 
   return res.data;
+};
+
+export const useDeleteRecurringMutation = () => {
+  return useMutation({
+    mutationFn: deleteRecurring,
+  });
 };

@@ -9,7 +9,15 @@ import DateRepeatInfo from './DateRepeatInfo';
 import TaskCardMenu from './TaskCardDropdown';
 
 export default function TaskCard({ task }: { task: Task }) {
-  const { id: taskId, name, commentCount, doneAt, date, frequency } = task;
+  const {
+    id: taskId,
+    name,
+    commentCount,
+    doneAt,
+    date,
+    frequency,
+    recurringId,
+  } = task;
 
   const groupId = 1771;
   const taskListId = 2874;
@@ -75,6 +83,7 @@ export default function TaskCard({ task }: { task: Task }) {
           taskListId={taskListId}
           taskId={taskId}
           taskName={name}
+          recurringId={recurringId}
         />
       </div>
       <DateRepeatInfo date={date} frequency={frequency} />
