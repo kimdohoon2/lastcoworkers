@@ -8,14 +8,17 @@ import IconAlert from '../icons/IconAlert';
 interface DeleteTaskModalProps {
   isOpen: boolean;
   onClose: () => void;
+  groupId: number;
+  taskListId: number;
+  taskId: number;
 }
 export default function DeleteTaskModal({
   isOpen,
   onClose,
+  groupId,
+  taskListId,
+  taskId,
 }: DeleteTaskModalProps) {
-  const groupId = 1771;
-  const taskListId = 2874;
-  const taskId = 16333;
   const queryClient = useQueryClient();
   const router = useRouter();
   const deleteTaskMutation = useDeleteTaskMutation(groupId, taskListId, taskId);
@@ -28,8 +31,8 @@ export default function DeleteTaskModal({
         });
 
         onClose();
-
-        router.push(`/{teamid}/tasklist`);
+        // 이후 경로 수정 예정
+        router.push(`/tasklist`);
       },
       onError: (error) => {
         console.error('삭제 실패:', error);

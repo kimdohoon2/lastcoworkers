@@ -70,7 +70,11 @@ export default function TaskCard({ task }: { task: Task }) {
             {commentCount}
           </p>
         </div>
-        <TaskCardMenu />
+        <TaskCardMenu
+          groupId={groupId}
+          taskListId={taskListId}
+          taskId={taskId}
+        />
       </div>
       <DateRepeatInfo date={date} frequency={frequency} />
     </div>

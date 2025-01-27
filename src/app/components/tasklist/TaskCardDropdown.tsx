@@ -7,7 +7,15 @@ import DropdownToggle from '../common/dropdown/DropdownToggle';
 import TaskCardDropdown from '../icons/TaskCardDropdown';
 import DeleteTaskModal from './DeleteTaskModal';
 
-export default function TaskCardMenu() {
+export default function TaskCardMenu({
+  groupId,
+  taskListId,
+  taskId,
+}: {
+  groupId: number;
+  taskListId: number;
+  taskId: number;
+}) {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const {
     isOpen: isDropdownOpen,
@@ -61,7 +69,13 @@ export default function TaskCardMenu() {
           </DropdownItem>
         </DropdownList>
       </Dropdown>
-      <DeleteTaskModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} />
+      <DeleteTaskModal
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+        groupId={groupId}
+        taskListId={taskListId}
+        taskId={taskId}
+      />
     </>
   );
 }
