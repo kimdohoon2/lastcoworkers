@@ -7,12 +7,14 @@ import IconProfileEdit from '@/app/components/icons/IconProfileEdit';
 import IconProfile from '@/app/components/icons/IconProfile';
 
 interface ProfileUploaderProps {
+  initialImage?: string;
   register: UseFormRegister<FieldValues>;
 }
 
-function ProfileUploader({ register }: ProfileUploaderProps) {
-  const [profileImage, setProfileImage] = useState('');
-
+function ProfileUploader({ initialImage, register }: ProfileUploaderProps) {
+  const [profileImage, setProfileImage] = useState<string | null>(
+    initialImage || '',
+  );
   // 파일 처리하는 함수
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
