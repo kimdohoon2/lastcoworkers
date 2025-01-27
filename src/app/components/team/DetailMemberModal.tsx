@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Modal from '@/app/components/common/modal/Modal';
 import IconProfileEmpty from '@/app/components/icons/IconProfileEmpty';
 import Button from '@/app/components/common/button/Button';
+import copyWithExecCommand from '@/app/utils/copyWithExecCommand';
 
 interface DetailMemberProps {
   member: {
@@ -15,7 +16,12 @@ interface DetailMemberProps {
 
 function DetailMemberModal({ member, isOpen, closeModal }: DetailMemberProps) {
   const handleClick = async () => {
-    await navigator.clipboard.writeText(member.userEmail);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(member.userEmail);
+    } else {
+      copyWithExecCommand(member.userEmail);
+    }
+
     closeModal();
   };
 

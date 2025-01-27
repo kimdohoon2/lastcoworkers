@@ -2,6 +2,7 @@
 
 import Button from '@/app/components/common/button/Button';
 import Modal from '@/app/components/common/modal/Modal';
+import copyWithExecCommand from '@/app/utils/copyWithExecCommand';
 
 interface ModalProps {
   token: string;
@@ -13,11 +14,15 @@ const SERVER_URL = 'localhost:3000/invitation';
 
 function AddMemberModal({ token, isOpen, closeModal }: ModalProps) {
   const handleClick = async () => {
-    await navigator.clipboard.writeText(`${SERVER_URL}?token=${token}`);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(`${SERVER_URL}?token=${token}`);
+    } else {
+      copyWithExecCommand(`${SERVER_URL}?token=${token}`);
+    }
     closeModal();
   };
 
-  if (token) return null;
+  if (!token) return null;
 
   return (
     <Modal hasCloseBtn isOpen={isOpen} closeModal={closeModal}>
