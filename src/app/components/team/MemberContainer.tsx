@@ -25,8 +25,6 @@ function MemberContainer({ members }: { members: GroupMember[] }) {
 
   if (isError) return null;
 
-  console.log(data);
-
   return (
     <div className="mx-auto mt-12 max-w-[75rem]">
       <div className="mb-6 flex items-center justify-between">
