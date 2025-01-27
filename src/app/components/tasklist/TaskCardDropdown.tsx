@@ -1,15 +1,26 @@
 import useDropdown from '@/app/hooks/useDropdown';
+import { useState } from 'react';
 import Dropdown from '../common/dropdown/Dropdown';
 import DropdownItem from '../common/dropdown/DropdownItem';
 import DropdownList from '../common/dropdown/DropdownList';
 import DropdownToggle from '../common/dropdown/DropdownToggle';
 import TaskCardDropdown from '../icons/TaskCardDropdown';
+import DeleteTaskModal from './DeleteTaskModal';
 
 export default function TaskCardMenu() {
-  const { isOpen, toggleDropdown, closeDropdown, selectItem } = useDropdown();
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const {
+    isOpen: isDropdownOpen,
+    toggleDropdown,
+    closeDropdown,
+  } = useDropdown();
 
-  const handleItemClick = (item: string) => {
-    selectItem(item);
+  const openDeleteModal = () => {
+    setDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModalOpen(false);
   };
 
   return (
@@ -19,32 +30,38 @@ export default function TaskCardMenu() {
           <TaskCardDropdown />
         </DropdownToggle>
         <DropdownList
-          isOpen={isOpen}
+          isOpen={isDropdownOpen}
           className="absolute right-0 w-[5.875rem] overflow-hidden border sm:w-[7.5rem]"
         >
           <DropdownItem
             className="text-md"
-            onClick={() => handleItemClick('수정하기')}
+            onClick={() => {
+              closeDropdown();
+            }}
             onClose={closeDropdown}
           >
             수정하기
           </DropdownItem>
           <DropdownItem
             className="text-md"
-            onClick={() => handleItemClick('반복 제거하기')}
-            onClose={closeDropdown}
+            onClick={() => {
+              closeDropdown();
+            }}
           >
             반복 제거하기
           </DropdownItem>
           <DropdownItem
             className="text-md"
-            onClick={() => handleItemClick('할 일 삭제하기')}
-            onClose={closeDropdown}
+            onClick={() => {
+              closeDropdown();
+              openDeleteModal();
+            }}
           >
             할 일 삭제하기
           </DropdownItem>
         </DropdownList>
       </Dropdown>
+      <DeleteTaskModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} />
     </>
   );
 }
