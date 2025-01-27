@@ -1,3 +1,6 @@
+import { useDeleteTaskMutation } from '@/app/lib/task/deleteTask';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import Button from '../common/button/Button';
 import Modal from '../common/modal/Modal';
 import IconAlert from '../icons/IconAlert';
@@ -6,11 +9,34 @@ interface DeleteTaskModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
 export default function DeleteTaskModal({
   isOpen,
   onClose,
 }: DeleteTaskModalProps) {
+  const groupId = 1771;
+  const taskListId = 2874;
+  const taskId = 16333;
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const deleteTaskMutation = useDeleteTaskMutation(groupId, taskListId, taskId);
+
+  const handleDelete = () => {
+    deleteTaskMutation.mutate(undefined, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ['groups', groupId, 'taskLists', taskListId, 'tasks'],
+        });
+
+        onClose();
+
+        router.push(`/{teamid}/tasklist`);
+      },
+      onError: (error) => {
+        console.error('삭제 실패:', error);
+      },
+    });
+  };
+
   return (
     <div
       role="button"
@@ -44,7 +70,12 @@ export default function DeleteTaskModal({
             >
               닫기
             </Button>
-            <Button className="w-[8.5rem]" variant="danger" size="large">
+            <Button
+              className="w-[8.5rem]"
+              variant="danger"
+              size="large"
+              onClick={handleDelete}
+            >
               삭제하기
             </Button>
           </div>
