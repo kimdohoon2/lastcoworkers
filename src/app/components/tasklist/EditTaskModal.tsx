@@ -84,50 +84,51 @@ export default function EditTaskModal({
       <Modal isOpen={isOpen} closeModal={onClose}>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-4 text-center">
-            <p className="text-xl text-text-primary">할 일 수정하기</p>
-            <p className="text-lg text-text-primary">
+            <p className="mb-2 text-xl text-text-primary">할 일 수정하기</p>
+            <p className="text-lg text-text-secondary">
               할 일과 메모를 수정해보세요.
             </p>
           </div>
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
-              <Input
-                {...methods.register('task')}
-                name="task"
-                title="할 일"
-                type="text"
-                placeholder={`${taskName}`}
-                autoComplete="off"
-              />
-              <Input
-                {...methods.register('memo')}
-                name="memo"
-                title="메모"
-                type="text"
-                placeholder={`${description}`}
-                autoComplete="off"
-              />
-              <p className="text-md text-text-secondary" />
+              <div className="flex flex-col gap-4">
+                <Input
+                  {...methods.register('task')}
+                  name="task"
+                  title="할 일 제목"
+                  type="text"
+                  placeholder={`${taskName}`}
+                  autoComplete="off"
+                />
+                <Input
+                  {...methods.register('memo')}
+                  name="memo"
+                  title="할 일 메모"
+                  type="text"
+                  placeholder={`${description}`}
+                  autoComplete="off"
+                />
 
-              <div className="mt-2 flex gap-2">
-                <Button
-                  className="w-[8.5rem] text-text-default"
-                  variant="secondary"
-                  size="large"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onClose();
-                  }}
-                >
-                  닫기
-                </Button>
-                <Button
-                  className="w-[8.5rem] text-text-inverse"
-                  variant="primary"
-                  size="large"
-                >
-                  수정하기
-                </Button>
+                <div className="mt-2 flex gap-2">
+                  <Button
+                    className="w-[8.5rem] text-text-default"
+                    variant="secondary"
+                    size="large"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onClose();
+                    }}
+                  >
+                    닫기
+                  </Button>
+                  <Button
+                    className="w-[8.5rem] text-text-inverse"
+                    variant="primary"
+                    size="large"
+                  >
+                    수정하기
+                  </Button>
+                </div>
               </div>
             </form>
           </FormProvider>

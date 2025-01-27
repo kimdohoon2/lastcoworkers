@@ -54,9 +54,9 @@ export default function DeleteTaskModal({
       }}
     >
       <Modal isOpen={isOpen} closeModal={onClose}>
-        <div className="flex flex-col items-center gap-4 text-center">
+        <div className="flex flex-col items-center gap-2 text-center">
           <IconAlert />
-          <p className="text-xl text-text-primary">{`[ ${taskName} ]`}</p>
+          <p className="mt-2 text-xl text-text-primary">{`'${taskName}'`}</p>
           <p className="text-lg text-text-primary">
             할 일을 정말 삭제하시겠어요?
           </p>
@@ -64,7 +64,7 @@ export default function DeleteTaskModal({
             삭제 후에는 되돌릴 수 없습니다.
           </p>
 
-          <div className="mt-2 flex gap-2">
+          <div className="mt-5 flex gap-2">
             <Button
               className="w-[8.5rem] text-text-default"
               variant="secondary"
