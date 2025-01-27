@@ -14,6 +14,7 @@ interface EditTaskModalProps {
   taskId: number;
   taskName: string;
   description: string;
+  doneAt: string | null;
 }
 
 interface FormValues {
@@ -29,6 +30,7 @@ export default function EditTaskModal({
   taskId,
   taskName,
   description,
+  doneAt,
 }: EditTaskModalProps) {
   const queryClient = useQueryClient();
   const methods = useForm<FormValues>({
@@ -48,6 +50,7 @@ export default function EditTaskModal({
         taskId,
         name: data.task,
         description: data.memo,
+        done: !!doneAt,
       },
       {
         onSuccess: () => {

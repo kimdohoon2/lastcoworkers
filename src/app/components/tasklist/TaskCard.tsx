@@ -86,6 +86,7 @@ export default function TaskCard({ task }: { task: Task }) {
           taskName={name}
           recurringId={recurringId}
           description={description}
+          doneAt={doneAt}
         />
       </div>
       <DateRepeatInfo date={date} frequency={frequency} />

@@ -16,6 +16,7 @@ export default function TaskCardMenu({
   taskName,
   recurringId,
   description,
+  doneAt,
 }: {
   groupId: number;
   taskListId: number;
@@ -23,6 +24,7 @@ export default function TaskCardMenu({
   taskName: string;
   recurringId: number;
   description: string;
+  doneAt: string | null;
 }) {
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
@@ -96,6 +98,7 @@ export default function TaskCardMenu({
           taskId={taskId}
           taskName={taskName}
           description={description}
+          doneAt={doneAt}
         />
       )}
 
