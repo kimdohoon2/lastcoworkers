@@ -5,6 +5,8 @@ import { usePathname } from 'next/navigation';
 import getGroup from '@/app/lib/group/getGroup';
 import TeamHeader from '@/app/components/team/TeamHeader';
 
+import MemberContainer from '@/app/components/team/MemberContainer';
+
 export default function TeamPage() {
   // URL에서 teamId 가져오기
   const pathname = usePathname();
@@ -34,6 +36,7 @@ export default function TeamPage() {
   return (
     <div className="box-border h-full w-full px-4">
       <TeamHeader groupName={groupData?.name || '그룹 이름 없음'} />
+      <MemberContainer members={groupData?.members || []} />
     </div>
   );
 }
