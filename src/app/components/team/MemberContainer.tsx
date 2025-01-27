@@ -16,7 +16,11 @@ interface GroupMember {
 function MemberContainer({ members }: { members: GroupMember[] }) {
   const { isOpen, openModal, closeModal } = useModal();
 
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data: token,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['invitationToken'],
     queryFn: () => getInvitation(members[0].groupId),
   });
@@ -46,7 +50,7 @@ function MemberContainer({ members }: { members: GroupMember[] }) {
         ))}
       </div>
       <AddMemberModal
-        token={data?.token || ''}
+        token={token || ''}
         isOpen={isOpen}
         closeModal={closeModal}
       />
