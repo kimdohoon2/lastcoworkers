@@ -23,18 +23,25 @@ export default function TaskCardMenu() {
           className="absolute right-0 w-[5.875rem] overflow-hidden border sm:w-[7.5rem]"
         >
           <DropdownItem
-            className="text-xs"
+            className="text-md"
             onClick={() => handleItemClick('수정하기')}
             onClose={closeDropdown}
           >
             수정하기
           </DropdownItem>
           <DropdownItem
-            className="text-xs"
-            onClick={() => handleItemClick('삭제하기')}
+            className="text-md"
+            onClick={() => handleItemClick('반복 제거하기')}
             onClose={closeDropdown}
           >
-            삭제하기
+            반복 제거하기
+          </DropdownItem>
+          <DropdownItem
+            className="text-md"
+            onClick={() => handleItemClick('할 일 삭제하기')}
+            onClose={closeDropdown}
+          >
+            할 일 삭제하기
           </DropdownItem>
         </DropdownList>
       </Dropdown>
