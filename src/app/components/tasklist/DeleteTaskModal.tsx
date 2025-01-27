@@ -11,6 +11,7 @@ interface DeleteTaskModalProps {
   groupId: number;
   taskListId: number;
   taskId: number;
+  taskName: string;
 }
 export default function DeleteTaskModal({
   isOpen,
@@ -18,6 +19,7 @@ export default function DeleteTaskModal({
   groupId,
   taskListId,
   taskId,
+  taskName,
 }: DeleteTaskModalProps) {
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -54,6 +56,7 @@ export default function DeleteTaskModal({
       <Modal isOpen={isOpen} closeModal={onClose}>
         <div className="flex flex-col items-center gap-4 text-center">
           <IconAlert />
+          <p className="text-xl text-text-primary">{`[ ${taskName} ]`}</p>
           <p className="text-lg text-text-primary">
             할 일을 정말 삭제하시겠어요?
           </p>

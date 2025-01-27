@@ -74,6 +74,7 @@ export default function TaskCard({ task }: { task: Task }) {
           groupId={groupId}
           taskListId={taskListId}
           taskId={taskId}
+          taskName={name}
         />
       </div>
       <DateRepeatInfo date={date} frequency={frequency} />

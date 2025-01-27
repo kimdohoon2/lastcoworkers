@@ -11,10 +11,12 @@ export default function TaskCardMenu({
   groupId,
   taskListId,
   taskId,
+  taskName,
 }: {
   groupId: number;
   taskListId: number;
   taskId: number;
+  taskName: string;
 }) {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const {
@@ -75,6 +77,7 @@ export default function TaskCardMenu({
         groupId={groupId}
         taskListId={taskListId}
         taskId={taskId}
+        taskName={taskName}
       />
     </>
   );
