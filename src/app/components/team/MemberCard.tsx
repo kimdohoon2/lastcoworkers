@@ -1,6 +1,11 @@
 import Image from 'next/image';
 import IconProfileEmpty from '@/app/components/icons/IconProfileEmpty';
-import TaskCardDropdown from '../icons/TaskCardDropdown';
+import TaskCardDropdown from '@/app/components/icons/TaskCardDropdown';
+import Dropdown from '@/app/components/common/dropdown/Dropdown';
+import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
+import DropdownList from '@/app/components/common/dropdown/DropdownList';
+import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
+import useDropdown from '@/app/hooks/useDropdown';
 
 interface GroupMember {
   role: 'ADMIN' | 'MEMBER';
@@ -12,6 +17,12 @@ interface GroupMember {
 }
 
 function MemberCard({ member }: { member: GroupMember }) {
+  const { isOpen, toggleDropdown, closeDropdown, selectItem } = useDropdown();
+
+  const handleItemClick = (item: string) => {
+    selectItem(item);
+  };
+
   return (
     <div className="flex items-center justify-between gap-1.5 rounded-2xl bg-background-secondary px-4 py-3 tablet:px-6 tablet:py-5">
       <div>
@@ -29,9 +40,26 @@ function MemberCard({ member }: { member: GroupMember }) {
           {member.userEmail}
         </div>
       </div>
-      <button type="button" className="h-4 w-4">
-        <TaskCardDropdown />
-      </button>
+      <Dropdown onClose={closeDropdown}>
+        <DropdownToggle className="h-4 w-4" onClick={toggleDropdown}>
+          <TaskCardDropdown />
+        </DropdownToggle>
+
+        <DropdownList className="right-0" isOpen={isOpen}>
+          <DropdownItem
+            onClick={() => handleItemClick('돈까스')}
+            onClose={closeDropdown}
+          >
+            멤버 정보
+          </DropdownItem>
+          <DropdownItem
+            onClick={() => handleItemClick('떡볶이')}
+            onClose={closeDropdown}
+          >
+            추방하기
+          </DropdownItem>
+        </DropdownList>
+      </Dropdown>
     </div>
   );
 }
