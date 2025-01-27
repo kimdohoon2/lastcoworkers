@@ -17,6 +17,7 @@ export default function TaskCard({ task }: { task: Task }) {
     date,
     frequency,
     recurringId,
+    description,
   } = task;
 
   const groupId = 1771;
@@ -84,6 +85,7 @@ export default function TaskCard({ task }: { task: Task }) {
           taskId={taskId}
           taskName={name}
           recurringId={recurringId}
+          description={description}
         />
       </div>
       <DateRepeatInfo date={date} frequency={frequency} />
