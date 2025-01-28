@@ -69,7 +69,7 @@ function Input({
           readOnly={readOnly}
         />
         {isPassword && customButton && (
-          <div className="absolute right-4 top-3 z-20">{customButton}</div>
+          <div className="absolute right-4 top-2 z-20">{customButton}</div>
         )}
         {isPassword && !customButton && (
           <button
