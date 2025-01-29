@@ -1,6 +1,7 @@
 import { useDeleteRecurringMutation } from '@/app/lib/task/deleteTask';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/app/stores/hooks';
 import Button from '../common/button/Button';
 import Modal from '../common/modal/Modal';
 import IconAlert from '../icons/IconAlert';
@@ -11,8 +12,6 @@ interface DeleteRecurringModalProps {
   groupId: number;
   taskListId: number;
   taskId: number;
-  recurringId: number;
-  taskName: string;
 }
 export default function DeleteRecurringModal({
   isOpen,
@@ -20,10 +19,9 @@ export default function DeleteRecurringModal({
   groupId,
   taskListId,
   taskId,
-  recurringId,
-  taskName,
 }: DeleteRecurringModalProps) {
   const queryClient = useQueryClient();
+  const task = useAppSelector((state) => state.tasks.tasks[taskId]);
   const router = useRouter();
   const deleteRecurringMutation = useDeleteRecurringMutation();
 
@@ -33,7 +31,7 @@ export default function DeleteRecurringModal({
         groupId,
         taskListId,
         taskId,
-        recurringId,
+        recurringId: task.recurringId,
       },
       {
         onSuccess: () => {
@@ -65,7 +63,7 @@ export default function DeleteRecurringModal({
       <Modal isOpen={isOpen} closeModal={onClose}>
         <div className="flex flex-col items-center gap-2 text-center">
           <IconAlert />
-          <p className="mt-2 text-xl text-text-primary">{`'${taskName}'`}</p>
+          <p className="mt-2 text-xl text-text-primary">{`'${task.name}'`}</p>
           <p className="text-lg text-text-primary">
             할 일의 반복을 정말 삭제하시겠어요?
           </p>

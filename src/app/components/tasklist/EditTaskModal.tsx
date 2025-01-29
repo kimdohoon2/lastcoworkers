@@ -2,6 +2,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useEditTaskMutation } from '@/app/lib/task/patchTask';
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useAppSelector } from '@/app/stores/hooks';
 import Button from '../common/button/Button';
 import Input from '../common/input/Input';
 import Modal from '../common/modal/Modal';
@@ -12,9 +13,6 @@ interface EditTaskModalProps {
   groupId: number;
   taskListId: number;
   taskId: number;
-  taskName: string;
-  description: string;
-  doneAt: string | null;
 }
 
 interface FormValues {
@@ -28,15 +26,14 @@ export default function EditTaskModal({
   groupId,
   taskListId,
   taskId,
-  taskName,
-  description,
-  doneAt,
 }: EditTaskModalProps) {
   const queryClient = useQueryClient();
+  const task = useAppSelector((state) => state.tasks.tasks[taskId]);
+
   const methods = useForm<FormValues>({
     defaultValues: {
-      task: taskName,
-      memo: description,
+      task: task?.name || '',
+      memo: task?.description || '',
     },
   });
 
@@ -50,28 +47,32 @@ export default function EditTaskModal({
         taskId,
         name: data.task,
         description: data.memo,
-        done: !!doneAt,
+        done: !!task?.doneAt,
       },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
             queryKey: ['groups', groupId, 'taskLists', taskListId, 'tasks'],
           });
-          alert('할 일이 성공적으로 수정되었습니다.');
           onClose();
         },
-        onError: () => {
-          alert('할 일을 수정하는 데 실패했습니다.');
-        },
+        onError: () => {},
       },
     );
   };
 
   useEffect(() => {
-    if (isOpen) {
-      methods.reset({ task: taskName, memo: description });
+    if (isOpen && task) {
+      methods.reset({
+        task: task.name,
+        memo: task.description || '',
+      });
     }
-  }, [isOpen, taskName, description, methods]);
+  }, [isOpen, task, methods]);
+
+  if (!task) {
+    return null;
+  }
 
   return (
     <div
@@ -100,7 +101,7 @@ export default function EditTaskModal({
                   name="task"
                   title="할 일 제목"
                   type="text"
-                  placeholder={`${taskName}`}
+                  placeholder={task.name}
                   autoComplete="off"
                 />
                 <Input
@@ -108,12 +109,13 @@ export default function EditTaskModal({
                   name="memo"
                   title="할 일 메모"
                   type="text"
-                  placeholder={`${description}`}
+                  placeholder={task.description || '메모를 입력하세요.'}
                   autoComplete="off"
                 />
 
                 <div className="mt-2 flex gap-2">
                   <Button
+                    type="button"
                     className="w-[8.5rem] text-text-default"
                     variant="secondary"
                     size="large"

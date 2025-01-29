@@ -1,5 +1,6 @@
 import useDropdown from '@/app/hooks/useDropdown';
 import { useState } from 'react';
+import { useAppSelector } from '@/app/stores/hooks';
 import Dropdown from '../common/dropdown/Dropdown';
 import DropdownItem from '../common/dropdown/DropdownItem';
 import DropdownList from '../common/dropdown/DropdownList';
@@ -9,23 +10,8 @@ import DeleteTaskModal from './DeleteTaskModal';
 import DeleteRecurringModal from './DeleteRecurringModal';
 import EditTaskModal from './EditTaskModal';
 
-export default function TaskCardMenu({
-  groupId,
-  taskListId,
-  taskId,
-  taskName,
-  recurringId,
-  description,
-  doneAt,
-}: {
-  groupId: number;
-  taskListId: number;
-  taskId: number;
-  taskName: string;
-  recurringId: number;
-  description: string;
-  doneAt: string | null;
-}) {
+export default function TaskCardMenu({ taskId }: { taskId: number }) {
+  const task = useAppSelector((state) => state.tasks.tasks[taskId]);
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
     type: 'deleteTask' | 'deleteRecurring' | 'editTask' | null;
@@ -33,12 +19,16 @@ export default function TaskCardMenu({
     isOpen: false,
     type: null,
   });
-
   const {
     isOpen: isDropdownOpen,
     toggleDropdown,
     closeDropdown,
   } = useDropdown();
+
+  const groupId = 1771;
+  const taskListId = 2874;
+
+  if (!task) return null;
 
   const openModal = (type: 'editTask' | 'deleteTask' | 'deleteRecurring') => {
     setModalState({ isOpen: true, type });
@@ -64,7 +54,6 @@ export default function TaskCardMenu({
               closeDropdown();
               openModal('editTask');
             }}
-            onClose={closeDropdown}
           >
             수정하기
           </DropdownItem>
@@ -96,9 +85,6 @@ export default function TaskCardMenu({
           groupId={groupId}
           taskListId={taskListId}
           taskId={taskId}
-          taskName={taskName}
-          description={description}
-          doneAt={doneAt}
         />
       )}
 
@@ -109,7 +95,6 @@ export default function TaskCardMenu({
           groupId={groupId}
           taskListId={taskListId}
           taskId={taskId}
-          taskName={taskName}
         />
       )}
 
@@ -120,8 +105,6 @@ export default function TaskCardMenu({
           groupId={groupId}
           taskListId={taskListId}
           taskId={taskId}
-          recurringId={recurringId}
-          taskName={taskName}
         />
       )}
     </>

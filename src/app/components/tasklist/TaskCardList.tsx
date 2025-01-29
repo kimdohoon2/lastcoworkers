@@ -2,8 +2,11 @@
 
 import TaskCard from '@/app/components/tasklist/TaskCard';
 import { useTasksQuery } from '@/app/lib/task/getTask';
-import { Task } from '@/app/types/task';
+import { useAppDispatch, useAppSelector } from '@/app/stores/hooks';
+import selectTasksArray from '@/app/stores/selectors';
+import { setTasks } from '@/app/stores/tasksSlice';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 function TaskCardList({
   groupId = 1771,
@@ -14,8 +17,17 @@ function TaskCardList({
   taskListId: number;
   date: string;
 }) {
+  const dispatch = useAppDispatch();
   const { data, isLoading, error } = useTasksQuery(groupId, taskListId, date);
   const router = useRouter();
+
+  const tasks = useAppSelector(selectTasksArray);
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setTasks(data));
+    }
+  }, [data, dispatch]);
 
   const handleCardClick = (taskId: number) => {
     router.push(
@@ -24,6 +36,13 @@ function TaskCardList({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent, taskId: number) => {
+    if (
+      e.target instanceof HTMLInputElement ||
+      e.target instanceof HTMLTextAreaElement
+    ) {
+      return;
+    }
+
     if (e.key === 'Enter' || e.key === ' ') {
       handleCardClick(taskId);
       e.preventDefault();
@@ -38,14 +57,14 @@ function TaskCardList({
     return <div>error</div>;
   }
 
-  if (!data || data.length === 0) {
+  if (!tasks || tasks.length === 0) {
     return <div>아직 할 일이 없습니다. 할 일을 추가해보세요.</div>;
   }
 
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-4">
-        {data.map((task: Task) => (
+        {tasks.map((task) => (
           <div
             key={task.id}
             role="button"
@@ -54,7 +73,7 @@ function TaskCardList({
             onKeyDown={(e) => handleKeyDown(e, task.id)}
             className="cursor-pointer rounded-[0.5rem] border border-transparent transition-all duration-200 ease-in-out hover:border-background-inverse"
           >
-            <TaskCard task={task} />
+            <TaskCard taskId={task.id} />
           </div>
         ))}
       </div>

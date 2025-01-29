@@ -1,6 +1,7 @@
 import { useDeleteTaskMutation } from '@/app/lib/task/deleteTask';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/app/stores/hooks';
 import Button from '../common/button/Button';
 import Modal from '../common/modal/Modal';
 import IconAlert from '../icons/IconAlert';
@@ -11,7 +12,6 @@ interface DeleteTaskModalProps {
   groupId: number;
   taskListId: number;
   taskId: number;
-  taskName: string;
 }
 export default function DeleteTaskModal({
   isOpen,
@@ -19,9 +19,9 @@ export default function DeleteTaskModal({
   groupId,
   taskListId,
   taskId,
-  taskName,
 }: DeleteTaskModalProps) {
   const queryClient = useQueryClient();
+  const task = useAppSelector((state) => state.tasks.tasks[taskId]);
   const router = useRouter();
   const deleteTaskMutation = useDeleteTaskMutation(groupId, taskListId, taskId);
 
@@ -56,7 +56,7 @@ export default function DeleteTaskModal({
       <Modal isOpen={isOpen} closeModal={onClose}>
         <div className="flex flex-col items-center gap-2 text-center">
           <IconAlert />
-          <p className="mt-2 text-xl text-text-primary">{`'${taskName}'`}</p>
+          <p className="mt-2 text-xl text-text-primary">{`'${task.name}'`}</p>
           <p className="text-lg text-text-primary">
             할 일을 정말 삭제하시겠어요?
           </p>
