@@ -77,9 +77,17 @@ export default function TaskCard({ taskId }: { taskId: number }) {
           >
             {doneAt ? <IconCheckBox /> : <IconUncheckBox />}
           </span>
-          <h3 className={clsx('pr-1 text-md', { 'line-through': !!doneAt })}>
+          <span
+            className={clsx('cursor-pointer pr-1 text-md', {
+              'line-through': !!doneAt,
+            })}
+            onClick={toggleDone}
+            onKeyDown={handleKeyDown}
+            role="button"
+            tabIndex={0}
+          >
             {name}
-          </h3>
+          </span>
           <p className="ml-auto flex items-center gap-1 text-xs text-text-default sm:ml-2">
             <IconComment />
             {commentCount}
