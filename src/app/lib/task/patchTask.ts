@@ -6,7 +6,7 @@ interface PatchTaskRequest {
   taskListId: number;
   taskId: number;
   name?: string;
-  description?: string;
+  description?: string | null;
   done?: boolean;
 }
 
