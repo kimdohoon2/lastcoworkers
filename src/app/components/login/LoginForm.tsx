@@ -8,7 +8,7 @@ import { FormData } from '@/app/types/AuthType';
 import useSignIn from '@/app/hooks/useSignIn';
 import useModal from '@/app/hooks/useModal';
 import QuickLogin from '@/app/components/login/QuickLogin';
-import ResetPasswordModal from './ResetPasswordModal';
+import ResetPasswordModal from '@/app/components/login/ResetPasswordModal';
 
 export default function LoginComponent() {
   const { isOpen, openModal, closeModal } = useModal();
