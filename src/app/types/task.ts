@@ -13,7 +13,7 @@ interface BaseTask {
   description: string;
   frequency: FrequencyType;
   date: string;
-  doneAt: string;
+  doneAt: string | null;
   updatedAt: string;
   deletedAt: string;
   displayIndex: number;
