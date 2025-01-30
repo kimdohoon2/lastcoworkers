@@ -5,7 +5,7 @@ import { useTasksQuery } from '@/app/lib/task/getTask';
 import { useAppDispatch, useAppSelector } from '@/app/stores/hooks';
 import selectTasksArray from '@/app/stores/selectors';
 import { setTasks } from '@/app/stores/tasksSlice';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 function TaskCardList({
@@ -20,7 +20,9 @@ function TaskCardList({
   const dispatch = useAppDispatch();
   const { data, isLoading, error } = useTasksQuery(groupId, taskListId, date);
   const router = useRouter();
+  const params = useParams();
 
+  const teamid = params.teamid as string;
   const tasks = useAppSelector(selectTasksArray);
 
   useEffect(() => {
@@ -29,10 +31,8 @@ function TaskCardList({
     }
   }, [data, dispatch]);
 
-  const handleCardClick = (taskId: number) => {
-    router.push(
-      `/group/${groupId}/task-lists/${taskListId}/task?taskId=${taskId}`,
-    );
+  const handleCardClick = (taskid: number) => {
+    router.push(`/${teamid}/${taskid}`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent, taskId: number) => {
