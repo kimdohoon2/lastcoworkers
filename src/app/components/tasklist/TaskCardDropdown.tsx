@@ -14,7 +14,7 @@ export default function TaskCardMenu() {
 
   return (
     <>
-      <Dropdown onClose={closeDropdown} className="z-40">
+      <Dropdown onClose={closeDropdown}>
         <DropdownToggle onClick={toggleDropdown}>
           <TaskCardDropdown />
         </DropdownToggle>

@@ -37,7 +37,7 @@ interface TaskAdditionalInfo {
 }
 
 interface RecurringTaskData {
-  name: string;
+  name?: string;
   description?: string | null;
   startDate?: string;
 }
@@ -69,7 +69,7 @@ type RecurringTaskDataBody =
 interface PostTaskRequest {
   groupId: number;
   taskListId: number;
-  data: RecurringTaskData;
+  data: RecurringTaskDataBody;
 }
 
 export type { Task, RecurringTaskData, RecurringTaskDataBody, PostTaskRequest };

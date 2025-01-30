@@ -1,5 +1,7 @@
 import { RecurringTaskDataBody } from '@/app/types/task';
-import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
+
+import instance from '../instance';
 
 export interface PostRecurringTaskRequest {
   groupId: number;
@@ -13,11 +15,22 @@ export const createRecurringTask = async ({
   taskListId,
   data,
 }: PostRecurringTaskRequest) => {
-  const res = await axios.post(
+  const res = await instance.post(
     `/groups/${groupId}/task-lists/${taskListId}/recurring`,
     data,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ACCESS_TOKEN}`,
+      },
+    },
   );
   return res.data;
+};
+
+export const useCreateRecurringTaskMutation = () => {
+  return useMutation({
+    mutationFn: createRecurringTask,
+  });
 };
 
 export default createRecurringTask;

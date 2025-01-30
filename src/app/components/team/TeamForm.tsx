@@ -1,20 +1,35 @@
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import Button from '@/app/components/common/button/Button';
 import Input from '@/app/components/common/input/Input';
-import ProfileUploader from '@/app/components/addteam/ProfileUploader';
+import ProfileUploader from '@/app/components/team/ProfileUploader';
+import { PropsWithChildren, useEffect } from 'react';
 
 interface TeamFormProps {
+  initialImage?: string;
+  initialName?: string;
   onSubmit: (data: FieldValues) => Promise<void>;
 }
 
-function TeamForm({ onSubmit }: TeamFormProps) {
-  const method = useForm();
-  const { register, handleSubmit } = method;
+function TeamForm({
+  children,
+  initialImage,
+  initialName,
+  onSubmit,
+}: PropsWithChildren<TeamFormProps>) {
+  const method = useForm<FieldValues>({
+    defaultValues: { image: initialImage, name: initialName },
+  });
+  const { register, handleSubmit, setValue } = method;
+
+  useEffect(() => {
+    setValue('image', initialImage);
+    setValue('name', initialName);
+  }, [initialImage, initialName, setValue]);
 
   return (
     <FormProvider {...method}>
       <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
-        <ProfileUploader register={register} />
+        <ProfileUploader initialImage={initialImage} register={register} />
         <Input
           name="name"
           title="팀 이름"
@@ -41,7 +56,7 @@ function TeamForm({ onSubmit }: TeamFormProps) {
         className="mt-10 w-full text-white"
         onClick={handleSubmit(onSubmit)}
       >
-        생성하기
+        {children}
       </Button>
     </FormProvider>
   );
