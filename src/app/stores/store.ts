@@ -5,6 +5,8 @@ import { persistStore, persistReducer } from 'redux-persist';
 import { combineReducers } from 'redux';
 import authReducer from '@/app/stores/auth/authSlice';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
+import tasksReducer from '@/app/stores/tasksSlice';
+
 
 const createNoopStorage = () => {
   return {
@@ -34,6 +36,7 @@ const rootPersistConfig = {
 // 리듀서 결합
 const rootReducer = combineReducers({
   auth: authReducer,
+  tasks: tasksReducer, // tasksReducer 추가
 });
 
 // Persist 리듀서 생성
