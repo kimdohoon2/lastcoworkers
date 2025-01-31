@@ -7,11 +7,13 @@ import VerticalBar from '../icons/VerticalBar';
 interface DateRepeatInfoProps {
   date?: string;
   frequency?: FrequencyType;
+  startDate?: string;
 }
 
 export default function DateRepeatInfo({
   date,
   frequency,
+  startDate,
 }: DateRepeatInfoProps) {
   const dateRepeat =
     frequency === FrequencyType.DAILY
@@ -28,6 +30,8 @@ export default function DateRepeatInfo({
         <TaskCardCalendar />
         <span className="text-xs text-text-default">{formatDate(date)}</span>
       </div>
+      <VerticalBar />
+      <span className="text-xs text-text-default">{startDate}</span>
       <VerticalBar />
       <div className="flex items-center gap-1.5">
         <IconRepeat />

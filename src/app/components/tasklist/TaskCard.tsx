@@ -20,10 +20,11 @@ export default function TaskCard({ taskId }: { taskId: number }) {
     return null;
   }
 
-  const { name, commentCount, doneAt, date, frequency } = task;
+  const { name, commentCount, doneAt, date, frequency, recurring } = task;
 
   const groupId = 1771;
   const taskListId = 2874;
+  const startDate = recurring?.startDate;
 
   const toggleDone = (e: React.MouseEvent | React.KeyboardEvent) => {
     e.stopPropagation();
@@ -95,7 +96,7 @@ export default function TaskCard({ taskId }: { taskId: number }) {
         </div>
         <TaskCardMenu taskId={taskId} />
       </div>
-      <DateRepeatInfo date={date} frequency={frequency} />
+      <DateRepeatInfo date={date} frequency={frequency} startDate={startDate} />
     </div>
   );
 }

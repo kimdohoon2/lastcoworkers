@@ -33,7 +33,9 @@ function TaskDetail({ groupId, taskListId, taskId }: TaskDetailProps) {
     return <p>데이터가 존재하지 않습니다.</p>;
   }
 
-  const { name, doneAt, date, frequency, description, writer } = task;
+  const { name, doneAt, date, frequency, description, writer, recurring } =
+    task;
+  const startDate = recurring?.startDate;
 
   const buttonPosition =
     'fixed bottom-6 right-4 tablet:bottom-5 tablet:right-6 xl:bottom-10 xl:right-10';
@@ -66,7 +68,11 @@ function TaskDetail({ groupId, taskListId, taskId }: TaskDetailProps) {
               {date ? formatDateShort(date) : '날짜 없음'}
             </p>
           </div>
-          <DateRepeatInfo date={date} frequency={frequency} />
+          <DateRepeatInfo
+            date={date}
+            frequency={frequency}
+            startDate={startDate}
+          />
         </div>
 
         <p className="mt-3 break-words">{description}</p>
