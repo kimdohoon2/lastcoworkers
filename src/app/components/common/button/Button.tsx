@@ -17,7 +17,7 @@ export interface ButtonProps {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   className?: string;
-  type?: 'reset' | 'button' | 'submit' | undefined;
+  type?: 'reset' | 'button' | 'submit';
 }
 
 function Button({
