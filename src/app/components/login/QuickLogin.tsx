@@ -43,7 +43,7 @@ export default function QuickLogin() {
           >
             <div className="absolute left-1/2 top-1/2 h-[1.375rem] w-[1.625rem] -translate-x-1/2 -translate-y-1/2 transform">
               <Image
-                className="h-full w-full object-cover"
+                className="h-full w-full"
                 src="/icons/kakao.png"
                 alt="kakao"
                 width={26}
