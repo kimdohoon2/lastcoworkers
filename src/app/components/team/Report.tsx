@@ -74,18 +74,26 @@ export default function Report({ taskLists }: ReportProps) {
           </div>
           <div>
             <div className="flex flex-col gap-4">
-              <div className="h-20 w-[8.875rem] rounded-xl bg-background-tertiary tablet:w-[17.5rem] xl:w-[25rem]">
-                <span className="text-xs font-medium text-text-secondary">
-                  오늘의 할 일
-                </span>
-                <span>{totalTasks}개</span>
+              <div className="flex h-20 w-[8.875rem] items-center justify-between rounded-xl bg-background-tertiary px-4 tablet:w-[17.5rem] xl:w-[25rem]">
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-medium text-text-secondary">
+                    오늘의 할 일
+                  </span>
+                  <span className="text-2xl font-bold text-brand-tertiary">
+                    {totalTasks}개
+                  </span>
+                </div>
                 <IconReportTodo />
               </div>
-              <div className="h-20 w-[8.875rem] rounded-xl bg-background-tertiary tablet:w-[17.5rem] xl:w-[25rem]">
-                <span className="text-xs font-medium text-text-secondary">
-                  한 일
-                </span>
-                <span>{completedTasks}개</span>
+              <div className="flex h-20 w-[8.875rem] items-center justify-between rounded-xl bg-background-tertiary px-4 tablet:w-[17.5rem] xl:w-[25rem]">
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-medium text-text-secondary">
+                    한 일
+                  </span>
+                  <span className="text-2xl font-bold text-brand-tertiary">
+                    {completedTasks}개
+                  </span>
+                </div>
                 <IconReportDone />
               </div>
             </div>
