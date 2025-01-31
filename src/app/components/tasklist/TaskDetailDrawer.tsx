@@ -21,7 +21,7 @@ function TaskDetailDrawer({ isOpen, onClose }: TaskDetailDrawerProps) {
 
   const closeDrawer = () => {
     setShouldRender(false);
-    setTimeout(onClose, 500);
+    setTimeout(onClose, 300);
   };
 
   useClickOutside(drawerRef, () => closeDrawer());
@@ -44,7 +44,7 @@ function TaskDetailDrawer({ isOpen, onClose }: TaskDetailDrawerProps) {
             animate={{ x: 0, transition: { duration: 0.3, ease: 'easeOut' } }}
             exit={{
               x: '100%',
-              transition: { duration: 0.5, ease: 'easeInOut' },
+              transition: { duration: 0.3, ease: 'easeInOut' },
             }}
             className="fixed right-0 top-[3.75rem] z-30 h-full w-[23.4375rem] border border-[rgba(248,250,252,0.1)] bg-background-secondary md:w-[27.1875rem] xl:w-[48.6875rem]"
             onAnimationComplete={() => {
