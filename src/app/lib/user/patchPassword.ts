@@ -1,5 +1,10 @@
 import instance from '../instance';
 
+export interface PatchPasswordRequest {
+  passwordConfirmation: string;
+  password: string;
+}
+
 export interface PatchPasswordResponse {
   message: string;
 }
