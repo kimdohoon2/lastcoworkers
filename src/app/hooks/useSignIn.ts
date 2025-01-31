@@ -1,3 +1,4 @@
+import { isAxiosError } from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import postSignInApi from '@/app/lib/auth/postSignInApi';
 import { useDispatch } from 'react-redux';
@@ -19,8 +20,12 @@ const useSignIn = () => {
       // 메인 페이지로 리디렉션
       router.push('/');
     },
-    onError: (error: Error) => {
-      alert(error.message);
+    onError: (error: unknown) => {
+      if (isAxiosError(error) && error.response) {
+        alert(error.response.data?.message || '로그인에 실패했습니다.');
+      } else {
+        alert('로그인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+      }
     },
   });
 };

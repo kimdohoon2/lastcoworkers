@@ -7,7 +7,8 @@ import Button from '@/app/components/common/button/Button';
 import { FormData } from '@/app/types/AuthType';
 import useSignIn from '@/app/hooks/useSignIn';
 import useModal from '@/app/hooks/useModal';
-import ResetPasswordModal from './ResetPasswordModal';
+import QuickLogin from '@/app/components/login/QuickLogin';
+import ResetPasswordModal from '@/app/components/login/ResetPasswordModal';
 
 export default function LoginComponent() {
   const { isOpen, openModal, closeModal } = useModal();
@@ -89,6 +90,7 @@ export default function LoginComponent() {
             가입하기
           </Link>
         </div>
+        <QuickLogin />
       </div>
       <ResetPasswordModal isOpen={isOpen} closeModal={closeModal} />
     </>
