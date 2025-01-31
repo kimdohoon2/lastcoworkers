@@ -95,7 +95,11 @@ function TaskCardList({
         ))}
       </div>
       {isDrawerOpen && selectedTaskId !== null && (
-        <TaskDetailDrawer isOpen={isDrawerOpen} onClose={closeDrawer} />
+        <TaskDetailDrawer
+          isOpen={isDrawerOpen}
+          onClose={closeDrawer}
+          taskId={selectedTaskId}
+        />
       )}
     </div>
   );

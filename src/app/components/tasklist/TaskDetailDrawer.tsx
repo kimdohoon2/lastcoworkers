@@ -3,13 +3,15 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import useClickOutside from '@/app/hooks/useClickOutside';
 import { useEffect, useRef, useState } from 'react';
+import TaskDetail from './TaskDetail';
 
 interface TaskDetailDrawerProps {
   isOpen: boolean;
   onClose: () => void;
+  taskId: number | undefined;
 }
 
-function TaskDetailDrawer({ isOpen, onClose }: TaskDetailDrawerProps) {
+function TaskDetailDrawer({ isOpen, onClose, taskId }: TaskDetailDrawerProps) {
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const [shouldRender, setShouldRender] = useState(isOpen);
 
@@ -51,12 +53,7 @@ function TaskDetailDrawer({ isOpen, onClose }: TaskDetailDrawerProps) {
               if (!shouldRender) onClose();
             }}
           >
-            <div className="flex flex-col gap-4 p-4 tablet:p-6 xl:p-10">
-              <button onClick={closeDrawer} className="text-left">
-                ✖
-              </button>
-              <p>할 일 정보 상세 내용 들어올 예정</p>
-            </div>
+            <TaskDetail taskId={taskId} />
           </motion.div>
         </>
       )}

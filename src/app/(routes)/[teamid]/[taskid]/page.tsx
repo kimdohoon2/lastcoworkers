@@ -23,7 +23,13 @@ function TaskDetailPage() {
     router.push(`/${teamid}/tasklist`);
   };
 
-  return <TaskDetailDrawer isOpen={isDrawerOpen} onClose={closeDrawer} />;
+  return (
+    <TaskDetailDrawer
+      isOpen={isDrawerOpen}
+      onClose={closeDrawer}
+      taskId={taskid ? Number(taskid) : undefined}
+    />
+  );
 }
 
 export default TaskDetailPage;
