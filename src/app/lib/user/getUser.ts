@@ -4,7 +4,7 @@ export interface GetUserResponse {
   teamId: string;
   image: string;
   nickname: string;
-  updateAt: string;
+  updatedAt: string;
   createdAt: string;
   email: string;
   id: number;
