@@ -72,6 +72,7 @@ function TaskDetail({ groupId, taskListId, taskId }: TaskDetailProps) {
             date={date}
             frequency={frequency}
             startDate={startDate}
+            showStartDate
           />
         </div>
 

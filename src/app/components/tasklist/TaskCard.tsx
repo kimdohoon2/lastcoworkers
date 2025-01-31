@@ -96,7 +96,12 @@ export default function TaskCard({ taskId }: { taskId: number }) {
         </div>
         <TaskCardMenu taskId={taskId} />
       </div>
-      <DateRepeatInfo date={date} frequency={frequency} startDate={startDate} />
+      <DateRepeatInfo
+        date={date}
+        frequency={frequency}
+        startDate={startDate}
+        showStartDate={false}
+      />
     </div>
   );
 }
