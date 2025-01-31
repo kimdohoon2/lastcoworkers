@@ -8,7 +8,6 @@ interface GetGroupRequest {
 // 그룹 조회
 const getGroup = async ({ id }: GetGroupRequest): Promise<GroupResponse> => {
   const res = await instance.get<GroupResponse>(`/groups/${id}`);
-
   return res.data;
 };
 

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { store } from '@/app/stores/store';
 
 const TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTM3OSwidGVhbUlkIjoiMTEtOCIsInNjb3BlIjoiYWNjZXNzIiwiaWF0IjoxNzM4MzI3NjczLCJleHAiOjE3MzgzMzEyNzMsImlzcyI6InNwLWNvd29ya2VycyJ9.ZdSg9Irizstl2RgrPKDHkYi6oQarJQwW5R9IdkLxQnE';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTM3OSwidGVhbUlkIjoiMTEtOCIsInNjb3BlIjoiYWNjZXNzIiwiaWF0IjoxNzM4MzMyNTUyLCJleHAiOjE3MzgzMzYxNTIsImlzcyI6InNwLWNvd29ya2VycyJ9.rYQDBurSjQ3b5GET_McvCx7TZU_72xK88iNqV_35jSU';
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
   headers: {
