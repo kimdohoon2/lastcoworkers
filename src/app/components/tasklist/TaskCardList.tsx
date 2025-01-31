@@ -6,7 +6,8 @@ import { useAppDispatch, useAppSelector } from '@/app/stores/hooks';
 import selectTasksArray from '@/app/stores/selectors';
 import { setTasks } from '@/app/stores/tasksSlice';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import TaskDetailDrawer from './TaskDetailDrawer';
 
 function TaskCardList({
   groupId = 1771,
@@ -25,6 +26,9 @@ function TaskCardList({
   const teamid = params.teamid as string;
   const tasks = useAppSelector(selectTasksArray);
 
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
+
   useEffect(() => {
     if (data) {
       dispatch(setTasks(data));
@@ -33,6 +37,16 @@ function TaskCardList({
 
   const handleCardClick = (taskid: number) => {
     router.push(`/${teamid}/${taskid}`);
+  };
+
+  const openDrawer = (taskid: number) => {
+    setSelectedTaskId(taskid);
+    setIsDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+    setTimeout(() => setSelectedTaskId(null), 300);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent, taskId: number) => {
@@ -72,7 +86,7 @@ function TaskCardList({
             key={task.id}
             role="button"
             tabIndex={0}
-            onClick={() => handleCardClick(task.id)}
+            onClick={() => openDrawer(task.id)}
             onKeyDown={(e) => handleKeyDown(e, task.id)}
             className="cursor-pointer rounded-[0.5rem] border border-transparent transition-all duration-200 ease-in-out hover:border-background-inverse"
           >
@@ -80,6 +94,9 @@ function TaskCardList({
           </div>
         ))}
       </div>
+      {isDrawerOpen && selectedTaskId !== null && (
+        <TaskDetailDrawer isOpen={isDrawerOpen} onClose={closeDrawer} />
+      )}
     </div>
   );
 }

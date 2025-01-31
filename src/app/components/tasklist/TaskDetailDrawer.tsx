@@ -3,12 +3,12 @@
 import useClickOutside from '@/app/hooks/useClickOutside';
 import { useRef } from 'react';
 
-interface TaskDetailProps {
+interface TaskDetailDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-function TaskDetailDrawer({ isOpen, onClose }: TaskDetailProps) {
+function TaskDetailDrawer({ isOpen, onClose }: TaskDetailDrawerProps) {
   const drawerRef = useRef<HTMLDivElement | null>(null);
 
   useClickOutside(drawerRef, onClose);
@@ -29,6 +29,7 @@ function TaskDetailDrawer({ isOpen, onClose }: TaskDetailProps) {
           <button onClick={onClose} className="text-left">
             ✖
           </button>
+
           <p>할 일 정보 상세 내용 들어올 예정</p>
         </div>
       </div>
