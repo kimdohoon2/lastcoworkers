@@ -30,7 +30,7 @@ export default function CustomCalendar({
         nextLabel={<CalendarNextArrow />}
         minDetail="month"
         locale="en-US"
-        className="absolute left-10 z-10"
+        className="z-20"
       />
     </>
   );

@@ -12,7 +12,7 @@ function TestPage() {
   };
 
   return (
-    <div className="flex flex-col gap-20 p-8">
+    <div className="mt-24 flex flex-col gap-20 p-8">
       <div className="flex items-start gap-5">
         <div className="flex gap-4">
           <div className="flex flex-col gap-2">

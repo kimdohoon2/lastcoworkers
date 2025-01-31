@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 import getGroup from '@/app/lib/group/getGroup';
 import TeamHeader from '@/app/components/team/TeamHeader';
+import TodoList from '@/app/components/team/TodoList';
 
 import MemberContainer from '@/app/components/team/MemberContainer';
 
@@ -11,17 +12,18 @@ export default function TeamPage() {
   // URL에서 teamId 가져오기
   const pathname = usePathname();
   const teamId = pathname?.split('/').filter(Boolean).pop();
-  const id = teamId ? Number(teamId) : undefined;
+  const groupId = teamId ? Number(teamId) : undefined;
 
-  // React Query를 이용한 데이터 가져오기
+  // 그룹 정보 가져오기
   const {
     data: groupData,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ['group', id],
-    queryFn: () => (id ? getGroup({ id }) : Promise.reject('No ID provided')),
-    enabled: !!id,
+    queryKey: ['group', groupId],
+    queryFn: () =>
+      groupId ? getGroup({ id: groupId }) : Promise.reject('No ID provided'),
+    enabled: !!groupId,
     staleTime: 5 * 60 * 1000,
   });
 
@@ -37,6 +39,7 @@ export default function TeamPage() {
     <div className="box-border h-full w-full px-4">
       <TeamHeader groupName={groupData?.name || '그룹 이름 없음'} />
       <MemberContainer members={groupData?.members || []} />
+      <TodoList taskLists={groupData?.taskLists} groupId={groupId!} />
     </div>
   );
 }

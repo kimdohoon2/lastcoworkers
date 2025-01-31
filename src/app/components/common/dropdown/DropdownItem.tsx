@@ -3,7 +3,7 @@ import { PropsWithChildren } from 'react';
 interface DropdownItemProps {
   className?: string;
   onClick: () => void; // 아이템 클릭시 실행 함수
-  onClose: () => void; // 아이템 클릭 후 드롭다운을 닫는 함수
+  onClose?: () => void; // 아이템 클릭 후 드롭다운을 닫는 함수
 }
 
 export default function DropdownItem({
@@ -15,10 +15,11 @@ export default function DropdownItem({
   return (
     <li className="list-none">
       <button
+        type="button"
         onClick={(e) => {
           e.stopPropagation();
           onClick();
-          onClose();
+          if (onClose) onClose();
         }}
         className={`w-full truncate px-4 py-3 text-center text-md font-normal text-text-primary hover:bg-background-tertiary ${className}`}
       >
