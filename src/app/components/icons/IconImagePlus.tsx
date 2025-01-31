@@ -1,6 +1,7 @@
-export default function IconImagePlus() {
+export default function IconImagePlus({ className }: { className?: string }) {
   return (
     <svg
+      className={className}
       width="24"
       height="25"
       viewBox="0 0 24 25"
