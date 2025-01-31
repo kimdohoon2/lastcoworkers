@@ -24,12 +24,12 @@ export default function GoogleCallback() {
 
       const handleGoogleCallback = async () => {
         try {
-          const response = await postProviderApi({
-            redirectUri: GOOGLE_REDIRECT_URI,
+          const response = await postProviderApi('GOOGLE', {
+            state: '',
+            redirectUri: GOOGLE_REDIRECT_URI || '',
             token: code,
-            provider: 'GOOGLE',
           });
-          console.log('Response:', response);
+          console.log('KAKAO Response:', response);
 
           if (response) {
             dispatch(setCredentials(response));
@@ -37,7 +37,7 @@ export default function GoogleCallback() {
           }
         } catch (error) {
           console.error('소셜 로그인 오류:', error);
-          alert('로그인에 실패했습니다.');
+          alert('구글은 현재 정책상 로그인이 불가능합니다.');
           router.push('/login');
         }
       };
