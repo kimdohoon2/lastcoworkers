@@ -1,5 +1,5 @@
 import { FrequencyType } from '@/app/types/task';
-import formatDate from '@/app/utils/formatDate';
+import { formatDate } from '@/app/utils/formatDate';
 import IconRepeat from '../icons/IconRepeat';
 import TaskCardCalendar from '../icons/TaskCardCalendar';
 import VerticalBar from '../icons/VerticalBar';
