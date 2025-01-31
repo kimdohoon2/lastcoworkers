@@ -36,6 +36,7 @@ function TaskDetail({ groupId, taskListId, taskId }: TaskDetailProps) {
   const { name, doneAt, date, frequency, description, writer, recurring } =
     task;
   const startDate = recurring?.startDate;
+  const createDate = recurring?.createdAt;
 
   const buttonPosition =
     'fixed bottom-6 right-4 tablet:bottom-5 tablet:right-6 xl:bottom-10 xl:right-10';
@@ -64,9 +65,7 @@ function TaskDetail({ groupId, taskListId, taskId }: TaskDetailProps) {
               {writer.image ? writer.image : <TaskDetailProfile />}
               <p className="text-md">{writer.nickname}</p>
             </div>
-            <p className="text-text-secondary">
-              {date ? formatDateShort(date) : '날짜 없음'}
-            </p>
+            <p className="text-text-secondary">{formatDateShort(createDate)}</p>
           </div>
           <DateRepeatInfo
             date={date}
