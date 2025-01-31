@@ -24,10 +24,10 @@ export default function KaKaoCallback() {
 
       const handleKaKaoCallback = async () => {
         try {
-          const response = await postProviderApi({
-            redirectUri: KAKAO_REDIRECT_URI,
+          const response = await postProviderApi('KAKAO', {
+            state: '',
+            redirectUri: KAKAO_REDIRECT_URI || '',
             token: code,
-            provider: 'KAKAO',
           });
           console.log('Response:', response);
 
