@@ -27,6 +27,8 @@ function TaskDetailPage() {
     <TaskDetailDrawer
       isOpen={isDrawerOpen}
       onClose={closeDrawer}
+      groupId={1771}
+      taskListId={Number(teamid)}
       taskId={taskid ? Number(taskid) : undefined}
     />
   );

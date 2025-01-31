@@ -8,10 +8,18 @@ import TaskDetail from './TaskDetail';
 interface TaskDetailDrawerProps {
   isOpen: boolean;
   onClose: () => void;
+  groupId: number;
+  taskListId: number;
   taskId: number | undefined;
 }
 
-function TaskDetailDrawer({ isOpen, onClose, taskId }: TaskDetailDrawerProps) {
+function TaskDetailDrawer({
+  isOpen,
+  onClose,
+  groupId,
+  taskListId,
+  taskId,
+}: TaskDetailDrawerProps) {
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const [shouldRender, setShouldRender] = useState(isOpen);
 
@@ -53,7 +61,11 @@ function TaskDetailDrawer({ isOpen, onClose, taskId }: TaskDetailDrawerProps) {
               if (!shouldRender) onClose();
             }}
           >
-            <TaskDetail taskId={taskId} />
+            <TaskDetail
+              groupId={groupId}
+              taskListId={taskListId}
+              taskId={taskId}
+            />
           </motion.div>
         </>
       )}
