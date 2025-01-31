@@ -1,7 +1,5 @@
-'use client';
-
-import Button from '@/app/components/common/button/Button';
 import Image from 'next/image';
+import Link from 'next/link';
 
 function Page() {
   return (
@@ -18,15 +16,18 @@ function Page() {
         <br />
         팀을 생성하거나 팀에 참여해보세요.
       </div>
-      <Button className="mb-2 w-[11.625rem] text-md font-semibold">
+      <Link
+        href="/addteam"
+        className="mb-2 flex h-12 w-[11.625rem] items-center justify-center rounded-xl bg-brand-primary text-md font-semibold"
+      >
         팀 생성하기
-      </Button>
-      <Button
-        className="w-[11.625rem] bg-transparent text-md font-semibold text-brand-primary"
-        variant="inverse"
+      </Link>
+      <Link
+        href="/invitation"
+        className="flex h-12 w-[11.625rem] items-center justify-center rounded-xl border-[1px] border-brand-primary bg-transparent text-md font-semibold text-brand-primary"
       >
         팀 참여하기
-      </Button>
+      </Link>
     </div>
   );
 }
