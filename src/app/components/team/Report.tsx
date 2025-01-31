@@ -1,16 +1,77 @@
-import groupTaskReport from '@/app/utils/groupTaskReport';
-import { GroupTask } from '@/app/types/grouptask';
-import { Pie, PieChart } from 'recharts';
+import React from 'react';
+import { useQueries, UseQueryResult } from '@tanstack/react-query';
+import { PieChart, Pie } from 'recharts';
+import getTaskList, {
+  GetTaskListResponse,
+  Task,
+} from '@/app/lib/group/getTaskList';
 import IconReportTodo from '../icons/IconReportTodo';
 import IconReportDone from '../icons/IconReportDone';
 
 interface ReportProps {
-  taskLists?: GroupTask[];
+  groupId: number;
+  taskLists?: { id: number; name: string }[];
 }
 
-export default function Report({ taskLists }: ReportProps) {
-  const { totalTasks, completedTasks } = groupTaskReport(taskLists ?? []);
+export default function Report({ groupId, taskLists = [] }: ReportProps) {
+  // 오늘 날짜를 'YYYY-MM-DDT00:00:00Z' 형식으로 변환
+  const todayDate = `${new Date()
+    .toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    })
+    .replace(/\. /g, '-')
+    .replace('.', '')}T00:00:00Z`;
 
+  // 모든 taskList에 대한 데이터를 병렬로 요청
+  const taskQueries = useQueries({
+    queries: taskLists.map((taskList) => ({
+      queryKey: ['taskList', groupId, taskList.id],
+      queryFn: (): Promise<GetTaskListResponse> =>
+        getTaskList({ groupId, taskListId: taskList.id, date: todayDate }),
+      staleTime: 5 * 60 * 1000,
+    })),
+  });
+
+  // 로딩 상태 확인
+  if (
+    taskQueries.some(
+      (query: UseQueryResult<GetTaskListResponse>) => query.isLoading,
+    )
+  ) {
+    return <div className="text-white">로딩 중...</div>;
+  }
+
+  // 에러 상태 확인
+  if (
+    taskQueries.some(
+      (query: UseQueryResult<GetTaskListResponse>) => query.isError,
+    )
+  ) {
+    return (
+      <div className="text-red-500">
+        데이터를 불러오는 중 오류가 발생했습니다.
+      </div>
+    );
+  }
+
+  // 총 할 일 개수 및 완료된 할 일 개수 계산
+  const totalTasks = taskQueries.reduce<number>(
+    (acc: number, query: { data?: GetTaskListResponse }) =>
+      acc + (query.data?.tasks.length ?? 0),
+    0,
+  );
+
+  const completedTasks = taskQueries.reduce<number>(
+    (acc: number, query: { data?: GetTaskListResponse }) =>
+      acc +
+      (query.data?.tasks.filter((task: Task) => task.doneAt !== null).length ??
+        0),
+    0,
+  );
+
+  // 진행률 계산
   const completionPercentage =
     totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
 
@@ -20,6 +81,7 @@ export default function Report({ taskLists }: ReportProps) {
       <div className="h-56 w-full rounded-xl bg-background-secondary p-6 xl:h-[13.5625rem]">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-10 xl:gap-16">
+            {/* 원형 차트 */}
             <PieChart width={140} height={140}>
               <svg>
                 <defs>
@@ -56,10 +118,11 @@ export default function Report({ taskLists }: ReportProps) {
                 outerRadius={70}
                 startAngle={270}
                 endAngle={270 + (completionPercentage * 360) / 100}
-                fill="url(#progressGradient)" // SVG 그라디언트 적용
+                fill="url(#progressGradient)"
                 stroke="none"
                 cornerRadius={24}
               />
+              {/* 차트 내부 텍스트 */}
               <text
                 x="50%"
                 y="44%"
@@ -67,7 +130,6 @@ export default function Report({ taskLists }: ReportProps) {
                 fontSize="12"
                 fontWeight="500"
                 fill="#F8FAFC"
-                className="block tablet:hidden"
               >
                 오늘
               </text>
@@ -78,16 +140,13 @@ export default function Report({ taskLists }: ReportProps) {
                 fontSize="20"
                 fontWeight="700"
                 fill="url(#progressGradient)"
-                className="block tablet:hidden"
               >
                 {completionPercentage.toFixed(0)}%
               </text>
             </PieChart>
             <div className="hidden flex-col gap-1 tablet:flex">
               <span className="text-md font-medium text-text-primary">
-                오늘의
-                <br />
-                진행상황
+                오늘의 진행상황
               </span>
               <div className="bg-gradient-to-r from-brand-gradient-from to-brand-gradient-to bg-clip-text text-4xl font-bold text-transparent">
                 {completionPercentage.toFixed(0)}%
@@ -95,6 +154,7 @@ export default function Report({ taskLists }: ReportProps) {
             </div>
           </div>
           <div>
+            {/* 할 일 개수 및 완료된 할 일 표시 */}
             <div className="flex flex-col gap-4">
               <div className="flex h-20 w-[8.875rem] items-center justify-between rounded-xl bg-background-tertiary px-4 tablet:w-[17.5rem] xl:w-[25rem]">
                 <div className="flex flex-col gap-1">

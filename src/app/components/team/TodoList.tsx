@@ -1,17 +1,17 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import getTaskList from '@/app/lib/group/getTaskList';
-import DropdownMenu from './DropdownMenu';
-import Link from 'next/link';
+import { useQueries } from '@tanstack/react-query';
 import { PieChart, Pie } from 'recharts';
+import getTaskList, { Task } from '@/app/lib/group/getTaskList';
+import Link from 'next/link';
 import IconTaskDone from '../icons/IconTaskDone';
+import DropdownMenu from './DropdownMenu';
 
 interface TodoListProps {
   groupId: number;
   taskLists?: { id: number; name: string }[];
 }
 
-const TodoList: React.FC<TodoListProps> = ({ groupId, taskLists }) => {
+function TodoList({ groupId, taskLists = [] }: TodoListProps) {
   const backgroundColors = [
     'bg-point-purple',
     'bg-point-blue',
@@ -22,9 +22,27 @@ const TodoList: React.FC<TodoListProps> = ({ groupId, taskLists }) => {
     'bg-point-yellow',
   ];
 
-  const todayDate = new Date().toISOString().split('T')[0] + 'T00:00:00Z';
+  // 오늘 날짜를 'YYYY-MM-DDT00:00:00Z' 형식으로 변환
+  const todayDate = `${new Date()
+    .toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    })
+    .replace(/\. /g, '-')
+    .replace('.', '')}T00:00:00Z`;
 
-  if (!taskLists || taskLists.length === 0) {
+  // 💡 `useQueries()`는 항상 최상단에서 호출해야 함
+  const taskQueries = useQueries({
+    queries: taskLists.map((taskList) => ({
+      queryKey: ['taskList', groupId, taskList.id],
+      queryFn: () =>
+        getTaskList({ groupId, taskListId: taskList.id, date: todayDate }),
+      staleTime: 5 * 60 * 1000,
+    })),
+  });
+
+  if (taskLists.length === 0) {
     return <div>할 일이 없습니다.</div>;
   }
 
@@ -39,16 +57,7 @@ const TodoList: React.FC<TodoListProps> = ({ groupId, taskLists }) => {
         </button>
       </div>
       {taskLists.map((taskList, index) => {
-        const {
-          data: taskListData,
-          isLoading,
-          error,
-        } = useQuery({
-          queryKey: ['taskList', groupId, taskList.id],
-          queryFn: () =>
-            getTaskList({ groupId, taskListId: taskList.id, date: todayDate }),
-          staleTime: 5 * 60 * 1000,
-        });
+        const { data: taskListData, isLoading, error } = taskQueries[index];
 
         if (isLoading) {
           return (
@@ -85,15 +94,15 @@ const TodoList: React.FC<TodoListProps> = ({ groupId, taskLists }) => {
         }
 
         const completedItems = taskListData.tasks.filter(
-          (task) => task.doneAt !== null,
+          (task: Task) => task.doneAt !== null,
         ).length;
         const totalTasks = taskListData.tasks.length;
         const completionPercentage = (completedItems / totalTasks) * 100;
 
         return (
           <div
-            className="relative mt-4 flex h-10 w-full items-center justify-between rounded-xl bg-background-secondary pl-6 pr-4"
             key={taskList.id}
+            className="relative mt-4 flex h-10 w-full items-center justify-between rounded-xl bg-background-secondary pl-6 pr-4"
           >
             <div
               className={`absolute left-0 h-10 w-3 rounded-l-xl ${backgroundColors[index % backgroundColors.length]}`}
@@ -150,6 +159,6 @@ const TodoList: React.FC<TodoListProps> = ({ groupId, taskLists }) => {
       })}
     </div>
   );
-};
+}
 
 export default TodoList;

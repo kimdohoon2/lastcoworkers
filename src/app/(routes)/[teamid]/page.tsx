@@ -23,7 +23,9 @@ export default function TeamPage() {
   } = useQuery({
     queryKey: ['group', groupId],
     queryFn: () =>
-      groupId ? getGroup({ id: groupId }) : Promise.reject('No ID provided'),
+      groupId
+        ? getGroup({ id: groupId })
+        : Promise.reject(new Error('No ID provided')),
     enabled: !!groupId,
     staleTime: 5 * 60 * 1000,
   });
@@ -41,7 +43,7 @@ export default function TeamPage() {
       <TeamHeader groupName={groupData?.name || '그룹 이름 없음'} />
       <MemberContainer members={groupData?.members || []} />
       <TodoList taskLists={groupData?.taskLists} groupId={groupId!} />
-      <Report taskLists={groupData?.taskLists} />
+      <Report taskLists={groupData?.taskLists} groupId={groupId!} />
     </div>
   );
 }
