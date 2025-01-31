@@ -3,7 +3,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-interface ButtonProps {
+export interface ButtonProps {
   children: React.ReactNode;
   variant?:
     | 'primary'
@@ -17,7 +17,7 @@ interface ButtonProps {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   className?: string;
-  type?: 'button' | 'submit' | 'reset';
+  type?: 'reset' | 'button' | 'submit';
 }
 
 function Button({
@@ -41,17 +41,17 @@ function Button({
      * cancel: 완료 취소하기 버튼
      */
     primary:
-      'bg-brand-primary text-text-default hover:bg-interaction-hover active:bg-interaction-pressed',
+      'bg-brand-primary text-text-primary hover:bg-interaction-hover active:bg-interaction-pressed',
     inverse:
       size === 'small'
         ? 'bg-background-secondary border-brand-primary border-[1px] text-brand-primary hover:border-interaction-hover hover:text-interaction-hover active:border-interaction-pressed active:text-interaction-pressed'
         : 'bg-background-inverse border-brand-primary border-[1px] text-brand-primary hover:border-interaction-hover hover:text-interaction-hover active:border-interaction-pressed active:text-interaction-pressed',
     secondary:
-      'bg-background-inverse text-text-danger border-[1px] border-text-secondary',
+      'bg-background-inverse text-text-default border-[1px] border-text-secondary',
     danger: 'bg-point-red hover:bg-red-600 active:bg-red-700',
-    plus: 'bg-brand-primary text-text-default hover:bg-interaction-hover active:bg-interaction-pressed',
+    plus: 'bg-brand-primary text-text-primary hover:bg-interaction-hover active:bg-interaction-pressed',
     complete:
-      'bg-brand-primary text-text-default hover:bg-interaction-hover active:bg-interaction-pressed',
+      'bg-brand-primary text-text-primary hover:bg-interaction-hover active:bg-interaction-pressed',
     cancel:
       'bg-background-inverse border-brand-primary border-[1px] text-brand-primary hover:border-interaction-hover hover:text-interaction-hover active:border-interaction-pressed active:text-interaction-pressed',
   };
@@ -80,6 +80,7 @@ function Button({
 
   return (
     <button
+      type={type}
       className={clsx(
         baseStyles,
         sizeStyles[size],
@@ -91,7 +92,6 @@ function Button({
       )}
       onClick={onClick}
       disabled={disabled}
-      type={type}
     >
       <span className="flex items-center justify-center gap-1">{children}</span>
     </button>
