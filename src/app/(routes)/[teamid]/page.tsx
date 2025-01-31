@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import getGroup from '@/app/lib/group/getGroup';
 import TeamHeader from '@/app/components/team/TeamHeader';
 import TodoList from '@/app/components/team/TodoList';
+import Report from '@/app/components/team/Report';
 
 export default function TeamPage() {
   // URL에서 teamId 가져오기
@@ -37,6 +38,7 @@ export default function TeamPage() {
     <div className="box-border h-full w-full px-4">
       <TeamHeader groupName={groupData?.name || '그룹 이름 없음'} />
       <TodoList taskLists={groupData?.taskLists} groupId={groupId!} />
+      <Report taskLists={groupData?.taskLists} />
     </div>
   );
 }

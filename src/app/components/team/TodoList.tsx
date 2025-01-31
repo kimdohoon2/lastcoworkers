@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import getTaskList from '@/app/lib/group/getTaskList';
 import DropdownMenu from './DropdownMenu';
 import Link from 'next/link';
-import { PieChart, Pie, Cell } from 'recharts';
+import { PieChart, Pie } from 'recharts';
 import IconTaskDone from '../icons/IconTaskDone';
 
 interface TodoListProps {
