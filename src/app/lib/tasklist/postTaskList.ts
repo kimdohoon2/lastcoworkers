@@ -27,4 +27,5 @@ const createTaskList = async ({
   return res.data;
 };
 
-export default createTaskList;
+export type { PostTaskListRequest, PostTaskListResponse };
+export { createTaskList };

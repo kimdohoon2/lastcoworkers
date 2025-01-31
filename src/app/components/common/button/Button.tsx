@@ -17,6 +17,7 @@ export interface ButtonProps {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   className?: string;
+  type?: 'reset' | 'button' | 'submit';
 }
 
 function Button({
@@ -26,6 +27,7 @@ function Button({
   onClick,
   disabled = false,
   className,
+  type,
 }: ButtonProps) {
   const baseStyles = 'items-center font-semibold justify-center';
 
@@ -78,6 +80,7 @@ function Button({
 
   return (
     <button
+      type={type}
       className={clsx(
         baseStyles,
         sizeStyles[size],
