@@ -1,6 +1,8 @@
 import groupTaskReport from '@/app/utils/groupTaskReport';
 import { GroupTask } from '@/app/types/grouptask';
 import { Pie, PieChart } from 'recharts';
+import IconReportTodo from '../icons/IconReportTodo';
+import IconReportDone from '../icons/IconReportDone';
 
 interface ReportProps {
   taskLists?: GroupTask[];
@@ -77,12 +79,14 @@ export default function Report({ taskLists }: ReportProps) {
                   오늘의 할 일
                 </span>
                 <span>{totalTasks}개</span>
+                <IconReportTodo />
               </div>
               <div className="h-20 w-[8.875rem] rounded-xl bg-background-tertiary tablet:w-[17.5rem] xl:w-[25rem]">
                 <span className="text-xs font-medium text-text-secondary">
                   한 일
                 </span>
                 <span>{completedTasks}개</span>
+                <IconReportDone />
               </div>
             </div>
           </div>
