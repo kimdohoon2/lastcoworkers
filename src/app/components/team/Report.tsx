@@ -60,8 +60,30 @@ export default function Report({ taskLists }: ReportProps) {
                 stroke="none"
                 cornerRadius={24}
               />
+              <text
+                x="50%"
+                y="44%"
+                textAnchor="middle"
+                fontSize="12"
+                fontWeight="500"
+                fill="#F8FAFC"
+                className="block tablet:hidden"
+              >
+                오늘
+              </text>
+              <text
+                x="52%"
+                y="60%"
+                textAnchor="middle"
+                fontSize="20"
+                fontWeight="700"
+                fill="url(#progressGradient)"
+                className="block tablet:hidden"
+              >
+                {completionPercentage.toFixed(0)}%
+              </text>
             </PieChart>
-            <div className="flex flex-col gap-1">
+            <div className="hidden flex-col gap-1 tablet:flex">
               <span className="text-md font-medium text-text-primary">
                 오늘의
                 <br />
