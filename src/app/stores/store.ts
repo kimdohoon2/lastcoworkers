@@ -7,7 +7,6 @@ import authReducer from '@/app/stores/auth/authSlice';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 import tasksReducer from '@/app/stores/tasksSlice';
 
-
 const createNoopStorage = () => {
   return {
     getItem() {
