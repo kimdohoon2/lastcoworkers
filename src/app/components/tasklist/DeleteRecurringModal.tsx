@@ -1,6 +1,6 @@
 import { useDeleteRecurringMutation } from '@/app/lib/task/deleteTask';
 import { useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useAppSelector } from '@/app/stores/hooks';
 import Button from '../common/button/Button';
 import Modal from '../common/modal/Modal';
@@ -23,6 +23,7 @@ export default function DeleteRecurringModal({
   const queryClient = useQueryClient();
   const task = useAppSelector((state) => state.tasks.tasks[taskId]);
   const router = useRouter();
+  const { teamid } = useParams();
   const deleteRecurringMutation = useDeleteRecurringMutation();
 
   const handleDelete = () => {
@@ -40,7 +41,7 @@ export default function DeleteRecurringModal({
           });
 
           onClose();
-          router.push(`/tasklist`);
+          router.push(`/${teamid}/tasklist`);
         },
         onError: (error) => {
           console.error('반복 삭제 실패:', error);
@@ -73,6 +74,7 @@ export default function DeleteRecurringModal({
 
           <div className="mt-5 flex gap-2">
             <Button
+              type="button"
               className="w-[8.5rem] text-text-default"
               variant="secondary"
               size="large"
@@ -84,6 +86,7 @@ export default function DeleteRecurringModal({
               닫기
             </Button>
             <Button
+              type="button"
               className="w-[8.5rem]"
               variant="danger"
               size="large"

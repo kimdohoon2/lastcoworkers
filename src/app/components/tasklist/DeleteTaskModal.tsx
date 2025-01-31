@@ -1,6 +1,6 @@
 import { useDeleteTaskMutation } from '@/app/lib/task/deleteTask';
 import { useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useAppSelector } from '@/app/stores/hooks';
 import Button from '../common/button/Button';
 import Modal from '../common/modal/Modal';
@@ -23,6 +23,7 @@ export default function DeleteTaskModal({
   const queryClient = useQueryClient();
   const task = useAppSelector((state) => state.tasks.tasks[taskId]);
   const router = useRouter();
+  const { teamid } = useParams();
   const deleteTaskMutation = useDeleteTaskMutation(groupId, taskListId, taskId);
 
   const handleDelete = () => {
@@ -33,8 +34,7 @@ export default function DeleteTaskModal({
         });
 
         onClose();
-        // 이후 경로 수정 예정
-        router.push(`/tasklist`);
+        router.push(`/${teamid}/tasklist`);
       },
       onError: (error) => {
         console.error('삭제 실패:', error);
@@ -66,6 +66,7 @@ export default function DeleteTaskModal({
 
           <div className="mt-5 flex gap-2">
             <Button
+              type="button"
               className="w-[8.5rem] text-text-default"
               variant="secondary"
               size="large"
@@ -77,6 +78,7 @@ export default function DeleteTaskModal({
               닫기
             </Button>
             <Button
+              type="button"
               className="w-[8.5rem]"
               variant="danger"
               size="large"
