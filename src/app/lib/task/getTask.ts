@@ -52,7 +52,23 @@ export const getTask = async ({
 }: GetTaskDetailRequest): Promise<Task> => {
   const res = await instance.get<Task>(
     `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ACCESS_TOKEN}`,
+      },
+    },
   );
 
   return res.data;
+};
+
+export const useTaskQuery = (
+  groupId: number,
+  taskListId: number,
+  taskId: number,
+) => {
+  return useQuery({
+    queryKey: ['groups', groupId, 'taskLists', taskListId, 'tasks', taskId],
+    queryFn: () => getTask({ groupId, taskListId, taskId }),
+  });
 };
