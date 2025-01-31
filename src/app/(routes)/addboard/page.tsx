@@ -74,7 +74,7 @@ export default function AddBoard() {
       >
         <div className="flex w-[92%] max-w-[75rem] flex-col">
           <div className="flex items-center justify-between border-b border-text-primary border-opacity-10 pb-6 tablet:pb-8">
-            <h1 className="text-2lg">게시글 쓰기</h1>
+            <h1 className="text-2lg tablet:text-xl">게시글 쓰기</h1>
             <Button
               variant="primary"
               size="large"
@@ -86,7 +86,7 @@ export default function AddBoard() {
           </div>
           <div className="mt-6 flex flex-col gap-8">
             <div>
-              <h2 className="mb-4 flex gap-1.5 text-md">
+              <h2 className="mb-4 flex gap-1.5 text-md tablet:text-lg">
                 <span className="text-brand-tertiary">*</span>제목
               </h2>
               <input
@@ -96,17 +96,19 @@ export default function AddBoard() {
               />
             </div>
             <div>
-              <h3 className="mb-4 flex gap-1.5 text-md">
+              <h3 className="mb-4 flex gap-1.5 text-md tablet:text-lg">
                 <span className="text-brand-tertiary">*</span>내용
               </h3>
               <textarea
                 placeholder="내용을 입력해주세요."
-                className="h-[15rem] w-full rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400"
+                className="h-[15rem] w-full resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400"
                 {...methods.register('content', { required: true })}
               />
             </div>
             <div>
-              <h4 className="mb-4 flex gap-1.5 text-md">이미지</h4>
+              <h4 className="mb-4 flex gap-1.5 text-md tablet:text-lg">
+                이미지
+              </h4>
               <ImageUploader />
             </div>
           </div>
