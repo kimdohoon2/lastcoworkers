@@ -1,8 +1,12 @@
 'use client';
 
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
 import ImageUploader from '@/app/components/addboard/ImageUploader';
 import Button from '@/app/components/common/button/Button';
+import postArticle, { PostArticleRequest } from '@/app/lib/article/postArticle';
+import postImage from '@/app/lib/image/postImage';
+import { useRouter } from 'next/navigation';
 
 interface FormValues {
   title: string;
@@ -13,9 +17,53 @@ interface FormValues {
 export default function AddBoard() {
   const methods = useForm<FormValues>();
   const { handleSubmit } = methods;
+  const router = useRouter();
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log('Form Data:', data);
+  const { mutate: postArticleMutate } = useMutation({
+    mutationFn: async (formData: PostArticleRequest) => postArticle(formData),
+    onSuccess: () => {
+      router.push('/boards');
+    },
+    onError: () => {
+      alert('게시글 등록에 실패했습니다.');
+    },
+  });
+
+  const imageMutation = useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData();
+      formData.append('image', file);
+      return postImage(formData);
+    },
+  });
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    let imageUrl: string | null = null;
+
+    if (data.profile && data.profile.length > 0) {
+      try {
+        const uploadedImage = await imageMutation.mutateAsync(data.profile[0]);
+        imageUrl = uploadedImage.url;
+      } catch {
+        alert('이미지 업로드에 실패했습니다.');
+        return;
+      }
+    }
+
+    const requestBody: PostArticleRequest = {
+      title: data.title,
+      content: data.content,
+    };
+
+    if (imageUrl) {
+      requestBody.image = imageUrl;
+    }
+
+    try {
+      postArticleMutate(requestBody);
+    } catch {
+      alert('게시글 등록에 실패했습니다.');
+    }
   };
 
   return (
@@ -31,6 +79,7 @@ export default function AddBoard() {
               variant="primary"
               size="large"
               className="hidden tablet:flex tablet:w-[11.5rem]"
+              type="submit"
             >
               등록
             </Button>
@@ -43,7 +92,7 @@ export default function AddBoard() {
               <input
                 placeholder="제목을 입력해주세요."
                 className="w-full rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-3 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400"
-                {...methods.register('title')}
+                {...methods.register('title', { required: true })}
               />
             </div>
             <div>
@@ -53,7 +102,7 @@ export default function AddBoard() {
               <textarea
                 placeholder="내용을 입력해주세요."
                 className="h-[15rem] w-full rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400"
-                {...methods.register('content')}
+                {...methods.register('content', { required: true })}
               />
             </div>
             <div>
@@ -65,6 +114,7 @@ export default function AddBoard() {
             variant="primary"
             size="large"
             className="mt-10 w-full tablet:hidden"
+            type="submit"
           >
             등록
           </Button>

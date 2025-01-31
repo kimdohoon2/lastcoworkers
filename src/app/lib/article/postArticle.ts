@@ -1,5 +1,11 @@
 import instance from '../instance';
 
+export interface PostArticleRequest {
+  title: string;
+  content: string;
+  image?: string;
+}
+
 export interface PostArticleResponse {
   updatedAt: string;
   createdAt: string;
@@ -15,7 +21,9 @@ export interface ArticleWriter {
   id: number;
 }
 
-export default async function postArticle(): Promise<PostArticleResponse> {
-  const { data } = await instance.post<PostArticleResponse>('/articles');
-  return data;
+export default async function postArticle(
+  data: PostArticleRequest,
+): Promise<PostArticleResponse> {
+  const response = await instance.post<PostArticleResponse>('/articles', data);
+  return response.data;
 }
