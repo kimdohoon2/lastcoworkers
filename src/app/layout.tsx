@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import '@/app/styles/globals.css';
 import Header from '@/app/components/common/header/Header';
 import TanStackProvider from '@/app/providers/TanStackProvider';
-import ReduxProvider from './providers/ReduxProvider';
+import ReduxProvider from '@/app/providers/ReduxProvider';
 
 export const metadata: Metadata = {
   title: 'Coworkers',
