@@ -7,7 +7,7 @@ import selectTasksArray from '@/app/stores/selectors';
 import { setTasks } from '@/app/stores/tasksSlice';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import TaskDetailDrawer from './TaskDetailDrawer';
+import TaskDetailDrawer from '../taskdetail/TaskDetailDrawer';
 
 function TaskCardList({
   groupId = 1771,
@@ -98,6 +98,8 @@ function TaskCardList({
         <TaskDetailDrawer
           isOpen={isDrawerOpen}
           onClose={closeDrawer}
+          groupId={groupId}
+          taskListId={taskListId}
           taskId={selectedTaskId}
         />
       )}

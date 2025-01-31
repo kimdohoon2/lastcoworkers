@@ -1,6 +1,6 @@
 'use client';
 
-import TaskDetailDrawer from '@/app/components/tasklist/TaskDetailDrawer';
+import TaskDetailDrawer from '@/app/components/taskdetail/TaskDetailDrawer';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 

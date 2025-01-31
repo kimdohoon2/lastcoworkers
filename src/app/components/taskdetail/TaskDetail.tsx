@@ -1,6 +1,6 @@
 import { useTaskQuery } from '@/app/lib/task/getTask';
 import { formatDateShort } from '@/app/utils/formatDate';
-import DateRepeatInfo from './DateRepeatInfo';
+import DateRepeatInfo from '../tasklist/DateRepeatInfo';
 import Button from '../common/button/Button';
 import IconCheck from '../icons/IconCheck';
 import TaskDetailProfile from '../icons/TaskDetailProfile';
