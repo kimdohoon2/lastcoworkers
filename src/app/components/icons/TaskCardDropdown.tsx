@@ -10,19 +10,19 @@ export default function TaskCardDropdown() {
     >
       <circle
         cx="8"
-        cy="5"
+        cy="4"
         r="1"
         className="fill-[#64748B] group-hover:fill-white"
       />
       <circle
         cx="8"
-        cy="8"
+        cy="7"
         r="1"
         className="fill-[#64748B] group-hover:fill-white"
       />
       <circle
         cx="8"
-        cy="11"
+        cy="10"
         r="1"
         className="fill-[#64748B] group-hover:fill-white"
       />
