@@ -66,7 +66,9 @@ export default function Header() {
               </Link>
             </div>
             {/* 자유게시판 버튼 */}
-            <HeaderBoardButton className="hidden tablet:block" />
+            {isLoggedIn && (
+              <HeaderBoardButton className="hidden tablet:block" />
+            )}
           </div>
           <div>
             {isLoggedIn ? (
