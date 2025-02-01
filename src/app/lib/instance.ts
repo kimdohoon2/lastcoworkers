@@ -1,13 +1,11 @@
 import axios from 'axios';
+import handleTokenRefresh from '@/app/utils/handleTokenRefresh';
 import { store } from '@/app/stores/store';
 
-const TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTM3OSwidGVhbUlkIjoiMTEtOCIsInNjb3BlIjoiYWNjZXNzIiwiaWF0IjoxNzM4MjMxODk5LCJleHAiOjE3MzgyMzU0OTksImlzcyI6InNwLWNvd29ya2VycyJ9.5sAVxOt0B2rKOILvMsE_6L5BoZUm3hlNyGnD8K8OrKM';
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${TOKEN}`,
   },
 });
 
@@ -22,5 +20,15 @@ instance.interceptors.request.use((config) => {
 
   return config;
 });
+
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      return handleTokenRefresh(error.config);
+    }
+    return Promise.reject(error);
+  },
+);
 
 export default instance;
