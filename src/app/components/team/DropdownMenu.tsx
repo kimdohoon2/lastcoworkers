@@ -6,12 +6,15 @@ import TaskCardDropdown from '../icons/TaskCardDropdown';
 import IconGear from '@/app/components/icons/IconGear';
 import useDropdown from '@/app/hooks/useDropdown';
 import clsx from 'clsx';
+import { useParams, useRouter } from 'next/navigation';
 
 interface DropdownMenuProps {
   iconType?: 'gear' | 'task';
 }
 
 export default function DropdownMenu({ iconType = 'gear' }: DropdownMenuProps) {
+  const router = useRouter();
+  const { teamid } = useParams();
   const { isOpen, toggleDropdown, closeDropdown, selectItem } = useDropdown();
 
   const handleItemClick = (item: string) => {
@@ -35,7 +38,7 @@ export default function DropdownMenu({ iconType = 'gear' }: DropdownMenuProps) {
       <DropdownList className="absolute right-4 top-6 w-28" isOpen={isOpen}>
         <DropdownItem
           className="text-center"
-          onClick={() => handleItemClick('수정하기')}
+          onClick={() => router.push(`${teamid}/edit`)}
           onClose={closeDropdown}
         >
           수정하기
