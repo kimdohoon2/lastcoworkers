@@ -19,8 +19,10 @@ const tasksSlice = createSlice({
         ...state,
         tasks: action.payload.reduce(
           (acc, task) => {
-            acc[task.id] = task;
-            return acc;
+            return {
+              ...acc,
+              [task.id]: task,
+            };
           },
           {} as Record<number, Task>,
         ),
