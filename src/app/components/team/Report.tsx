@@ -24,7 +24,6 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
     .replace(/\. /g, '-')
     .replace('.', '')}T00:00:00Z`;
 
-  // 모든 taskList에 대한 데이터를 병렬로 요청
   const taskQueries = useQueries({
     queries: taskLists.map((taskList) => ({
       queryKey: ['taskList', groupId, taskList.id],
@@ -34,21 +33,18 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
     })),
   });
 
-  // 로딩 상태 확인
-  if (
-    taskQueries.some(
-      (query: UseQueryResult<GetTaskListResponse>) => query.isLoading,
-    )
-  ) {
+  const isLoading = taskQueries.some(
+    (query: UseQueryResult<GetTaskListResponse>) => query.isLoading,
+  );
+  const isError = taskQueries.some(
+    (query: UseQueryResult<GetTaskListResponse>) => query.isError,
+  );
+
+  if (isLoading) {
     return <div className="text-white">로딩 중...</div>;
   }
 
-  // 에러 상태 확인
-  if (
-    taskQueries.some(
-      (query: UseQueryResult<GetTaskListResponse>) => query.isError,
-    )
-  ) {
+  if (isError) {
     return (
       <div className="text-red-500">
         데이터를 불러오는 중 오류가 발생했습니다.
@@ -56,7 +52,6 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
     );
   }
 
-  // 총 할 일 개수 및 완료된 할 일 개수 계산
   const totalTasks = taskQueries.reduce<number>(
     (acc: number, query: { data?: GetTaskListResponse }) =>
       acc + (query.data?.tasks.length ?? 0),
@@ -71,7 +66,6 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
     0,
   );
 
-  // 진행률 계산
   const completionPercentage =
     totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
 
@@ -81,7 +75,6 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
       <div className="h-56 w-full rounded-xl bg-background-secondary p-6 xl:h-[13.5625rem]">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-10 xl:gap-16">
-            {/* 원형 차트 */}
             <PieChart width={140} height={140}>
               <svg>
                 <defs>
@@ -122,7 +115,6 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
                 stroke="none"
                 cornerRadius={24}
               />
-              {/* 차트 내부 텍스트 */}
               <text
                 x="50%"
                 y="44%"
@@ -130,6 +122,7 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
                 fontSize="12"
                 fontWeight="500"
                 fill="#F8FAFC"
+                className="block tablet:hidden"
               >
                 오늘
               </text>
@@ -140,6 +133,7 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
                 fontSize="20"
                 fontWeight="700"
                 fill="url(#progressGradient)"
+                className="block tablet:hidden"
               >
                 {completionPercentage.toFixed(0)}%
               </text>
@@ -154,7 +148,6 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
             </div>
           </div>
           <div>
-            {/* 할 일 개수 및 완료된 할 일 표시 */}
             <div className="flex flex-col gap-4">
               <div className="flex h-20 w-[8.875rem] items-center justify-between rounded-xl bg-background-tertiary px-4 tablet:w-[17.5rem] xl:w-[25rem]">
                 <div className="flex flex-col gap-1">
