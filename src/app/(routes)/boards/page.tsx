@@ -42,12 +42,13 @@ export default function BoardsPage() {
           <div className="flex flex-col gap-6 tablet:gap-8 xl:gap-10">
             <h1 className="text-2lg tablet:text-2xl">자유게시판</h1>
             {/* 검색창 */}
-            <div className='className="flex w-full rounded-[12px] border border-[#F8FAFC1A] bg-background-secondary py-3'>
-              <label className="w-full" htmlFor="search">
+            <div className='className="flex w-full overflow-hidden rounded-[12px] border border-[#F8FAFC1A] bg-background-secondary py-3 focus-within:border-transparent'>
+              <label htmlFor="search" className="w-full">
                 <div className="ml-4 flex w-full gap-2">
                   <BoardsSearchIcon />
                   <input
-                    className="w-full bg-transparent"
+                    id="search"
+                    className="w-full bg-transparent focus:placeholder-transparent focus:outline-none"
                     type="text"
                     placeholder="검색어를 입력해주세요"
                   />
@@ -75,10 +76,7 @@ export default function BoardsPage() {
               <h3 className="tablet:text-xl">게시글</h3>
               {/* 드랍다운공통컴퍼넌트사용하기 */}
 
-              <Dropdown
-                className="w-24 tablet:w-[7.5rem]"
-                onClose={closeDropdown}
-              >
+              <Dropdown className="w-24 tablet:w-32" onClose={closeDropdown}>
                 <DropdownToggle className="w-full" onClick={toggleDropdown}>
                   <div className="flex w-full items-center justify-between rounded-xl bg-background-secondary px-2 py-[13.5px] text-xs text-text-primary hover:bg-background-tertiary tablet:px-4 tablet:text-md">
                     {currentItem || '최신순'}
