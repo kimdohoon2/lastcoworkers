@@ -6,11 +6,7 @@ type PostGroupResponse = {
 };
 
 const postGroup = async (data: GroupData): Promise<PostGroupResponse> => {
-  const res = await axios.post<PostGroupResponse>('groups', data, {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_ACCESS_TOKEN}`,
-    },
-  });
+  const res = await axios.post<PostGroupResponse>('groups', data);
 
   return res.data;
 };
