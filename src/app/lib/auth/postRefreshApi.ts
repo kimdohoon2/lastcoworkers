@@ -12,7 +12,7 @@ const postRefreshApi = async (
   refreshTokenRequest: RefreshTokenRequest,
 ): Promise<RefreshTokenResponse> => {
   const response = await instance.post<RefreshTokenResponse>(
-    '/auth/refresh',
+    '/auth/refresh-token',
     refreshTokenRequest,
   );
   return response.data;
