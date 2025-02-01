@@ -4,7 +4,7 @@ function useDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState<string | null>(null);
 
-  const toggleDropdown = (e: React.MouseEvent) => {
+  const toggleDropdown = (e: React.MouseEvent | React.KeyboardEvent) => {
     e.stopPropagation();
     setIsOpen((prev) => !prev);
   };
