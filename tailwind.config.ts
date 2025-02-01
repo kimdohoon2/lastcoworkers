@@ -28,6 +28,7 @@ export default {
       colors: {
         state: {
           '950': '#020617',
+          '50/10': '#F8FAFC10',
         },
         brand: {
           primary: '#10B981',

@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query';
 import instance from '../instance';
 
 interface PatchTaskRequest {
@@ -5,7 +6,7 @@ interface PatchTaskRequest {
   taskListId: number;
   taskId: number;
   name?: string;
-  description?: string;
+  description?: string | null;
   done?: boolean;
 }
 
@@ -28,9 +29,20 @@ export const editTask = async ({
   const res = await instance.patch(
     `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`,
     { name, description, done },
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ACCESS_TOKEN}`,
+      },
+    },
   );
 
   return res.data;
+};
+
+export const useEditTaskMutation = () => {
+  return useMutation({
+    mutationFn: editTask,
+  });
 };
 
 // 할 일 순서 수정
