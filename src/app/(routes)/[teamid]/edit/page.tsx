@@ -68,7 +68,6 @@ function Page() {
           initialImage={groupData?.image ?? undefined}
           initialName={groupData?.name}
           onSubmit={mutation.mutate}
-          // onSubmit={onSubmit}
         >
           수정하기
         </TeamForm>
