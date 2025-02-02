@@ -23,10 +23,13 @@ export default function BoardsPage() {
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 0,
   );
-  const debouncedWidth = useDebounce(windowWidth, 300);
+
   const [bestPageSize, setBestPageSize] = useState(3);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [sortOrder, setSortOrder] = useState('recent');
+
+  const debouncedWidth = useDebounce(windowWidth, 300);
+  const debouncedSearchKeyword = useDebounce(searchKeyword, 100);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -44,12 +47,14 @@ export default function BoardsPage() {
     page: 1,
     pageSize: bestPageSize,
     orderBy: 'like',
+    keyword: debouncedSearchKeyword,
   });
 
   const { data: recentPosts, isLoading: isRecentLoading } = useGetArticle({
     page: 1,
     pageSize: 10,
     orderBy: sortOrder,
+    keyword: debouncedSearchKeyword,
   });
 
   const handleItemClick = (item: string) => {
