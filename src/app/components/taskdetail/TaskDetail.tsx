@@ -36,28 +36,16 @@ function TaskDetail({
     return <p>할 일 ID가 없습니다.</p>;
   }
 
-  if (isLoading) {
-    return <p>로딩 중...</p>;
-  }
-
-  if (error) {
-    return <p>데이터를 불러오는 중 오류가 발생했습니다.</p>;
-  }
-
-  if (!task) {
-    return <p>데이터가 존재하지 않습니다.</p>;
-  }
+  if (isLoading) return <p>로딩 중</p>;
+  if (error) return <p>데이터를 불러오는 중 오류가 발생했습니다.</p>;
+  if (!task) return <p>데이터가 존재하지 않습니다.</p>;
 
   const { name, doneAt, date, frequency, description, writer, recurring } =
     task;
   const startDate = recurring?.startDate;
   const createDate = recurring?.createdAt;
 
-  const buttonPosition =
-    'fixed bottom-6 right-4 tablet:bottom-5 tablet:right-6 xl:bottom-10 xl:right-10';
-
   const toggleDone = () => {
-    const updatedDoneStatus = !doneAt;
     editTask(
       {
         groupId,
@@ -65,7 +53,7 @@ function TaskDetail({
         taskId,
         name,
         description,
-        done: updatedDoneStatus,
+        done: !doneAt,
       },
       {
         onSuccess: () => {
@@ -86,13 +74,10 @@ function TaskDetail({
         <button className="h-6 w-6" onClick={onClose}>
           <IconCancel />
         </button>
-        {doneAt ? (
+        {doneAt && (
           <p className="flex items-center gap-1.5 text-xs text-brand-tertiary">
-            <IconCheck />
-            완료
+            <IconCheck /> 완료
           </p>
-        ) : (
-          ''
         )}
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
@@ -102,9 +87,7 @@ function TaskDetail({
             <TaskDetailMenu
               taskId={taskId}
               setIsModalOpen={setIsModalOpen}
-              onDeleteSuccess={() => {
-                onClose();
-              }}
+              onDeleteSuccess={onClose}
             />
           </div>
 
@@ -125,27 +108,15 @@ function TaskDetail({
 
         <p className="mt-3 break-words">{description}</p>
 
-        {doneAt ? (
-          <Button
-            variant="cancel"
-            size="cancel"
-            className={buttonPosition}
-            onClick={toggleDone}
-          >
-            <IconCheck />
-            완료 취소하기
-          </Button>
-        ) : (
-          <Button
-            variant="complete"
-            size="complete"
-            className={buttonPosition}
-            onClick={toggleDone}
-          >
-            <IconCheck />
-            완료하기
-          </Button>
-        )}
+        <Button
+          variant={doneAt ? 'cancel' : 'complete'}
+          size={doneAt ? 'cancel' : 'complete'}
+          className="fixed bottom-6 right-4 tablet:bottom-5 tablet:right-6 xl:bottom-10 xl:right-10"
+          onClick={toggleDone}
+        >
+          <IconCheck />
+          {doneAt ? '완료 취소하기' : '완료하기'}
+        </Button>
       </div>
     </div>
   );
