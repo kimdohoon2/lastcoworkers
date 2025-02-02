@@ -41,28 +41,6 @@ export default function TodoList({ groupId, taskLists = [] }: TodoListProps) {
     staleTime: 5 * 60 * 1000,
   });
 
-  if (isLoading) {
-    return <div className="mx-auto my-6 max-w-[75rem]">로딩 중...</div>;
-  }
-
-  if (isError || !data) {
-    return (
-      <div className="mx-auto my-6 max-w-[75rem]">
-        데이터를 불러오는 중 오류가 발생했습니다.
-      </div>
-    );
-  }
-
-  if (taskLists.length === 0) {
-    return (
-      <div className="mx-auto my-6 flex max-w-[75rem] items-center justify-center">
-        <div className="text-md font-medium text-text-default">
-          아직 할 일 목록이 없습니다.
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="mx-auto my-6 max-w-[75rem]">
       <div className="flex justify-between">
@@ -74,15 +52,32 @@ export default function TodoList({ groupId, taskLists = [] }: TodoListProps) {
         </button>
       </div>
 
-      {taskLists.map((taskList, index) => (
-        <TodoListItem
-          key={taskList.id}
-          taskList={taskList}
-          groupId={groupId}
-          backgroundColor={backgroundColors[index % backgroundColors.length]}
-          taskListData={data[index]}
-        />
-      ))}
+      {isLoading && <div className="my-4">로딩 중...</div>}
+
+      {isError && (
+        <div className="my-4 text-red-500">
+          데이터를 불러오는 중 오류가 발생했습니다.
+        </div>
+      )}
+
+      {taskLists.length === 0 && (
+        <div className="flex w-full justify-center">
+          <div className="my-16 text-md font-medium text-text-default tablet:my-12 xl:my-16">
+            아직 할 일 목록이 없습니다.
+          </div>
+        </div>
+      )}
+
+      {data &&
+        taskLists.map((taskList, index) => (
+          <TodoListItem
+            key={taskList.id}
+            taskList={taskList}
+            groupId={groupId}
+            backgroundColor={backgroundColors[index % backgroundColors.length]}
+            taskListData={data[index]}
+          />
+        ))}
     </div>
   );
 }
