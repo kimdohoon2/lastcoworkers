@@ -1,8 +1,8 @@
 export interface FormData {
-  nickname: string;
+  nickname?: string;
   email: string;
   password: string;
-  passwordConfirmation: string;
+  passwordConfirmation?: string;
 }
 
 export interface SignUpResponse {
