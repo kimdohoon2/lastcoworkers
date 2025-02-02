@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQueries } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { PieChart, Pie } from 'recharts';
 import getTaskList, { Task } from '@/app/lib/group/getTaskList';
 import Link from 'next/link';
@@ -11,7 +11,7 @@ interface TodoListProps {
   taskLists?: { id: number; name: string }[];
 }
 
-function TodoList({ groupId, taskLists = [] }: TodoListProps) {
+export default function TodoList({ groupId, taskLists = [] }: TodoListProps) {
   const backgroundColors = [
     'bg-point-purple',
     'bg-point-blue',
@@ -22,7 +22,6 @@ function TodoList({ groupId, taskLists = [] }: TodoListProps) {
     'bg-point-yellow',
   ];
 
-  // 오늘 날짜를 'YYYY-MM-DDT00:00:00Z' 형식으로 변환
   const todayDate = `${new Date()
     .toLocaleDateString('ko-KR', {
       year: 'numeric',
@@ -32,15 +31,26 @@ function TodoList({ groupId, taskLists = [] }: TodoListProps) {
     .replace(/\. /g, '-')
     .replace('.', '')}T00:00:00Z`;
 
-  // 💡 `useQueries()`는 항상 최상단에서 호출해야 함
-  const taskQueries = useQueries({
-    queries: taskLists.map((taskList) => ({
-      queryKey: ['taskList', groupId, taskList.id],
-      queryFn: () =>
-        getTaskList({ groupId, taskListId: taskList.id, date: todayDate }),
-      staleTime: 5 * 60 * 1000,
-    })),
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['taskLists', groupId],
+    queryFn: async () => {
+      const responses = await Promise.all(
+        taskLists.map((taskList) =>
+          getTaskList({ groupId, taskListId: taskList.id, date: todayDate }),
+        ),
+      );
+      return responses;
+    },
+    staleTime: 5 * 60 * 1000,
   });
+
+  if (isLoading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (isError || !data) {
+    return <div>데이터를 불러오는 중 오류가 발생했습니다.</div>;
+  }
 
   if (taskLists.length === 0) {
     return <div>할 일이 없습니다.</div>;
@@ -57,9 +67,9 @@ function TodoList({ groupId, taskLists = [] }: TodoListProps) {
         </button>
       </div>
       {taskLists.map((taskList, index) => {
-        const { data: taskListData, isLoading, error } = taskQueries[index];
+        const taskListData = data[index];
 
-        if (isLoading) {
+        if (!taskListData) {
           return (
             <div
               key={taskList.id}
@@ -72,22 +82,6 @@ function TodoList({ groupId, taskLists = [] }: TodoListProps) {
               <span className="text-sm font-bold text-gray-600">
                 로딩 중...
               </span>
-              <DropdownMenu iconType="task" />
-            </div>
-          );
-        }
-
-        if (error || !taskListData) {
-          return (
-            <div
-              key={taskList.id}
-              className="relative mt-4 flex h-10 w-full items-center justify-between rounded-xl bg-background-secondary pl-6 pr-2"
-            >
-              <div
-                className={`absolute left-0 h-10 w-3 rounded-l-xl ${backgroundColors[index % backgroundColors.length]}`}
-              />
-              <span className="text-white">{taskList.name}</span>
-              <span className="text-sm font-bold text-gray-600">에러 발생</span>
               <DropdownMenu iconType="task" />
             </div>
           );
@@ -160,5 +154,3 @@ function TodoList({ groupId, taskLists = [] }: TodoListProps) {
     </div>
   );
 }
-
-export default TodoList;

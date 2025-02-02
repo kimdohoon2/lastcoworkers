@@ -1,10 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { PieChart, Pie } from 'recharts';
-import getTaskList, {
-  GetTaskListResponse,
-  Task,
-} from '@/app/lib/group/getTaskList';
+import getTaskList, { GetTaskListResponse } from '@/app/lib/group/getTaskList';
 import IconReportTodo from '../icons/IconReportTodo';
 import IconReportDone from '../icons/IconReportDone';
 
@@ -23,7 +20,6 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
     .replace(/\. /g, '-')
     .replace('.', '')}T00:00:00Z`;
 
-  // ✅ 단일 요청으로 데이터 패치
   const { data, isLoading, isError } = useQuery<GetTaskListResponse[]>({
     queryKey: ['taskLists', groupId],
     queryFn: async () => {
