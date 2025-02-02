@@ -1,15 +1,15 @@
 import React from 'react';
 import { PieChart, Pie } from 'recharts';
 import Link from 'next/link';
-import IconTaskDone from '../icons/IconTaskDone';
-import DropdownMenu from './DropdownMenu';
+import IconTaskDone from '@/app/components/icons/IconTaskDone';
+import DropdownMenu from '@/app/components/team/DropdownMenu';
 import { Task } from '@/app/lib/group/getTaskList';
 
 interface TodoListItemProps {
   taskList: { id: number; name: string };
   groupId: number;
   backgroundColor: string;
-  taskListData: { tasks: Task[] } | undefined;
+  taskListData: { tasks: Task[] };
 }
 
 export default function TodoListItem({
@@ -18,22 +18,6 @@ export default function TodoListItem({
   backgroundColor,
   taskListData,
 }: TodoListItemProps) {
-  if (!taskListData) {
-    return (
-      <div
-        className="relative mt-4 flex h-10 w-full items-center justify-between rounded-xl bg-background-secondary pl-6 pr-2"
-        key={taskList.id}
-      >
-        <div
-          className={`absolute left-0 h-10 w-3 rounded-l-xl ${backgroundColor}`}
-        />
-        <span className="text-white">{taskList.name}</span>
-        <span className="text-sm font-bold text-gray-600">로딩 중...</span>
-        <DropdownMenu iconType="task" />
-      </div>
-    );
-  }
-
   const completedItems = taskListData.tasks.filter(
     (task) => task.doneAt !== null,
   ).length;

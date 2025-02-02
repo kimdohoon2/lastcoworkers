@@ -5,7 +5,7 @@ import IconInVisibility from '@/app/components/icons/IconInVisibility';
 
 type InputProps = {
   name: string; // 필드 이름 (폼 데이터의 키)
-  title: string; // 라벨 제목
+  title?: string; // 라벨 제목
   type: string; // input 타입 (예: text, password 등)
   placeholder: string; // 플레이스홀더
   autoComplete: string; // 자동 완성 옵션
