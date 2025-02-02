@@ -9,6 +9,7 @@ import IconAlert from '../icons/IconAlert';
 interface DeleteTaskModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onDeleteSuccess: () => void;
   groupId: number;
   taskListId: number;
   taskId: number;
@@ -16,6 +17,7 @@ interface DeleteTaskModalProps {
 export default function DeleteTaskModal({
   isOpen,
   onClose,
+  onDeleteSuccess,
   groupId,
   taskListId,
   taskId,
@@ -34,6 +36,7 @@ export default function DeleteTaskModal({
         });
 
         onClose();
+        onDeleteSuccess();
         router.push(`/${teamid}/tasklist`);
       },
       onError: (error) => {

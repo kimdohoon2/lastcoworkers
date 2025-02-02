@@ -12,9 +12,11 @@ import DeleteRecurringModal from '../tasklist/DeleteRecurringModal';
 export default function TaskDetailMenu({
   taskId,
   setIsModalOpen,
+  onDeleteSuccess,
 }: {
   taskId: number;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  onDeleteSuccess: () => void;
 }) {
   const task = useAppSelector((state) => state.tasks.tasks[taskId]);
   const [modalState, setModalState] = useState<{
@@ -89,6 +91,9 @@ export default function TaskDetailMenu({
         <DeleteTaskModal
           isOpen={modalState.isOpen}
           onClose={closeModal}
+          onDeleteSuccess={() => {
+            onDeleteSuccess();
+          }}
           groupId={groupId}
           taskListId={taskListId}
           taskId={taskId}
@@ -99,6 +104,7 @@ export default function TaskDetailMenu({
         <DeleteRecurringModal
           isOpen={modalState.isOpen}
           onClose={closeModal}
+          onDeleteSuccess={onDeleteSuccess}
           groupId={groupId}
           taskListId={taskListId}
           taskId={taskId}

@@ -9,6 +9,7 @@ import IconAlert from '../icons/IconAlert';
 interface DeleteRecurringModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onDeleteSuccess: () => void;
   groupId: number;
   taskListId: number;
   taskId: number;
@@ -16,6 +17,7 @@ interface DeleteRecurringModalProps {
 export default function DeleteRecurringModal({
   isOpen,
   onClose,
+  onDeleteSuccess,
   groupId,
   taskListId,
   taskId,
@@ -41,6 +43,7 @@ export default function DeleteRecurringModal({
           });
 
           onClose();
+          onDeleteSuccess();
           router.push(`/${teamid}/tasklist`);
         },
         onError: (error) => {

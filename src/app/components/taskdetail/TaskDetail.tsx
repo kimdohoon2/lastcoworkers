@@ -70,7 +70,13 @@ function TaskDetail({
             <span className={`text-xl ${doneAt ? 'line-through' : ''}`}>
               {name}
             </span>
-            <TaskDetailMenu taskId={taskId} setIsModalOpen={setIsModalOpen} />
+            <TaskDetailMenu
+              taskId={taskId}
+              setIsModalOpen={setIsModalOpen}
+              onDeleteSuccess={() => {
+                onClose();
+              }}
+            />
           </div>
 
           <div className="flex items-center justify-between text-md">

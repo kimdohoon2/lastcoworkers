@@ -31,9 +31,18 @@ function TaskDetailDrawer({
   }, [isOpen]);
 
   const closeDrawer = () => {
-    if (isModalOpen) return;
+    if (isModalOpen) {
+      setIsModalOpen(false);
+      setTimeout(() => {
+        setShouldRender(false);
+        setTimeout(onClose, 300);
+      }, 100);
+      return;
+    }
     setShouldRender(false);
-    setTimeout(onClose, 300);
+    setTimeout(() => {
+      onClose();
+    }, 300);
   };
 
   useClickOutside(drawerRef, () => {
