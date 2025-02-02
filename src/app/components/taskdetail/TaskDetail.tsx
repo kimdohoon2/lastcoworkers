@@ -5,6 +5,7 @@ import Button from '../common/button/Button';
 import IconCheck from '../icons/IconCheck';
 import TaskDetailProfile from '../icons/TaskDetailProfile';
 import IconCancel from '../icons/IconCancel';
+import TaskDetailMenu from './TaskDetailDropdown';
 
 interface TaskDetailProps {
   groupId: number;
@@ -56,9 +57,12 @@ function TaskDetail({ groupId, taskListId, taskId }: TaskDetailProps) {
           ''
         )}
         <div className="flex flex-col gap-4">
-          <span className={`text-xl ${doneAt ? 'line-through' : ''}`}>
-            {name}
-          </span>
+          <div className="flex items-center justify-between">
+            <span className={`text-xl ${doneAt ? 'line-through' : ''}`}>
+              {name}
+            </span>
+            <TaskDetailMenu taskId={taskId} />
+          </div>
 
           <div className="flex items-center justify-between text-md">
             <div className="flex items-center gap-3">
