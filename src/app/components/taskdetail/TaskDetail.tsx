@@ -1,5 +1,6 @@
 import { useTaskQuery } from '@/app/lib/task/getTask';
 import { formatDateShort } from '@/app/utils/formatDate';
+import { Dispatch, SetStateAction } from 'react';
 import DateRepeatInfo from '../tasklist/DateRepeatInfo';
 import Button from '../common/button/Button';
 import IconCheck from '../icons/IconCheck';
@@ -12,8 +13,15 @@ interface TaskDetailProps {
   taskListId: number;
   taskId: number | undefined;
   onClose: () => void;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 }
-function TaskDetail({ groupId, taskListId, taskId, onClose }: TaskDetailProps) {
+function TaskDetail({
+  groupId,
+  taskListId,
+  taskId,
+  onClose,
+  setIsModalOpen,
+}: TaskDetailProps) {
   const {
     data: task,
     isLoading,
@@ -62,7 +70,7 @@ function TaskDetail({ groupId, taskListId, taskId, onClose }: TaskDetailProps) {
             <span className={`text-xl ${doneAt ? 'line-through' : ''}`}>
               {name}
             </span>
-            <TaskDetailMenu taskId={taskId} />
+            <TaskDetailMenu taskId={taskId} setIsModalOpen={setIsModalOpen} />
           </div>
 
           <div className="flex items-center justify-between text-md">

@@ -1,5 +1,5 @@
 import useDropdown from '@/app/hooks/useDropdown';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useAppSelector } from '@/app/stores/hooks';
 import Dropdown from '../common/dropdown/Dropdown';
 import DropdownItem from '../common/dropdown/DropdownItem';
@@ -9,7 +9,13 @@ import TaskCardDropdown from '../icons/TaskCardDropdown';
 import DeleteTaskModal from '../tasklist/DeleteTaskModal';
 import DeleteRecurringModal from '../tasklist/DeleteRecurringModal';
 
-export default function TaskDetailMenu({ taskId }: { taskId: number }) {
+export default function TaskDetailMenu({
+  taskId,
+  setIsModalOpen,
+}: {
+  taskId: number;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+}) {
   const task = useAppSelector((state) => state.tasks.tasks[taskId]);
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
@@ -18,6 +24,7 @@ export default function TaskDetailMenu({ taskId }: { taskId: number }) {
     isOpen: false,
     type: null,
   });
+
   const {
     isOpen: isDropdownOpen,
     toggleDropdown,
@@ -31,10 +38,12 @@ export default function TaskDetailMenu({ taskId }: { taskId: number }) {
 
   const openModal = (type: 'deleteTask' | 'deleteRecurring') => {
     setModalState({ isOpen: true, type });
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setModalState({ isOpen: false, type: null });
+    setIsModalOpen(false);
   };
 
   return (

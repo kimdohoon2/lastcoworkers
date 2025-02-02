@@ -22,6 +22,7 @@ function TaskDetailDrawer({
 }: TaskDetailDrawerProps) {
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const [shouldRender, setShouldRender] = useState(isOpen);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -30,11 +31,14 @@ function TaskDetailDrawer({
   }, [isOpen]);
 
   const closeDrawer = () => {
+    if (isModalOpen) return;
     setShouldRender(false);
     setTimeout(onClose, 300);
   };
 
-  useClickOutside(drawerRef, () => closeDrawer());
+  useClickOutside(drawerRef, () => {
+    if (!isModalOpen) closeDrawer();
+  });
 
   return (
     <AnimatePresence>
@@ -66,6 +70,7 @@ function TaskDetailDrawer({
               taskListId={taskListId}
               taskId={taskId}
               onClose={closeDrawer}
+              setIsModalOpen={setIsModalOpen}
             />
           </motion.div>
         </>
