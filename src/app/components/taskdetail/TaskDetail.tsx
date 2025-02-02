@@ -11,8 +11,9 @@ interface TaskDetailProps {
   groupId: number;
   taskListId: number;
   taskId: number | undefined;
+  onClose: () => void;
 }
-function TaskDetail({ groupId, taskListId, taskId }: TaskDetailProps) {
+function TaskDetail({ groupId, taskListId, taskId, onClose }: TaskDetailProps) {
   const {
     data: task,
     isLoading,
@@ -45,7 +46,7 @@ function TaskDetail({ groupId, taskListId, taskId }: TaskDetailProps) {
   return (
     <div className="p-4 tablet:p-6 xl:p-10">
       <div className="flex flex-col gap-3">
-        <button>
+        <button className="h-6 w-6" onClick={onClose}>
           <IconCancel />
         </button>
         {doneAt ? (

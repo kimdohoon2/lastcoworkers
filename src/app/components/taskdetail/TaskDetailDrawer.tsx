@@ -65,6 +65,7 @@ function TaskDetailDrawer({
               groupId={groupId}
               taskListId={taskListId}
               taskId={taskId}
+              onClose={closeDrawer}
             />
           </motion.div>
         </>
