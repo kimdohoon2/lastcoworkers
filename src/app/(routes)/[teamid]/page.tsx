@@ -41,9 +41,9 @@ export default function TeamPage() {
   return (
     <div className="box-border h-full w-full px-4">
       <TeamHeader groupName={groupData?.name || '그룹 이름 없음'} />
-      <MemberContainer members={groupData?.members || []} />
       <TodoList taskLists={groupData?.taskLists} groupId={groupId!} />
       <Report taskLists={groupData?.taskLists} groupId={groupId!} />
+      <MemberContainer members={groupData?.members || []} />
     </div>
   );
 }
