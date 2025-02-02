@@ -4,6 +4,7 @@ import { PieChart, Pie } from 'recharts';
 import getTaskList, { GetTaskListResponse } from '@/app/lib/group/getTaskList';
 import IconReportTodo from '../icons/IconReportTodo';
 import IconReportDone from '../icons/IconReportDone';
+import { getTodayDate } from '@/app/utils/getTodayDate';
 
 interface ReportProps {
   groupId: number;
@@ -11,14 +12,7 @@ interface ReportProps {
 }
 
 export default function Report({ groupId, taskLists = [] }: ReportProps) {
-  const todayDate = `${new Date()
-    .toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    })
-    .replace(/\. /g, '-')
-    .replace('.', '')}T00:00:00Z`;
+  const todayDate = getTodayDate();
 
   const { data, isLoading, isError } = useQuery<GetTaskListResponse[]>({
     queryKey: ['taskLists', groupId],

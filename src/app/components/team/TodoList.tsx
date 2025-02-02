@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import getTaskList from '@/app/lib/group/getTaskList';
 import TodoListItem from '@/app/components/team/TodoListItem';
+import { getTodayDate } from '@/app/utils/getTodayDate';
 
 interface TodoListProps {
   groupId: number;
@@ -19,14 +20,7 @@ export default function TodoList({ groupId, taskLists = [] }: TodoListProps) {
     'bg-point-yellow',
   ];
 
-  const todayDate = `${new Date()
-    .toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    })
-    .replace(/\. /g, '-')
-    .replace('.', '')}T00:00:00Z`;
+  const todayDate = getTodayDate();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['taskLists', groupId],
