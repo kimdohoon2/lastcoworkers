@@ -41,7 +41,7 @@ export default function CommonAriticleCard({
   };
 
   return (
-    <Link href={`/boards/${id}`}>
+    <Link className="w-full" href={`/boards/${id}`}>
       <div
         key={id}
         className="w-full rounded-[12px] border border-[#F8FAFC1A] bg-background-secondary px-4 pb-4 pt-2 tablet:px-8 tablet:pb-6 tablet:pt-6"
@@ -127,7 +127,6 @@ export default function CommonAriticleCard({
                   role="button"
                   tabIndex={0}
                   onKeyDown={handleKeyDown}
-                  aria-label="Toggle dropdown"
                 >
                   <div className="absolute -top-1 h-full w-full rounded-full bg-icon-primary" />
                   <div className="absolute h-full w-full rounded-full bg-icon-primary" />
