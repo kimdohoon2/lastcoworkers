@@ -1,6 +1,8 @@
 import { useTaskQuery } from '@/app/lib/task/getTask';
 import { formatDateShort } from '@/app/utils/formatDate';
 import { Dispatch, SetStateAction } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useEditTaskMutation } from '@/app/lib/task/patchTask';
 import DateRepeatInfo from '../tasklist/DateRepeatInfo';
 import Button from '../common/button/Button';
 import IconCheck from '../icons/IconCheck';
@@ -22,6 +24,9 @@ function TaskDetail({
   onClose,
   setIsModalOpen,
 }: TaskDetailProps) {
+  const queryClient = useQueryClient();
+  const { mutate: editTask } = useEditTaskMutation();
+
   const {
     data: task,
     isLoading,
@@ -50,6 +55,30 @@ function TaskDetail({
 
   const buttonPosition =
     'fixed bottom-6 right-4 tablet:bottom-5 tablet:right-6 xl:bottom-10 xl:right-10';
+
+  const toggleDone = () => {
+    const updatedDoneStatus = !doneAt;
+    editTask(
+      {
+        groupId,
+        taskListId,
+        taskId,
+        name,
+        description,
+        done: updatedDoneStatus,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['groups', groupId, 'taskLists', taskListId, 'tasks'],
+          });
+        },
+        onError: () => {
+          alert('할 일 상태 변경에 실패했습니다.');
+        },
+      },
+    );
+  };
 
   return (
     <div className="p-4 tablet:p-6 xl:p-10">
@@ -97,12 +126,22 @@ function TaskDetail({
         <p className="mt-3 break-words">{description}</p>
 
         {doneAt ? (
-          <Button variant="cancel" size="cancel" className={buttonPosition}>
+          <Button
+            variant="cancel"
+            size="cancel"
+            className={buttonPosition}
+            onClick={toggleDone}
+          >
             <IconCheck />
             완료 취소하기
           </Button>
         ) : (
-          <Button variant="complete" size="complete" className={buttonPosition}>
+          <Button
+            variant="complete"
+            size="complete"
+            className={buttonPosition}
+            onClick={toggleDone}
+          >
             <IconCheck />
             완료하기
           </Button>
