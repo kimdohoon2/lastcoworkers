@@ -11,7 +11,7 @@ import DeleteRecurringModal from './DeleteRecurringModal';
 import EditTaskModal from './EditTaskModal';
 
 export default function TaskCardMenu({ taskId }: { taskId: number }) {
-  const task = useAppSelector((state) => state.tasks.tasks[taskId]);
+  const task = useAppSelector((state) => state.tasks.taskById[taskId]);
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
     type: 'deleteTask' | 'deleteRecurring' | 'editTask' | null;

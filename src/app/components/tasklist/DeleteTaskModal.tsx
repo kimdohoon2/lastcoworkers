@@ -23,7 +23,7 @@ export default function DeleteTaskModal({
   taskId,
 }: DeleteTaskModalProps) {
   const queryClient = useQueryClient();
-  const task = useAppSelector((state) => state.tasks.tasks[taskId]);
+  const task = useAppSelector((state) => state.tasks.taskById[taskId]);
   const router = useRouter();
   const { teamid } = useParams();
   const deleteTaskMutation = useDeleteTaskMutation(groupId, taskListId, taskId);

@@ -14,7 +14,7 @@ export default function TaskCard({ taskId }: { taskId: number }) {
   const queryClient = useQueryClient();
   const { mutate: editTask } = useEditTaskMutation();
 
-  const task = useAppSelector((state) => state.tasks.tasks[taskId]);
+  const task = useAppSelector((state) => state.tasks.taskById[taskId]);
 
   if (!task) {
     return null;

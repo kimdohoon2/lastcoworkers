@@ -13,12 +13,14 @@ export default function TaskDetailMenu({
   taskId,
   setIsModalOpen,
   onDeleteSuccess,
+  onEdit,
 }: {
   taskId: number;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   onDeleteSuccess: () => void;
+  onEdit: () => void;
 }) {
-  const task = useAppSelector((state) => state.tasks.tasks[taskId]);
+  const task = useAppSelector((state) => state.tasks.taskById[taskId]);
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
     type: 'deleteTask' | 'deleteRecurring' | null;
@@ -61,6 +63,8 @@ export default function TaskDetailMenu({
           <DropdownItem
             className="text-sm"
             onClick={() => {
+              setIsModalOpen(true);
+              onEdit();
               closeDropdown();
             }}
           >
