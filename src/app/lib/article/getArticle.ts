@@ -7,6 +7,5 @@ export default async function getArticle(
   const response = await instance.get<GetArticleResponse>('/articles', {
     params: data,
   });
-  console.log(response.data);
   return response.data;
 }
