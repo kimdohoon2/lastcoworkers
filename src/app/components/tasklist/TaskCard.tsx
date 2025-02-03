@@ -14,16 +14,17 @@ export default function TaskCard({ taskId }: { taskId: number }) {
   const queryClient = useQueryClient();
   const { mutate: editTask } = useEditTaskMutation();
 
-  const task = useAppSelector((state) => state.tasks.tasks[taskId]);
+  const task = useAppSelector((state) => state.tasks.taskById[taskId]);
 
   if (!task) {
     return null;
   }
 
-  const { name, commentCount, doneAt, date, frequency } = task;
+  const { name, commentCount, doneAt, date, frequency, recurring } = task;
 
   const groupId = 1771;
   const taskListId = 2874;
+  const startDate = recurring?.startDate;
 
   const toggleDone = (e: React.MouseEvent | React.KeyboardEvent) => {
     e.stopPropagation();
@@ -95,7 +96,12 @@ export default function TaskCard({ taskId }: { taskId: number }) {
         </div>
         <TaskCardMenu taskId={taskId} />
       </div>
-      <DateRepeatInfo date={date} frequency={frequency} />
+      <DateRepeatInfo
+        date={date}
+        frequency={frequency}
+        startDate={startDate}
+        showStartDate={false}
+      />
     </div>
   );
 }

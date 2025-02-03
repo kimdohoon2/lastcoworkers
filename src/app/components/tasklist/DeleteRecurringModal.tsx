@@ -9,6 +9,7 @@ import IconAlert from '../icons/IconAlert';
 interface DeleteRecurringModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onDeleteSuccess?: () => void;
   groupId: number;
   taskListId: number;
   taskId: number;
@@ -16,12 +17,13 @@ interface DeleteRecurringModalProps {
 export default function DeleteRecurringModal({
   isOpen,
   onClose,
+  onDeleteSuccess,
   groupId,
   taskListId,
   taskId,
 }: DeleteRecurringModalProps) {
   const queryClient = useQueryClient();
-  const task = useAppSelector((state) => state.tasks.tasks[taskId]);
+  const task = useAppSelector((state) => state.tasks.taskById[taskId]);
   const router = useRouter();
   const { teamid } = useParams();
   const deleteRecurringMutation = useDeleteRecurringMutation();
@@ -41,6 +43,7 @@ export default function DeleteRecurringModal({
           });
 
           onClose();
+          onDeleteSuccess?.();
           router.push(`/${teamid}/tasklist`);
         },
         onError: (error) => {
