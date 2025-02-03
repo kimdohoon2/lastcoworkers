@@ -5,9 +5,29 @@ interface GetTaskCommentRequest {
   taskId: number;
 }
 
+interface User {
+  id: number;
+  nickname: string;
+  image: string | null;
+}
+
+interface Comment {
+  id: number;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  user: User;
+}
+
+type GetTaskCommentResponse = Comment[];
+
 // 할 일 댓글 조회
-export const getTaskComment = async ({ taskId }: GetTaskCommentRequest) => {
-  const res = await instance.get(`/tasks/${taskId}/comments`);
+export const getTaskComment = async ({
+  taskId,
+}: GetTaskCommentRequest): Promise<GetTaskCommentResponse> => {
+  const res = await instance.get<GetTaskCommentResponse>(
+    `/tasks/${taskId}/comments`,
+  );
 
   return res.data;
 };
