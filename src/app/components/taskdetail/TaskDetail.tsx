@@ -11,6 +11,7 @@ import IconCancel from '../icons/IconCancel';
 import TaskDetailProfile from '../icons/TaskDetailProfile';
 import TaskDetailMenu from './TaskDetailDropdown';
 import DateRepeatInfo from '../tasklist/DateRepeatInfo';
+import TaskComments from './TaskComment';
 
 interface TaskDetailProps {
   groupId: number;
@@ -120,7 +121,7 @@ function TaskDetail({
 
   return (
     <FormProvider {...methods}>
-      <div className="p-4 tablet:p-6 xl:p-10">
+      <div className="custom-scrollbar max-h-[100vh] overflow-y-auto p-4 tablet:p-6 xl:p-10">
         <div className="flex flex-col gap-3">
           <button className="h-6 w-6" onClick={onClose}>
             <IconCancel />
@@ -190,7 +191,7 @@ function TaskDetail({
                 {...register('description')}
                 placeholder="메모를 입력하세요."
                 autoComplete="off"
-                className="custom-scroll placeholder:text-text-danger h-[10rem] w-full resize-none rounded-xl border border-[#F8FAFC1A] bg-background-secondary px-4 py-[0.85rem] text-text-primary placeholder:text-lg focus:border-interaction-focus focus:outline-none"
+                className="custom-scrollbar placeholder:text-text-danger h-[6rem] w-full resize-none rounded-xl border border-[#F8FAFC1A] bg-background-secondary px-4 py-[0.85rem] text-text-primary placeholder:text-lg focus:border-interaction-focus focus:outline-none tablet:h-[8rem] xl:h-[10rem]"
               />
               <div className="flex justify-end gap-2">
                 <Button
@@ -214,9 +215,11 @@ function TaskDetail({
               </div>
             </div>
           ) : (
-            <p className="mt-3 break-words">{descriptionValue}</p>
+            <p className="mt-3 h-[6rem] break-words tablet:h-[8rem] xl:h-[10rem]">
+              {descriptionValue}
+            </p>
           )}
-
+          <TaskComments taskId={taskId} />
           <Button
             variant={doneAt ? 'cancel' : 'complete'}
             size={doneAt ? 'cancel' : 'complete'}
