@@ -1,4 +1,4 @@
-import instance from '@/app/lib/instance';
+import axios from 'axios';
 
 interface RefreshTokenRequest {
   refreshToken: string;
@@ -11,10 +11,11 @@ interface RefreshTokenResponse {
 const postRefreshApi = async (
   refreshTokenRequest: RefreshTokenRequest,
 ): Promise<RefreshTokenResponse> => {
-  const response = await instance.post<RefreshTokenResponse>(
-    '/auth/refresh-token',
+  const response = await axios.post<RefreshTokenResponse>(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}auth/refresh-token`,
     refreshTokenRequest,
   );
+
   return response.data;
 };
 
