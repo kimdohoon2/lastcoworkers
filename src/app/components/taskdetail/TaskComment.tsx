@@ -11,7 +11,7 @@ function TaskComments({ taskId }: { taskId: number }) {
 
   return (
     <div className="mb-24 flex flex-col gap-6">
-      <TaskCommentInput />
+      <TaskCommentInput taskId={taskId} />
       {comments?.length === 0 ? (
         <p className="text-text-default">댓글이 없습니다.</p>
       ) : (
