@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import clsx from 'clsx';
 import BoardsSearchIcon from '@/app/components/icons/BoardsSearchIcon';
 import Button from '@/app/components/common/button/Button';
 import IconPlus from '@/app/components/icons/IconPlus';
@@ -10,9 +11,8 @@ import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
 import IconToggle from '@/app/components/icons/IconToggle';
-import useDropdown from '@/app/hooks/useDropdown';
-import clsx from 'clsx';
 import CommonAriticleCard from '@/app/components/boards/CommonAriticleCard';
+import useDropdown from '@/app/hooks/useDropdown';
 import useGetArticle from '@/app/hooks/useGetArticle';
 import useDebounce from '@/app/hooks/useDebounce';
 
@@ -59,11 +59,7 @@ export default function BoardsPage() {
 
   const handleItemClick = (item: string) => {
     selectItem(item);
-    if (item === '최신순') {
-      setSortOrder('recent');
-    } else if (item === '좋아요 많은순') {
-      setSortOrder('like');
-    }
+    setSortOrder(item === '최신순' ? 'recent' : 'like');
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,7 +92,7 @@ export default function BoardsPage() {
             {/* 베스트 게시글 카드 */}
             {isBestLoading ? (
               <div>베스트 게시글 가져오는 중</div>
-            ) : (
+            ) : bestPosts && bestPosts.list.length > 0 ? (
               <div className="flex flex-col gap-4 tablet:flex-row tablet:gap-4">
                 {bestPosts?.list.map((post) => (
                   <CommonAriticleCard
@@ -113,6 +109,8 @@ export default function BoardsPage() {
                   />
                 ))}
               </div>
+            ) : (
+              <div>검색 결과에 해당하는 베스트 게시글이 없습니다.</div>
             )}
           </div>
           <div>
@@ -157,7 +155,7 @@ export default function BoardsPage() {
             <div className="flex flex-col gap-4">
               {isRecentLoading ? (
                 <div>게시글 가져오는 중</div>
-              ) : (
+              ) : recentPosts && recentPosts.list.length > 0 ? (
                 <div className="flex flex-col gap-4 tablet:gap-6">
                   {recentPosts?.list.map((post) => (
                     <CommonAriticleCard
@@ -174,6 +172,8 @@ export default function BoardsPage() {
                     />
                   ))}
                 </div>
+              ) : (
+                <div>검색 결과에 해당하는 게시글이 없습니다.</div>
               )}
             </div>
           </div>
