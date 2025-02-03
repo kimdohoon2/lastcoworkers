@@ -35,7 +35,7 @@ export default function BoardDetail() {
   }
 
   return (
-    <div className="flex justify-center pt-[100px]">
+    <div className="flex justify-center py-[100px]">
       <div className="w-[90%] max-w-[75rem]">
         <div className="flex items-center justify-between border-b-[0.063rem] border-text-primary border-opacity-10">
           <h1 className="flex h-[64px] items-center text-lg text-text-secondary">
