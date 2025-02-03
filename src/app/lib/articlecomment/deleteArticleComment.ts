@@ -6,7 +6,6 @@ export interface DeleteArticleComment {
 
 export default async function deleteArticleComment({
   commentId,
-}: DeleteArticleComment) {
-  const { data } = await instance.delete(`comments/${commentId}`);
-  return data;
+}: DeleteArticleComment): Promise<void> {
+  await instance.delete(`comments/${commentId}`);
 }
