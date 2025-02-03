@@ -1,9 +1,9 @@
 import { useTaskCommentQuery } from '@/app/lib/comment/getComment';
 import { useState } from 'react';
 import TaskDetailProfile from '../icons/TaskDetailProfile';
-import TaskCardDropdown from '../icons/TaskCardDropdown';
 import CommentActive from '../icons/CommentActive';
 import CommentInactive from '../icons/CommentInactive';
+import TaskCommentMenu from './TaskCommentDropdown';
 
 function TaskComments({ taskId }: { taskId: number }) {
   const { data, isLoading, error } = useTaskCommentQuery(taskId);
@@ -47,7 +47,7 @@ function TaskComments({ taskId }: { taskId: number }) {
               <div className="flex flex-col gap-4">
                 <div className="flex justify-between">
                   <p className="text-md text-text-primary">{content}</p>
-                  <TaskCardDropdown />
+                  <TaskCommentMenu taskId={taskId} />
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
