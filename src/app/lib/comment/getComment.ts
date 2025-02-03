@@ -11,7 +11,7 @@ interface User {
   image: string | null;
 }
 
-interface Comment {
+export interface Comment {
   id: number;
   content: string;
   createdAt: string;

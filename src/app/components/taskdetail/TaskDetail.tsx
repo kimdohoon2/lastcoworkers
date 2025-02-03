@@ -219,7 +219,7 @@ function TaskDetail({
               {descriptionValue}
             </p>
           )}
-          <TaskComments taskId={taskId} />
+          <TaskComments taskId={taskId} setIsModalOpen={setIsModalOpen} />
           <Button
             variant={doneAt ? 'cancel' : 'complete'}
             size={doneAt ? 'cancel' : 'complete'}

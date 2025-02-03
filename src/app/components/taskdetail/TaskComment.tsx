@@ -1,8 +1,15 @@
 import { useTaskCommentQuery } from '@/app/lib/comment/getComment';
-import TaskCommentItem from './TaskCommentCard';
+import { Dispatch, SetStateAction } from 'react';
 import TaskCommentInput from './TaskCommentInput';
+import TaskCommentCard from './TaskCommentCard';
 
-function TaskComments({ taskId }: { taskId: number }) {
+function TaskComments({
+  taskId,
+  setIsModalOpen,
+}: {
+  taskId: number;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+}) {
   const { data, isLoading, error } = useTaskCommentQuery(taskId);
   const comments = data ?? [];
 
@@ -17,10 +24,11 @@ function TaskComments({ taskId }: { taskId: number }) {
       ) : (
         <ul>
           {comments?.map((comment) => (
-            <TaskCommentItem
+            <TaskCommentCard
               key={comment.id}
               taskId={taskId}
               comment={comment}
+              setIsModalOpen={setIsModalOpen}
             />
           ))}
         </ul>
