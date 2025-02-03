@@ -73,6 +73,7 @@ function TaskCommentCard({
               <p className="text-md text-text-primary">{currentComment}</p>
               <TaskCommentMenu
                 taskId={taskId}
+                commentId={comment.id}
                 onEdit={handleEditClick}
                 setIsModalOpen={setIsModalOpen}
               />
