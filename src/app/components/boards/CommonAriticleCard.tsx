@@ -6,6 +6,7 @@ import Dropdown from '@/app/components/common/dropdown/Dropdown';
 import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import useDropdown from '@/app/hooks/useDropdown';
+import IconPlus from '@/app/components/icons/IconPlus';
 
 interface CommonArticleCardProps extends Article {
   isBest?: boolean;
@@ -86,10 +87,17 @@ export default function CommonAriticleCard({
             />
           </div>
           {isBasic && (
-            <div className="relative ml-4 hidden h-[3px] w-[3px] tablet:top-[5px] tablet:block">
-              <div className="absolute -top-1 h-full w-full rounded-full bg-icon-primary" />
-              <div className="absolute h-full w-full rounded-full bg-icon-primary" />
-              <div className="absolute top-1 h-full w-full rounded-full bg-icon-primary" />
+            <div
+              className="relative ml-4 hidden h-5 w-5 rounded-full border border-border-primary tablet:block"
+              onClick={handleDropdownToggle}
+              role="button"
+              tabIndex={0}
+              onKeyDown={handleKeyDown}
+              aria-label="Toggle dropdown"
+            >
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                <IconPlus />
+              </div>
             </div>
           )}
         </div>
@@ -122,18 +130,19 @@ export default function CommonAriticleCard({
             {isBasic && (
               <>
                 <div
-                  className="relative ml-4 h-[3px] w-[3px] tablet:hidden"
+                  className="relative ml-4 h-5 w-5 rounded-full border border-border-primary tablet:hidden"
                   onClick={handleDropdownToggle}
                   role="button"
                   tabIndex={0}
                   onKeyDown={handleKeyDown}
+                  aria-label="Toggle dropdown"
                 >
-                  <div className="absolute -top-1 h-full w-full rounded-full bg-icon-primary" />
-                  <div className="absolute h-full w-full rounded-full bg-icon-primary" />
-                  <div className="absolute top-1 h-full w-full rounded-full bg-icon-primary" />
+                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <IconPlus />
+                  </div>
                 </div>
                 <Dropdown
-                  className="right-28 top-4 xl:right-[8rem] xl:top-7"
+                  className="right-28 top-4 tablet:-top-20 xl:right-[8rem]"
                   onClose={closeDropdown}
                 >
                   <DropdownList className="w-28 xl:w-[135px]" isOpen={isOpen}>
