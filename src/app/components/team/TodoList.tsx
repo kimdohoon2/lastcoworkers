@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import getTaskList, { GetTaskListResponse } from '@/app/lib/group/getTaskList';
+import getTaskList from '@/app/lib/group/getTaskList';
 import { createTaskList } from '@/app/lib/tasklist/postTaskList';
 import TodoListItem from '@/app/components/team/TodoListItem';
 import getTodayDate from '@/app/utils/getTodayDate';
@@ -9,14 +9,13 @@ import Modal from '@/app/components/common/modal/Modal';
 import Button from '@/app/components/common/button/Button';
 import Input from '@/app/components/common/input/Input';
 import { useForm, FormProvider } from 'react-hook-form';
-import { TaskList } from '@/app/types/grouptask';
 
 interface TodoListProps {
   groupId: number;
-  taskLists?: { id: number; name: string }[];
+  taskLists: { id: number; name: string }[];
 }
 
-export default function TodoList({ groupId, taskLists = [] }: TodoListProps) {
+export default function TodoList({ groupId, taskLists }: TodoListProps) {
   const backgroundColors = [
     'bg-point-purple',
     'bg-point-blue',
@@ -30,13 +29,12 @@ export default function TodoList({ groupId, taskLists = [] }: TodoListProps) {
   const methods = useForm();
   const queryClient = useQueryClient();
   const todayDate = getTodayDate();
-  const [localTaskLists, setLocalTaskLists] = useState(taskLists);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['taskLists', groupId],
     queryFn: async () => {
       const responses = await Promise.all(
-        localTaskLists.map((taskList) =>
+        taskLists.map((taskList) =>
           getTaskList({ groupId, taskListId: taskList.id, date: todayDate }),
         ),
       );
@@ -48,39 +46,21 @@ export default function TodoList({ groupId, taskLists = [] }: TodoListProps) {
   const mutation = useMutation({
     mutationFn: (newTaskList: { name: string }) =>
       createTaskList({ groupId, name: newTaskList.name }),
-    onSuccess: async (newTaskList: TaskList) => {
-      const newTaskListData = await getTaskList({
-        groupId,
-        taskListId: newTaskList.id,
-        date: todayDate,
-      });
-
-      setLocalTaskLists((prev) => [
-        ...prev,
-        { id: newTaskList.id, name: newTaskList.name },
-      ]);
-
-      queryClient.setQueryData<GetTaskListResponse[]>(
-        ['taskLists', groupId],
-        (oldData: GetTaskListResponse[] | undefined) => [
-          ...(oldData || []),
-          newTaskListData,
-        ],
-      );
-
+    onSuccess: () => {
+      queryClient.invalidateQueries(['taskLists', groupId]);
       closeModal();
     },
   });
 
-  const handleCreateTaskList = (taskdata: { name: string }) => {
-    mutation.mutate(taskdata);
+  const handleCreateTaskList = (newData: { name: string }) => {
+    mutation.mutate(newData);
   };
 
   return (
     <div className="mx-auto my-6 max-w-[75rem]">
       <div className="flex justify-between">
         <span className="text-lg font-normal">
-          할 일 목록 ({localTaskLists.length}개)
+          할 일 목록 ({taskLists.length}개)
         </span>
         <button
           className="text-sm font-normal text-brand-primary"
@@ -119,7 +99,6 @@ export default function TodoList({ groupId, taskLists = [] }: TodoListProps) {
       </div>
 
       {isLoading && <div className="my-4">로딩 중...</div>}
-
       {isError && (
         <div className="my-4 text-red-500">
           데이터를 불러오는 중 오류가 발생했습니다.
@@ -127,20 +106,15 @@ export default function TodoList({ groupId, taskLists = [] }: TodoListProps) {
       )}
 
       {data &&
-        data.map((taskListData: GetTaskListResponse, index: number) => {
-          const taskList = localTaskLists[index];
-          return (
-            <TodoListItem
-              key={taskList.id}
-              taskList={taskList}
-              groupId={groupId}
-              backgroundColor={
-                backgroundColors[index % backgroundColors.length]
-              }
-              taskListData={taskListData}
-            />
-          );
-        })}
+        taskLists.map((taskList, index) => (
+          <TodoListItem
+            key={taskList.id}
+            taskList={taskList}
+            groupId={groupId}
+            backgroundColor={backgroundColors[index % backgroundColors.length]}
+            taskListData={data?.[index] || { tasks: [] }}
+          />
+        ))}
     </div>
   );
 }

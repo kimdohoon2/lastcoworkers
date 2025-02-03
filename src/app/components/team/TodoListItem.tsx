@@ -2,14 +2,14 @@ import React from 'react';
 import { PieChart, Pie } from 'recharts';
 import Link from 'next/link';
 import IconTaskDone from '@/app/components/icons/IconTaskDone';
-import DropdownMenu from '@/app/components/team/DropdownMenu';
+import TaskListDropdown from '@/app/components/team/TaskListDropdown';
 import { Task } from '@/app/lib/group/getTaskList';
 
 interface TodoListItemProps {
   taskList: { id: number; name: string };
   groupId: number;
   backgroundColor: string;
-  taskListData: { tasks: Task[] };
+  taskListData: { tasks?: Task[] };
 }
 
 export default function TodoListItem({
@@ -18,11 +18,12 @@ export default function TodoListItem({
   backgroundColor,
   taskListData,
 }: TodoListItemProps) {
-  const completedItems = taskListData.tasks.filter(
-    (task) => task.doneAt !== null,
-  ).length;
-  const totalTasks = taskListData.tasks.length;
-  const completionPercentage = (completedItems / totalTasks) * 100;
+  const tasks = taskListData.tasks || [];
+  const completedItems = tasks.filter((task) => task.doneAt !== null).length;
+  const totalTasks = tasks.length;
+  const completionPercentage = totalTasks
+    ? (completedItems / totalTasks) * 100
+    : 0;
 
   return (
     <div
@@ -75,7 +76,7 @@ export default function TodoListItem({
             {completedItems}/{totalTasks}
           </div>
         </div>
-        <DropdownMenu iconType="task" />
+        <TaskListDropdown groupId={groupId} taskListId={taskList.id} />
       </div>
     </div>
   );

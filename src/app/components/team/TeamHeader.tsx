@@ -1,5 +1,5 @@
 import TeamThumbnail from '@/app/components/icons/TeamThumbnail';
-import DropdownMenu from '@/app/components/team/DropdownMenu';
+import HeaderDropdown from './HeaderDropdown';
 
 interface HeaderProps {
   groupName: string;
@@ -14,7 +14,7 @@ export default function TeamHeader({ groupName }: HeaderProps) {
       <div className="absolute right-[5.625rem] z-0">
         <TeamThumbnail />
       </div>
-      <DropdownMenu iconType="gear" />
+      <HeaderDropdown />
     </div>
   );
 }
