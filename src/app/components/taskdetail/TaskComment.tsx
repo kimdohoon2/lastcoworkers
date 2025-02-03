@@ -14,10 +14,6 @@ function TaskComments({ taskId }: { taskId: number }) {
 
   const comments = data ?? [];
 
-  if (comments.length === 0) {
-    return <p className="text-text-default">댓글이 없습니다.</p>;
-  }
-
   return (
     <div className="mb-24 flex flex-col gap-6">
       <div className="relative w-full">
@@ -25,7 +21,7 @@ function TaskComments({ taskId }: { taskId: number }) {
           name="comment"
           title=""
           type="text"
-          placeholder="댓글을 달아주세요"
+          placeholder="댓글을 달아주세요."
           autoComplete="off"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
@@ -38,28 +34,33 @@ function TaskComments({ taskId }: { taskId: number }) {
           {comment.trim() ? <CommentActive /> : <CommentInactive />}
         </button>
       </div>
-      <ul>
-        {comments.map(({ id, content, createdAt, user }) => (
-          <li
-            key={id}
-            className="mb-4 border-b border-border-primary/10 bg-background-secondary pb-4"
-          >
-            <div className="flex flex-col gap-4">
-              <div className="flex justify-between">
-                <p className="text-md text-text-primary">{content}</p>
-                <TaskCardDropdown />
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  {user.image ? user.image : <TaskDetailProfile />}
-                  <span className="text-md">{user.nickname}</span>
+
+      {comments.length === 0 ? (
+        <p className="text-text-default">댓글이 없습니다.</p>
+      ) : (
+        <ul>
+          {comments.map(({ id, content, createdAt, user }) => (
+            <li
+              key={id}
+              className="mb-4 border-b border-border-primary/10 bg-background-secondary pb-4"
+            >
+              <div className="flex flex-col gap-4">
+                <div className="flex justify-between">
+                  <p className="text-md text-text-primary">{content}</p>
+                  <TaskCardDropdown />
                 </div>
-                <span className="text-text-secondary">{createdAt}</span>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    {user.image ? user.image : <TaskDetailProfile />}
+                    <span className="text-md">{user.nickname}</span>
+                  </div>
+                  <span className="text-text-secondary">{createdAt}</span>
+                </div>
               </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
