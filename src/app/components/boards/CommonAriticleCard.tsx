@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import BoardsLikeIcon from '@/app/components/icons/BoardsLikeIcon';
 import { Article } from '@/app/types/ArticleType';
 import Dropdown from '@/app/components/common/dropdown/Dropdown';
@@ -7,6 +7,7 @@ import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import useDropdown from '@/app/hooks/useDropdown';
 import IconPlus from '@/app/components/icons/IconPlus';
+import useDeleteArticle from '@/app/hooks/useDeleteArticle';
 
 interface CommonArticleCardProps extends Article {
   isBest?: boolean;
@@ -28,7 +29,12 @@ export default function CommonAriticleCard({
   isOnlyTablet = false,
 }: CommonArticleCardProps) {
   const { isOpen, toggleDropdown, closeDropdown } = useDropdown();
+  const deleteArticleMutation = useDeleteArticle();
+  const router = useRouter();
 
+  const handleCardClick = () => {
+    router.push(`/boards/${id}`);
+  };
   const handleDropdownToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
@@ -41,8 +47,25 @@ export default function CommonAriticleCard({
     }
   };
 
+  const handleDelete = () => {
+    if (window.confirm('정말로 이 게시글을 삭제하시겠습니까?')) {
+      deleteArticleMutation.mutate(id);
+    }
+    closeDropdown();
+  };
+
   return (
-    <Link className="w-full" href={`/boards/${id}`}>
+    <div
+      className="w-full"
+      onClick={handleCardClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleCardClick();
+        }
+      }}
+    >
       <div
         key={id}
         className="w-full rounded-[12px] border border-[#F8FAFC1A] bg-background-secondary px-4 pb-4 pt-2 tablet:px-8 tablet:pb-6 tablet:pt-6"
@@ -156,9 +179,7 @@ export default function CommonAriticleCard({
                     </DropdownItem>
                     <DropdownItem
                       className="xl:text-base"
-                      onClick={() => {
-                        closeDropdown();
-                      }}
+                      onClick={() => handleDelete()}
                     >
                       삭제하기
                     </DropdownItem>
@@ -169,6 +190,6 @@ export default function CommonAriticleCard({
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
