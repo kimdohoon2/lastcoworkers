@@ -60,8 +60,9 @@ function Page() {
         <input
           type="text"
           className="w-full rounded-xl border border-border-primary bg-background-secondary px-4 py-[0.85rem] disabled:cursor-not-allowed disabled:text-text-default"
+          placeholder="팀 링크를 입력해주세요."
           value={token}
-          disabled
+          onChange={(e) => setToken(e.target.value)}
         />
         <Button
           variant="primary"
