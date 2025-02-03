@@ -1,4 +1,4 @@
-// 날짜 표시 변경 함수
+// YYYY년 M월 D일
 const formatDate = (dateString: string | undefined) => {
   if (!dateString) return '날짜 없음';
 
@@ -11,4 +11,16 @@ const formatDate = (dateString: string | undefined) => {
   }).format(date);
 };
 
-export default formatDate;
+// YYYY.MM.DD
+const formatDateShort = (dateString: string | undefined) => {
+  if (!dateString) return '날짜 없음';
+
+  const date = new Date(dateString);
+
+  return `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date
+    .getDate()
+    .toString()
+    .padStart(2, '0')}`;
+};
+
+export { formatDate, formatDateShort };
