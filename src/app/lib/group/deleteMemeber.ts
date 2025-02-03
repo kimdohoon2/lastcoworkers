@@ -6,11 +6,7 @@ interface DeleteMemberRequest {
 }
 
 const deleteMember = async ({ groupId, userId }: DeleteMemberRequest) => {
-  await axios.delete(`/groups/${groupId}/member/${userId}`, {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_ACCESS_TOKEN}`,
-    },
-  });
+  await axios.delete(`/groups/${groupId}/member/${userId}`, {});
 };
 
 export default deleteMember;
