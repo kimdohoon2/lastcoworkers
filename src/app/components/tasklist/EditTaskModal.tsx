@@ -28,7 +28,7 @@ export default function EditTaskModal({
   taskId,
 }: EditTaskModalProps) {
   const queryClient = useQueryClient();
-  const task = useAppSelector((state) => state.tasks.tasks[taskId]);
+  const task = useAppSelector((state) => state.tasks.taskById[taskId]);
 
   const methods = useForm<FormValues>({
     defaultValues: {

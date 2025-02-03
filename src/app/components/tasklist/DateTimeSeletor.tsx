@@ -57,7 +57,11 @@ export default function DateTimeSelector({
             <CustomCalendar
               selectedDate={date ? new Date(date) : new Date()}
               onDateChange={(newDate) => {
-                const formattedDate = newDate.toISOString().split('T')[0];
+                const kstDate = new Date(
+                  newDate.getTime() + 9 * 60 * 60 * 1000,
+                );
+                const formattedDate = `${kstDate.getFullYear()}-${String(kstDate.getMonth() + 1).padStart(2, '0')}-${String(kstDate.getDate()).padStart(2, '0')}`;
+
                 onDateChange(formattedDate);
                 setIsCalendarOpen(false);
               }}
