@@ -1,4 +1,5 @@
 import { Comment } from '@/app/lib/comment/getComment';
+import { getTimeDifference } from '@/app/utils/formatTime';
 import TaskDetailProfile from '../icons/TaskDetailProfile';
 import TaskCommentMenu from './TaskCommentDropdown';
 
@@ -20,7 +21,9 @@ function TaskCommentItem({ taskId, comment }: TaskCommentItemProps) {
             {comment.user.image ? comment.user.image : <TaskDetailProfile />}
             <span className="text-md">{comment.user.nickname}</span>
           </div>
-          <span className="text-text-secondary">{comment.createdAt}</span>
+          <span className="text-md text-text-secondary">
+            {getTimeDifference(comment.createdAt)}
+          </span>
         </div>
       </div>
     </li>
