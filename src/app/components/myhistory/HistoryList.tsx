@@ -1,5 +1,5 @@
 import getHistory, { Task } from '@/app/lib/user/getHistory';
-import formatDate from '@/app/utils/formatDate';
+import { formatDate } from '@/app/utils/formatDate';
 import IconCheckBox from '../icons/IconCheckBox';
 
 // task.date 기준으로 데이터 그룹화
