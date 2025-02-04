@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query';
 import instance from '../instance';
 
 interface PatchTaskCommentRequest {
@@ -7,7 +8,7 @@ interface PatchTaskCommentRequest {
 }
 
 // 할 일 댓글 수정
-const editTaskComment = async ({
+export const editTaskComment = async ({
   taskId,
   commentId,
   content,
@@ -18,4 +19,8 @@ const editTaskComment = async ({
   return res.data;
 };
 
-export default editTaskComment;
+export const useEditTaskCommentMutation = () => {
+  return useMutation({
+    mutationFn: editTaskComment,
+  });
+};
