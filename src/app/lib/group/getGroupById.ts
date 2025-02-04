@@ -3,6 +3,7 @@ import axios from '@/app/lib/instance';
 type GroupResponse = {
   image?: string | null;
   name: string;
+  taskLists: any[];
 };
 
 const getGroupById = async (id: number): Promise<GroupResponse> => {
