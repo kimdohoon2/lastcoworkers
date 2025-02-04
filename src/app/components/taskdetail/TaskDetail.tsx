@@ -8,7 +8,7 @@ import Button from '../common/button/Button';
 import IconCheck from '../icons/IconCheck';
 import TaskDetailProfile from '../icons/TaskDetailProfile';
 import IconCancel from '../icons/IconCancel';
-import TaskDetailMenu from './TaskDetailDropdown';
+import TaskDetailDropdown from './TaskDetailDropdown';
 
 interface TaskDetailProps {
   groupId: number;
@@ -84,7 +84,7 @@ function TaskDetail({
             <span className={`text-xl ${doneAt ? 'line-through' : ''}`}>
               {name}
             </span>
-            <TaskDetailMenu
+            <TaskDetailDropdown
               taskId={taskId}
               setIsModalOpen={setIsModalOpen}
               onDeleteSuccess={onClose}

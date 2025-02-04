@@ -9,7 +9,7 @@ import TaskCardDropdown from '../icons/TaskCardDropdown';
 import DeleteTaskModal from '../tasklist/DeleteTaskModal';
 import DeleteRecurringModal from '../tasklist/DeleteRecurringModal';
 
-export default function TaskDetailMenu({
+export default function TaskDetailDropdown({
   taskId,
   setIsModalOpen,
   onDeleteSuccess,
