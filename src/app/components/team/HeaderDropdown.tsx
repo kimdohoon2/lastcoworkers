@@ -5,7 +5,6 @@ import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
 import IconGear from '@/app/components/icons/IconGear';
 import useDropdown from '@/app/hooks/useDropdown';
-import clsx from 'clsx';
 import { useParams, useRouter } from 'next/navigation';
 
 export default function DropdownMenu() {
