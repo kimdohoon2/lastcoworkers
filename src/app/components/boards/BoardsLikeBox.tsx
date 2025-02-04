@@ -19,7 +19,6 @@ export default function BoardsLikeBox({
 }: BoardsLikeBoxType) {
   const queryClient = useQueryClient();
 
-  // Fetch article like status with automatic refetching
   const { data } = useQuery({
     queryKey: ['article', id],
     queryFn: () => instance.get(`/articles/${id}`).then((res) => res.data),
@@ -29,7 +28,6 @@ export default function BoardsLikeBox({
     },
   });
 
-  // Mutation for optimistic updates
   const { mutateAsync } = useMutation({
     mutationFn: (currentIsLiked: boolean) =>
       currentIsLiked ? deleteArticleLike(id) : postArticleLike(id),
