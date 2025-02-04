@@ -1,4 +1,5 @@
 import axios from 'axios';
+import handleTokenRefresh from '@/app/utils/handleTokenRefresh';
 import { store } from '@/app/stores/store';
 
 const instance = axios.create({
@@ -19,5 +20,15 @@ instance.interceptors.request.use((config) => {
 
   return config;
 });
+
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      return handleTokenRefresh(error.config);
+    }
+    return Promise.reject(error);
+  },
+);
 
 export default instance;
