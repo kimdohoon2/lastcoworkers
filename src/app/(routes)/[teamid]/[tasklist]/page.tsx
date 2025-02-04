@@ -7,8 +7,10 @@ import CreateTaskModal from '@/app/components/tasklist/CreateTaskModal';
 import useModal from '@/app/hooks/useModal';
 import Button from '@/app/components/common/button/Button';
 import CreateListModal from '@/app/components/tasklist/CreateListModal';
+import { useParams } from 'next/navigation';
 
 function TaskListPage() {
+  const { teamid, tasklist } = useParams();
   const { isOpen, openModal, closeModal } = useModal();
   const [modalType, setModalType] = useState<'list' | 'task' | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>(
@@ -37,7 +39,11 @@ function TaskListPage() {
           + 새로운 목록 추가하기
         </button>
       </div>
-      <TaskCardList groupId={1771} taskListId={2874} date={selectedDate} />
+      <TaskCardList
+        groupId={Number(teamid)}
+        taskListId={Number(tasklist)}
+        date={selectedDate}
+      />
       <Button
         variant="plus"
         size="plus"
