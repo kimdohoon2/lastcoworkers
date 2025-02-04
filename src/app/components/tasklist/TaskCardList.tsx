@@ -5,7 +5,6 @@ import { useTasksQuery } from '@/app/lib/task/getTask';
 import { useAppDispatch, useAppSelector } from '@/app/stores/hooks';
 import selectTasksArray from '@/app/stores/selectors';
 import { setTasks } from '@/app/stores/tasksSlice';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import TaskDetailDrawer from '../taskdetail/TaskDetailDrawer';
 
@@ -20,7 +19,6 @@ function TaskCardList({
 }) {
   const dispatch = useAppDispatch();
   const { data, isLoading, error } = useTasksQuery(groupId, taskListId, date);
-  const router = useRouter();
 
   const tasks = useAppSelector(selectTasksArray);
 
