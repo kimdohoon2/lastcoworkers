@@ -15,7 +15,7 @@ import Button from '@/app/components/common/button/Button';
 import Input from '@/app/components/common/input/Input';
 import TaskCardDropdown from '@/app/components/icons/TaskCardDropdown';
 import useModal from '@/app/hooks/useModal';
-import IconAlert from '../icons/IconAlert';
+import IconAlert from '@/app/components/icons/IconAlert';
 
 interface DropdownMenuProps {
   groupId: number;
@@ -95,6 +95,7 @@ export default function TaskListDropdown({
               <Input
                 name="name"
                 type="text"
+                defaultValue={taskListName}
                 placeholder="새 목록 이름을 입력해주세요."
                 autoComplete="off"
                 validationRules={{ required: '목록 이름을 입력해주세요.' }}

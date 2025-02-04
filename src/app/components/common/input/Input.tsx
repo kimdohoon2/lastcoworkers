@@ -15,6 +15,7 @@ type InputProps = {
   className?: string; // 스타일 추가
   onClick?: MouseEventHandler<HTMLInputElement>; // 클릭시 이벤트
   value?: string | undefined; // input에 들어올 value 값
+  defaultValue?: string;
   readOnly?: boolean; // 직접 값을 입력할 수 없도록(날짜,시간 선택시)
 };
 
@@ -30,6 +31,7 @@ function Input({
   className,
   onClick,
   value,
+  defaultValue,
   readOnly,
 }: InputProps) {
   const [isVisibleToggle, setIsVisibleToggle] = useState(false);
@@ -66,6 +68,7 @@ function Input({
           autoComplete={autoComplete}
           onClick={onClick}
           value={value}
+          defaultValue={defaultValue}
           readOnly={readOnly}
         />
         {isPassword && customButton && (
