@@ -33,10 +33,6 @@ function TaskCardList({
     }
   }, [data, dispatch]);
 
-  const handleCardClick = (taskid: number) => {
-    router.push(`/${groupId}/${taskListId}/${taskid}`);
-  };
-
   const openDrawer = (taskid: number) => {
     setSelectedTaskId(taskid);
     setIsDrawerOpen(true);
@@ -56,7 +52,7 @@ function TaskCardList({
     }
 
     if (e.key === 'Enter' || e.key === ' ') {
-      handleCardClick(taskId);
+      openDrawer(taskId);
       e.preventDefault();
     }
   };
