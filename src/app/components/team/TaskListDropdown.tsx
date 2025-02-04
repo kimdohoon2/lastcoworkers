@@ -15,15 +15,18 @@ import Button from '@/app/components/common/button/Button';
 import Input from '@/app/components/common/input/Input';
 import TaskCardDropdown from '@/app/components/icons/TaskCardDropdown';
 import useModal from '@/app/hooks/useModal';
+import IconAlert from '../icons/IconAlert';
 
 interface DropdownMenuProps {
   groupId: number;
   taskListId: number;
+  taskListName: string;
 }
 
 export default function TaskListDropdown({
   groupId,
   taskListId,
+  taskListName,
 }: DropdownMenuProps) {
   const {
     isOpen: isDropdownOpen,
@@ -111,23 +114,29 @@ export default function TaskListDropdown({
       </Modal>
 
       <Modal isOpen={deleteModal.isOpen} closeModal={deleteModal.closeModal}>
-        <div className="flex w-[280px] flex-col gap-6">
-          <div className="text-center text-lg font-medium">할 일 목록 삭제</div>
-          <p className="text-center text-md">이 목록을 삭제하시겠습니까?</p>
-          <div className="flex gap-4">
+        <div className="flex flex-col items-center">
+          <IconAlert />
+          <div className="mt-4 flex w-[239px] flex-col items-center">
+            <h2 className="mb-4 text-lg font-light">
+              해당 목록 삭제를 진행하시겠어요?
+            </h2>
+            <p className="mb-6 text-center text-md font-bold text-red-500">
+              {taskListName}
+            </p>
+          </div>
+
+          <div className="flex justify-end gap-4">
             <Button
-              className="w-1/2"
-              variant="secondary"
-              size="large"
               onClick={deleteModal.closeModal}
+              variant="secondary"
+              className="w-[8.5rem]"
             >
-              취소
+              닫기
             </Button>
             <Button
-              className="w-1/2 text-text-inverse"
-              variant="danger"
-              size="large"
               onClick={handleDelete}
+              variant="danger"
+              className="w-[8.5rem]"
               disabled={deleteMutation.isLoading}
             >
               {deleteMutation.isLoading ? '삭제 중...' : '삭제하기'}

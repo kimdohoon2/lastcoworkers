@@ -76,7 +76,11 @@ export default function TodoListItem({
             {completedItems}/{totalTasks}
           </div>
         </div>
-        <TaskListDropdown groupId={groupId} taskListId={taskList.id} />
+        <TaskListDropdown
+          groupId={groupId}
+          taskListId={taskList.id}
+          taskListName={taskList.name}
+        />
       </div>
     </div>
   );
