@@ -1,15 +1,21 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import getTaskList from '@/app/lib/group/getTaskList';
+import { createTaskList } from '@/app/lib/tasklist/postTaskList';
 import TodoListItem from '@/app/components/team/TodoListItem';
-import { getTodayDate } from '@/app/utils/getTodayDate';
+import getTodayDate from '@/app/utils/getTodayDate';
+import useModal from '@/app/hooks/useModal';
+import Modal from '@/app/components/common/modal/Modal';
+import Button from '@/app/components/common/button/Button';
+import Input from '@/app/components/common/input/Input';
+import { useForm, FormProvider } from 'react-hook-form';
 
 interface TodoListProps {
   groupId: number;
-  taskLists?: { id: number; name: string }[];
+  taskLists: { id: number; name: string }[];
 }
 
-export default function TodoList({ groupId, taskLists = [] }: TodoListProps) {
+export default function TodoList({ groupId, taskLists }: TodoListProps) {
   const backgroundColors = [
     'bg-point-purple',
     'bg-point-blue',
@@ -19,7 +25,9 @@ export default function TodoList({ groupId, taskLists = [] }: TodoListProps) {
     'bg-point-orange',
     'bg-point-yellow',
   ];
-
+  const { isOpen, openModal, closeModal } = useModal();
+  const methods = useForm();
+  const queryClient = useQueryClient();
   const todayDate = getTodayDate();
 
   const { data, isLoading, isError } = useQuery({
@@ -35,30 +43,65 @@ export default function TodoList({ groupId, taskLists = [] }: TodoListProps) {
     staleTime: 5 * 60 * 1000,
   });
 
+  const mutation = useMutation({
+    mutationFn: (newTaskList: { name: string }) =>
+      createTaskList({ groupId, name: newTaskList.name }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['taskLists', groupId]);
+      closeModal();
+    },
+  });
+
+  const handleCreateTaskList = (newData: { name: string }) => {
+    mutation.mutate(newData);
+  };
+
   return (
     <div className="mx-auto my-6 max-w-[75rem]">
       <div className="flex justify-between">
         <span className="text-lg font-normal">
           할 일 목록 ({taskLists.length}개)
         </span>
-        <button className="text-sm font-normal text-brand-primary">
+        <button
+          className="text-sm font-normal text-brand-primary"
+          onClick={openModal}
+        >
           + 새로운 목록 추가하기
         </button>
+
+        <Modal isOpen={isOpen} closeModal={closeModal}>
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(handleCreateTaskList)}>
+              <div className="flex w-[280px] flex-col gap-6">
+                <div className="text-center text-lg font-medium">
+                  할 일 목록 추가
+                </div>
+                <Input
+                  name="name"
+                  type="text"
+                  placeholder="목록 이름을 입력해주세요."
+                  autoComplete="off"
+                  validationRules={{ required: '목록 이름을 입력해주세요.' }}
+                />
+                <Button
+                  className="mt-2 w-full text-text-inverse"
+                  variant="primary"
+                  size="large"
+                  type="submit"
+                  disabled={mutation.isLoading}
+                >
+                  {mutation.isLoading ? '생성 중...' : '만들기'}
+                </Button>
+              </div>
+            </form>
+          </FormProvider>
+        </Modal>
       </div>
 
       {isLoading && <div className="my-4">로딩 중...</div>}
-
       {isError && (
         <div className="my-4 text-red-500">
           데이터를 불러오는 중 오류가 발생했습니다.
-        </div>
-      )}
-
-      {taskLists.length === 0 && (
-        <div className="flex w-full justify-center">
-          <div className="my-16 text-md font-medium text-text-default tablet:my-12 xl:my-16">
-            아직 할 일 목록이 없습니다.
-          </div>
         </div>
       )}
 
@@ -69,7 +112,7 @@ export default function TodoList({ groupId, taskLists = [] }: TodoListProps) {
             taskList={taskList}
             groupId={groupId}
             backgroundColor={backgroundColors[index % backgroundColors.length]}
-            taskListData={data[index]}
+            taskListData={data?.[index] || { tasks: [] }}
           />
         ))}
     </div>

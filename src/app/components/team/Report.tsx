@@ -1,9 +1,9 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import getTaskList, { GetTaskListResponse } from '@/app/lib/group/getTaskList';
+import getTodayDate from '@/app/utils/getTodayDate';
 import IconReportTodo from '../icons/IconReportTodo';
 import IconReportDone from '../icons/IconReportDone';
-import { getTodayDate } from '@/app/utils/getTodayDate';
 import ProgressChart from './ProgressChart';
 import TaskSummaryCard from './TaskSummaryCard';
 

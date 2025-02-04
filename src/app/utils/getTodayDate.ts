@@ -1,4 +1,4 @@
-export const getTodayDate = (): string => {
+const getTodayDate = (): string => {
   return `${new Date()
     .toLocaleDateString('ko-KR', {
       year: 'numeric',
@@ -8,3 +8,5 @@ export const getTodayDate = (): string => {
     .replace(/\. /g, '-')
     .replace('.', '')}T00:00:00Z`;
 };
+
+export default getTodayDate;
