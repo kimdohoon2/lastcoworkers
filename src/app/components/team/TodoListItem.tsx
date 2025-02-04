@@ -34,7 +34,7 @@ export default function TodoListItem({
         className={`absolute left-0 h-10 w-3 rounded-l-xl ${backgroundColor}`}
       />
       <Link
-        href={`/${groupId}/tasklist/${taskList.id}`}
+        href={`/${groupId}/${taskList.id}`}
         className="text-base font-medium text-white"
       >
         {taskList.name}
