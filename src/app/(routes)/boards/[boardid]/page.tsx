@@ -11,7 +11,7 @@ import BoardDetail from '@/app/components/boarddetail/BoardDetail';
 
 export default function BoardDetailPage() {
   const params = useParams();
-  const articleId = params?.boardId;
+  const articleId = params?.boardid;
 
   const numericArticleId = Number(articleId);
 

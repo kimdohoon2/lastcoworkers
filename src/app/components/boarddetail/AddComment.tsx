@@ -6,7 +6,7 @@ import Button from '../common/button/Button';
 
 export default function AddComment() {
   const params = useParams();
-  const articleId = Number(params?.boardId);
+  const articleId = Number(params?.boardid);
   const queryClient = useQueryClient();
   const [commentContent, setCommentContent] = useState('');
 

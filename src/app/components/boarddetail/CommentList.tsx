@@ -26,7 +26,7 @@ import IconMember from '../icons/IconMember';
 
 export default function CommentList() {
   const params = useParams();
-  const articleId = Number(params?.boardId);
+  const articleId = Number(params?.boardid);
   const queryClient = useQueryClient();
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
