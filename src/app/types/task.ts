@@ -5,7 +5,9 @@ export enum FrequencyType {
   ONCE = 'ONCE',
 }
 
-interface Task extends BaseTask, TaskAdditionalInfo {}
+interface Task extends BaseTask, TaskAdditionalInfo {
+  recurring?: RecurringTask;
+}
 
 interface BaseTask {
   id: number;
@@ -15,25 +17,40 @@ interface BaseTask {
   date: string;
   doneAt: string | null;
   updatedAt: string;
-  deletedAt: string;
+  deletedAt: string | null;
   displayIndex: number;
-  commentCount: number;
+  commentCount?: number;
   recurringId: number;
 }
 
 interface TaskAdditionalInfo {
-  doneBy: {
-    user: {
+  doneBy?: {
+    user?: {
       id: number;
       nickname: string;
-      image: string;
+      image: string | null;
     };
   };
   writer: {
     id: number;
     nickname: string;
-    image: string;
+    image: string | null;
   };
+}
+
+interface RecurringTask {
+  id: number;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  startDate: string;
+  frequencyType: FrequencyType;
+  weekDays: number[];
+  monthDay: number;
+  taskListId: number;
+  groupId: number;
+  writerId: number;
 }
 
 interface RecurringTaskData {

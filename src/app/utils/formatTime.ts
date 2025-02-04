@@ -1,4 +1,4 @@
-export const adjustTimeFormat = (time: string, isAM: boolean): string => {
+const adjustTimeFormat = (time: string, isAM: boolean): string => {
   try {
     const [hourStr, minuteStr] = time.split(':');
     const hour = parseInt(hourStr, 10);
@@ -22,4 +22,23 @@ export const adjustTimeFormat = (time: string, isAM: boolean): string => {
   }
 };
 
-export default adjustTimeFormat;
+const formatToAmPm = (dateString: string): string => {
+  try {
+    const dateObj = new Date(dateString);
+    let hours = dateObj.getHours();
+    const minutes = dateObj.getMinutes();
+
+    const period = hours < 12 ? '오전' : '오후';
+
+    hours = hours % 12 || 12;
+
+    const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+
+    return `${period} ${formattedTime}`;
+  } catch (error) {
+    console.error('시간 변환 오류:', error);
+    return '오전 00:00';
+  }
+};
+
+export { adjustTimeFormat, formatToAmPm };

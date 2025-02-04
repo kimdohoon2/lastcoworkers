@@ -6,6 +6,7 @@ import postGroup from '@/app/lib/group/postGroup';
 import { GroupData } from '@/app/types/group';
 import TeamForm from '@/app/components/team/TeamForm';
 import { useRouter } from 'next/navigation';
+import useRedirectLogin from '@/app/hooks/useRedirectLogin';
 
 function Page() {
   const router = useRouter();
@@ -50,6 +51,8 @@ function Page() {
       alert('팀 생성에 실패했습니다.');
     }
   };
+
+  useRedirectLogin();
 
   return (
     <div>
