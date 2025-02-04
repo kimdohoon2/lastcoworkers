@@ -35,36 +35,36 @@ export default function BoardDetail() {
   }
 
   return (
-    <div className="flex justify-center py-[100px]">
+    <div className="flex justify-center py-[6.25rem]">
       <div className="w-[90%] max-w-[75rem]">
         <div className="flex items-center justify-between border-b-[0.063rem] border-text-primary border-opacity-10">
-          <h1 className="flex h-[64px] items-center text-lg text-text-secondary">
+          <h1 className="flex h-16 items-center text-lg text-text-secondary tablet:text-2lg">
             {article.title}
           </h1>
           <IconMore />
         </div>
-        <div className="flex h-[72px] items-center justify-between">
+        <div className="flex h-[4.5rem] items-center justify-between">
           <div className="flex items-center">
-            <p className="mr-[8px] text-xs text-text-primary">
+            <p className="mr-2 text-xs text-text-primary tablet:text-md">
               {article.writer?.nickname || '알 수 없음'}
             </p>
-            <p className="border-l-[0.063rem] border-text-primary border-opacity-10 pl-[8px] text-xs text-text-disabled">
+            <p className="border-l-[0.063rem] border-text-primary border-opacity-10 pl-2 text-xs text-text-disabled tablet:text-md">
               {new Date(article.createdAt).toLocaleDateString()}
             </p>
           </div>
-          <div className="flex gap-[8px]">
-            <div className="flex items-center gap-[4px] text-xs text-text-disabled">
+          <div className="flex gap-2">
+            <div className="flex items-center gap-1 text-xs text-text-disabled tablet:text-md">
               <IconComment />
               {article.commentCount}
             </div>
-            <span className="flex items-center gap-[4px] text-xs text-text-disabled">
+            <span className="flex items-center gap-1 text-xs text-text-disabled tablet:text-md">
               <IconHeart />
               {article.likeCount}
             </span>
           </div>
         </div>
 
-        <div className="mb-[80px] mt-[24px] text-md leading-6 text-text-secondary">
+        <div className="mb-20 mt-6 text-md leading-6 text-text-secondary tablet:text-lg tablet:leading-7">
           {article.content}
         </div>
 

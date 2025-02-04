@@ -22,22 +22,25 @@ export default function AddComment() {
   });
 
   return (
-    <div className="flex flex-col gap-[16px] border-b-[0.063rem] border-text-primary border-opacity-10 pb-[32px]">
-      <div>댓글 달기</div>
+    <div className="flex flex-col gap-4 border-b-[0.063rem] border-text-primary border-opacity-10 pb-8 tablet:gap-6 tablet:pb-10">
+      <div className="tablet:text-xl">댓글 달기</div>
       <textarea
         placeholder="내용을 입력해주세요."
-        className="h-[104px] w-full resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400"
+        className="h-[6.5rem] w-full resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400 placeholder:tablet:text-lg"
         value={commentContent}
         onChange={(e) => setCommentContent(e.target.value)}
       />
-      <Button
-        variant="primary"
-        size="small"
-        onClick={() => mutation.mutate(commentContent)}
-        disabled={!commentContent.trim() || mutation.isPending}
-      >
-        등록
-      </Button>
+      <div className="flex justify-end">
+        <Button
+          variant="primary"
+          size="small"
+          onClick={() => mutation.mutate(commentContent)}
+          className="tablet:h-12 tablet:w-[11.5rem]"
+          disabled={!commentContent.trim() || mutation.isPending}
+        >
+          등록
+        </Button>
+      </div>
     </div>
   );
 }

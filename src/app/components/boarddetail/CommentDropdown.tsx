@@ -31,7 +31,7 @@ export default function CommentDropdown({
 
       <DropdownList
         isOpen={isOpen}
-        className="right-0 mt-2 w-[120px] shadow-md"
+        className="right-0 mt-2 w-[7.5rem] shadow-md"
       >
         <DropdownItem
           onClick={() => {
