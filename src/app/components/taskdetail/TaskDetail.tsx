@@ -85,6 +85,8 @@ function TaskDetail({
               {name}
             </span>
             <TaskDetailDropdown
+              groupId={groupId}
+              taskListId={taskListId}
               taskId={taskId}
               setIsModalOpen={setIsModalOpen}
               onDeleteSuccess={onClose}

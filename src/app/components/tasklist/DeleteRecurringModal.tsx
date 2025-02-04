@@ -1,6 +1,5 @@
 import { useDeleteRecurringMutation } from '@/app/lib/task/deleteTask';
 import { useQueryClient } from '@tanstack/react-query';
-import { useParams, useRouter } from 'next/navigation';
 import { useAppSelector } from '@/app/stores/hooks';
 import Button from '../common/button/Button';
 import Modal from '../common/modal/Modal';

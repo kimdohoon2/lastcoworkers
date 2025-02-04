@@ -10,11 +10,15 @@ import DeleteTaskModal from '../tasklist/DeleteTaskModal';
 import DeleteRecurringModal from '../tasklist/DeleteRecurringModal';
 
 export default function TaskDetailDropdown({
+  groupId,
+  taskListId,
   taskId,
   setIsModalOpen,
   onDeleteSuccess,
   onEdit,
 }: {
+  groupId: number;
+  taskListId: number;
   taskId: number;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   onDeleteSuccess: () => void;
@@ -34,9 +38,6 @@ export default function TaskDetailDropdown({
     toggleDropdown,
     closeDropdown,
   } = useDropdown();
-
-  const groupId = 1771;
-  const taskListId = 2874;
 
   if (!task) return null;
 

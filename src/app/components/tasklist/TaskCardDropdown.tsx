@@ -10,7 +10,17 @@ import DeleteTaskModal from './DeleteTaskModal';
 import DeleteRecurringModal from './DeleteRecurringModal';
 import EditTaskModal from './EditTaskModal';
 
-export default function TaskCardDropdown({ taskId }: { taskId: number }) {
+interface TaskCardDropdownInterface {
+  groupId: number;
+  taskListId: number;
+  taskId: number;
+}
+
+export default function TaskCardDropdown({
+  groupId,
+  taskListId,
+  taskId,
+}: TaskCardDropdownInterface) {
   const task = useAppSelector((state) => state.tasks.taskById[taskId]);
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
@@ -24,9 +34,6 @@ export default function TaskCardDropdown({ taskId }: { taskId: number }) {
     toggleDropdown,
     closeDropdown,
   } = useDropdown();
-
-  const groupId = 1771;
-  const taskListId = 2874;
 
   if (!task) return null;
 
