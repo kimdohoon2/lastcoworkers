@@ -88,9 +88,9 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
                   variant="primary"
                   size="large"
                   type="submit"
-                  disabled={mutation.isLoading}
+                  disabled={mutation.isPending}
                 >
-                  {mutation.isLoading ? '생성 중...' : '만들기'}
+                  {mutation.isPending ? '생성 중...' : '만들기'}
                 </Button>
               </div>
             </form>

@@ -92,9 +92,9 @@ export default function HeaderDropdown({ groupName }: HeaderDropdownProps) {
               onClick={handleDelete}
               variant="danger"
               className="w-[8.5rem]"
-              disabled={deleteMutation.isLoading}
+              disabled={deleteMutation.isPending}
             >
-              {deleteMutation.isLoading ? '삭제 중...' : '삭제하기'}
+              {deleteMutation.isPending ? '삭제 중...' : '삭제하기'}
             </Button>
           </div>
         </div>

@@ -112,9 +112,9 @@ export default function TaskListDropdown({
                 variant="primary"
                 size="large"
                 type="submit"
-                disabled={editMutation.isLoading}
+                disabled={editMutation.isPending}
               >
-                {editMutation.isLoading ? '수정 중...' : '수정하기'}
+                {editMutation.isPending ? '수정 중...' : '수정하기'}
               </Button>
             </div>
           </form>
@@ -145,9 +145,9 @@ export default function TaskListDropdown({
               onClick={handleDelete}
               variant="danger"
               className="w-[8.5rem]"
-              disabled={deleteMutation.isLoading}
+              disabled={deleteMutation.isPending}
             >
-              {deleteMutation.isLoading ? '삭제 중...' : '삭제하기'}
+              {deleteMutation.isPending ? '삭제 중...' : '삭제하기'}
             </Button>
           </div>
         </div>
