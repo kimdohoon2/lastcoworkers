@@ -5,13 +5,13 @@ import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
 import IconGear from '@/app/components/icons/IconGear';
 import useDropdown from '@/app/hooks/useDropdown';
+import clsx from 'clsx';
+import { useParams, useRouter } from 'next/navigation';
 
-export default function HeaderDropdown() {
+export default function DropdownMenu() {
+  const router = useRouter();
+  const { teamid } = useParams();
   const { isOpen, toggleDropdown, closeDropdown, selectItem } = useDropdown();
-
-  const handleEditClick = (item: string) => {
-    selectItem(item);
-  };
 
   const handleDeleteClick = (item: string) => {
     selectItem(item);
@@ -29,7 +29,7 @@ export default function HeaderDropdown() {
       <DropdownList className="absolute right-4 top-6 w-28" isOpen={isOpen}>
         <DropdownItem
           className="text-center"
-          onClick={() => handleEditClick('수정하기')}
+          onClick={() => router.push(`${teamid}/edit`)}
           onClose={closeDropdown}
         >
           수정하기
