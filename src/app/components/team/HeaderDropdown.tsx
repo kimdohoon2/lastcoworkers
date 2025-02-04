@@ -15,7 +15,11 @@ import IconAlert from '@/app/components/icons/IconAlert';
 import Modal from '@/app/components/common/modal/Modal';
 import Button from '@/app/components/common/button/Button';
 
-export default function DropdownMenu() {
+interface HeaderDropdownProps {
+  groupName: string;
+}
+
+export default function HeaderDropdown({ groupName }: HeaderDropdownProps) {
   const router = useRouter();
   const { teamid } = useParams();
   const { isOpen, toggleDropdown, closeDropdown } = useDropdown();
@@ -69,10 +73,10 @@ export default function DropdownMenu() {
           <IconAlert />
           <div className="mt-4 flex w-[239px] flex-col items-center">
             <h2 className="mb-4 text-lg font-light">
-              그룹 삭제를 진행하시겠어요?
+              정말 그룹 삭제를 진행하시겠어요?
             </h2>
-            <p className="mb-6 text-center text-md font-bold text-red-500">
-              해당 그룹이 삭제됩니다!
+            <p className="mb-6 text-center text-lg font-bold text-red-500">
+              [{groupName}] 그룹이 삭제됩니다!
             </p>
           </div>
 
