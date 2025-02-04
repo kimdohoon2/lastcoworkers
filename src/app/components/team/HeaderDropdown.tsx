@@ -2,18 +2,18 @@
 
 import clsx from 'clsx';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useParams, useRouter } from 'next/navigation';
+import useModal from '@/app/hooks/useModal';
+import useDropdown from '@/app/hooks/useDropdown';
+import deleteGroup from '@/app/lib/group/deleteGroup';
 import Dropdown from '@/app/components/common/dropdown/Dropdown';
 import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
 import IconGear from '@/app/components/icons/IconGear';
-import useDropdown from '@/app/hooks/useDropdown';
-import { useParams, useRouter } from 'next/navigation';
-import IconAlert from '../icons/IconAlert';
-import Modal from '../common/modal/Modal';
-import useModal from '@/app/hooks/useModal';
-import Button from '../common/button/Button';
-import deleteGroup from '@/app/lib/group/deleteGroup';
+import IconAlert from '@/app/components/icons/IconAlert';
+import Modal from '@/app/components/common/modal/Modal';
+import Button from '@/app/components/common/button/Button';
 
 export default function DropdownMenu() {
   const router = useRouter();
@@ -28,9 +28,6 @@ export default function DropdownMenu() {
       queryClient.invalidateQueries(['groups']);
       deleteModal.closeModal();
       router.push('/');
-    },
-    onError: () => {
-      alert('그룹 삭제 중 오류가 발생했습니다.');
     },
   });
 
