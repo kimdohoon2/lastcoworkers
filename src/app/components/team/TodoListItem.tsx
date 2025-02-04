@@ -1,15 +1,15 @@
 import React from 'react';
 import { PieChart, Pie } from 'recharts';
 import Link from 'next/link';
-import IconTaskDone from '../icons/IconTaskDone';
-import DropdownMenu from './DropdownMenu';
+import IconTaskDone from '@/app/components/icons/IconTaskDone';
+import TaskListDropdown from '@/app/components/team/TaskListDropdown';
 import { Task } from '@/app/lib/group/getTaskList';
 
 interface TodoListItemProps {
   taskList: { id: number; name: string };
   groupId: number;
   backgroundColor: string;
-  taskListData: { tasks: Task[] } | undefined;
+  taskListData: { tasks?: Task[] };
 }
 
 export default function TodoListItem({
@@ -18,27 +18,12 @@ export default function TodoListItem({
   backgroundColor,
   taskListData,
 }: TodoListItemProps) {
-  if (!taskListData) {
-    return (
-      <div
-        className="relative mt-4 flex h-10 w-full items-center justify-between rounded-xl bg-background-secondary pl-6 pr-2"
-        key={taskList.id}
-      >
-        <div
-          className={`absolute left-0 h-10 w-3 rounded-l-xl ${backgroundColor}`}
-        />
-        <span className="text-white">{taskList.name}</span>
-        <span className="text-sm font-bold text-gray-600">로딩 중...</span>
-        <DropdownMenu iconType="task" />
-      </div>
-    );
-  }
-
-  const completedItems = taskListData.tasks.filter(
-    (task) => task.doneAt !== null,
-  ).length;
-  const totalTasks = taskListData.tasks.length;
-  const completionPercentage = (completedItems / totalTasks) * 100;
+  const tasks = taskListData.tasks || [];
+  const completedItems = tasks.filter((task) => task.doneAt !== null).length;
+  const totalTasks = tasks.length;
+  const completionPercentage = totalTasks
+    ? (completedItems / totalTasks) * 100
+    : 0;
 
   return (
     <div
@@ -91,7 +76,11 @@ export default function TodoListItem({
             {completedItems}/{totalTasks}
           </div>
         </div>
-        <DropdownMenu iconType="task" />
+        <TaskListDropdown
+          groupId={groupId}
+          taskListId={taskList.id}
+          taskListName={taskList.name}
+        />
       </div>
     </div>
   );
