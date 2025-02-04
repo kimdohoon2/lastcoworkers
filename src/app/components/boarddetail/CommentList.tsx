@@ -17,15 +17,16 @@ import patchArticleComment, {
 import deleteArticleComment, {
   DeleteArticleComment,
 } from '@/app/lib/articlecomment/deleteArticleComment';
+import Image from 'next/image';
 
-import IconHeart from '../icons/IconHeart';
 import AddComment from './AddComment';
 import CommentDropdown from './CommentDropdown';
 import Button from '../common/button/Button';
+import IconMember from '../icons/IconMember';
 
 export default function CommentList() {
   const params = useParams();
-  const articleId = Number(params?.boardId);
+  const articleId = Number(params?.boardid);
   const queryClient = useQueryClient();
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
@@ -109,15 +110,15 @@ export default function CommentList() {
       <AddComment />
 
       {/* 댓글 리스트 */}
-      <div className="mt-[32px] flex flex-col gap-[16px]">
+      <div className="mt-8 flex flex-col gap-4 tablet:mt-10">
         {data?.pages.map((page) =>
           page.list.map((comment) => (
             <div
               key={comment.id}
               className="rounded-lg border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary p-4"
             >
-              <div className="flex flex-col gap-[32px]">
-                <div className="text-primary flex items-center justify-between text-md">
+              <div className="flex flex-col gap-8">
+                <div className="text-primary flex items-center justify-between text-md tablet:text-lg">
                   {editingCommentId === comment.id ? (
                     <div className="flex items-center gap-3">
                       <input
@@ -148,14 +149,22 @@ export default function CommentList() {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-[8px]">
-                    <p className="text-primary">{comment.writer.nickname}</p>
-                    <p className="border-l-[0.063rem] border-text-primary border-opacity-10 pl-[8px] text-sm text-text-disabled">
+                  <div className="flex items-center gap-2">
+                    {comment.writer.image ? (
+                      <Image
+                        src={comment.writer.image}
+                        alt="Profile"
+                        className="h-8 w-8 rounded-full"
+                      />
+                    ) : (
+                      <IconMember />
+                    )}
+                    <p className="text-primary ml-1 text-xs tablet:text-md">
+                      {comment.writer.nickname}
+                    </p>
+                    <p className="border-l-[0.063rem] border-text-primary border-opacity-10 pl-2 text-xs text-text-disabled tablet:text-md">
                       {new Date(comment.createdAt).toLocaleDateString()}
                     </p>
-                  </div>
-                  <div>
-                    <IconHeart />
                   </div>
                 </div>
               </div>
