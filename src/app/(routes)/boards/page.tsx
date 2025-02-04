@@ -94,18 +94,19 @@ export default function BoardsPage() {
               <div>베스트 게시글 가져오는 중</div>
             ) : bestPosts && bestPosts.list.length > 0 ? (
               <div className="flex flex-col gap-4 tablet:flex-row tablet:gap-4">
-                {bestPosts?.list.map((post) => (
+                {bestPosts?.list.map((article) => (
                   <CommonAriticleCard
-                    key={post.id}
-                    id={post.id}
-                    title={post.title}
-                    image={post.image}
-                    updatedAt={post.updatedAt}
-                    writer={post.writer}
-                    likeCount={post.likeCount}
+                    key={article.id}
+                    id={article.id}
+                    title={article.title}
+                    image={article.image}
+                    updatedAt={article.updatedAt}
+                    writer={article.writer}
+                    likeCount={article.likeCount}
                     isBasic={false}
                     isOnlyTablet
                     tabletHidden={false}
+                    isLiked
                   />
                 ))}
               </div>
@@ -157,18 +158,19 @@ export default function BoardsPage() {
                 <div>게시글 가져오는 중</div>
               ) : recentPosts && recentPosts.list.length > 0 ? (
                 <div className="flex flex-col gap-4 tablet:gap-6">
-                  {recentPosts?.list.map((post) => (
+                  {recentPosts?.list.map((article) => (
                     <CommonAriticleCard
-                      key={post.id}
-                      id={post.id}
-                      title={post.title}
-                      image={post.image}
-                      updatedAt={post.updatedAt}
-                      writer={post.writer}
-                      likeCount={post.likeCount}
+                      key={article.id}
+                      id={article.id}
+                      title={article.title}
+                      image={article.image}
+                      updatedAt={article.updatedAt}
+                      writer={article.writer}
+                      likeCount={article.likeCount}
                       isBest={false}
                       isOnlyTablet={false}
                       tabletHidden
+                      isLiked
                     />
                   ))}
                 </div>
