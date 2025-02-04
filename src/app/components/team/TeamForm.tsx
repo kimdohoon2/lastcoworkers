@@ -7,7 +7,7 @@ import { PropsWithChildren, useEffect } from 'react';
 interface TeamFormProps {
   initialImage?: string;
   initialName?: string;
-  onSubmit: (data: FieldValues) => Promise<void>;
+  onSubmit: (data: FieldValues) => void;
 }
 
 function TeamForm({

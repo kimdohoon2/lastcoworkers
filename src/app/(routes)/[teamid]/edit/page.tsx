@@ -4,14 +4,19 @@ import TeamForm from '@/app/components/team/TeamForm';
 import getGroupById from '@/app/lib/group/getGroupById';
 import patchGroup from '@/app/lib/group/patchGroup';
 import postImage from '@/app/lib/image/postImage';
+import { RootState } from '@/app/stores/store';
 import { GroupData } from '@/app/types/group';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { FieldValues } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
 function Page() {
   const router = useRouter();
   const { teamid } = useParams();
+  const queryClient = useQueryClient();
+  const { accessToken } = useSelector((state: RootState) => state.auth);
 
   const { data: groupData, isLoading } = useQuery({
     queryKey: ['group', teamid],
@@ -19,46 +24,42 @@ function Page() {
     enabled: !!teamid, // teamid가 있을 때만 실행
   });
 
-  const onSubmit = async ({ profile, name }: FieldValues) => {
-    let imageUrl: string | null = null;
+  const mutation = useMutation({
+    mutationFn: async ({ profile, name }: FieldValues) => {
+      let imageUrl: string | null = null;
 
-    /**
-     * 이미지 업로드
-     * 프로필 이미지 선택 안한 경우 생략
-     */
-    if (profile && profile[0] instanceof File) {
-      try {
+      // 이미지 업로드 (선택된 경우만)
+      if (profile && profile[0] instanceof File) {
         const formData = new FormData();
-
         formData.append('image', profile[0]);
 
         const { url } = await postImage(formData);
-
         imageUrl = url;
-      } catch (error) {
-        alert('이미지 업로드에 실패했습니다.');
-      }
-    }
-
-    /**
-     * 팀 생성
-     */
-    try {
-      const teamData: GroupData = {
-        name,
-      };
-
-      if (imageUrl) {
-        teamData.image = imageUrl;
       }
 
+      // 업데이트할 데이터 생성
+      const teamData: GroupData = { name };
+      if (imageUrl) teamData.image = imageUrl;
+
+      // 그룹 데이터 업데이트
       await patchGroup(Number(teamid), teamData);
-
+    },
+    onSuccess: () => {
+      // 캐시 업데이트 및 페이지 이동
+      queryClient.invalidateQueries({ queryKey: ['group', Number(teamid)] });
       router.push(`/${teamid}`);
-    } catch (error) {
+    },
+    onError: () => {
       alert('팀 수정에 실패했습니다.');
+    },
+  });
+
+  useEffect(() => {
+    if (!accessToken) {
+      alert('로그인 후 이용할 수 있습니다.');
+      router.push('/login');
     }
-  };
+  }, [accessToken, router]);
 
   if (isLoading) {
     return (
@@ -77,7 +78,7 @@ function Page() {
         <TeamForm
           initialImage={groupData?.image ?? undefined}
           initialName={groupData?.name}
-          onSubmit={onSubmit}
+          onSubmit={mutation.mutate}
         >
           수정하기
         </TeamForm>

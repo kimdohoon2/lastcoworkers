@@ -5,14 +5,17 @@ interface AcceptInvitationRequest {
   token: string;
 }
 
+interface AcceptInvitationResponse {
+  groupId: number;
+}
+
 const postAcceptInvitation = async (
   data: AcceptInvitationRequest,
-): Promise<string> => {
-  const res = await axios.post<string>('/groups/accept-invitation', data, {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_ACCESS_TOKEN}`,
-    },
-  });
+): Promise<AcceptInvitationResponse> => {
+  const res = await axios.post<AcceptInvitationResponse>(
+    '/groups/accept-invitation',
+    data,
+  );
 
   return res.data;
 };

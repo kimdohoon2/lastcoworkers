@@ -35,12 +35,11 @@ export default function HistoryList() {
     );
   }
 
-  // API 응답 데이터 처리
   const history: Task[] = data?.tasksDone || [];
   const groupedHistory = groupByDate(history);
 
   return (
-    <div>
+    <div className="flex flex-col gap-8">
       {Object.entries(groupedHistory).length === 0 ? (
         <p className="text-md font-medium">아직 히스토리가 없습니다.</p>
       ) : (
