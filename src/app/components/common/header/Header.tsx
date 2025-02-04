@@ -111,7 +111,7 @@ export default function Header() {
                       className="xl:text-base"
                       onClick={() => {
                         closeDropdown();
-                        router.push('/');
+                        router.push('/invitation');
                       }}
                     >
                       팀 참여

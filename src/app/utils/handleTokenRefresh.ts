@@ -27,6 +27,21 @@ const handleTokenRefresh = async (errorConfig: AxiosRequestConfig) => {
     return Promise.reject(errorConfig);
   }
 
+  const retryRequest = new Promise((resolve, reject) => {
+    refreshSubscribers.push((token: string) => {
+      console.log('[디버깅] 새로운 토큰으로 요청을 재시도합니다.');
+      const newConfig = {
+        ...errorConfig,
+        headers: {
+          ...errorConfig.headers,
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      // 토큰 갱신 후 재시도할 요청을 실행
+      axios.request(newConfig).then(resolve).catch(reject);
+    });
+  });
+
   if (!isRefreshing) {
     console.log('[디버깅] 토큰 갱신 프로세스를 시작합니다.');
     // 만약 토큰 갱신이 진행 중이지 않으면
@@ -58,19 +73,8 @@ const handleTokenRefresh = async (errorConfig: AxiosRequestConfig) => {
   console.log(
     '[디버깅] 토큰 갱신이 진행 중이므로 요청을 대기 큐에 추가합니다.',
   );
-  return new Promise((resolve) => {
-    refreshSubscribers.push((token: string) => {
-      console.log('[디버깅] 새로운 토큰으로 요청을 재시도합니다.');
-      const newConfig = {
-        ...errorConfig,
-        headers: {
-          ...errorConfig.headers,
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      resolve(axios.request(newConfig));
-    });
-  });
+
+  return retryRequest;
 };
 
 export default handleTokenRefresh;

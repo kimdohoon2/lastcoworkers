@@ -6,13 +6,10 @@ import postGroup from '@/app/lib/group/postGroup';
 import { GroupData } from '@/app/types/group';
 import TeamForm from '@/app/components/team/TeamForm';
 import { useRouter } from 'next/navigation';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/app/stores/store';
-import { useEffect } from 'react';
+import useRedirectLogin from '@/app/hooks/useRedirectLogin';
 
 function Page() {
   const router = useRouter();
-  const { accessToken } = useSelector((state: RootState) => state.auth);
 
   const onSubmit = async ({ profile, name }: FieldValues) => {
     let imageUrl: string | null = null;
@@ -55,12 +52,7 @@ function Page() {
     }
   };
 
-  useEffect(() => {
-    if (!accessToken) {
-      alert('로그인 후 이용할 수 있습니다.');
-      router.push('/login');
-    }
-  }, [accessToken, router]);
+  useRedirectLogin();
 
   return (
     <div>
