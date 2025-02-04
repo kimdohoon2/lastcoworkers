@@ -5,7 +5,7 @@ interface DeleteGroupRequest {
 }
 
 const deleteGroup = async ({ groupId }: DeleteGroupRequest) => {
-  await axios.delete(`/groups/${groupId}`, {});
+  await axios.delete(`/groups/${groupId}`);
 };
 
 export default deleteGroup;
