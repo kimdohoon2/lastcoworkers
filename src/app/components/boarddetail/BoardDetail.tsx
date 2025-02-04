@@ -6,6 +6,7 @@ import { GetArticleDetailResponse } from '@/app/lib/article/getArticleDetail';
 import patchArticle, {
   PatchArticleRequest,
 } from '@/app/lib/article/patchArticle';
+import Image from 'next/image';
 import useModal from '@/app/hooks/useModal';
 import IconMore from '@/app/components/icons/IconMore';
 import IconComment from '@/app/components/icons/IconComment';
@@ -114,6 +115,19 @@ export default function BoardDetail({ article }: BoardDetailProps) {
         </div>
       </div>
 
+      <div className="mb-4">
+        {article.image ? (
+          <Image
+            src={article.image}
+            alt="게시글 이미지"
+            width={343}
+            height={343}
+            className="rounded-lg"
+            objectFit="cover"
+          />
+        ) : null}
+      </div>
+
       <div className="mb-20 mt-6 text-md leading-6 text-text-secondary tablet:text-lg tablet:leading-7">
         {isEditing ? (
           <div>
@@ -123,7 +137,7 @@ export default function BoardDetail({ article }: BoardDetailProps) {
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
             />
-            {/* 버튼 컨테이너 - textarea 바깥 오른쪽 아래 정렬 */}
+
             <div className="mt-2 flex justify-end gap-2">
               <Button
                 variant="secondary"
