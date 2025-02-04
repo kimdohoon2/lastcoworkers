@@ -20,6 +20,12 @@ export interface Article {
   id: number;
 }
 
+export interface ArticleLike extends Article {
+  commentCount: number;
+  isLiked: boolean;
+  content: string;
+}
+
 export interface ArticleWriter {
   nickname: string;
   id: number;
