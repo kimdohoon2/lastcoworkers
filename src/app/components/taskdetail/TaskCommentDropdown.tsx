@@ -1,6 +1,6 @@
 import useDropdown from '@/app/hooks/useDropdown';
 import { useAppSelector } from '@/app/stores/hooks';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useDeleteTaskCommentMutation } from '@/app/lib/comment/deleteComment';
 import { useQueryClient } from '@tanstack/react-query';
 import Dropdown from '../common/dropdown/Dropdown';
@@ -8,6 +8,7 @@ import DropdownItem from '../common/dropdown/DropdownItem';
 import DropdownList from '../common/dropdown/DropdownList';
 import DropdownToggle from '../common/dropdown/DropdownToggle';
 import TaskCardDropdown from '../icons/TaskCardDropdown';
+import DeleteCommentModal from './DeleteCommentModal';
 
 export default function TaskCommentMenu({
   taskId,
@@ -30,6 +31,8 @@ export default function TaskCommentMenu({
     closeDropdown,
   } = useDropdown();
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   if (!task) return null;
 
   const handleDelete = () => {
@@ -41,6 +44,7 @@ export default function TaskCommentMenu({
             queryKey: ['tasks', taskId, 'comments'],
           });
           closeDropdown();
+          setIsDeleteModalOpen(false);
         },
         onError: () => {
           console.error('댓글 삭제 실패');
@@ -72,13 +76,21 @@ export default function TaskCommentMenu({
           <DropdownItem
             className="text-sm"
             onClick={() => {
-              handleDelete();
+              setIsModalOpen(true);
+              setIsDeleteModalOpen(true);
+              closeDropdown();
             }}
           >
             삭제하기
           </DropdownItem>
         </DropdownList>
       </Dropdown>
+
+      <DeleteCommentModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onDelete={handleDelete}
+      />
     </>
   );
 }
