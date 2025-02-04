@@ -24,8 +24,6 @@ export default function DeleteRecurringModal({
 }: DeleteRecurringModalProps) {
   const queryClient = useQueryClient();
   const task = useAppSelector((state) => state.tasks.taskById[taskId]);
-  const router = useRouter();
-  const { teamid } = useParams();
   const deleteRecurringMutation = useDeleteRecurringMutation();
 
   const handleDelete = () => {
@@ -44,7 +42,6 @@ export default function DeleteRecurringModal({
 
           onClose();
           onDeleteSuccess?.();
-          router.push(`/${teamid}/tasklist`);
         },
         onError: (error) => {
           console.error('반복 삭제 실패:', error);
