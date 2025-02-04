@@ -1,5 +1,8 @@
+'use client';
+
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import BoardsLikeIcon from '@/app/components/icons/BoardsLikeIcon';
 import { Article } from '@/app/types/ArticleType';
 import Dropdown from '@/app/components/common/dropdown/Dropdown';
@@ -8,12 +11,16 @@ import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import useDropdown from '@/app/hooks/useDropdown';
 import IconPlus from '@/app/components/icons/IconPlus';
 import useDeleteArticle from '@/app/hooks/useDeleteArticle';
+import postArticleLike from '@/app/lib/article/postArticleLike';
+import deleteArticleLike from '@/app/lib/article/deleteArticleLike';
+import instance from '@/app/lib/instance';
 
 interface CommonArticleCardProps extends Article {
   isBest?: boolean;
   isBasic?: boolean;
   tabletHidden?: boolean;
   isOnlyTablet?: boolean;
+  isLiked: boolean;
 }
 
 export default function CommonAriticleCard({
@@ -22,7 +29,8 @@ export default function CommonAriticleCard({
   image,
   updatedAt,
   writer,
-  likeCount,
+  likeCount: initialLikeCount,
+  isLiked: initialIsLiked,
   isBest = true,
   isBasic = true,
   tabletHidden = false,
@@ -30,11 +38,14 @@ export default function CommonAriticleCard({
 }: CommonArticleCardProps) {
   const { isOpen, toggleDropdown, closeDropdown } = useDropdown();
   const deleteArticleMutation = useDeleteArticle();
+  const [likeCount, setLikeCount] = useState(initialLikeCount);
+  const [isLiked, setIsLiked] = useState(initialIsLiked);
   const router = useRouter();
 
   const handleCardClick = () => {
     router.push(`/boards/${id}`);
   };
+
   const handleDropdownToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
@@ -52,6 +63,40 @@ export default function CommonAriticleCard({
       deleteArticleMutation.mutate(id);
     }
     closeDropdown();
+  };
+
+  useEffect(() => {
+    const fetchLikeStatus = async () => {
+      try {
+        const response = await instance.get(`/articles/${id}`);
+        setIsLiked(response.data.isLiked);
+        setLikeCount(response.data.likeCount);
+      } catch (error) {
+        console.error('좋아요 상태 불러오기 오류:', error);
+      }
+    };
+
+    fetchLikeStatus();
+  }, [id]);
+
+  const handleLike = async (e: React.MouseEvent | React.KeyboardEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    try {
+      setIsLiked((prev) => !prev);
+      setLikeCount((prev) => (isLiked ? Math.max(prev - 1, 0) : prev + 1));
+
+      if (isLiked) {
+        await deleteArticleLike(id);
+      } else {
+        await postArticleLike(id);
+      }
+    } catch (error) {
+      console.error('좋아요 처리 중 오류 발생:', error);
+      setIsLiked((prev) => !prev);
+      setLikeCount((prev) => (isLiked ? prev + 1 : Math.max(prev - 1, 0)));
+    }
   };
 
   return (
@@ -146,7 +191,18 @@ export default function CommonAriticleCard({
             </p>
           </div>
           <div className="flex items-center gap-1">
-            <BoardsLikeIcon />
+            <div
+              onClick={handleLike}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  handleLike(e);
+                }
+              }}
+            >
+              <BoardsLikeIcon isLiked={isLiked} />
+            </div>
             <span className="text-xs text-text-disabled tablet:text-md">
               {likeCount}
             </span>
