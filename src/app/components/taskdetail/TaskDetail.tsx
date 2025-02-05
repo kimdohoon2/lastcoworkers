@@ -174,7 +174,12 @@ function TaskDetail({
             <div className="flex items-center justify-between text-md">
               <div className="flex items-center gap-3">
                 {writer.image ? (
-                  <Image src={writer.image} alt="Profile" />
+                  <Image
+                    src={writer.image}
+                    alt="Profile"
+                    width={32}
+                    height={32}
+                  />
                 ) : (
                   <TaskDetailProfile />
                 )}

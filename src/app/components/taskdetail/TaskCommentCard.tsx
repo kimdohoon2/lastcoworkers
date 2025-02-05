@@ -82,7 +82,12 @@ function TaskCommentCard({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 {comment.user.image ? (
-                  <Image src={comment.user.image} alt="Profile" />
+                  <Image
+                    src={comment.user.image}
+                    alt="Profile"
+                    width={32}
+                    height={32}
+                  />
                 ) : (
                   <TaskDetailProfile />
                 )}
