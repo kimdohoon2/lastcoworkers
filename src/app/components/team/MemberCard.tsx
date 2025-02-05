@@ -10,6 +10,7 @@ import useModal from '@/app/hooks/useModal';
 import DetailMemberModal from '@/app/components/team/DetailMemberModal';
 import deleteMember from '@/app/lib/group/deleteMemeber';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import ConfirmModal from '@/app/components/common/modal/ConfirmModal';
 
 interface GroupMember {
   role: 'ADMIN' | 'MEMBER';
@@ -24,6 +25,11 @@ function MemberCard({ member }: { member: GroupMember }) {
   const queryClient = useQueryClient();
   const { isOpen, toggleDropdown, closeDropdown } = useDropdown();
   const { isOpen: isModalOpen, openModal, closeModal } = useModal();
+  const {
+    isOpen: isConfirmModalOpen,
+    openModal: openConfirmModal,
+    closeModal: closeConfirmModal,
+  } = useModal();
 
   const { mutate: expelMember } = useMutation({
     mutationFn: deleteMember,
@@ -66,7 +72,8 @@ function MemberCard({ member }: { member: GroupMember }) {
             <DropdownItem onClick={openModal} onClose={closeDropdown}>
               멤버 정보
             </DropdownItem>
-            <DropdownItem onClick={handleExpel} onClose={closeDropdown}>
+            {/* <DropdownItem onClick={handleExpel} onClose={closeDropdown}> */}
+            <DropdownItem onClick={openConfirmModal} onClose={closeDropdown}>
               추방하기
             </DropdownItem>
           </DropdownList>
@@ -76,6 +83,14 @@ function MemberCard({ member }: { member: GroupMember }) {
         member={member}
         isOpen={isModalOpen}
         closeModal={closeModal}
+      />
+      <ConfirmModal
+        isModalOpen={isConfirmModalOpen}
+        title={`${member.userName}를 추방하시겠어요?`}
+        cancelLabel="취소"
+        confirmLabel="추방"
+        handleCancel={closeConfirmModal}
+        handleConfirm={handleExpel}
       />
     </>
   );
