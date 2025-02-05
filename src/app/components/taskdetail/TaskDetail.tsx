@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useEditTaskMutation } from '@/app/lib/task/patchTask';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import Image from 'next/image';
 import Input from '../common/input/Input';
 import Button from '../common/button/Button';
 import IconCheck from '../icons/IconCheck';
@@ -172,7 +173,11 @@ function TaskDetail({
 
             <div className="flex items-center justify-between text-md">
               <div className="flex items-center gap-3">
-                {writer.image ? writer.image : <TaskDetailProfile />}
+                {writer.image ? (
+                  <Image src={writer.image} alt="Profile" />
+                ) : (
+                  <TaskDetailProfile />
+                )}
                 <p className="text-md">{writer.nickname}</p>
               </div>
               <p className="text-text-secondary">
