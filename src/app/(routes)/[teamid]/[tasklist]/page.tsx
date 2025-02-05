@@ -50,13 +50,25 @@ function TaskListPage() {
           + 새로운 목록 추가하기
         </button>
       </div>
-      <div>
+      <div className="flex flex-wrap gap-x-3 gap-y-2">
         {data?.taskLists &&
-          data?.taskLists.map((list) => (
-            <Link key={list.id} href={`/${teamid}/${list.id}`}>
-              {list.name}
-            </Link>
-          ))}
+          data?.taskLists.map((list) => {
+            const isActive = tasklist === String(list.id);
+
+            return (
+              <Link
+                key={list.id}
+                href={`/${teamid}/${list.id}`}
+                className={`whitespace-nowrap transition ${
+                  isActive
+                    ? 'text-text-tertiary underline underline-offset-8'
+                    : 'text-text-default'
+                } hover:text-text-tertiary`}
+              >
+                {list.name}
+              </Link>
+            );
+          })}
       </div>
       <TaskCardList
         groupId={Number(teamid)}
