@@ -1,8 +1,10 @@
 import axios from '@/app/lib/instance';
+import { GroupTask } from '@/app/types/grouptask';
 
 type GroupResponse = {
   image?: string | null;
   name: string;
+  taskLists: GroupTask[];
 };
 
 const getGroupById = async (id: number): Promise<GroupResponse> => {

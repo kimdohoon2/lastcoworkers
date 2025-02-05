@@ -20,7 +20,7 @@ interface CreateTaskModalProps {
 
 export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
   const params = useParams();
-  const { groupId, taskListId, date: selectedDate } = params;
+  const { teamid: groupId, tasklist: taskListId, date: selectedDate } = params;
   const [selectedTime, setSelectedTime] = useState('');
 
   const [repeatData, setRepeatData] = useState<RecurringTaskDataBody>({

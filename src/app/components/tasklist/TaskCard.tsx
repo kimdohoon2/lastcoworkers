@@ -7,9 +7,19 @@ import IconComment from '../icons/IconComment';
 import IconCheckBox from '../icons/IconCheckBox';
 import IconUncheckBox from '../icons/IconUncheckBox';
 import DateRepeatInfo from './DateRepeatInfo';
-import TaskCardMenu from './TaskCardDropdown';
+import TaskCardDropdown from './TaskCardDropdown';
 
-export default function TaskCard({ taskId }: { taskId: number }) {
+interface TaskCardInterface {
+  teamId: number;
+  taskListId: number;
+  taskId: number;
+}
+
+export default function TaskCard({
+  teamId: groupId,
+  taskListId,
+  taskId,
+}: TaskCardInterface) {
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
   const { mutate: editTask } = useEditTaskMutation();
@@ -22,8 +32,6 @@ export default function TaskCard({ taskId }: { taskId: number }) {
 
   const { name, commentCount, doneAt, date, frequency, recurring } = task;
 
-  const groupId = 1771;
-  const taskListId = 2874;
   const startDate = recurring?.startDate;
 
   const toggleDone = (e: React.MouseEvent | React.KeyboardEvent) => {
@@ -94,7 +102,11 @@ export default function TaskCard({ taskId }: { taskId: number }) {
             {commentCount}
           </p>
         </div>
-        <TaskCardMenu taskId={taskId} />
+        <TaskCardDropdown
+          groupId={groupId}
+          taskListId={taskListId}
+          taskId={taskId}
+        />
       </div>
       <DateRepeatInfo
         date={date}

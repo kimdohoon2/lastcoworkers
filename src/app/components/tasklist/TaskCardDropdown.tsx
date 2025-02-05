@@ -5,12 +5,22 @@ import Dropdown from '../common/dropdown/Dropdown';
 import DropdownItem from '../common/dropdown/DropdownItem';
 import DropdownList from '../common/dropdown/DropdownList';
 import DropdownToggle from '../common/dropdown/DropdownToggle';
-import TaskCardDropdown from '../icons/TaskCardDropdown';
+import IconTaskCardDropdown from '../icons/TaskCardDropdown';
 import DeleteTaskModal from './DeleteTaskModal';
 import DeleteRecurringModal from './DeleteRecurringModal';
 import EditTaskModal from './EditTaskModal';
 
-export default function TaskCardMenu({ taskId }: { taskId: number }) {
+interface TaskCardDropdownInterface {
+  groupId: number;
+  taskListId: number;
+  taskId: number;
+}
+
+export default function TaskCardDropdown({
+  groupId,
+  taskListId,
+  taskId,
+}: TaskCardDropdownInterface) {
   const task = useAppSelector((state) => state.tasks.taskById[taskId]);
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
@@ -24,9 +34,6 @@ export default function TaskCardMenu({ taskId }: { taskId: number }) {
     toggleDropdown,
     closeDropdown,
   } = useDropdown();
-
-  const groupId = 1771;
-  const taskListId = 2874;
 
   if (!task) return null;
 
@@ -42,7 +49,7 @@ export default function TaskCardMenu({ taskId }: { taskId: number }) {
     <>
       <Dropdown onClose={closeDropdown}>
         <DropdownToggle onClick={toggleDropdown}>
-          <TaskCardDropdown />
+          <IconTaskCardDropdown />
         </DropdownToggle>
         <DropdownList
           isOpen={isDropdownOpen}
