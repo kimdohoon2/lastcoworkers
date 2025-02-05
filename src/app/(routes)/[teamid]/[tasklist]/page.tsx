@@ -20,7 +20,7 @@ function TaskListPage() {
     new Date().toISOString().split('T')[0],
   );
   const { data, isLoading } = useQuery({
-    queryKey: ['tasklists', tasklist],
+    queryKey: ['tasklists', Number(teamid)],
     queryFn: () => getGroupById(Number(teamid)),
   });
 
@@ -72,7 +72,7 @@ function TaskListPage() {
         + 할 일 추가
       </Button>
       {isOpen && modalType === 'list' && (
-        <CreateListModal onClose={closeModal} />
+        <CreateListModal onClose={closeModal} groupId={Number(teamid)} />
       )}
       {isOpen && modalType === 'task' && (
         <CreateTaskModal onClose={closeModal} />
