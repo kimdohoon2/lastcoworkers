@@ -4,9 +4,10 @@ import Link from 'next/link';
 import IconTaskDone from '@/app/components/icons/IconTaskDone';
 import TaskListDropdown from '@/app/components/team/TaskListDropdown';
 import { Task } from '@/app/lib/group/getTaskList';
+import { GroupTask } from '@/app/types/grouptask';
 
 interface TodoListItemProps {
-  taskList: { id: number; name: string };
+  taskList: GroupTask;
   groupId: number;
   backgroundColor: string;
   taskListData: { tasks?: Task[] };
@@ -34,7 +35,7 @@ export default function TodoListItem({
         className={`absolute left-0 h-10 w-3 rounded-l-xl ${backgroundColor}`}
       />
       <Link
-        href={`/${groupId}/tasklist/${taskList.id}`}
+        href={`/${groupId}/${taskList.id}`}
         className="text-base font-medium text-white"
       >
         {taskList.name}

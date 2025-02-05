@@ -5,13 +5,12 @@ import { useTasksQuery } from '@/app/lib/task/getTask';
 import { useAppDispatch, useAppSelector } from '@/app/stores/hooks';
 import selectTasksArray from '@/app/stores/selectors';
 import { setTasks } from '@/app/stores/tasksSlice';
-import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import TaskDetailDrawer from '../taskdetail/TaskDetailDrawer';
 
 function TaskCardList({
-  groupId = 1771,
-  taskListId = 2874,
+  groupId,
+  taskListId,
   date,
 }: {
   groupId: number;
@@ -20,10 +19,7 @@ function TaskCardList({
 }) {
   const dispatch = useAppDispatch();
   const { data, isLoading, error } = useTasksQuery(groupId, taskListId, date);
-  const router = useRouter();
-  const params = useParams();
 
-  const teamid = params.teamid as string;
   const tasks = useAppSelector(selectTasksArray);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -34,10 +30,6 @@ function TaskCardList({
       dispatch(setTasks(data));
     }
   }, [data, dispatch]);
-
-  const handleCardClick = (taskid: number) => {
-    router.push(`/${teamid}/${taskid}`);
-  };
 
   const openDrawer = (taskid: number) => {
     setSelectedTaskId(taskid);
@@ -58,7 +50,7 @@ function TaskCardList({
     }
 
     if (e.key === 'Enter' || e.key === ' ') {
-      handleCardClick(taskId);
+      openDrawer(taskId);
       e.preventDefault();
     }
   };
@@ -90,7 +82,11 @@ function TaskCardList({
             onKeyDown={(e) => handleKeyDown(e, task.id)}
             className="cursor-pointer rounded-[0.5rem] border border-transparent transition-all duration-200 ease-in-out hover:border-background-inverse"
           >
-            <TaskCard taskId={task.id} />
+            <TaskCard
+              teamId={groupId}
+              taskListId={taskListId}
+              taskId={task.id}
+            />
           </div>
         ))}
       </div>

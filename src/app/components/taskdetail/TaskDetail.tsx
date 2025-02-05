@@ -9,7 +9,7 @@ import Button from '../common/button/Button';
 import IconCheck from '../icons/IconCheck';
 import IconCancel from '../icons/IconCancel';
 import TaskDetailProfile from '../icons/TaskDetailProfile';
-import TaskDetailMenu from './TaskDetailDropdown';
+import TaskDetailDropdown from './TaskDetailDropdown';
 import DateRepeatInfo from '../tasklist/DateRepeatInfo';
 import TaskComments from './TaskComment';
 
@@ -160,7 +160,9 @@ function TaskDetail({
                   {nameValue}
                 </span>
               )}
-              <TaskDetailMenu
+              <TaskDetailDropdown
+                groupId={groupId}
+                taskListId={taskListId}
                 taskId={taskId}
                 setIsModalOpen={setIsModalOpen}
                 onDeleteSuccess={onClose}
