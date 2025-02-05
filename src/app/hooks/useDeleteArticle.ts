@@ -1,19 +1,39 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import deleteArticle from '@/app/lib/article/deleteArticle';
+import { Article } from '../types/ArticleType';
 
 const useDeleteArticle = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: deleteArticle,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['articles'] });
+    onMutate: async (variables) => {
+      // 진행 중인 쿼리 취소
+      await queryClient.cancelQueries({ queryKey: ['articles'] });
 
-      alert('게시글이 성공적으로 삭제되었습니다.');
-      window.location.reload();
+      // 이전 상태 저장 (롤백용)
+      const previousArticles = queryClient.getQueryData<Article[]>([
+        'articles',
+      ]);
+
+      // 낙관적 업데이트
+      queryClient.setQueryData<Article[]>(
+        ['articles'],
+        (old) =>
+          old?.filter((article) => article.id !== variables.articleId) || [],
+      );
+
+      return { previousArticles };
     },
-    onError: () => {
-      alert('본인이 작성한 게시글만 삭제할 수 있습니다.');
+    onError: (err, variables, context) => {
+      // 에러 발생 시 이전 상태 복구
+      if (context?.previousArticles) {
+        queryClient.setQueryData(['articles'], context.previousArticles);
+      }
+    },
+    onSettled: () => {
+      // 최종 데이터 재검증
+      queryClient.invalidateQueries({ queryKey: ['articles'] });
     },
   });
 };
