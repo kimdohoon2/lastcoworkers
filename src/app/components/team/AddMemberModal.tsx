@@ -5,13 +5,12 @@ import Modal from '@/app/components/common/modal/Modal';
 import copyWithExecCommand from '@/app/utils/copyWithExecCommand';
 
 interface ModalProps {
-  groupId: number;
   token: string;
   isOpen: boolean;
   closeModal: () => void;
 }
 
-function AddMemberModal({ token, groupId, isOpen, closeModal }: ModalProps) {
+function AddMemberModal({ token, isOpen, closeModal }: ModalProps) {
   const handleClick = async () => {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       await navigator.clipboard.writeText(token);

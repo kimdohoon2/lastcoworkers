@@ -50,7 +50,6 @@ function MemberContainer({ members }: { members: GroupMember[] }) {
         ))}
       </div>
       <AddMemberModal
-        groupId={members[0].groupId}
         token={token || ''}
         isOpen={isOpen}
         closeModal={closeModal}
