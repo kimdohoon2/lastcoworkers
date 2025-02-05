@@ -1,6 +1,6 @@
 export interface GetArticleRequest {
-  page: number;
-  pageSize: number;
+  page?: number;
+  pageSize?: number;
   orderBy?: string;
   keyword?: string;
 }
