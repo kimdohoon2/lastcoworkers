@@ -38,6 +38,10 @@ export default function CommonAriticleCard({
     router.push(`/boards/${id}`);
   };
 
+  const handleEditClick = () => {
+    router.push(`/boards/${id}/editboard`);
+  };
+
   const handleDropdownToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
@@ -172,7 +176,7 @@ export default function CommonAriticleCard({
                     <DropdownItem
                       className="xl:text-base"
                       onClick={() => {
-                        closeDropdown();
+                        handleEditClick();
                       }}
                     >
                       수정하기
