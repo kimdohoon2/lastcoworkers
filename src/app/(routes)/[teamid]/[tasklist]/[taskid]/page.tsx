@@ -5,10 +5,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 function TaskDetailPage() {
-  const params = useParams();
+  const { teamid, tasklist, taskid } = useParams();
   const router = useRouter();
-  const teamid = params.teamid as string;
-  const taskid = params.taskid as string | undefined;
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -20,15 +18,15 @@ function TaskDetailPage() {
 
   const closeDrawer = () => {
     setIsDrawerOpen(false);
-    router.push(`/${teamid}/tasklist`);
+    router.push(`/${teamid}/${tasklist}`);
   };
 
   return (
     <TaskDetailDrawer
       isOpen={isDrawerOpen}
       onClose={closeDrawer}
-      groupId={1771}
-      taskListId={Number(teamid)}
+      groupId={Number(teamid)}
+      taskListId={Number(tasklist)}
       taskId={taskid ? Number(taskid) : undefined}
     />
   );
