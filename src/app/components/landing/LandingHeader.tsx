@@ -1,16 +1,24 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/stores/store';
 import IconRepair from '@/app/components/icons/IconRepair';
 import getUser from '@/app/lib/user/getUser';
 
 export default function LandingHeader() {
   const router = useRouter();
+  const { accessToken } = useSelector((state: RootState) => state.auth);
 
   const handleStartClick = async () => {
+    if (!accessToken) {
+      router.push('/login');
+      return;
+    }
+
     try {
       const userData = await getUser();
-      if (userData.memberships.length === 0) {
+      if (!userData || userData.memberships.length === 0) {
         router.push('/noteam');
       } else {
         const latestGroup =
