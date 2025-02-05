@@ -37,9 +37,12 @@ function TaskListPage() {
       <div className="flex justify-between">
         <DatePicker
           selectedDate={selectedDate}
-          onDateChange={(date: Date) =>
-            setSelectedDate(date.toISOString().split('T')[0])
-          }
+          onDateChange={(date: Date) => {
+            const localDate = new Date(
+              date.getTime() - date.getTimezoneOffset() * 60000,
+            );
+            setSelectedDate(localDate.toISOString().split('T')[0]);
+          }}
         />
         <button
           className="text-md text-brand-primary hover:text-interaction-hover"
