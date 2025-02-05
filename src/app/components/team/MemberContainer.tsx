@@ -30,7 +30,7 @@ function MemberContainer({ members }: { members: GroupMember[] }) {
   if (isError) return null;
 
   return (
-    <div className="mx-auto mt-12 max-w-[75rem]">
+    <div className="mx-auto mb-6 mt-12 max-w-[75rem]">
       <div className="mb-6 flex items-center justify-between">
         <div className="text-lg font-medium">
           멤버
