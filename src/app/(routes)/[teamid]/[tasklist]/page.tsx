@@ -29,8 +29,6 @@ function TaskListPage() {
     openModal();
   };
 
-  console.log(data?.taskLists);
-
   if (isLoading) return <div>Loading...</div>;
 
   return (
