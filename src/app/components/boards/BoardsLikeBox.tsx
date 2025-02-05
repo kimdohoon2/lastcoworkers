@@ -2,6 +2,7 @@
 
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import instance from '@/app/lib/instance';
+import { AxiosResponse } from 'axios';
 import postArticleLike from '@/app/lib/article/postArticleLike';
 import deleteArticleLike from '@/app/lib/article/deleteArticleLike';
 import BoardsLikeIcon from '@/app/components/icons/BoardsLikeIcon';
@@ -11,7 +12,10 @@ interface BoardsLikeBoxType {
   isLiked: boolean;
   likeCount: number;
 }
-
+interface ArticleData {
+  isLiked: boolean;
+  likeCount: number;
+}
 export default function BoardsLikeBox({
   id,
   likeCount: initialLikeCount,
@@ -19,9 +23,14 @@ export default function BoardsLikeBox({
 }: BoardsLikeBoxType) {
   const queryClient = useQueryClient();
 
-  const { data } = useQuery({
+  const { data } = useQuery<ArticleData, Error>({
     queryKey: ['article', id],
-    queryFn: () => instance.get(`/articles/${id}`).then((res) => res.data),
+    queryFn: async (): Promise<ArticleData> => {
+      const response: AxiosResponse<ArticleData> = await instance.get(
+        `/articles/${id}`,
+      );
+      return response.data;
+    },
     initialData: {
       isLiked: initialIsLiked,
       likeCount: initialLikeCount,
