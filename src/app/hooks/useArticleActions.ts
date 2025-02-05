@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/stores/store';
@@ -41,6 +40,7 @@ export default function useArticleActions(article: Article) {
     openDeleteModal();
     closeDropdown();
   };
+
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLDivElement>,
     action: (event: React.KeyboardEvent<HTMLDivElement>) => void,
@@ -50,6 +50,7 @@ export default function useArticleActions(article: Article) {
       action(e);
     }
   };
+
   const confirmDelete = () => {
     deleteArticleMutation.mutate(
       { articleId: id },
@@ -58,11 +59,9 @@ export default function useArticleActions(article: Article) {
           closeDeleteModal();
         },
         onError: (error) => {
-          const axiosError = error as AxiosError;
-          if (axiosError.response?.status === 403) {
-            closeDeleteModal();
-            alert('본인이 작성한 게시글만 삭제할 수 있습니다.');
-          }
+          closeDeleteModal();
+          alert('게시글 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.');
+          console.error('Delete error:', error);
         },
       },
     );
