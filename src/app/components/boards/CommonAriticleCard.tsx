@@ -193,7 +193,7 @@ export default function CommonAriticleCard({
       </div>
 
       <ConfirmModal
-        title="정말로 이 게시글을 삭제하시겠습니까?"
+        title="정말로 삭제하시겠습니까?"
         cancelLabel="취소"
         confirmLabel="삭제"
         isModalOpen={isDeleteModalOpen}
