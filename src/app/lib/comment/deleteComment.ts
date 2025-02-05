@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query';
 import instance from '../instance';
 
 interface DeleteTaskCommentRequest {
@@ -6,7 +7,7 @@ interface DeleteTaskCommentRequest {
 }
 
 // 할 일 댓글 삭제
-const deleteTaskComment = async ({
+export const deleteTaskComment = async ({
   taskId,
   commentId,
 }: DeleteTaskCommentRequest) => {
@@ -14,4 +15,8 @@ const deleteTaskComment = async ({
   return res.data;
 };
 
-export default deleteTaskComment;
+export const useDeleteTaskCommentMutation = () => {
+  return useMutation({
+    mutationFn: deleteTaskComment,
+  });
+};

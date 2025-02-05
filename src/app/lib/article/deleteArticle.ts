@@ -1,6 +1,11 @@
 import instance from '@/app/lib/instance';
 
-export default async function deleteArticle(articleId: number) {
-  const response = await instance.delete(`articles/${articleId}`);
-  return response.data;
+export interface DeleteArticle {
+  articleId: number;
+}
+
+export default async function deleteArticle({
+  articleId,
+}: DeleteArticle): Promise<void> {
+  await instance.delete(`articles/${articleId}`);
 }

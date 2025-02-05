@@ -24,12 +24,14 @@ function Modal({
   useEffect(() => {
     if (isOpen) {
       setRenderModal(true); // isOpen이 true면 렌더링 활성화
+      document.body.style.overflow = 'hidden';
     }
   }, [isOpen]);
 
   const handleAnimationEnd = () => {
     if (!isOpen) {
       setRenderModal(false); // 애니메이션 종료 후 렌더링 중단
+      document.body.style.overflow = '';
     }
   };
 

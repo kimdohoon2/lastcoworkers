@@ -4,15 +4,16 @@ import Button from '@/app/components/common/button/Button';
 import useRedirectLogin from '@/app/hooks/useRedirectLogin';
 import postAcceptInvitation from '@/app/lib/group/postAcceptInvitation';
 import { RootState } from '@/app/stores/store';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 function Page() {
   const router = useRouter();
-  const params = useSearchParams();
   const [token, setToken] = useState('');
   const { user } = useSelector((store: RootState) => store.auth);
+  const queryClient = useQueryClient();
 
   const handleClick = async () => {
     try {
@@ -21,19 +22,12 @@ function Page() {
         token,
       });
 
+      queryClient.invalidateQueries({ queryKey: ['group', groupId] });
       router.push(groupId.toString());
     } catch (error) {
       alert('이미 그룹에 소속된 유저입니다.');
     }
   };
-
-  useEffect(() => {
-    const tokenParam = params.get('token');
-
-    if (tokenParam) {
-      setToken(tokenParam);
-    }
-  }, [params]);
 
   useRedirectLogin();
 

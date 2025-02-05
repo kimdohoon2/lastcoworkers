@@ -7,18 +7,31 @@ import CreateTaskModal from '@/app/components/tasklist/CreateTaskModal';
 import useModal from '@/app/hooks/useModal';
 import Button from '@/app/components/common/button/Button';
 import CreateListModal from '@/app/components/tasklist/CreateListModal';
+import { useParams } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import getGroupById from '@/app/lib/group/getGroupById';
+import Link from 'next/link';
 
 function TaskListPage() {
+  const { teamid, tasklist } = useParams();
   const { isOpen, openModal, closeModal } = useModal();
   const [modalType, setModalType] = useState<'list' | 'task' | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>(
     new Date().toISOString().split('T')[0],
   );
+  const { data, isLoading } = useQuery({
+    queryKey: ['tasklists', tasklist],
+    queryFn: () => getGroupById(Number(teamid)),
+  });
 
   const handleOpenModal = (type: 'task' | 'list') => {
     setModalType(type);
     openModal();
   };
+
+  console.log(data?.taskLists);
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="mx-auto mt-24 flex w-full max-w-[75rem] flex-col gap-6 px-3.5 tablet:px-6">
@@ -37,7 +50,19 @@ function TaskListPage() {
           + 새로운 목록 추가하기
         </button>
       </div>
-      <TaskCardList groupId={1771} taskListId={2874} date={selectedDate} />
+      <div>
+        {data?.taskLists &&
+          data?.taskLists.map((list) => (
+            <Link key={list.id} href={`/${teamid}/${list.id}`}>
+              {list.name}
+            </Link>
+          ))}
+      </div>
+      <TaskCardList
+        groupId={Number(teamid)}
+        taskListId={Number(tasklist)}
+        date={selectedDate}
+      />
       <Button
         variant="plus"
         size="plus"
