@@ -16,6 +16,10 @@ interface TodoListProps {
   taskLists: GroupTask[];
 }
 
+interface TodoListForm {
+  name: string;
+}
+
 export default function TodoList({ groupId, taskLists }: TodoListProps) {
   const backgroundColors = [
     'bg-point-purple',
@@ -27,7 +31,7 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
     'bg-point-yellow',
   ];
   const { isOpen, openModal, closeModal } = useModal();
-  const methods = useForm();
+  const methods = useForm<TodoListForm>();
   const queryClient = useQueryClient();
   const todayDate = getTodayDate();
 
@@ -48,7 +52,7 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
     mutationFn: (newTaskList: { name: string }) =>
       createTaskList({ groupId, name: newTaskList.name }),
     onSuccess: () => {
-      queryClient.invalidateQueries(['taskLists', groupId]);
+      queryClient.invalidateQueries({ queryKey: ['taskLists', groupId] });
       closeModal();
     },
   });
