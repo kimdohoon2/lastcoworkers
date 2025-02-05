@@ -72,7 +72,6 @@ function MemberCard({ member }: { member: GroupMember }) {
             <DropdownItem onClick={openModal} onClose={closeDropdown}>
               멤버 정보
             </DropdownItem>
-            {/* <DropdownItem onClick={handleExpel} onClose={closeDropdown}> */}
             <DropdownItem onClick={openConfirmModal} onClose={closeDropdown}>
               추방하기
             </DropdownItem>
@@ -86,7 +85,7 @@ function MemberCard({ member }: { member: GroupMember }) {
       />
       <ConfirmModal
         isModalOpen={isConfirmModalOpen}
-        title={`${member.userName}를 추방하시겠어요?`}
+        title={`${member.userName}님을 추방하시겠어요?`}
         cancelLabel="취소"
         confirmLabel="추방"
         handleCancel={closeConfirmModal}
