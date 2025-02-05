@@ -54,7 +54,6 @@ export default function BoardsPage() {
     orderBy: sortOrder,
     keyword: debouncedSearchKeyword,
   });
-
   const allArticles = recentPosts?.pages.flatMap((page) => page.list) || [];
 
   // 리엑트 인터셉션 옵저버 활용한 무한스크롤
@@ -72,13 +71,11 @@ export default function BoardsPage() {
         <div className="pt-8 tablet:pt-10">
           <div className="flex flex-col gap-6 tablet:gap-8 xl:gap-10">
             <h1 className="text-2lg tablet:text-2xl">자유게시판</h1>
-            {/* 검색창 */}
             <BoardsSearchBar
               searchKeyword={searchKeyword}
               setSearchKeyword={setSearchKeyword}
             />
             <h2 className="tablet:text-xl">베스트 게시글</h2>
-            {/* 베스트 게시글 카드 */}
             {isBestLoading ? (
               <div>베스트 게시글 가져오는 중</div>
             ) : bestPosts && bestPosts.list.length > 0 ? (
@@ -107,52 +104,48 @@ export default function BoardsPage() {
             <div className="my-8 h-[1px] w-full bg-[#F8FAFC1A] tablet:my-10" />
             <div className="mb-6 flex w-full items-center justify-between">
               <h3 className="tablet:text-xl">게시글</h3>
-              {/* 최신순, 좋아요많은순 버튼 */}
               <BoardsOrderDropDown setSortOrder={setSortOrder} />
             </div>
-            {/* 게시글 카드 */}
-            <div className="flex flex-col">
-              {isRecentLoading ? (
-                <div>게시글 가져오는 중</div>
-              ) : allArticles.length > 0 ? (
-                <div className="flex flex-col">
-                  {allArticles.map((article) => (
-                    <div key={article.id} className="mb-4 tablet:mb-6">
-                      <CommonAriticleCard
-                        id={article.id}
-                        title={article.title}
-                        image={article.image}
-                        updatedAt={article.updatedAt}
-                        writer={article.writer}
-                        likeCount={article.likeCount}
-                        isBest={false}
-                        isOnlyTablet={false}
-                        tabletHidden
-                        isLiked
-                      />
-                    </div>
-                  ))}
+            {isRecentLoading ? (
+              <div>게시글 가져오는 중</div>
+            ) : allArticles.length > 0 ? (
+              <div className="flex flex-col">
+                {allArticles.map((article) => (
+                  <div key={article.id} className="mb-4 tablet:mb-6">
+                    <CommonAriticleCard
+                      id={article.id}
+                      title={article.title}
+                      image={article.image}
+                      updatedAt={article.updatedAt}
+                      writer={article.writer}
+                      likeCount={article.likeCount}
+                      isBest={false}
+                      isOnlyTablet={false}
+                      tabletHidden
+                      isLiked
+                    />
+                  </div>
+                ))}
+
+                {/* 모든 게시글을 가져왔을 때 메시지 표시 */}
+                {!hasNextPage && allArticles.length > 0 && (
+                  <div className="py-4 text-center">
+                    더 이상 게시글이 없습니다.
+                  </div>
+                )}
+
+                {/* 무한 스크롤 시 UI 추가 */}
+                {isFetchingNextPage && (
+                  <div className="py-4 text-center">게시글 가져오는 중</div>
+                )}
+
+                <div ref={ref} className="h-10">
+                  {hasNextPage && !isFetchingNextPage && '스크롤하여 더 보기'}
                 </div>
-              ) : (
-                <div>검색 결과에 해당하는 게시글이 없습니다.</div>
-              )}
-
-              {/* 모든 게시글을 가져왔을 때 메시지 표시 */}
-              {!hasNextPage && (
-                <div className="py-4 text-center">
-                  더 이상 게시글이 없습니다.
-                </div>
-              )}
-
-              {/* 무한 스크롤 시 UI 추가 */}
-              {isFetchingNextPage && (
-                <div className="py-4 text-center">게시글 가져오는 중</div>
-              )}
-
-              <div ref={ref} className="h-10">
-                {hasNextPage && !isFetchingNextPage && '스크롤하여 더 보기'}
               </div>
-            </div>
+            ) : (
+              <div>검색 결과에 해당하는 게시글이 없습니다.</div>
+            )}
           </div>
         </div>
       </section>
