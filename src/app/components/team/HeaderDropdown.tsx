@@ -29,7 +29,7 @@ export default function HeaderDropdown({ groupName }: HeaderDropdownProps) {
   const deleteMutation = useMutation({
     mutationFn: () => deleteGroup({ groupId: Number(teamid) }),
     onSuccess: () => {
-      queryClient.invalidateQueries(['groups']);
+      queryClient.invalidateQueries({ queryKey: ['groups'] });
       deleteModal.closeModal();
       router.push('/');
     },
