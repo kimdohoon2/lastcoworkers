@@ -9,10 +9,11 @@ import Modal from '@/app/components/common/modal/Modal';
 import Button from '@/app/components/common/button/Button';
 import Input from '@/app/components/common/input/Input';
 import { useForm, FormProvider } from 'react-hook-form';
+import { GroupTask } from '@/app/types/grouptask';
 
 interface TodoListProps {
   groupId: number;
-  taskLists: { id: number; name: string }[];
+  taskLists: GroupTask[];
 }
 
 export default function TodoList({ groupId, taskLists }: TodoListProps) {
@@ -88,9 +89,9 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
                   variant="primary"
                   size="large"
                   type="submit"
-                  disabled={mutation.isLoading}
+                  disabled={mutation.isPending}
                 >
-                  {mutation.isLoading ? '생성 중...' : '만들기'}
+                  {mutation.isPending ? '생성 중...' : '만들기'}
                 </Button>
               </div>
             </form>

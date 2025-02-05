@@ -4,9 +4,10 @@ import Link from 'next/link';
 import IconTaskDone from '@/app/components/icons/IconTaskDone';
 import TaskListDropdown from '@/app/components/team/TaskListDropdown';
 import { Task } from '@/app/lib/group/getTaskList';
+import { GroupTask } from '@/app/types/grouptask';
 
 interface TodoListItemProps {
-  taskList: { id: number; name: string };
+  taskList: GroupTask;
   groupId: number;
   backgroundColor: string;
   taskListData: { tasks?: Task[] };
