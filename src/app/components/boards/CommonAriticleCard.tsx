@@ -96,7 +96,7 @@ export default function CommonAriticleCard({
             <p className="mb-4 mt-12 text-xs text-text-disabled tablet:hidden">
               {new Date(updatedAt).toLocaleDateString()}
             </p>
-            {/* 태블릿에서 조건부로 보이는 날짜 */}
+            {/* 베스트 게시글 태블릿에서 조건부로 보이는 날짜 */}
             <p
               className={`mb-4 mt-12 hidden text-xs text-text-disabled tablet:block tablet:text-md ${tabletHidden ? 'tablet:hidden' : ''}`}
             >
@@ -140,10 +140,10 @@ export default function CommonAriticleCard({
             </div>
             {/* 게시글에서만 테블릿부터 조건부로 보이는 날짜 */}
             <div
-              className={`mx-4 h-3 w-[1px] bg-background-tertiary ${isOnlyTablet ? 'hidden' : ''}`}
+              className={`mx-4 hidden h-3 w-[1px] bg-background-tertiary tablet:block ${isOnlyTablet ? 'tablet:hidden' : ''}`}
             />
             <p
-              className={`text-xs text-text-disabled tablet:text-md ${isOnlyTablet ? 'hidden' : ''}`}
+              className={`hidden text-xs text-text-disabled tablet:block tablet:text-md ${isOnlyTablet ? 'tablet:hidden' : ''}`}
             >
               {new Date(updatedAt).toLocaleDateString()}
             </p>
