@@ -3,8 +3,8 @@
 import { useCallback, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { FrequencyType, RecurringTaskDataBody } from '@/app/types/task';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createRecurringTask } from '@/app/lib/task/postRecurringTask';
+import { useQueryClient } from '@tanstack/react-query';
+import { useCreateRecurringTaskMutation } from '@/app/lib/task/postRecurringTask';
 import { useParams } from 'next/navigation';
 import { isFormValid } from '@/app/utils/formValidation';
 import { adjustTimeFormat } from '@/app/utils/formatTime';
@@ -38,27 +38,7 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
   const { setValue, watch, handleSubmit } = method;
   const allFields = watch();
   const queryClient = useQueryClient();
-
-  const createRecurringTaskMutation = useMutation({
-    mutationFn: createRecurringTask,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [
-          'groups',
-          Number(groupId),
-          'taskLists',
-          Number(taskListId),
-          'tasks',
-          selectedDate || new Date().toISOString().split('T')[0],
-        ],
-      });
-
-      onClose();
-    },
-    onError: (error) => {
-      console.error('에러:', error);
-    },
-  });
+  const { mutate, isPending } = useCreateRecurringTaskMutation();
 
   const formValidation = isFormValid(allFields, selectedTime, repeatData);
 
@@ -75,11 +55,32 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
       startDate: `${formattedDate}T${adjustedTime}Z`,
     };
 
-    createRecurringTaskMutation.mutate({
-      groupId: Number(groupId),
-      taskListId: Number(taskListId),
-      data: formData,
-    });
+    mutate(
+      {
+        groupId: Number(groupId),
+        taskListId: Number(taskListId),
+        data: formData,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [
+              'groups',
+              Number(groupId),
+              'taskLists',
+              Number(taskListId),
+              'tasks',
+              selectedDate || new Date().toISOString().split('T')[0],
+            ],
+          });
+
+          onClose();
+        },
+        onError: (error) => {
+          console.error('에러:', error);
+        },
+      },
+    );
   };
 
   const handleRepeatChange = useCallback((data: RecurringTaskDataBody) => {
@@ -137,7 +138,7 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
                 className="mt-2 text-text-inverse"
                 variant="primary"
                 size="large"
-                disabled={!formValidation}
+                disabled={!formValidation || isPending}
               >
                 만들기
               </Button>
