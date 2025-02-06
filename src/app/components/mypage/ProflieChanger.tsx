@@ -83,9 +83,7 @@ function ProfileChanger({ register }: ProfileUploaderProps) {
         {isUserLoading ||
         uploadImageMutation.isPending ||
         updateUserImageMutation.isPending ? (
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-200">
-            🔄 로딩 중...
-          </div>
+          <IconMyProfile />
         ) : profileImage ? (
           <>
             <Image

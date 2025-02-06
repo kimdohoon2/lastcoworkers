@@ -152,6 +152,8 @@ export default function CommentList() {
                   <div className="flex items-center gap-2">
                     {comment.writer.image ? (
                       <Image
+                        width={32}
+                        height={32}
                         src={comment.writer.image}
                         alt="Profile"
                         className="h-8 w-8 rounded-full"

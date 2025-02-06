@@ -52,7 +52,7 @@ export default function NicknameChanger({
 
         <div className="relative flex w-full items-center">
           <input
-            className="h-[49px] w-full rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary pl-4 focus:border-interaction-focus focus:outline-none"
+            className="w-full rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-3 pl-4 focus:border-interaction-focus focus:outline-none"
             {...methods.register('nickname', {
               required: '닉네임을 입력하세요.',
             })}
