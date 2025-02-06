@@ -9,7 +9,7 @@ export default function LandingFooter() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.5 }}
       transition={{ duration: 0.8 }}
-      className="bg-landing-bottom-small tablet:bg-landing-bottom-medium xl:bg-landing-bottom-large flex h-[40rem] w-full flex-col items-center bg-center bg-no-repeat tablet:h-[58.75rem] xl:h-[67.5rem]"
+      className="flex h-[40rem] w-full flex-col items-center bg-landing-bottom-small bg-center bg-no-repeat tablet:h-[58.75rem] tablet:bg-landing-bottom-medium xl:h-[67.5rem] xl:bg-landing-bottom-large"
     >
       <div className="mt-[7.6875rem] flex flex-col items-center gap-4 tablet:mt-44 tablet:gap-6 xl:mt-[8.125rem]">
         <div className="flex gap-6">
