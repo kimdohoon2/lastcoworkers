@@ -20,7 +20,7 @@ function TaskListPage() {
     new Date().toISOString().split('T')[0],
   );
   const { data, isLoading } = useQuery({
-    queryKey: ['tasklists', tasklist],
+    queryKey: ['tasklists', Number(teamid)],
     queryFn: () => getGroupById(Number(teamid)),
   });
 
@@ -28,8 +28,6 @@ function TaskListPage() {
     setModalType(type);
     openModal();
   };
-
-  console.log(data?.taskLists);
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -39,9 +37,12 @@ function TaskListPage() {
       <div className="flex justify-between">
         <DatePicker
           selectedDate={selectedDate}
-          onDateChange={(date: Date) =>
-            setSelectedDate(date.toISOString().split('T')[0])
-          }
+          onDateChange={(date: Date) => {
+            const localDate = new Date(
+              date.getTime() - date.getTimezoneOffset() * 60000,
+            );
+            setSelectedDate(localDate.toISOString().split('T')[0]);
+          }}
         />
         <button
           className="text-md text-brand-primary hover:text-interaction-hover"
@@ -50,13 +51,25 @@ function TaskListPage() {
           + 새로운 목록 추가하기
         </button>
       </div>
-      <div>
+      <div className="flex flex-wrap gap-x-3 gap-y-2">
         {data?.taskLists &&
-          data?.taskLists.map((list) => (
-            <Link key={list.id} href={`/${teamid}/${list.id}`}>
-              {list.name}
-            </Link>
-          ))}
+          data?.taskLists.map((list) => {
+            const isActive = tasklist === String(list.id);
+
+            return (
+              <Link
+                key={list.id}
+                href={`/${teamid}/${list.id}`}
+                className={`whitespace-nowrap transition ${
+                  isActive
+                    ? 'text-text-tertiary underline underline-offset-8'
+                    : 'text-text-default'
+                } hover:text-text-tertiary`}
+              >
+                {list.name}
+              </Link>
+            );
+          })}
       </div>
       <TaskCardList
         groupId={Number(teamid)}
@@ -72,7 +85,7 @@ function TaskListPage() {
         + 할 일 추가
       </Button>
       {isOpen && modalType === 'list' && (
-        <CreateListModal onClose={closeModal} />
+        <CreateListModal onClose={closeModal} groupId={Number(teamid)} />
       )}
       {isOpen && modalType === 'task' && (
         <CreateTaskModal onClose={closeModal} />
