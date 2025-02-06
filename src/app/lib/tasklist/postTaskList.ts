@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query';
 import instance from '../instance';
 
 interface PostTaskListRequest {
@@ -15,7 +16,7 @@ interface PostTaskListResponse {
 }
 
 // 할 일 목록 생성
-const createTaskList = async ({
+export const createTaskList = async ({
   groupId,
   name,
 }: PostTaskListRequest): Promise<PostTaskListResponse> => {
@@ -27,5 +28,10 @@ const createTaskList = async ({
   return res.data;
 };
 
+export const useCreateTaskListMutation = () => {
+  return useMutation({
+    mutationFn: createTaskList,
+  });
+};
+
 export type { PostTaskListRequest, PostTaskListResponse };
-export { createTaskList };
