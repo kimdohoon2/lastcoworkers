@@ -24,9 +24,6 @@ export default function AddBoard() {
     onSuccess: () => {
       router.push('/boards');
     },
-    onError: () => {
-      alert('게시글 등록에 실패했습니다.');
-    },
   });
 
   const imageMutation = useMutation({
@@ -41,13 +38,8 @@ export default function AddBoard() {
     let imageUrl: string | null = null;
 
     if (data.profile && data.profile.length > 0) {
-      try {
-        const uploadedImage = await imageMutation.mutateAsync(data.profile[0]);
-        imageUrl = uploadedImage.url;
-      } catch {
-        alert('이미지 업로드에 실패했습니다.');
-        return;
-      }
+      const uploadedImage = await imageMutation.mutateAsync(data.profile[0]);
+      imageUrl = uploadedImage.url;
     }
 
     const requestBody: PostArticleRequest = {
