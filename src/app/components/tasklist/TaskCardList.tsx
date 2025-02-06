@@ -17,6 +17,7 @@ import {
 import { useTasksQuery } from '@/app/lib/task/getTask';
 import { useAppDispatch } from '@/app/stores/hooks';
 import { setTasks } from '@/app/stores/tasksSlice';
+import { useEditTaskOrderMutation } from '@/app/lib/task/patchTask';
 import TaskDetailDrawer from '../taskdetail/TaskDetailDrawer';
 import SortableTaskCard from './SortableTaskCard';
 
@@ -31,6 +32,7 @@ function TaskCardList({
 }) {
   const dispatch = useAppDispatch();
   const { data, isLoading, error } = useTasksQuery(groupId, taskListId, date);
+  const { mutate: editTaskOrderMutation } = useEditTaskOrderMutation();
   const [tasksState, setTasksState] = useState(data || []);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
@@ -76,6 +78,13 @@ function TaskCardList({
     if (oldIndex !== -1 && newIndex !== -1) {
       const newTasks = arrayMove(tasksState, oldIndex, newIndex);
       setTasksState(newTasks);
+
+      editTaskOrderMutation({
+        groupId,
+        taskListId,
+        id: Number(active.id),
+        displayIndex: newIndex,
+      });
     }
   };
 
