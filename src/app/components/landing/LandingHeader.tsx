@@ -4,12 +4,19 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/stores/store';
 import IconRepair from '@/app/components/icons/IconRepair';
+import { useQuery } from '@tanstack/react-query';
 import getUser from '@/app/lib/user/getUser';
 import { motion } from 'framer-motion';
 
 export default function LandingHeader() {
   const router = useRouter();
   const { accessToken } = useSelector((state: RootState) => state.auth);
+
+  const { refetch } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUser,
+    enabled: false,
+  });
 
   const handleStartClick = async () => {
     if (!accessToken) {
@@ -18,7 +25,7 @@ export default function LandingHeader() {
     }
 
     try {
-      const userData = await getUser();
+      const { data: userData } = await refetch();
       if (!userData || userData.memberships.length === 0) {
         router.push('/noteam');
       } else {
@@ -38,7 +45,7 @@ export default function LandingHeader() {
       transition={{ duration: 0.8 }}
       className="mt-14 flex h-[40rem] w-full flex-col items-center justify-between pb-8 tablet:h-[58.75rem] tablet:pb-[10.5rem] xl:h-[67.5rem] xl:pb-[11.25rem]"
     >
-      <div className="h-full w-full bg-landing-top-small bg-cover bg-center bg-no-repeat tablet:bg-landing-top-medium xl:bg-landing-top-large">
+      <div className="bg-landing-top-small tablet:bg-landing-top-medium xl:bg-landing-top-large h-full w-full bg-cover bg-center bg-no-repeat">
         <div className="flex flex-col items-center gap-1 tablet:gap-2 xl:gap-5">
           <div className="mt-[5.25rem] flex items-center gap-1 tablet:gap-4 xl:gap-6">
             <span className="text-2xl font-semibold text-text-primary tablet:text-4xl xl:text-5xl">
