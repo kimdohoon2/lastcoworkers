@@ -57,7 +57,7 @@ export default function DeleteAccount() {
               variant="secondary"
               className="w-[8.5rem]"
             >
-              닫기
+              취소
             </Button>
             <Button
               onClick={handleDelete}

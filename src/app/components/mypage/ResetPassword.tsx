@@ -61,12 +61,12 @@ export default function ResetPassword() {
             name="password"
             title="비밀번호"
             type="password"
-            placeholder="비밀번호를 입력해주세요."
+            placeholder="현재 비밀번호를 입력해주세요."
             autoComplete="new-password"
             validationRules={{
-              required: '비밀번호를 입력해주세요.',
+              required: '현재 비밀번호를 입력해주세요.',
             }}
-            backgroundColor="bg-background-tertiary"
+            backgroundColor="bg-background-secondary"
             customButton={
               <Button variant="plus" size="small">
                 변경하기

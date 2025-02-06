@@ -98,7 +98,7 @@ export default function ResetPasswordModal({
                 variant="inverse"
                 size="large"
               >
-                닫기
+                취소
               </Button>
               <Button type="submit" variant="primary" size="large">
                 변경하기
