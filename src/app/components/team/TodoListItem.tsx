@@ -27,62 +27,60 @@ export default function TodoListItem({
     : 0;
 
   return (
-    <div
-      key={taskList.id}
-      className="relative mt-4 flex h-10 w-full items-center justify-between rounded-xl bg-background-secondary pl-6 pr-4"
-    >
-      <div
-        className={`absolute left-0 h-10 w-3 rounded-l-xl ${backgroundColor}`}
-      />
+    <div className="relative mt-4 flex h-10 w-full items-center rounded-xl bg-background-secondary pl-6 pr-4">
       <Link
+        key={taskList.id}
         href={`/${groupId}/${taskList.id}`}
-        className="text-base font-medium text-white"
+        className="z-0 flex flex-1 items-center justify-between"
       >
-        {taskList.name}
-      </Link>
-      <div className="flex items-center gap-2">
-        <div className="flex w-14 items-center gap-1 rounded-xl bg-background-primary px-2 py-1">
-          {completedItems === totalTasks ? (
-            <IconTaskDone />
-          ) : (
-            <PieChart width={16} height={16}>
-              <Pie
-                data={[{ name: 'Background', value: 100 }]}
-                dataKey="value"
-                cx="50%"
-                cy="50%"
-                innerRadius={4}
-                outerRadius={7}
-                startAngle={90}
-                endAngle={-270}
-                fill="#F8FAFC"
-                stroke="none"
-              />
-              <Pie
-                data={[{ name: 'Completed', value: completionPercentage }]}
-                dataKey="value"
-                cx="50%"
-                cy="50%"
-                innerRadius={4}
-                outerRadius={7}
-                startAngle={270}
-                endAngle={270 + (completionPercentage * 360) / 100}
-                fill="#10B981"
-                stroke="none"
-                cornerRadius={50}
-              />
-            </PieChart>
-          )}
-          <div className="text-sm font-medium text-brand-primary">
-            {completedItems}/{totalTasks}
+        <div
+          className={`absolute left-0 h-10 w-3 rounded-l-xl ${backgroundColor}`}
+        />
+        <div className="text-base font-medium text-white">{taskList.name}</div>
+        <div className="flex items-center gap-2">
+          <div className="flex w-14 items-center gap-1 rounded-xl bg-background-primary px-2 py-1">
+            {completedItems === totalTasks ? (
+              <IconTaskDone />
+            ) : (
+              <PieChart width={16} height={16}>
+                <Pie
+                  data={[{ name: 'Background', value: 100 }]}
+                  dataKey="value"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={4}
+                  outerRadius={7}
+                  startAngle={90}
+                  endAngle={-270}
+                  fill="#F8FAFC"
+                  stroke="none"
+                />
+                <Pie
+                  data={[{ name: 'Completed', value: completionPercentage }]}
+                  dataKey="value"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={4}
+                  outerRadius={7}
+                  startAngle={270}
+                  endAngle={270 + (completionPercentage * 360) / 100}
+                  fill="#10B981"
+                  stroke="none"
+                  cornerRadius={50}
+                />
+              </PieChart>
+            )}
+            <div className="text-sm font-medium text-brand-primary">
+              {completedItems}/{totalTasks}
+            </div>
           </div>
         </div>
-        <TaskListDropdown
-          groupId={groupId}
-          taskListId={taskList.id}
-          taskListName={taskList.name}
-        />
-      </div>
+      </Link>
+      <TaskListDropdown
+        groupId={groupId}
+        taskListId={taskList.id}
+        taskListName={taskList.name}
+      />
     </div>
   );
 }
