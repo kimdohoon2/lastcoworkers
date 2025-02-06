@@ -43,6 +43,7 @@ export default function TaskListDropdown({
       editTaskList({ groupId, id: taskListId, name: newName }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['taskLists', groupId] });
+      queryClient.invalidateQueries({ queryKey: ['group', groupId] });
       editModal.closeModal();
     },
   });
@@ -51,6 +52,7 @@ export default function TaskListDropdown({
     mutationFn: () => deleteTaskList({ groupId, id: taskListId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['taskLists', groupId] });
+      queryClient.invalidateQueries({ queryKey: ['group', groupId] });
       deleteModal.closeModal();
     },
   });

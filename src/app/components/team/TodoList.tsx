@@ -53,6 +53,7 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
       createTaskList({ groupId, name: newTaskList.name }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['taskLists', groupId] });
+      queryClient.invalidateQueries({ queryKey: ['group', groupId] });
       closeModal();
     },
   });
