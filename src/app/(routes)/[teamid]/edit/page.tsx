@@ -4,8 +4,8 @@ import TeamForm from '@/app/components/team/TeamForm';
 import useRedirectLogin from '@/app/hooks/useRedirectLogin';
 import getGroupById from '@/app/lib/group/getGroupById';
 import patchGroup from '@/app/lib/group/patchGroup';
-import postImage from '@/app/lib/image/postImage';
 import { GroupData } from '@/app/types/group';
+import uploadImage from '@/app/utils/uploadImage';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { FieldValues } from 'react-hook-form';
@@ -21,16 +21,6 @@ function Page() {
     queryFn: () => getGroupById(groupId),
     enabled: !!groupId,
   });
-
-  const uploadImage = async (profile: FileList) => {
-    if (!profile || !(profile[0] instanceof File)) return null;
-
-    const formData = new FormData();
-    formData.append('image', profile[0]);
-
-    const { url } = await postImage(formData);
-    return url;
-  };
 
   const mutation = useMutation({
     mutationFn: async ({ profile, name }: FieldValues) => {
