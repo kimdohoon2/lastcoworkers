@@ -19,31 +19,29 @@ function Page() {
   const { data: groupData, isLoading } = useQuery({
     queryKey: ['group', groupId],
     queryFn: () => getGroupById(groupId),
-    enabled: !!groupId, // teamid가 있을 때만 실행
+    enabled: !!groupId,
   });
+
+  const uploadImage = async (profile: FileList) => {
+    if (!profile || !(profile[0] instanceof File)) return null;
+
+    const formData = new FormData();
+    formData.append('image', profile[0]);
+
+    const { url } = await postImage(formData);
+    return url;
+  };
 
   const mutation = useMutation({
     mutationFn: async ({ profile, name }: FieldValues) => {
-      let imageUrl: string | null = null;
+      const imageUrl = await uploadImage(profile);
 
-      // 이미지 업로드 (선택된 경우만)
-      if (profile && profile[0] instanceof File) {
-        const formData = new FormData();
-        formData.append('image', profile[0]);
-
-        const { url } = await postImage(formData);
-        imageUrl = url;
-      }
-
-      // 업데이트할 데이터 생성
       const teamData: GroupData = { name };
       if (imageUrl) teamData.image = imageUrl;
 
-      // 그룹 데이터 업데이트
       await patchGroup(groupId, teamData);
     },
     onSuccess: () => {
-      // 캐시 업데이트 및 페이지 이동
       queryClient.invalidateQueries({ queryKey: ['group', groupId] });
       router.push(`/${groupId}`);
     },
