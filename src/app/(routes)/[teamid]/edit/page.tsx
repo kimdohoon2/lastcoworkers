@@ -11,7 +11,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { FieldValues } from 'react-hook-form';
 
 function Page() {
-  useRedirectLogin();
+  const { isLoading: isAuthLoading } = useRedirectLogin();
 
   const router = useRouter();
   const { teamid } = useParams();
@@ -41,6 +41,13 @@ function Page() {
       alert('팀 수정에 실패했습니다.');
     },
   });
+
+  if (isAuthLoading)
+    return (
+      <div className="flex h-screen items-center justify-center bg-black text-white opacity-50">
+        로그인 정보 확인중...
+      </div>
+    );
 
   if (isLoading) {
     return (

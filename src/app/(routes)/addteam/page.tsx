@@ -10,7 +10,7 @@ import { useMutation } from '@tanstack/react-query';
 import uploadImage from '@/app/utils/uploadImage';
 
 function Page() {
-  useRedirectLogin();
+  const { isLoading } = useRedirectLogin();
 
   const router = useRouter();
 
@@ -35,6 +35,13 @@ function Page() {
       alert('팀 생성에 실패했습니다.');
     },
   });
+
+  if (isLoading)
+    return (
+      <div className="flex h-screen items-center justify-center bg-black text-white opacity-50">
+        로그인 정보 확인중...
+      </div>
+    );
 
   return (
     <div>

@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 function Page() {
-  useRedirectLogin();
+  const { isLoading } = useRedirectLogin();
 
   const router = useRouter();
   const [token, setToken] = useState('');
@@ -30,6 +30,13 @@ function Page() {
       alert('이미 그룹에 소속된 유저입니다.');
     }
   };
+
+  if (isLoading)
+    return (
+      <div className="flex h-screen items-center justify-center bg-black text-white opacity-50">
+        로그인 정보 확인중...
+      </div>
+    );
 
   return (
     <div>

@@ -7,8 +7,11 @@ import TeamHeader from '@/app/components/team/TeamHeader';
 import TodoList from '@/app/components/team/TodoList';
 import Report from '@/app/components/team/Report';
 import MemberContainer from '@/app/components/team/MemberContainer';
+import useRedirectLogin from '@/app/hooks/useRedirectLogin';
 
 export default function TeamPage() {
+  const { isLoading: isAuthLoading } = useRedirectLogin();
+
   const pathname = usePathname();
   const teamId = pathname?.split('/').filter(Boolean).pop();
   const groupId = teamId ? Number(teamId) : undefined;
@@ -26,6 +29,13 @@ export default function TeamPage() {
     enabled: !!groupId,
     staleTime: 5 * 60 * 1000,
   });
+
+  if (isAuthLoading)
+    return (
+      <div className="flex h-screen items-center justify-center bg-black text-white opacity-50">
+        로그인 정보 확인중...
+      </div>
+    );
 
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <div>에러가 발생했습니다.</div>;
