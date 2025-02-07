@@ -165,13 +165,8 @@ function ProfileChanger({ register }: ProfileUploaderProps) {
               variant="primary"
               size="large"
               onClick={handleConfirmChange}
-              disabled={
-                uploadImageMutation.isPending || patchUserMutation.isPending
-              }
             >
-              {uploadImageMutation.isPending || patchUserMutation.isPending
-                ? '변경 중...'
-                : '변경'}
+              변경
             </Button>
           </div>
         </div>
