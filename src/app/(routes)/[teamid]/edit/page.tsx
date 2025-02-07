@@ -14,11 +14,12 @@ function Page() {
   const router = useRouter();
   const { teamid } = useParams();
   const queryClient = useQueryClient();
+  const groupId = Number(teamid);
 
   const { data: groupData, isLoading } = useQuery({
-    queryKey: ['group', teamid],
-    queryFn: () => getGroupById(Number(teamid)),
-    enabled: !!teamid, // teamid가 있을 때만 실행
+    queryKey: ['group', groupId],
+    queryFn: () => getGroupById(groupId),
+    enabled: !!groupId, // teamid가 있을 때만 실행
   });
 
   const mutation = useMutation({
@@ -39,12 +40,12 @@ function Page() {
       if (imageUrl) teamData.image = imageUrl;
 
       // 그룹 데이터 업데이트
-      await patchGroup(Number(teamid), teamData);
+      await patchGroup(groupId, teamData);
     },
     onSuccess: () => {
       // 캐시 업데이트 및 페이지 이동
-      queryClient.invalidateQueries({ queryKey: ['group', Number(teamid)] });
-      router.push(`/${teamid}`);
+      queryClient.invalidateQueries({ queryKey: ['group', groupId] });
+      router.push(`/${groupId}`);
     },
     onError: () => {
       alert('팀 수정에 실패했습니다.');
