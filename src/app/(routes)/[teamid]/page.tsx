@@ -8,6 +8,7 @@ import TodoList from '@/app/components/team/TodoList';
 import Report from '@/app/components/team/Report';
 import MemberContainer from '@/app/components/team/MemberContainer';
 import useRedirectLogin from '@/app/hooks/useRedirectLogin';
+import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 
 export default function TeamPage() {
   const { isLoading: isAuthLoading } = useRedirectLogin();
@@ -30,12 +31,7 @@ export default function TeamPage() {
     staleTime: 5 * 60 * 1000,
   });
 
-  if (isAuthLoading)
-    return (
-      <div className="flex h-screen items-center justify-center bg-black text-white opacity-50">
-        로그인 정보 확인중...
-      </div>
-    );
+  if (isAuthLoading) return <AuthCheckLoading />;
 
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <div>에러가 발생했습니다.</div>;
