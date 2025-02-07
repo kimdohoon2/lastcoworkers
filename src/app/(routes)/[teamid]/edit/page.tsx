@@ -2,7 +2,7 @@
 
 import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 import TeamForm from '@/app/components/team/TeamForm';
-import useRedirectLogin from '@/app/hooks/useRedirectLogin';
+import useAuthRedirect from '@/app/hooks/useAuthRedirect';
 import getGroupById from '@/app/lib/group/getGroupById';
 import patchGroup from '@/app/lib/group/patchGroup';
 import { GroupData } from '@/app/types/group';
@@ -12,7 +12,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { FieldValues } from 'react-hook-form';
 
 function Page() {
-  const { isLoading: isAuthLoading } = useRedirectLogin();
+  const { isLoading: isAuthLoading } = useAuthRedirect();
 
   const router = useRouter();
   const { teamid } = useParams();

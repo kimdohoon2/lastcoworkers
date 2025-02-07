@@ -7,11 +7,11 @@ import TeamHeader from '@/app/components/team/TeamHeader';
 import TodoList from '@/app/components/team/TodoList';
 import Report from '@/app/components/team/Report';
 import MemberContainer from '@/app/components/team/MemberContainer';
-import useRedirectLogin from '@/app/hooks/useRedirectLogin';
+import useAuthRedirect from '@/app/hooks/useAuthRedirect';
 import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 
 export default function TeamPage() {
-  const { isLoading: isAuthLoading } = useRedirectLogin();
+  const { isLoading: isAuthLoading } = useAuthRedirect();
 
   const pathname = usePathname();
   const teamId = pathname?.split('/').filter(Boolean).pop();

@@ -2,7 +2,7 @@
 
 import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 import Button from '@/app/components/common/button/Button';
-import useRedirectLogin from '@/app/hooks/useRedirectLogin';
+import useAuthRedirect from '@/app/hooks/useAuthRedirect';
 import postAcceptInvitation from '@/app/lib/group/postAcceptInvitation';
 import { RootState } from '@/app/stores/store';
 import { useQueryClient } from '@tanstack/react-query';
@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 function Page() {
-  const { isLoading } = useRedirectLogin();
+  const { isLoading } = useAuthRedirect();
 
   const router = useRouter();
   const [token, setToken] = useState('');

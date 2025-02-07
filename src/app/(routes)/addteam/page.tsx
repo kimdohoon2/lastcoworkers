@@ -5,13 +5,13 @@ import postGroup from '@/app/lib/group/postGroup';
 import { GroupData } from '@/app/types/group';
 import TeamForm from '@/app/components/team/TeamForm';
 import { useRouter } from 'next/navigation';
-import useRedirectLogin from '@/app/hooks/useRedirectLogin';
+import useAuthRedirect from '@/app/hooks/useAuthRedirect';
 import { useMutation } from '@tanstack/react-query';
 import uploadImage from '@/app/utils/uploadImage';
 import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 
 function Page() {
-  const { isLoading } = useRedirectLogin();
+  const { isLoading } = useAuthRedirect();
 
   const router = useRouter();
 

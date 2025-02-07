@@ -3,7 +3,7 @@ import { RootState } from '@/app/stores/store';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-const useRedirectLogin = () => {
+const useAuthRedirect = () => {
   const router = useRouter();
   const { accessToken } = useSelector((state: RootState) => state.auth);
   const [isLoading, setIsLoading] = useState(true);
@@ -22,4 +22,4 @@ const useRedirectLogin = () => {
   return { isLoading };
 };
 
-export default useRedirectLogin;
+export default useAuthRedirect;
