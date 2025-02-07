@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 const useRedirectLogin = () => {
   const router = useRouter();
-  const { accessToken } = useSelector((store: RootState) => store.auth);
+  const { accessToken } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     if (!accessToken) {

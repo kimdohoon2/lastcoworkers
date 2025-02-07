@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 function Page() {
   const router = useRouter();
   const [token, setToken] = useState('');
-  const { user } = useSelector((store: RootState) => store.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
   const handleClick = async () => {
