@@ -5,8 +5,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/app/stores/store';
 import AddMemberModal from './AddMemberModal';
 import MemberCard from './MemberCard';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/app/stores/store';
 
 interface GroupMember {
   role: 'ADMIN' | 'MEMBER';
