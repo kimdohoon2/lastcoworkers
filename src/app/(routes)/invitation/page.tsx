@@ -1,5 +1,6 @@
 'use client';
 
+import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 import Button from '@/app/components/common/button/Button';
 import useRedirectLogin from '@/app/hooks/useRedirectLogin';
 import postAcceptInvitation from '@/app/lib/group/postAcceptInvitation';
@@ -31,12 +32,7 @@ function Page() {
     }
   };
 
-  if (isLoading)
-    return (
-      <div className="flex h-screen items-center justify-center bg-black text-white opacity-50">
-        로그인 정보 확인중...
-      </div>
-    );
+  if (isLoading) return <AuthCheckLoading />;
 
   return (
     <div>

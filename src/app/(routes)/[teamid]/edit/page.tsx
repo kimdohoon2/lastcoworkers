@@ -1,5 +1,6 @@
 'use client';
 
+import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 import TeamForm from '@/app/components/team/TeamForm';
 import useRedirectLogin from '@/app/hooks/useRedirectLogin';
 import getGroupById from '@/app/lib/group/getGroupById';
@@ -42,12 +43,7 @@ function Page() {
     },
   });
 
-  if (isAuthLoading)
-    return (
-      <div className="flex h-screen items-center justify-center bg-black text-white opacity-50">
-        로그인 정보 확인중...
-      </div>
-    );
+  if (isAuthLoading) return <AuthCheckLoading />;
 
   if (isLoading) {
     return (

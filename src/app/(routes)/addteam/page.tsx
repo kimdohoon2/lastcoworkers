@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import useRedirectLogin from '@/app/hooks/useRedirectLogin';
 import { useMutation } from '@tanstack/react-query';
 import uploadImage from '@/app/utils/uploadImage';
+import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 
 function Page() {
   const { isLoading } = useRedirectLogin();
@@ -36,12 +37,7 @@ function Page() {
     },
   });
 
-  if (isLoading)
-    return (
-      <div className="flex h-screen items-center justify-center bg-black text-white opacity-50">
-        로그인 정보 확인중...
-      </div>
-    );
+  if (isLoading) return <AuthCheckLoading />;
 
   return (
     <div>
