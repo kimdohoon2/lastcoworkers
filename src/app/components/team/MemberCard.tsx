@@ -21,7 +21,13 @@ interface GroupMember {
   userId: number;
 }
 
-function MemberCard({ member }: { member: GroupMember }) {
+function MemberCard({
+  member,
+  isAdmin,
+}: {
+  member: GroupMember;
+  isAdmin: boolean;
+}) {
   const queryClient = useQueryClient();
   const { isOpen, toggleDropdown, closeDropdown } = useDropdown();
   const { isOpen: isModalOpen, openModal, closeModal } = useModal();
@@ -72,9 +78,11 @@ function MemberCard({ member }: { member: GroupMember }) {
             <DropdownItem onClick={openModal} onClose={closeDropdown}>
               멤버 정보
             </DropdownItem>
-            <DropdownItem onClick={openConfirmModal} onClose={closeDropdown}>
-              추방하기
-            </DropdownItem>
+            {isAdmin && member.role !== 'ADMIN' && (
+              <DropdownItem onClick={openConfirmModal} onClose={closeDropdown}>
+                추방하기
+              </DropdownItem>
+            )}
           </DropdownList>
         </Dropdown>
       </div>

@@ -1,6 +1,8 @@
 import useModal from '@/app/hooks/useModal';
 import { useQuery } from '@tanstack/react-query';
 import getInvitation from '@/app/lib/group/getInvitaion';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/stores/store';
 import AddMemberModal from './AddMemberModal';
 import MemberCard from './MemberCard';
 
@@ -15,6 +17,11 @@ interface GroupMember {
 
 function MemberContainer({ members }: { members: GroupMember[] }) {
   const { isOpen, openModal, closeModal } = useModal();
+  const { user } = useSelector((state: RootState) => state.auth);
+
+  const isAdmin =
+    members.find((member) => member.userId === Number(user?.id))?.role ===
+    'ADMIN';
 
   const {
     data: token,
@@ -46,7 +53,7 @@ function MemberContainer({ members }: { members: GroupMember[] }) {
       </div>
       <div className="grid grid-cols-2 gap-4 tablet:grid-cols-3 tablet:gap-6">
         {members.map((member) => (
-          <MemberCard key={member.userId} member={member} />
+          <MemberCard key={member.userId} member={member} isAdmin={isAdmin} />
         ))}
       </div>
       <AddMemberModal
