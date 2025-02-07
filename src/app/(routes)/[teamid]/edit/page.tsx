@@ -1,22 +1,19 @@
 'use client';
 
 import TeamForm from '@/app/components/team/TeamForm';
+import useRedirectLogin from '@/app/hooks/useRedirectLogin';
 import getGroupById from '@/app/lib/group/getGroupById';
 import patchGroup from '@/app/lib/group/patchGroup';
 import postImage from '@/app/lib/image/postImage';
-import { RootState } from '@/app/stores/store';
 import { GroupData } from '@/app/types/group';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 import { FieldValues } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 
 function Page() {
   const router = useRouter();
   const { teamid } = useParams();
   const queryClient = useQueryClient();
-  const { accessToken } = useSelector((state: RootState) => state.auth);
 
   const { data: groupData, isLoading } = useQuery({
     queryKey: ['group', teamid],
@@ -54,12 +51,7 @@ function Page() {
     },
   });
 
-  useEffect(() => {
-    if (!accessToken) {
-      alert('로그인 후 이용할 수 있습니다.');
-      router.push('/login');
-    }
-  }, [accessToken, router]);
+  useRedirectLogin();
 
   if (isLoading) {
     return (
