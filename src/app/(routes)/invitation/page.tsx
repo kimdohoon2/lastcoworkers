@@ -10,6 +10,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 function Page() {
+  useRedirectLogin();
+
   const router = useRouter();
   const [token, setToken] = useState('');
   const { user } = useSelector((state: RootState) => state.auth);
@@ -28,8 +30,6 @@ function Page() {
       alert('이미 그룹에 소속된 유저입니다.');
     }
   };
-
-  useRedirectLogin();
 
   return (
     <div>

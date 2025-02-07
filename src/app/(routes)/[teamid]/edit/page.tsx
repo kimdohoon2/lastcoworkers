@@ -11,6 +11,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { FieldValues } from 'react-hook-form';
 
 function Page() {
+  useRedirectLogin();
+
   const router = useRouter();
   const { teamid } = useParams();
   const queryClient = useQueryClient();
@@ -39,8 +41,6 @@ function Page() {
       alert('팀 수정에 실패했습니다.');
     },
   });
-
-  useRedirectLogin();
 
   if (isLoading) {
     return (

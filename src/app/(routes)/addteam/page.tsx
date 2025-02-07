@@ -10,6 +10,8 @@ import { useMutation } from '@tanstack/react-query';
 import uploadImage from '@/app/utils/uploadImage';
 
 function Page() {
+  useRedirectLogin();
+
   const router = useRouter();
 
   const mutation = useMutation({
@@ -33,8 +35,6 @@ function Page() {
       alert('팀 생성에 실패했습니다.');
     },
   });
-
-  useRedirectLogin();
 
   return (
     <div>
