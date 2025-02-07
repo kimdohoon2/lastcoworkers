@@ -12,7 +12,7 @@ const useRedirectLogin = () => {
     if (!accessToken) {
       setTimeout(() => {
         alert('로그인 후 이용할 수 있습니다.');
-        router.push('/login');
+        router.replace('/login');
       }, 300);
     } else {
       setIsLoading(false);
