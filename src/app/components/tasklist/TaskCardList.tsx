@@ -44,6 +44,16 @@ function TaskCardList({
     }
   }, [data, dispatch]);
 
+  useEffect(() => {
+    if (isDrawerOpen) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isDrawerOpen]);
+
   const openDrawer = (taskid: number) => {
     setSelectedTaskId(taskid);
     setIsDrawerOpen(true);
@@ -123,7 +133,7 @@ function TaskCardList({
         items={tasksState.map((task) => task.id)}
         strategy={verticalListSortingStrategy} // 세로 방향 정렬
       >
-        <div className="flex flex-col gap-6 overflow-hidden">
+        <div className="flex flex-col gap-6 overflow-hidden pb-24">
           <div className="flex flex-col gap-4">
             {tasksState.map((task) => (
               <div
