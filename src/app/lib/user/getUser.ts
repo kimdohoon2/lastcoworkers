@@ -1,5 +1,24 @@
 import instance from '../instance';
 
+export interface Group {
+  teamId: string;
+  updatedAt: string;
+  createdAt: string;
+  image: string;
+  name: string;
+  id: number;
+}
+
+export interface Membership {
+  group: Group;
+  role: 'ADMIN' | 'MEMBER';
+  userImage: string;
+  userEmail: string;
+  userName: string;
+  groupId: number;
+  userId: number;
+}
+
 export interface GetUserResponse {
   teamId: string;
   image: string;
@@ -8,6 +27,7 @@ export interface GetUserResponse {
   createdAt: string;
   email: string;
   id: number;
+  memberships: Membership[];
 }
 
 export default async function getUser(): Promise<GetUserResponse> {
