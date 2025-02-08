@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useInView } from 'react-intersection-observer';
 import Link from 'next/link';
 import Button from '@/app/components/common/button/Button';
@@ -11,6 +11,12 @@ import useDebounce from '@/app/hooks/useDebounce';
 import BoardsOrderDropDown from '@/app/components/boards/BoardsOrderDropDown';
 import BoardsSearchBar from '@/app/components/boards/BoardsSearchBar';
 import useGetArticleInfinite from '@/app/hooks/useGetArticleInfinite';
+
+interface SizeMap {
+  mobile: number;
+  tablet: number;
+  pc: number;
+}
 
 export default function BoardsPage() {
   const [windowWidth, setWindowWidth] = useState(
@@ -30,10 +36,13 @@ export default function BoardsPage() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const sizeMap: SizeMap = { mobile: 1, tablet: 2, pc: 3 };
+
+  const getPageSize = (width: number): number =>
+    width < 744 ? sizeMap.mobile : width < 1280 ? sizeMap.tablet : sizeMap.pc;
+
   useEffect(() => {
-    if (debouncedWidth < 744) setBestPageSize(1);
-    else if (debouncedWidth < 1280) setBestPageSize(2);
-    else setBestPageSize(3);
+    setBestPageSize(getPageSize(debouncedWidth));
   }, [debouncedWidth]);
 
   const { data: bestPosts, isLoading: isBestLoading } = useGetArticle({
@@ -59,11 +68,17 @@ export default function BoardsPage() {
   // 리엑트 인터셉션 옵저버 활용한 무한스크롤
   const [ref, inView] = useInView();
 
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
+  const fetchMore = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [inView, fetchNextPage, hasNextPage, isFetchingNextPage]);
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  useEffect(() => {
+    if (inView) {
+      fetchMore();
+    }
+  }, [inView, fetchMore]);
 
   return (
     <>
@@ -83,15 +98,10 @@ export default function BoardsPage() {
                 {bestPosts?.list.map((article) => (
                   <CommonAriticleCard
                     key={article.id}
-                    id={article.id}
-                    title={article.title}
-                    image={article.image}
-                    updatedAt={article.updatedAt}
-                    writer={article.writer}
-                    likeCount={article.likeCount}
+                    {...article}
                     isBasic={false}
-                    isOnlyTablet
                     tabletHidden={false}
+                    isOnlyTablet
                     isLiked
                   />
                 ))}
@@ -113,12 +123,7 @@ export default function BoardsPage() {
                 {allArticles.map((article) => (
                   <div key={article.id} className="mb-4 tablet:mb-6">
                     <CommonAriticleCard
-                      id={article.id}
-                      title={article.title}
-                      image={article.image}
-                      updatedAt={article.updatedAt}
-                      writer={article.writer}
-                      likeCount={article.likeCount}
+                      {...article}
                       isBest={false}
                       isOnlyTablet={false}
                       tabletHidden
@@ -155,7 +160,8 @@ export default function BoardsPage() {
         href="/addboard"
       >
         <Button variant="plus" size="plus">
-          <IconPlus />글 쓰기
+          <IconPlus />
+          글쓰기
         </Button>
       </Link>
     </>
