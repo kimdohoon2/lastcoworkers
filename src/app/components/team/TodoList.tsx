@@ -50,6 +50,7 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
   ];
   const { isOpen, openModal, closeModal } = useModal();
   const methods = useForm<TodoListForm>();
+  const { setError } = methods;
   const queryClient = useQueryClient();
   const todayDate = getTodayDate();
 
@@ -71,6 +72,7 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
       return responses;
     },
     staleTime: 5 * 60 * 1000,
+    refetchOnMount: 'always',
     enabled: items.length > 0,
   });
 
@@ -80,7 +82,11 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['taskLists', groupId] });
       queryClient.invalidateQueries({ queryKey: ['group', groupId] });
+      methods.reset();
       closeModal();
+    },
+    onError: () => {
+      alert('그룹 내 이름이 같은 할 일 목록이 존재합니다.');
     },
   });
 

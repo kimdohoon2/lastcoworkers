@@ -46,6 +46,9 @@ export default function TaskListDropdown({
       queryClient.invalidateQueries({ queryKey: ['group', groupId] });
       editModal.closeModal();
     },
+    onError: () => {
+      alert('그룹 내 이름이 같은 할 일 목록이 존재합니다.');
+    },
   });
 
   const deleteMutation = useMutation({
