@@ -23,6 +23,10 @@ export default function RootLayout({
           crossOrigin="anonymous"
           href="https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/subsets/Pretendard-dynamic-subset.css"
         />
+        <meta
+          name="copyright"
+          content="Image by Icons8: https://icons8.com/icon/a_HIsIu2fM19/no-image"
+        />
       </head>
       <body>
         <ReduxProvider>
