@@ -7,18 +7,29 @@ import CreateTaskModal from '@/app/components/tasklist/CreateTaskModal';
 import useModal from '@/app/hooks/useModal';
 import Button from '@/app/components/common/button/Button';
 import CreateListModal from '@/app/components/tasklist/CreateListModal';
+import { useParams } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import getGroupById from '@/app/lib/group/getGroupById';
+import Link from 'next/link';
 
 function TaskListPage() {
+  const { teamid, tasklist } = useParams();
   const { isOpen, openModal, closeModal } = useModal();
   const [modalType, setModalType] = useState<'list' | 'task' | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>(
     new Date().toISOString().split('T')[0],
   );
+  const { data, isLoading } = useQuery({
+    queryKey: ['tasklists', Number(teamid)],
+    queryFn: () => getGroupById(Number(teamid)),
+  });
 
   const handleOpenModal = (type: 'task' | 'list') => {
     setModalType(type);
     openModal();
   };
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="mx-auto mt-24 flex w-full max-w-[75rem] flex-col gap-6 px-3.5 tablet:px-6">
@@ -26,9 +37,12 @@ function TaskListPage() {
       <div className="flex justify-between">
         <DatePicker
           selectedDate={selectedDate}
-          onDateChange={(date: Date) =>
-            setSelectedDate(date.toISOString().split('T')[0])
-          }
+          onDateChange={(date: Date) => {
+            const localDate = new Date(
+              date.getTime() - date.getTimezoneOffset() * 60000,
+            );
+            setSelectedDate(localDate.toISOString().split('T')[0]);
+          }}
         />
         <button
           className="text-md text-brand-primary hover:text-interaction-hover"
@@ -37,7 +51,31 @@ function TaskListPage() {
           + 새로운 목록 추가하기
         </button>
       </div>
-      <TaskCardList groupId={1771} taskListId={2874} date={selectedDate} />
+      <div className="flex flex-wrap gap-x-3 gap-y-2">
+        {data?.taskLists &&
+          data?.taskLists.map((list) => {
+            const isActive = tasklist === String(list.id);
+
+            return (
+              <Link
+                key={list.id}
+                href={`/${teamid}/${list.id}`}
+                className={`whitespace-nowrap transition ${
+                  isActive
+                    ? 'text-text-tertiary underline underline-offset-8'
+                    : 'text-text-default'
+                } hover:text-text-tertiary`}
+              >
+                {list.name}
+              </Link>
+            );
+          })}
+      </div>
+      <TaskCardList
+        groupId={Number(teamid)}
+        taskListId={Number(tasklist)}
+        date={selectedDate}
+      />
       <Button
         variant="plus"
         size="plus"
@@ -47,7 +85,7 @@ function TaskListPage() {
         + 할 일 추가
       </Button>
       {isOpen && modalType === 'list' && (
-        <CreateListModal onClose={closeModal} />
+        <CreateListModal onClose={closeModal} groupId={Number(teamid)} />
       )}
       {isOpen && modalType === 'task' && (
         <CreateTaskModal onClose={closeModal} />

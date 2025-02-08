@@ -7,7 +7,8 @@ import { PropsWithChildren, useEffect } from 'react';
 interface TeamFormProps {
   initialImage?: string;
   initialName?: string;
-  onSubmit: (data: FieldValues) => Promise<void>;
+  onSubmit: (data: FieldValues) => void;
+  isLoading: boolean;
 }
 
 function TeamForm({
@@ -15,6 +16,7 @@ function TeamForm({
   initialImage,
   initialName,
   onSubmit,
+  isLoading,
 }: PropsWithChildren<TeamFormProps>) {
   const method = useForm<FieldValues>({
     defaultValues: { image: initialImage, name: initialName },
@@ -55,6 +57,7 @@ function TeamForm({
         variant="primary"
         className="mt-10 w-full text-white"
         onClick={handleSubmit(onSubmit)}
+        disabled={isLoading}
       >
         {children}
       </Button>

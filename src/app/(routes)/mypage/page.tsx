@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import getUser, { GetUserResponse } from '@/app/lib/user/getUser';
 import DeleteAccount from '@/app/components/mypage/DeleteAccount';
 import ResetPassword from '@/app/components/mypage/ResetPassword';
+import NicknameChanger from '@/app/components/mypage/NicknameChanger';
 
 export default function MyPage() {
   const method = useForm();
@@ -15,13 +16,14 @@ export default function MyPage() {
     data: userData,
     isLoading,
     isError,
+    refetch,
   } = useQuery<GetUserResponse>({
     queryKey: ['user'],
     queryFn: getUser,
   });
 
   if (isLoading) {
-    return <div className="text-center">로딩 중...</div>;
+    return <div className="text-center">사용자 정보를 불러오는 중</div>;
   }
 
   if (isError) {
@@ -44,14 +46,10 @@ export default function MyPage() {
           <ProfileChanger register={register} />
         </div>
         <div className="mb-6 flex flex-col gap-6">
-          <div>
-            <h2 className="mb-3 text-lg font-light">이름</h2>
-            <div className="rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-[0.844rem] pl-4">
-              <p className="text-md font-light tablet:text-lg">
-                {userData.nickname || '이름 없음'}
-              </p>
-            </div>
-          </div>
+          <NicknameChanger
+            currentNickname={userData.nickname}
+            refetchUser={refetch}
+          />
           <div>
             <h3 className="mb-3 text-lg font-light">이메일</h3>
             <div className="rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-tertiary py-[0.844rem] pl-4">

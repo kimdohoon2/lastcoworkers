@@ -1,4 +1,5 @@
 import axios from 'axios';
+import handleTokenRefresh from '@/app/utils/handleTokenRefresh';
 import { store } from '@/app/stores/store';
 
 const instance = axios.create({
@@ -20,16 +21,14 @@ instance.interceptors.request.use((config) => {
   return config;
 });
 
-export default instance;
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      return handleTokenRefresh(error.config);
+    }
+    return Promise.reject(error);
+  },
+);
 
-// Access Token을 요청 헤더에 동적으로 추가
-// instance.interceptors.request.use(
-//   (config) => {
-//     const token = process.env.NEXT_PUBLIC_ACCESS_TOKEN; // 환경변수에서 토큰 가져오기
-//     if (token) {
-//       config.headers['Authorization'] = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => Promise.reject(error),
-// );
+export default instance;

@@ -1,6 +1,5 @@
 import { useDeleteTaskMutation } from '@/app/lib/task/deleteTask';
 import { useQueryClient } from '@tanstack/react-query';
-import { useParams, useRouter } from 'next/navigation';
 import { useAppSelector } from '@/app/stores/hooks';
 import Button from '../common/button/Button';
 import Modal from '../common/modal/Modal';
@@ -9,6 +8,7 @@ import IconAlert from '../icons/IconAlert';
 interface DeleteTaskModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onDeleteSuccess?: () => void;
   groupId: number;
   taskListId: number;
   taskId: number;
@@ -16,14 +16,13 @@ interface DeleteTaskModalProps {
 export default function DeleteTaskModal({
   isOpen,
   onClose,
+  onDeleteSuccess,
   groupId,
   taskListId,
   taskId,
 }: DeleteTaskModalProps) {
   const queryClient = useQueryClient();
-  const task = useAppSelector((state) => state.tasks.tasks[taskId]);
-  const router = useRouter();
-  const { teamid } = useParams();
+  const task = useAppSelector((state) => state.tasks.taskById[taskId]);
   const deleteTaskMutation = useDeleteTaskMutation(groupId, taskListId, taskId);
 
   const handleDelete = () => {
@@ -34,7 +33,7 @@ export default function DeleteTaskModal({
         });
 
         onClose();
-        router.push(`/${teamid}/tasklist`);
+        onDeleteSuccess?.();
       },
       onError: (error) => {
         console.error('삭제 실패:', error);

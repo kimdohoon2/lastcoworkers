@@ -13,7 +13,7 @@ export default function DropdownItem({
   onClose,
 }: PropsWithChildren<DropdownItemProps>) {
   return (
-    <li className="list-none">
+    <div className="list-none">
       <button
         type="button"
         onClick={(e) => {
@@ -25,6 +25,6 @@ export default function DropdownItem({
       >
         {children}
       </button>
-    </li>
+    </div>
   );
 }

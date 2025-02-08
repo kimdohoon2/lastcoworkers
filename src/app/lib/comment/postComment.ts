@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query';
 import instance from '../instance';
 
 interface PostTaskCommentRequest {
@@ -6,7 +7,7 @@ interface PostTaskCommentRequest {
 }
 
 // 할 일 댓글 생성
-const createTaskComment = async ({
+export const createTaskComment = async ({
   taskId,
   content,
 }: PostTaskCommentRequest) => {
@@ -15,4 +16,8 @@ const createTaskComment = async ({
   return res.data;
 };
 
-export default createTaskComment;
+export const useCreateTaskCommentMutation = () => {
+  return useMutation({
+    mutationFn: createTaskComment,
+  });
+};

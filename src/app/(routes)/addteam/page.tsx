@@ -6,12 +6,17 @@ import postGroup from '@/app/lib/group/postGroup';
 import { GroupData } from '@/app/types/group';
 import TeamForm from '@/app/components/team/TeamForm';
 import { useRouter } from 'next/navigation';
+import useRedirectLogin from '@/app/hooks/useRedirectLogin';
+import { useState } from 'react';
 
 function Page() {
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = async ({ profile, name }: FieldValues) => {
     let imageUrl: string | null = null;
+
+    setIsSubmitting(true);
 
     /**
      * 이미지 업로드
@@ -48,8 +53,11 @@ function Page() {
       router.push(`/${id}`);
     } catch (error) {
       alert('팀 생성에 실패했습니다.');
+      setIsSubmitting(false);
     }
   };
+
+  useRedirectLogin();
 
   return (
     <div>
@@ -57,7 +65,9 @@ function Page() {
         <h2 className="mb-6 text-center text-2xl font-medium text-text-primary tablet:mb-20">
           팀 생성하기
         </h2>
-        <TeamForm onSubmit={onSubmit}>생성하기</TeamForm>
+        <TeamForm onSubmit={onSubmit} isLoading={isSubmitting}>
+          생성하기
+        </TeamForm>
         <div className="mt-6 text-center text-md text-text-primary tablet:text-lg">
           팀 이름은 회사명이나 모임 이름 등으로 설정하면 좋아요.
         </div>
