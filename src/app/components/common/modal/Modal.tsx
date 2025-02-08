@@ -12,7 +12,7 @@ interface ModalProps {
 }
 
 function Modal({
-  hasCloseBtn = false,
+  hasCloseBtn = true,
   portalRoot, // Modal 렌더링할 상위 DOM 노드
   closeModal,
   isOpen,
