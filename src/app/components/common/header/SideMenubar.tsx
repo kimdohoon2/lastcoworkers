@@ -59,7 +59,10 @@ export default function SideMenuBar({ visible, onClose }: SlidemenuBarType) {
             <IconClose />
           </button>
           <div className="flex flex-col gap-6">
-            <HeaderBoardButton className="block text-md tablet:hidden" />
+            <HeaderBoardButton
+              className="block text-md tablet:hidden"
+              onClick={onClose}
+            />
           </div>
         </div>
       </div>
