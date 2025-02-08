@@ -8,7 +8,7 @@ import { RootState } from '@/app/stores/store';
 import { GroupData } from '@/app/types/group';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
@@ -17,6 +17,7 @@ function Page() {
   const { teamid } = useParams();
   const queryClient = useQueryClient();
   const { accessToken } = useSelector((state: RootState) => state.auth);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { data: groupData, isLoading } = useQuery({
     queryKey: ['group', teamid],
@@ -27,6 +28,8 @@ function Page() {
   const mutation = useMutation({
     mutationFn: async ({ profile, name }: FieldValues) => {
       let imageUrl: string | null = null;
+
+      setIsSubmitting(true);
 
       // 이미지 업로드 (선택된 경우만)
       if (profile && profile[0] instanceof File) {
@@ -51,6 +54,7 @@ function Page() {
     },
     onError: () => {
       alert('팀 수정에 실패했습니다.');
+      setIsSubmitting(true);
     },
   });
 
@@ -79,6 +83,7 @@ function Page() {
           initialImage={groupData?.image ?? undefined}
           initialName={groupData?.name}
           onSubmit={mutation.mutate}
+          isLoading={isSubmitting}
         >
           수정하기
         </TeamForm>
