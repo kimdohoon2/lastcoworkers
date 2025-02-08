@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useTaskQuery } from '@/app/lib/task/getTask';
 import { formatDateShort } from '@/app/utils/formatDate';
 import { useQueryClient } from '@tanstack/react-query';
@@ -232,15 +233,31 @@ function TaskDetail({
             </p>
           )}
           <TaskComments taskId={taskId} setIsModalOpen={setIsModalOpen} />
-          <Button
-            variant={doneAt ? 'cancel' : 'complete'}
-            size={doneAt ? 'cancel' : 'complete'}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.7, ease: 'easeOut' },
+            }}
+            exit={{
+              opacity: 0,
+              transition: {
+                opacity: { duration: 0, ease: 'easeIn' },
+                ease: 'easeIn',
+              },
+            }}
             className="fixed bottom-6 right-4 tablet:bottom-5 tablet:right-6 xl:bottom-10 xl:right-10"
-            onClick={toggleDone}
           >
-            <IconCheck />
-            {doneAt ? '완료 취소하기' : '완료하기'}
-          </Button>
+            <Button
+              variant={doneAt ? 'cancel' : 'complete'}
+              size={doneAt ? 'cancel' : 'complete'}
+              onClick={toggleDone}
+            >
+              <IconCheck />
+              {doneAt ? '완료 취소하기' : '완료하기'}
+            </Button>
+          </motion.div>
         </div>
       </div>
     </FormProvider>
