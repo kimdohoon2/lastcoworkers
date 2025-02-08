@@ -140,12 +140,17 @@ export default function BoardDetail({ article }: BoardDetailProps) {
 
             <div className="mt-2 flex justify-end gap-2">
               <Button
-                variant="secondary"
+                variant="cancel"
                 size="small"
-                onClick={() => setIsEditing(false)}
+                onClick={() => {
+                  setEditedTitle(article.title);
+                  setEditedContent(article.content);
+                  setIsEditing(false);
+                }}
               >
                 취소
               </Button>
+
               <Button variant="primary" size="small" onClick={handleEditSubmit}>
                 수정
               </Button>

@@ -40,6 +40,7 @@ function Page() {
     },
     onError: () => {
       alert('팀 수정에 실패했습니다.');
+      setIsSubmitting(true);
     },
   });
 
@@ -63,6 +64,7 @@ function Page() {
           initialImage={groupData?.image ?? undefined}
           initialName={groupData?.name}
           onSubmit={mutation.mutate}
+          isLoading={isSubmitting}
         >
           수정하기
         </TeamForm>

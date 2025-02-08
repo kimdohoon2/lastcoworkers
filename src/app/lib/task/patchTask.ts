@@ -59,3 +59,9 @@ export const editTaskOrder = async ({
 
   return res.data;
 };
+
+export const useEditTaskOrderMutation = () => {
+  return useMutation({
+    mutationFn: editTaskOrder,
+  });
+};

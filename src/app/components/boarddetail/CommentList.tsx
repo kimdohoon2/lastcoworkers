@@ -74,6 +74,12 @@ export default function CommentList() {
     },
   });
 
+  // 댓글 수정 취소 함수
+  const handleEditCancel = () => {
+    setEditingCommentId(null);
+    setEditedContent(''); // 입력값 초기화
+  };
+
   // 무한 스크롤
   useEffect(() => {
     if (!loadMoreRef.current || !hasNextPage) return;
@@ -128,14 +134,25 @@ export default function CommentList() {
                         onChange={(e) => setEditedContent(e.target.value)}
                       />
 
-                      <Button
-                        variant="inverse"
-                        size="small"
-                        onClick={() => handleEditSubmit(comment.id)}
-                        className="text-xs font-light"
-                      >
-                        수정 완료
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="cancel"
+                          size="small"
+                          onClick={handleEditCancel}
+                          className="font-light"
+                        >
+                          취소
+                        </Button>
+
+                        <Button
+                          variant="inverse"
+                          size="small"
+                          onClick={() => handleEditSubmit(comment.id)}
+                          className="font-light"
+                        >
+                          수정 완료
+                        </Button>
+                      </div>
                     </div>
                   ) : (
                     <span>{comment.content}</span>

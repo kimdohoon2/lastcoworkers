@@ -2,7 +2,7 @@ import instance from '../instance';
 
 export interface PatchArticleRequest {
   articleId: number;
-  image: string;
+  image: string | null;
   content: string;
   title: string;
 }

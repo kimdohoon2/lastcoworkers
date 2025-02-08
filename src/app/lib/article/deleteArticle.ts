@@ -1,4 +1,4 @@
-import instance from '../instance';
+import instance from '@/app/lib/instance';
 
 export interface DeleteArticle {
   articleId: number;
