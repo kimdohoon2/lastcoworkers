@@ -6,6 +6,7 @@ import {
   PostTaskListRequest,
   useCreateTaskListMutation,
 } from '@/app/lib/tasklist/postTaskList';
+import { AxiosError } from 'axios';
 import Modal from '../common/modal/Modal';
 import Button from '../common/button/Button';
 import Input from '../common/input/Input';
@@ -22,12 +23,13 @@ export default function CreateListModal({
   groupId,
 }: CreateListModalProps) {
   const method = useForm<PostTaskListRequest>();
+  const { setError } = method;
   const queryClient = useQueryClient();
   const { mutate, isPending } = useCreateTaskListMutation();
 
   const handleSubmit = method.handleSubmit((data) => {
     mutate(
-      { groupId, name: data.name },
+      { groupId, name: data.name.trim() },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
@@ -35,8 +37,13 @@ export default function CreateListModal({
           });
           onClose();
         },
-        onError: (error) => {
-          console.error('할 일 목록 생성 실패:', error);
+        onError: (error: unknown) => {
+          if (error instanceof AxiosError && error.response?.status === 409) {
+            setError('name', {
+              type: 'manual',
+              message: '이미 존재하는 목록입니다.',
+            });
+          }
         },
       },
     );
@@ -63,6 +70,12 @@ export default function CreateListModal({
                 type="text"
                 placeholder="목록 이름을 입력해주세요."
                 autoComplete="off"
+                validationRules={{
+                  required: '목록 이름을 입력해주세요.',
+                  validate: (value) =>
+                    value.trim() !== '' ||
+                    '할 일 목록은 공백만 입력할 수 없습니다.',
+                }}
               />
 
               <Button
