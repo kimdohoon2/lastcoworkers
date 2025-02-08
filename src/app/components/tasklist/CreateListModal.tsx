@@ -11,11 +11,13 @@ import Button from '../common/button/Button';
 import Input from '../common/input/Input';
 
 interface CreateListModalProps {
+  isOpen: boolean;
   onClose: () => void;
   groupId: number;
 }
 
 export default function CreateListModal({
+  isOpen,
   onClose,
   groupId,
 }: CreateListModalProps) {
@@ -42,7 +44,7 @@ export default function CreateListModal({
 
   return (
     <>
-      <Modal isOpen closeModal={onClose}>
+      <Modal isOpen={isOpen} closeModal={onClose}>
         <div className="mb-4 flex w-[17.5rem] w-full flex-col gap-4 text-center">
           <p className="text-lg font-medium">새로운 목록 추가</p>
           <p className="text-md text-text-secondary">
