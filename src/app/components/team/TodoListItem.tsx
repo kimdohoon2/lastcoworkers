@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { PieChart, Pie } from 'recharts';
 import Link from 'next/link';
@@ -5,8 +7,11 @@ import IconTaskDone from '@/app/components/icons/IconTaskDone';
 import TaskListDropdown from '@/app/components/team/TaskListDropdown';
 import { Task } from '@/app/lib/group/getTaskList';
 import { GroupTask } from '@/app/types/grouptask';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface TodoListItemProps {
+  id: number;
   taskList: GroupTask;
   groupId: number;
   backgroundColor: string;
@@ -14,11 +19,26 @@ interface TodoListItemProps {
 }
 
 export default function TodoListItem({
+  id,
   taskList,
   groupId,
   backgroundColor,
   taskListData,
 }: TodoListItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0 : 1,
+  };
+
   const tasks = taskListData.tasks || [];
   const completedItems = tasks.filter((task) => task.doneAt !== null).length;
   const totalTasks = tasks.length;
@@ -27,9 +47,14 @@ export default function TodoListItem({
     : 0;
 
   return (
-    <div className="relative mt-4 flex h-10 w-full items-center rounded-xl bg-background-secondary pl-6 pr-4">
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="relative mt-4 flex h-10 w-full items-center rounded-xl bg-background-secondary pl-6 pr-4"
+    >
       <Link
-        key={taskList.id}
         href={`/${groupId}/${taskList.id}`}
         className="z-0 flex flex-1 items-center justify-between"
       >
