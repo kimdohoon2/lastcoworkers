@@ -1,6 +1,6 @@
 import axios from '@/app/lib/instance';
 
-type PostImageResponse = {
+export type PostImageResponse = {
   url: string;
 };
 const postImage = async (img: FormData): Promise<PostImageResponse> => {

@@ -1,17 +1,21 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
+import { useParams, useRouter } from 'next/navigation';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import getArticleDetail from '@/app/lib/article/getArticleDetail';
+import patchArticle, {
+  PatchArticleRequest,
+} from '@/app/lib/article/patchArticle';
 import Button from '@/app/components/common/button/Button';
-import Image from 'next/image';
+import ImageChanger from '@/app/components/editboard/ImageChanger';
+import ArticleChanger from '@/app/components/editboard/ArticleChanger';
 
 export default function EditBoardPage() {
   const { boardid } = useParams();
+  const router = useRouter();
 
-  // 게시글 데이터 불러오기
-  const { data, isLoading, isError } = useQuery({
+  const articleQuery = useQuery({
     queryKey: ['articleDetail', boardid],
     queryFn: () => getArticleDetail({ articleId: Number(boardid) }),
     enabled: !!boardid,
@@ -22,21 +26,39 @@ export default function EditBoardPage() {
   const [image, setImage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (data) {
-      setTitle(data?.title || '');
-      setContent(data?.content || '');
-      setImage(data?.image || null);
+    if (articleQuery.data) {
+      setTitle(articleQuery.data.title || '');
+      setContent(articleQuery.data.content || '');
+      setImage(articleQuery.data.image || null);
     }
-  }, [data]);
+  }, [articleQuery.data]);
 
-  if (isLoading) return <p className="pt-20 text-center">Loading...</p>;
-  if (isError)
-    return (
-      <p className="pt-20 text-center text-red-500">Error loading post.</p>
-    );
+  const patchArticleMutation = useMutation({
+    mutationFn: (updatedData: PatchArticleRequest) => patchArticle(updatedData),
+    onSuccess: () => {
+      alert('게시글이 수정되었습니다.');
+      router.push(`/boards/${boardid}`);
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!title.trim() || !content.trim()) {
+      alert('제목과 내용을 입력해주세요.');
+      return;
+    }
+
+    patchArticleMutation.mutate({
+      articleId: Number(boardid),
+      image,
+      content,
+      title,
+    });
+  };
 
   return (
-    <form className="flex justify-center pt-[6.25rem]">
+    <form onSubmit={handleSubmit} className="flex justify-center pt-[6.25rem]">
       <div className="flex w-[92%] max-w-[75rem] flex-col">
         <div className="flex items-center justify-between border-b border-text-primary border-opacity-10 pb-6 tablet:pb-8">
           <h1 className="text-2lg tablet:text-xl">게시글 수정하기</h1>
@@ -45,6 +67,8 @@ export default function EditBoardPage() {
               variant="inverse"
               size="large"
               className="hidden tablet:flex tablet:w-36"
+              type="button"
+              onClick={() => router.back()}
             >
               취소
             </Button>
@@ -58,57 +82,20 @@ export default function EditBoardPage() {
             </Button>
           </div>
         </div>
-
-        <div className="mt-6 flex flex-col gap-8">
-          {/* 제목 입력 */}
-          <div>
-            <h2 className="mb-4 flex gap-1.5 text-md tablet:text-lg">
-              <span className="text-brand-tertiary">*</span>제목
-            </h2>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="제목을 입력해주세요."
-              className="w-full rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-3 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400"
-            />
-          </div>
-
-          {/* 내용 입력 */}
-          <div>
-            <h3 className="mb-4 flex gap-1.5 text-md tablet:text-lg">
-              <span className="text-brand-tertiary">*</span>내용
-            </h3>
-            <textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="내용을 입력해주세요."
-              className="h-[15rem] w-full resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400"
-            />
-          </div>
-
-          {/* 이미지 업로더 */}
-          <div>
-            <h4 className="mb-4 flex gap-1.5 text-md tablet:text-lg">이미지</h4>
-            {image ? (
-              <Image
-                src={image}
-                width={240}
-                height={240}
-                alt="게시글 이미지"
-                className="h-auto max-w-full rounded-md"
-              />
-            ) : (
-              <p className="text-gray-500">이미지가 없습니다.</p>
-            )}
-          </div>
-        </div>
-
+        <ArticleChanger
+          initialTitle={title}
+          initialContent={content}
+          onTitleChange={setTitle}
+          onContentChange={setContent}
+        />
+        <ImageChanger initialImage={image} onImageChange={setImage} />
         <div className="flex gap-4">
           <Button
             variant="inverse"
             size="large"
             className="mt-10 w-full tablet:hidden"
+            type="button"
+            onClick={() => router.back()}
           >
             취소
           </Button>
