@@ -27,6 +27,7 @@ const adjustTimeFormat = (time: string, isAM: boolean): string => {
 const formatToAmPm = (dateString: string): string => {
   try {
     const dateObj = new Date(dateString);
+    dateObj.setHours(dateObj.getHours() - 9);
     let hours = dateObj.getHours();
     const minutes = dateObj.getMinutes();
 

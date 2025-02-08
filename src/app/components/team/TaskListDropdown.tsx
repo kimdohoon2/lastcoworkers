@@ -50,7 +50,7 @@ export default function TaskListDropdown({
   const deleteMutation = useMutation({
     mutationFn: () => deleteTaskList({ groupId, id: taskListId }),
     onSuccess: () => {
-      queryClient.invalidateQueries(['taskLists', groupId]);
+      queryClient.invalidateQueries({ queryKey: ['taskLists', groupId] });
       deleteModal.closeModal();
     },
   });

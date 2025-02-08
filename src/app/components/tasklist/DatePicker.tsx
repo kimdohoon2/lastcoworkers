@@ -63,7 +63,7 @@ export default function DatePicker({
 
         <div
           ref={calendarRef}
-          className={`absolute left-40 top-full z-10 mt-2 transform transition-all duration-500 ease-in-out ${
+          className={`absolute left-2 top-full z-10 mt-2 transform transition-all duration-500 ease-in-out tablet:left-40 ${
             isCalendarOpen
               ? 'scale-100 opacity-100'
               : 'scale-95·pointer-events-none'

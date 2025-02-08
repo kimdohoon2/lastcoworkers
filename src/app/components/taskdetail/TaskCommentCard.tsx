@@ -2,6 +2,9 @@ import { Comment } from '@/app/lib/comment/getComment';
 import { getTimeDifference } from '@/app/utils/formatTime';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useEditTaskCommentMutation } from '@/app/lib/comment/patchComment';
+import Image from 'next/image';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/stores/store';
 import TaskDetailProfile from '../icons/TaskDetailProfile';
 import TaskCommentMenu from './TaskCommentDropdown';
 import Button from '../common/button/Button';
@@ -22,6 +25,8 @@ function TaskCommentCard({
   const [currentComment, setCurrentComment] = useState(comment.content);
 
   const editCommentMutation = useEditTaskCommentMutation();
+  const { user } = useSelector((state: RootState) => state.auth);
+  const isUserComment = comment.user.id === Number(user?.id);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -71,17 +76,26 @@ function TaskCommentCard({
           <>
             <div className="flex items-center justify-between">
               <p className="text-md text-text-primary">{currentComment}</p>
-              <TaskCommentMenu
-                taskId={taskId}
-                commentId={comment.id}
-                onEdit={handleEditClick}
-                setIsModalOpen={setIsModalOpen}
-              />
+              <div className="min-h-[1.64rem]">
+                {isUserComment && (
+                  <TaskCommentMenu
+                    taskId={taskId}
+                    commentId={comment.id}
+                    onEdit={handleEditClick}
+                    setIsModalOpen={setIsModalOpen}
+                  />
+                )}
+              </div>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 {comment.user.image ? (
-                  comment.user.image
+                  <Image
+                    src={comment.user.image}
+                    alt="Profile"
+                    width={32}
+                    height={32}
+                  />
                 ) : (
                   <TaskDetailProfile />
                 )}
