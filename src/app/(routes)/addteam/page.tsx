@@ -9,14 +9,17 @@ import useAuthRedirect from '@/app/hooks/useAuthRedirect';
 import { useMutation } from '@tanstack/react-query';
 import uploadImage from '@/app/utils/uploadImage';
 import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
+import { useState } from 'react';
 
 function Page() {
   const { isLoading } = useAuthRedirect();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: async ({ profile, name }: FieldValues) => {
+      setIsSubmitting(true);
       const imageUrl = await uploadImage(profile);
 
       const teamData: GroupData = {
@@ -34,6 +37,7 @@ function Page() {
     },
     onError: () => {
       alert('팀 생성에 실패했습니다.');
+      setIsSubmitting(false);
     },
   });
 
@@ -45,7 +49,9 @@ function Page() {
         <h2 className="mb-6 text-center text-2xl font-medium text-text-primary tablet:mb-20">
           팀 생성하기
         </h2>
-        <TeamForm onSubmit={mutation.mutate}>생성하기</TeamForm>
+        <TeamForm onSubmit={mutation.mutate} isLoading={isSubmitting}>
+          생성하기
+        </TeamForm>
         <div className="mt-6 text-center text-md text-text-primary tablet:text-lg">
           팀 이름은 회사명이나 모임 이름 등으로 설정하면 좋아요.
         </div>

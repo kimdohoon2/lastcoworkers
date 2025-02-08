@@ -10,9 +10,11 @@ import uploadImage from '@/app/utils/uploadImage';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { FieldValues } from 'react-hook-form';
+import { useState } from 'react';
 
 function Page() {
   const { isLoading: isAuthLoading } = useAuthRedirect();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
   const { teamid } = useParams();
@@ -27,6 +29,7 @@ function Page() {
 
   const mutation = useMutation({
     mutationFn: async ({ profile, name }: FieldValues) => {
+      setIsSubmitting(true);
       const imageUrl = await uploadImage(profile);
 
       const teamData: GroupData = { name };
@@ -40,7 +43,7 @@ function Page() {
     },
     onError: () => {
       alert('팀 수정에 실패했습니다.');
-      setIsSubmitting(true);
+      setIsSubmitting(false);
     },
   });
 
