@@ -12,11 +12,15 @@ import IconHeaderCheck from '../../icons/IconHeaderCheck';
 import Image from 'next/image';
 import IconPlus from '../../icons/IconPlus';
 import clsx from 'clsx';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
+import IconDefaultImage from '../../icons/IconDefaultImage';
 
 export default function HeaderTeamDropdown() {
   const { isOpen, toggleDropdown, closeDropdown } = useDropdown();
   const router = useRouter();
+  const params = useParams();
+
+  const currentGroupId = params.teamid ? Number(params.teamid) : null;
 
   const {
     data: userData,
@@ -35,11 +39,32 @@ export default function HeaderTeamDropdown() {
     return <div>유저 데이터를 불러오는데 실패했습니다.</div>;
   }
 
+  if (userData.memberships.length === 0) {
+    return (
+      <button
+        onClick={() => router.push('/addteam')}
+        className="inline-block rounded text-white hover:text-interaction-hover"
+      >
+        팀 생성하기
+      </button>
+    );
+  }
+
+  let displayGroupName = userData?.memberships[0]?.group.name || '팀 생성하기';
+  if (currentGroupId && userData?.memberships) {
+    const membership = userData.memberships.find(
+      (m: Membership) => m.group.id === currentGroupId,
+    );
+    if (membership) {
+      displayGroupName = membership.group.name;
+    }
+  }
+
   return (
     <Dropdown className="relative inline-block" onClose={closeDropdown}>
       <DropdownToggle onClick={toggleDropdown}>
         <div className="flex items-center gap-3">
-          {userData?.memberships[0].group.name || '내 팀'}
+          {displayGroupName}
           <IconHeaderCheck
             className={clsx('transition-transform', {
               'rotate-180': isOpen,
@@ -57,18 +82,22 @@ export default function HeaderTeamDropdown() {
             key={membership.group.id}
             onClick={() => {
               router.push(`/${membership.groupId}`);
+              closeDropdown();
             }}
-            onClose={closeDropdown}
             className="hover:bg-transparent"
           >
             <div className="flex h-12 w-[11.625rem] items-center gap-3 rounded-xl px-2 hover:bg-background-tertiary">
               <div className="relative h-8 w-8">
-                <Image
-                  src={membership.group.image}
-                  alt={membership.group.name}
-                  fill
-                  className="rounded-md"
-                />
+                {membership.group.image ? (
+                  <Image
+                    src={membership.group.image}
+                    alt={membership.group.name}
+                    fill
+                    className="rounded-md"
+                  />
+                ) : (
+                  <IconDefaultImage />
+                )}
               </div>
               <div>{membership.group.name}</div>
             </div>
@@ -77,8 +106,8 @@ export default function HeaderTeamDropdown() {
         <DropdownItem
           onClick={() => {
             router.push('/addteam');
+            closeDropdown();
           }}
-          onClose={closeDropdown}
           className="hover:bg-transparent"
         >
           <div className="flex h-12 w-[11.625rem] items-center justify-center gap-1 rounded-xl border border-slate-50 hover:bg-background-tertiary">
