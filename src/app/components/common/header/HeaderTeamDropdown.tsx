@@ -8,6 +8,7 @@ import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import useDropdown from '@/app/hooks/useDropdown';
+import IconHeaderCheck from '../../icons/IconHeaderCheck';
 
 export default function HeaderTeamDropdown() {
   const { isOpen, toggleDropdown, closeDropdown } = useDropdown();
@@ -32,7 +33,10 @@ export default function HeaderTeamDropdown() {
   return (
     <Dropdown className="relative inline-block" onClose={closeDropdown}>
       <DropdownToggle onClick={toggleDropdown}>
-        {userData?.memberships[0].group.name || '내 팀'}
+        <div className="flex items-center gap-3">
+          {userData?.memberships[0].group.name || '내 팀'}
+          <IconHeaderCheck />
+        </div>
       </DropdownToggle>
       <DropdownList
         isOpen={isOpen}
