@@ -1,6 +1,11 @@
-function IconHeaderCheck() {
+interface IconHeaderCheckProps {
+  className?: string;
+}
+
+function IconHeaderCheck({ className }: IconHeaderCheckProps) {
   return (
     <svg
+      className={`${className || ''}`}
       width="16"
       height="16"
       viewBox="0 0 16 16"

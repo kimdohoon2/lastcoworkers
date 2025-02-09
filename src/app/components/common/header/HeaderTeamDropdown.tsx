@@ -10,6 +10,8 @@ import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import useDropdown from '@/app/hooks/useDropdown';
 import IconHeaderCheck from '../../icons/IconHeaderCheck';
 import Image from 'next/image';
+import IconPlus from '../../icons/IconPlus';
+import clsx from 'clsx';
 
 export default function HeaderTeamDropdown() {
   const { isOpen, toggleDropdown, closeDropdown } = useDropdown();
@@ -36,7 +38,12 @@ export default function HeaderTeamDropdown() {
       <DropdownToggle onClick={toggleDropdown}>
         <div className="flex items-center gap-3">
           {userData?.memberships[0].group.name || '내 팀'}
-          <IconHeaderCheck />
+          <IconHeaderCheck
+            className={clsx('transition-transform', {
+              'rotate-180': isOpen,
+              'rotate-0': !isOpen,
+            })}
+          />
         </div>
       </DropdownToggle>
       <DropdownList
@@ -44,8 +51,12 @@ export default function HeaderTeamDropdown() {
         className="absolute right-0 mt-2 w-[13.625rem] rounded shadow-lg"
       >
         {userData?.memberships.map((membership: Membership) => (
-          <DropdownItem key={membership.group.id} onClick={closeDropdown}>
-            <div className="flex items-center gap-3">
+          <DropdownItem
+            key={membership.group.id}
+            onClick={closeDropdown}
+            className="hover:bg-background-secondary"
+          >
+            <div className="flex h-12 w-[11.625rem] items-center gap-3 rounded-xl px-2 hover:bg-background-tertiary">
               <div className="relative h-8 w-8">
                 <Image
                   src={membership.group.image}
@@ -58,6 +69,15 @@ export default function HeaderTeamDropdown() {
             </div>
           </DropdownItem>
         ))}
+        <DropdownItem
+          onClick={closeDropdown}
+          className="hover:bg-background-secondary"
+        >
+          <div className="flex h-12 w-[11.625rem] items-center justify-center gap-1 rounded-xl border border-slate-50 hover:bg-background-tertiary">
+            <IconPlus />
+            <span className="text-lg font-medium">팀 추가하기</span>
+          </div>
+        </DropdownItem>
       </DropdownList>
     </Dropdown>
   );
