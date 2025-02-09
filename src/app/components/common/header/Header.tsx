@@ -15,6 +15,7 @@ import Dropdown from '@/app/components/common/dropdown/Dropdown';
 import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import useDropdown from '@/app/hooks/useDropdown';
+import HeaderTeamDropdown from './HeaderTeamDropdown';
 
 export default function Header() {
   const [visible, setVisible] = useState<boolean>(false);
@@ -67,7 +68,10 @@ export default function Header() {
             </div>
             {/* 자유게시판 버튼 */}
             {isLoggedIn && (
-              <HeaderBoardButton className="hidden tablet:block" />
+              <>
+                <HeaderTeamDropdown />
+                <HeaderBoardButton className="hidden tablet:block" />
+              </>
             )}
           </div>
           <div>
