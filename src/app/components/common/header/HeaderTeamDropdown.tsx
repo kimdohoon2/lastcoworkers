@@ -9,6 +9,7 @@ import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import useDropdown from '@/app/hooks/useDropdown';
 import IconHeaderCheck from '../../icons/IconHeaderCheck';
+import Image from 'next/image';
 
 export default function HeaderTeamDropdown() {
   const { isOpen, toggleDropdown, closeDropdown } = useDropdown();
@@ -40,11 +41,21 @@ export default function HeaderTeamDropdown() {
       </DropdownToggle>
       <DropdownList
         isOpen={isOpen}
-        className="absolute right-0 mt-2 w-48 rounded shadow-lg"
+        className="absolute right-0 mt-2 w-[13.625rem] rounded shadow-lg"
       >
         {userData?.memberships.map((membership: Membership) => (
           <DropdownItem key={membership.group.id} onClick={closeDropdown}>
-            {membership.group.name}
+            <div className="flex items-center gap-3">
+              <div className="relative h-8 w-8">
+                <Image
+                  src={membership.group.image}
+                  alt={membership.group.name}
+                  fill
+                  className="rounded-md"
+                />
+              </div>
+              <div>{membership.group.name}</div>
+            </div>
           </DropdownItem>
         ))}
       </DropdownList>
