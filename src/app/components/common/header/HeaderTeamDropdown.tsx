@@ -12,9 +12,11 @@ import IconHeaderCheck from '../../icons/IconHeaderCheck';
 import Image from 'next/image';
 import IconPlus from '../../icons/IconPlus';
 import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
 
 export default function HeaderTeamDropdown() {
   const { isOpen, toggleDropdown, closeDropdown } = useDropdown();
+  const router = useRouter();
 
   const {
     data: userData,
@@ -53,8 +55,11 @@ export default function HeaderTeamDropdown() {
         {userData?.memberships.map((membership: Membership) => (
           <DropdownItem
             key={membership.group.id}
-            onClick={closeDropdown}
-            className="hover:bg-background-secondary"
+            onClick={() => {
+              router.push(`/${membership.groupId}`);
+            }}
+            onClose={closeDropdown}
+            className="hover:bg-transparent"
           >
             <div className="flex h-12 w-[11.625rem] items-center gap-3 rounded-xl px-2 hover:bg-background-tertiary">
               <div className="relative h-8 w-8">
@@ -70,8 +75,11 @@ export default function HeaderTeamDropdown() {
           </DropdownItem>
         ))}
         <DropdownItem
-          onClick={closeDropdown}
-          className="hover:bg-background-secondary"
+          onClick={() => {
+            router.push('/addteam');
+          }}
+          onClose={closeDropdown}
+          className="hover:bg-transparent"
         >
           <div className="flex h-12 w-[11.625rem] items-center justify-center gap-1 rounded-xl border border-slate-50 hover:bg-background-tertiary">
             <IconPlus />
