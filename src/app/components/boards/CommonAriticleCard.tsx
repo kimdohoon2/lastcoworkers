@@ -152,7 +152,7 @@ export default function CommonAriticleCard({
               {isBasic && isAuthor && (
                 <>
                   <div
-                    className="relative ml-4 h-5 w-5 rounded-full border border-border-primary tablet:hidden"
+                    className="relative ml-4 h-5 w-5 rounded-full tablet:hidden"
                     onClick={handleDropdownToggle}
                     role="button"
                     tabIndex={0}
