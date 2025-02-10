@@ -16,6 +16,7 @@ import Input from '@/app/components/common/input/Input';
 import TaskCardDropdown from '@/app/components/icons/TaskCardDropdown';
 import useModal from '@/app/hooks/useModal';
 import IconAlert from '@/app/components/icons/IconAlert';
+import { AxiosError } from 'axios';
 
 interface DropdownMenuProps {
   groupId: number;
@@ -46,7 +47,7 @@ export default function TaskListDropdown({
       queryClient.invalidateQueries({ queryKey: ['group', groupId] });
       editModal.closeModal();
     },
-    onError: (error: any) => {
+    onError: (error: AxiosError) => {
       if (error.response?.status === 409) {
         alert('그룹 내 이름이 같은 할 일 목록이 존재합니다.');
       } else {

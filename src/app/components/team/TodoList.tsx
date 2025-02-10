@@ -28,6 +28,7 @@ import Input from '@/app/components/common/input/Input';
 import { useForm, FormProvider } from 'react-hook-form';
 import { GroupTask } from '@/app/types/grouptask';
 import { editTaskListOrder } from '@/app/lib/tasklist/patchTaskList';
+import { AxiosError } from 'axios';
 
 interface TodoListProps {
   groupId: number;
@@ -86,7 +87,7 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
       methods.reset();
       closeModal();
     },
-    onError: (error: any) => {
+    onError: (error: AxiosError) => {
       if (error.response?.status === 409) {
         alert('그룹 내 이름이 같은 할 일 목록이 존재합니다.');
       } else {
