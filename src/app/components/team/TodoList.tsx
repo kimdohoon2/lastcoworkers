@@ -181,16 +181,20 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
       >
         <SortableContext items={items} strategy={verticalListSortingStrategy}>
           <div className="flex flex-col overflow-visible">
-            {items.map((taskList, index) => (
+            {items.map((taskList) => (
               <TodoListItem
                 key={taskList.id}
                 id={taskList.id}
                 taskList={taskList}
                 groupId={groupId}
                 backgroundColor={
-                  backgroundColors[index % backgroundColors.length]
+                  backgroundColors[taskList.id % backgroundColors.length]
                 }
-                taskListData={data?.[index] || { tasks: [] }}
+                taskListData={
+                  data?.[
+                    items.findIndex((item) => item.id === taskList.id)
+                  ] || { tasks: [] }
+                }
               />
             ))}
           </div>
@@ -199,19 +203,14 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
           {activeId ? (
             <div className="w-full">
               {(() => {
-                const activeIndex = items.findIndex(
-                  (item) => item.id === activeId,
-                );
-                const overlayBg =
-                  activeIndex !== -1
-                    ? backgroundColors[activeIndex % backgroundColors.length]
-                    : 'bg-gray-500';
+                const activeTask = items.find((item) => item.id === activeId);
+                const overlayBg = activeTask
+                  ? backgroundColors[activeTask.id % backgroundColors.length]
+                  : 'bg-gray-500';
                 return (
                   <TodoListItem
                     id={activeId}
-                    taskList={
-                      items.find((item) => item.id === activeId) as GroupTask
-                    }
+                    taskList={activeTask as GroupTask}
                     groupId={groupId}
                     backgroundColor={overlayBg}
                     taskListData={
