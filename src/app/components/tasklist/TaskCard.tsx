@@ -75,8 +75,8 @@ export default function TaskCard({
 
   return (
     <div className="flex flex-col gap-2.5 rounded-lg bg-background-secondary px-3.5 py-3">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex flex-grow items-center gap-2">
+      <div className="flex flex-nowrap items-center justify-between gap-2">
+        <div className="flex flex-grow items-center gap-2 overflow-hidden">
           <span
             className="cursor-pointer"
             onClick={toggleDone}
@@ -87,7 +87,7 @@ export default function TaskCard({
             {doneAt ? <IconCheckBox /> : <IconUncheckBox />}
           </span>
           <span
-            className={clsx('cursor-pointer pr-1 text-md', {
+            className={clsx('cursor-pointer truncate pr-1 text-md', {
               'line-through': !!doneAt,
             })}
             onClick={toggleDone}
