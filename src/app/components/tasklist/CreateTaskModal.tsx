@@ -32,6 +32,7 @@ export default function CreateTaskModal({
   });
 
   const method = useForm<RecurringTaskDataBody>({
+    mode: 'onBlur',
     defaultValues: {
       name: '',
       description: '',
@@ -119,6 +120,16 @@ export default function CreateTaskModal({
                 type="text"
                 placeholder="할 일 제목을 입력해주세요."
                 autoComplete="off"
+                validationRules={{
+                  required: '할 일 제목을 입력해주세요.',
+                  maxLength: {
+                    value: 30,
+                    message: '할 일 제목은 최대 30글자까지 입력 가능합니다.',
+                  },
+                  validate: (value) =>
+                    value.trim() !== '' ||
+                    '할 일 제목은 공백만 입력할 수 없습니다.',
+                }}
               />
               <DateTimeSelector
                 date={allFields.startDate}
