@@ -79,6 +79,7 @@ export default function TodoListItem({
                   endAngle={-270}
                   fill="#F8FAFC"
                   stroke="none"
+                  isAnimationActive={false}
                 />
                 <Pie
                   data={[{ name: 'Completed', value: completionPercentage }]}
