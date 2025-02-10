@@ -36,7 +36,7 @@ export default function TodoListItem({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0 : 1,
+    opacity: isDragging ? 0.8 : 1,
   };
 
   const tasks = taskListData.tasks || [];
