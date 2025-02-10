@@ -60,6 +60,7 @@ function Modal({
         isOpen ? 'opacity-100' : 'pointer-events-none hidden opacity-0'
       }`}
       style={{ display: renderModal ? 'flex' : 'none' }}
+      onPointerDown={(e) => e.stopPropagation()}
     >
       <div ref={modalRef} className="absolute inset-0 bg-black opacity-50" />
       <div
