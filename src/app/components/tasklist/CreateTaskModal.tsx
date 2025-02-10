@@ -141,6 +141,7 @@ export default function CreateTaskModal({
                 time={selectedTime}
                 onDateChange={(date) => setValue('startDate', date)}
                 onTimeChange={setSelectedTime}
+                disablePastDates
               />
               <div>
                 <div className="mb-4 text-lg font-medium">반복 설정 *</div>

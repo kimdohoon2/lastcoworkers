@@ -9,6 +9,7 @@ interface DateTimeSelectorProps {
   time: string;
   onDateChange: (date: string) => void;
   onTimeChange: (time: string) => void;
+  disablePastDates?: boolean;
 }
 
 export default function DateTimeSelector({
@@ -16,6 +17,7 @@ export default function DateTimeSelector({
   time,
   onDateChange,
   onTimeChange,
+  disablePastDates = false,
 }: DateTimeSelectorProps) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isTimeSelectorOpen, setIsTimeSelectorOpen] = useState(false);
@@ -65,6 +67,7 @@ export default function DateTimeSelector({
                 onDateChange(formattedDate);
                 setIsCalendarOpen(false);
               }}
+              minDate={disablePastDates ? new Date() : undefined}
             />
           )}
         </div>
