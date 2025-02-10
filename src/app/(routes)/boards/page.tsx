@@ -28,7 +28,10 @@ export default function BoardsPage() {
   const [sortOrder, setSortOrder] = useState('recent');
 
   const debouncedWidth = useDebounce(windowWidth, 300);
-  const debouncedSearchKeyword = useDebounce(searchKeyword, 100);
+
+  const handleSearch = (keyword: string) => {
+    setSearchKeyword(keyword); // 엔터 키로 검색어 설정
+  };
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -49,7 +52,7 @@ export default function BoardsPage() {
     page: 1,
     pageSize: bestPageSize,
     orderBy: 'like',
-    keyword: debouncedSearchKeyword,
+    keyword: searchKeyword,
   });
 
   const {
@@ -61,7 +64,7 @@ export default function BoardsPage() {
   } = useGetArticleInfinite({
     pageSize: 3,
     orderBy: sortOrder,
-    keyword: debouncedSearchKeyword,
+    keyword: searchKeyword,
   });
   const allArticles = recentPosts?.pages.flatMap((page) => page.list) || [];
 
@@ -86,10 +89,7 @@ export default function BoardsPage() {
         <div className="pt-8 tablet:pt-10">
           <div className="flex flex-col gap-6 tablet:gap-8 xl:gap-10">
             <h1 className="text-2lg tablet:text-2xl">자유게시판</h1>
-            <BoardsSearchBar
-              searchKeyword={searchKeyword}
-              setSearchKeyword={setSearchKeyword}
-            />
+            <BoardsSearchBar onSearch={handleSearch} />
             <h2 className="tablet:text-xl">베스트 게시글</h2>
             {isBestLoading ? (
               <div>베스트 게시글 가져오는 중</div>
@@ -156,7 +156,7 @@ export default function BoardsPage() {
       </section>
 
       <Link
-        className="fixed bottom-5 right-4 block h-[48px] w-[125px] tablet:right-8 xl:bottom-9 xl:right-96"
+        className="fixed bottom-5 right-4 block h-[48px] w-[125px] tablet:right-8 xl:bottom-9 xl:right-16 2xl:right-96"
         href="/addboard"
       >
         <Button variant="plus" size="plus">
