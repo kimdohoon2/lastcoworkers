@@ -43,7 +43,11 @@ export default function TaskListDropdown({
       editTaskList({ groupId, id: taskListId, name: newName }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['taskLists', groupId] });
+      queryClient.invalidateQueries({ queryKey: ['group', groupId] });
       editModal.closeModal();
+    },
+    onError: () => {
+      alert('그룹 내 이름이 같은 할 일 목록이 존재합니다.');
     },
   });
 
@@ -51,6 +55,7 @@ export default function TaskListDropdown({
     mutationFn: () => deleteTaskList({ groupId, id: taskListId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['taskLists', groupId] });
+      queryClient.invalidateQueries({ queryKey: ['group', groupId] });
       deleteModal.closeModal();
     },
   });
