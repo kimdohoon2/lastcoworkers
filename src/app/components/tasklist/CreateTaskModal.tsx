@@ -98,6 +98,8 @@ export default function CreateTaskModal({
   }, []);
 
   const handleClose = () => {
+    method.reset();
+    setSelectedTime('');
     onClose();
   };
 
