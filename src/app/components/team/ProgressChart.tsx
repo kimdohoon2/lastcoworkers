@@ -41,7 +41,7 @@ export default function ProgressChart({
         fill="url(#progressGradient)"
         stroke="none"
         cornerRadius={24}
-        isAnimationActive={true}
+        isAnimationActive
         animationDuration={500}
         animationEasing="ease-out"
       />

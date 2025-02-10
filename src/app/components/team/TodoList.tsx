@@ -50,7 +50,6 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
   ];
   const { isOpen, openModal, closeModal } = useModal();
   const methods = useForm<TodoListForm>();
-  const { setError } = methods;
   const queryClient = useQueryClient();
   const todayDate = getTodayDate();
 
