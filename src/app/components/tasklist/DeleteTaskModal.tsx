@@ -51,6 +51,7 @@ export default function DeleteTaskModal({
           e.preventDefault();
         }
       }}
+      className={`${isOpen ? 'block' : 'hidden'}`}
     >
       <Modal isOpen={isOpen} closeModal={onClose}>
         <div className="flex flex-col items-center gap-2 text-center">

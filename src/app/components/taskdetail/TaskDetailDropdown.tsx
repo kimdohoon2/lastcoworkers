@@ -1,6 +1,7 @@
 import useDropdown from '@/app/hooks/useDropdown';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { useAppSelector } from '@/app/stores/hooks';
+import useModal from '@/app/hooks/useModal';
 import Dropdown from '../common/dropdown/Dropdown';
 import DropdownItem from '../common/dropdown/DropdownItem';
 import DropdownList from '../common/dropdown/DropdownList';
@@ -25,13 +26,9 @@ export default function TaskDetailDropdown({
   onEdit: () => void;
 }) {
   const task = useAppSelector((state) => state.tasks.taskById[taskId]);
-  const [modalState, setModalState] = useState<{
-    isOpen: boolean;
-    type: 'deleteTask' | 'deleteRecurring' | null;
-  }>({
-    isOpen: false,
-    type: null,
-  });
+
+  const deleteTaskModal = useModal();
+  const deleteRecurringModal = useModal();
 
   const {
     isOpen: isDropdownOpen,
@@ -40,16 +37,6 @@ export default function TaskDetailDropdown({
   } = useDropdown();
 
   if (!task) return null;
-
-  const openModal = (type: 'deleteTask' | 'deleteRecurring') => {
-    setModalState({ isOpen: true, type });
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalState({ isOpen: false, type: null });
-    setIsModalOpen(false);
-  };
 
   return (
     <>
@@ -74,8 +61,9 @@ export default function TaskDetailDropdown({
           <DropdownItem
             className="text-sm"
             onClick={() => {
+              deleteTaskModal.openModal();
+              setIsModalOpen(true);
               closeDropdown();
-              openModal('deleteTask');
             }}
           >
             단일 삭제하기
@@ -83,8 +71,9 @@ export default function TaskDetailDropdown({
           <DropdownItem
             className="text-sm"
             onClick={() => {
+              deleteRecurringModal.openModal();
+              setIsModalOpen(true);
               closeDropdown();
-              openModal('deleteRecurring');
             }}
           >
             반복 삭제하기
@@ -92,29 +81,29 @@ export default function TaskDetailDropdown({
         </DropdownList>
       </Dropdown>
 
-      {modalState.isOpen && modalState.type === 'deleteTask' && (
-        <DeleteTaskModal
-          isOpen={modalState.isOpen}
-          onClose={closeModal}
-          onDeleteSuccess={() => {
-            onDeleteSuccess();
-          }}
-          groupId={groupId}
-          taskListId={taskListId}
-          taskId={taskId}
-        />
-      )}
+      <DeleteTaskModal
+        isOpen={deleteTaskModal.isOpen}
+        onClose={() => {
+          deleteTaskModal.closeModal();
+          setIsModalOpen(false);
+        }}
+        onDeleteSuccess={onDeleteSuccess}
+        groupId={groupId}
+        taskListId={taskListId}
+        taskId={taskId}
+      />
 
-      {modalState.isOpen && modalState.type === 'deleteRecurring' && (
-        <DeleteRecurringModal
-          isOpen={modalState.isOpen}
-          onClose={closeModal}
-          onDeleteSuccess={onDeleteSuccess}
-          groupId={groupId}
-          taskListId={taskListId}
-          taskId={taskId}
-        />
-      )}
+      <DeleteRecurringModal
+        isOpen={deleteRecurringModal.isOpen}
+        onClose={() => {
+          deleteRecurringModal.closeModal();
+          setIsModalOpen(false);
+        }}
+        onDeleteSuccess={onDeleteSuccess}
+        groupId={groupId}
+        taskListId={taskListId}
+        taskId={taskId}
+      />
     </>
   );
 }
