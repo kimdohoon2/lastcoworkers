@@ -63,7 +63,7 @@ export default function BoardsPage() {
     hasNextPage,
     isFetchingNextPage,
   } = useGetArticleInfinite({
-    pageSize: 3,
+    pageSize: 4,
     orderBy: sortOrder,
     keyword: searchKeyword,
   });
@@ -123,8 +123,8 @@ export default function BoardsPage() {
               <BoardsOrderDropDown setSortOrder={setSortOrder} />
             </div>
             {isRecentLoading ? (
-              <div className="flex flex-col gap-4">
-                {Array.from({ length: 3 }).map(() => (
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+                {Array.from({ length: 4 }).map(() => (
                   <BoardsSkeleton
                     className="h-[8.5rem] tablet:h-44"
                     key={crypto.randomUUID()}
@@ -132,7 +132,7 @@ export default function BoardsPage() {
                 ))}
               </div>
             ) : allArticles.length > 0 ? (
-              <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
                 {allArticles.map((article) => (
                   <CommonAriticleCard
                     key={article.id}
@@ -152,12 +152,13 @@ export default function BoardsPage() {
 
                 {/* 무한 스크롤 시 UI 추가 */}
                 {isFetchingNextPage && (
-                  <BoardsSkeleton className="h-[8.5rem] tablet:h-44" />
+                  <>
+                    <BoardsSkeleton className="h-[8.5rem] tablet:h-44" />
+                    <BoardsSkeleton className="hidden h-[8.5rem] tablet:h-44 xl:block" />
+                  </>
                 )}
 
-                <div ref={ref} className="h-10">
-                  {hasNextPage && !isFetchingNextPage && '스크롤하여 더 보기'}
-                </div>
+                <div ref={ref} className="h-10" />
               </div>
             ) : (
               <div>검색 결과에 해당하는 게시글이 없습니다.</div>
