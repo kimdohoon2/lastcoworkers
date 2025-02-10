@@ -84,6 +84,7 @@ export default function EditTaskModal({
           e.preventDefault();
         }
       }}
+      className={`${isOpen ? 'block' : 'hidden'}`}
     >
       <Modal isOpen={isOpen} closeModal={onClose}>
         <div className="flex flex-col gap-4">
