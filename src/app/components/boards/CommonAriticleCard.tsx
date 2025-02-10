@@ -6,8 +6,8 @@ import ConfirmModal from '@/app/components/common/modal/ConfirmModal';
 import Dropdown from '@/app/components/common/dropdown/Dropdown';
 import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
-import IconPlus from '@/app/components/icons/IconPlus';
 import useArticleActions from '@/app/hooks/useArticleActions';
+import IconMore from '@/app/components/icons/IconMore';
 
 interface CommonArticleCardProps extends Article {
   isBest?: boolean;
@@ -40,6 +40,7 @@ export default function CommonAriticleCard({
     confirmDelete,
     handleKeyDown,
     handleDropdownToggle,
+    isAuthor,
   } = useArticleActions({
     id,
     title,
@@ -106,9 +107,9 @@ export default function CommonAriticleCard({
                 height={72}
               />
             </div>
-            {isBasic && (
+            {isBasic && isAuthor && (
               <div
-                className="relative ml-4 hidden h-5 w-5 rounded-full border border-border-primary tablet:block"
+                className="relative ml-4 hidden h-5 w-5 tablet:block"
                 onClick={handleDropdownToggle}
                 role="button"
                 tabIndex={0}
@@ -118,7 +119,7 @@ export default function CommonAriticleCard({
                 aria-label="Toggle dropdown"
               >
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <IconPlus />
+                  <IconMore />
                 </div>
               </div>
             )}
@@ -148,7 +149,7 @@ export default function CommonAriticleCard({
             </div>
             <div className="flex items-center gap-1">
               <BoardsLikeBox id={id} likeCount={likeCount} isLiked={isLiked} />
-              {isBasic && (
+              {isBasic && isAuthor && (
                 <>
                   <div
                     className="relative ml-4 h-5 w-5 rounded-full border border-border-primary tablet:hidden"
@@ -161,7 +162,7 @@ export default function CommonAriticleCard({
                     aria-label="Toggle dropdown"
                   >
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                      <IconPlus />
+                      <IconMore />
                     </div>
                   </div>
                   <Dropdown
