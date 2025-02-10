@@ -32,7 +32,7 @@ export default function CreateTaskModal({
   });
 
   const method = useForm<RecurringTaskDataBody>({
-    mode: 'onBlur',
+    mode: 'onChange',
     defaultValues: {
       name: '',
       description: '',
@@ -154,7 +154,14 @@ export default function CreateTaskModal({
                 placeholder="메모를 입력해주세요."
                 autoComplete="off"
                 className="h-[4.6875rem]"
+                validationRules={{
+                  maxLength: {
+                    value: 255,
+                    message: '메모는 최대 255글자까지 입력 가능합니다.',
+                  },
+                }}
               />
+
               <Button
                 className="mt-2 text-text-inverse"
                 variant="primary"
