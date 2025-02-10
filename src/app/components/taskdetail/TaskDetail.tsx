@@ -228,7 +228,7 @@ function TaskDetail({
               </div>
             </div>
           ) : (
-            <p className="mt-3 h-[6rem] break-words tablet:h-[8rem] xl:h-[10rem]">
+            <p className="my-3 min-h-[6rem] break-words tablet:min-h-[8rem] xl:min-h-[10rem]">
               {descriptionValue}
             </p>
           )}
