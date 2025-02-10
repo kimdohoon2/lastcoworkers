@@ -45,7 +45,12 @@ export default function CreateTaskModal({
   const queryClient = useQueryClient();
   const { mutate, isPending } = useCreateRecurringTaskMutation();
 
-  const formValidation = isFormValid(allFields, selectedTime, repeatData);
+  const { description, ...fieldsWithoutDescription } = allFields;
+  const formValidation = isFormValid(
+    fieldsWithoutDescription,
+    selectedTime,
+    repeatData,
+  );
 
   const onSubmit = (data: RecurringTaskDataBody) => {
     const formattedDate =
@@ -143,7 +148,7 @@ export default function CreateTaskModal({
               </div>
               <Input
                 name="description"
-                title="할 일 메모 *"
+                title="할 일 메모"
                 type="text"
                 placeholder="메모를 입력해주세요."
                 autoComplete="off"
