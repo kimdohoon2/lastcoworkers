@@ -1,14 +1,6 @@
-interface TaskCardSkeletonProps {
-  className?: string;
-}
-
-export default function TaskCardSkeleton({
-  className = '',
-}: TaskCardSkeletonProps) {
+function TaskCardSkeleton() {
   return (
-    <div
-      className={`flex w-full animate-pulse flex-col gap-2.5 rounded-[12px] rounded-lg border border-[#F8FAFC1A] bg-background-secondary px-3.5 py-3 shinny ${className}`}
-    >
+    <div className="flex w-full animate-pulse flex-col gap-2.5 rounded-[12px] rounded-lg border border-[#F8FAFC1A] bg-background-secondary px-3.5 py-3 shinny">
       <div className="flex flex-col gap-2">
         <div className="flex flex-nowrap items-center justify-between gap-2">
           <div className="flex flex-grow items-center gap-2">
@@ -30,3 +22,5 @@ export default function TaskCardSkeleton({
     </div>
   );
 }
+
+export default TaskCardSkeleton;
