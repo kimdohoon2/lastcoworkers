@@ -31,7 +31,7 @@ function TaskDetail({
   setIsModalOpen,
 }: TaskDetailProps) {
   const queryClient = useQueryClient();
-  const { mutate: editTask } = useEditTaskMutation();
+  const { mutate: editTask, isPending } = useEditTaskMutation();
   const [isEditing, setIsEditing] = useState(false);
 
   const {
@@ -241,7 +241,7 @@ function TaskDetail({
                   variant="complete"
                   size="small"
                   onClick={handleEditTask}
-                  disabled={!nameValue.trim()}
+                  disabled={!nameValue.trim() || isPending}
                 >
                   수정
                 </Button>

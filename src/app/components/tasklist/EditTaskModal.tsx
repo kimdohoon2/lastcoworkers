@@ -40,7 +40,7 @@ export default function EditTaskModal({
 
   const { register } = methods;
 
-  const { mutate } = useEditTaskMutation();
+  const { mutate, isPending } = useEditTaskMutation();
 
   const onSubmit = (data: FormValues) => {
     mutate(
@@ -147,6 +147,7 @@ export default function EditTaskModal({
                     className="w-[8.5rem] text-text-inverse"
                     variant="primary"
                     size="large"
+                    disabled={isPending}
                   >
                     수정하기
                   </Button>
