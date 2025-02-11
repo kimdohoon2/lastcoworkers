@@ -18,6 +18,10 @@ export default function useArticleActions(article: Article) {
   } = useModal();
   const deleteArticleMutation = useDeleteArticle();
 
+  // 현재 로그인한 사용자가 게시글 작성자인지 확인
+  const isAuthor =
+    Boolean(currentUserId) && String(currentUserId) === String(writer.id);
+
   const handleEditClick = () => {
     router.push(`/boards/${id}/editboard`);
   };
@@ -31,12 +35,6 @@ export default function useArticleActions(article: Article) {
   };
 
   const handleDelete = () => {
-    if (String(writer.id) !== String(currentUserId)) {
-      alert('본인이 작성한 게시글만 삭제할 수 있습니다.');
-      closeDropdown();
-      return;
-    }
-
     openDeleteModal();
     closeDropdown();
   };
@@ -78,5 +76,6 @@ export default function useArticleActions(article: Article) {
     confirmDelete,
     handleKeyDown,
     handleDropdownToggle,
+    isAuthor,
   };
 }
