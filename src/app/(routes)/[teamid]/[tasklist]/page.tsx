@@ -12,6 +12,7 @@ import { useQuery } from '@tanstack/react-query';
 import getGroupById from '@/app/lib/group/getGroupById';
 import Link from 'next/link';
 import { getLocalDateString } from '@/app/utils/formatDate';
+import useSaveScroll from '@/app/hooks/useSaveScroll';
 
 function TaskListPage() {
   const { teamid, tasklist } = useParams();
@@ -19,6 +20,8 @@ function TaskListPage() {
   const [modalType, setModalType] = useState<'list' | 'task' | null>(null);
   const [selectedDate, setSelectedDate] =
     useState<string>(getLocalDateString());
+
+  const scrollRef = useSaveScroll('taskListScrollPosition');
 
   const { data, isLoading } = useQuery({
     queryKey: ['tasklists', Number(teamid)],
@@ -52,7 +55,10 @@ function TaskListPage() {
           + 새로운 목록 추가하기
         </button>
       </div>
-      <div className="flex flex-wrap gap-x-3 gap-y-2">
+      <div
+        ref={scrollRef}
+        className="custom-scrollbar flex max-w-full gap-3 overflow-x-auto whitespace-nowrap px-2 py-3"
+      >
         {data?.taskLists &&
           data?.taskLists.map((list) => {
             const isActive = tasklist === String(list.id);
