@@ -164,15 +164,6 @@ export default function BoardsPage() {
         </div>
       </section>
 
-      {/* <Link
-        className="fixed bottom-5 right-4 block h-[48px] w-[104px] tablet:right-8 xl:bottom-9 xl:right-16 2xl:right-48"
-        href="/addboard"
-      >
-        <Button className="w-full !rounded-[2.5rem]">
-          <IconPlus />
-          글쓰기
-        </Button>
-      </Link> */}
       <Link
         className="fixed bottom-5 right-4 block h-[48px] w-[104px] tablet:right-8 xl:left-[50%] xl:top-[95%] xl:-translate-y-1/2 xl:translate-x-[29rem]"
         href="/addboard"
