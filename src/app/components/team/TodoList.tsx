@@ -134,9 +134,14 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
   return (
     <div className="mx-auto my-6 max-w-[75rem]">
       <div className="flex justify-between">
-        <span className="text-lg font-normal">
-          할 일 목록 ({items.length}개)
-        </span>
+        <div className="flex gap-2">
+          <span className="text-lg font-medium text-text-primary">
+            할 일 목록
+          </span>
+          <span className="text-lg font-normal text-text-default">
+            ({items.length}개)
+          </span>
+        </div>
         <button
           className="text-sm font-normal text-brand-primary hover:underline"
           onClick={openModal}
