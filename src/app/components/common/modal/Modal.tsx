@@ -12,7 +12,7 @@ interface ModalProps {
 }
 
 function Modal({
-  hasCloseBtn = false,
+  hasCloseBtn = true,
   portalRoot, // Modal 렌더링할 상위 DOM 노드
   closeModal,
   isOpen,
@@ -69,7 +69,7 @@ function Modal({
         {hasCloseBtn && (
           <button
             type="button"
-            className="absolute right-4 top-4 h-6 w-6"
+            className="absolute right-4 top-4 h-6 w-6 transition-all duration-200 hover:scale-90 hover:opacity-85"
             title="모달 닫기"
             onClick={closeModal}
           >
