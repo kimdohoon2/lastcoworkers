@@ -1,57 +1,35 @@
 'use client';
 
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import getUser, { GetUserResponse, Membership } from '@/app/lib/user/getUser';
+import { useRouter, useParams } from 'next/navigation';
 import Dropdown from '@/app/components/common/dropdown/Dropdown';
 import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import useDropdown from '@/app/hooks/useDropdown';
-import IconHeaderCheck from '../../icons/IconHeaderCheck';
+import IconHeaderCheck from '@/app/components/icons/IconHeaderCheck';
 import Image from 'next/image';
-import IconPlus from '../../icons/IconPlus';
+import IconPlus from '@/app/components/icons/IconPlus';
 import clsx from 'clsx';
-import { useRouter, useParams } from 'next/navigation';
-import IconDefaultImage from '../../icons/IconDefaultImage';
+import IconDefaultImage from '@/app/components/icons/IconDefaultImage';
+import { GetUserResponse, Membership } from '@/app/lib/user/getUser';
 
-export default function HeaderTeamDropdown() {
+interface TeamHeaderDropdownProps {
+  userData: GetUserResponse;
+}
+
+export default function TeamHeaderDropdown({
+  userData,
+}: TeamHeaderDropdownProps) {
   const { isOpen, toggleDropdown, closeDropdown } = useDropdown();
   const router = useRouter();
   const params = useParams();
 
   const currentGroupId = params.teamid ? Number(params.teamid) : null;
 
-  const {
-    data: userData,
-    isLoading,
-    error,
-  } = useQuery<GetUserResponse>({
-    queryKey: ['user'],
-    queryFn: getUser,
-    staleTime: 5 * 60 * 1000,
-  });
+  let displayGroupName = userData.memberships[0]?.group.name || '팀 생성하기';
 
-  if (isLoading) {
-    return <div>로딩 중...</div>;
-  }
-  if (error) {
-    return <div>유저 데이터를 불러오는데 실패했습니다.</div>;
-  }
-
-  if (userData.memberships.length === 0) {
-    return (
-      <button
-        onClick={() => router.push('/addteam')}
-        className="inline-block rounded text-white hover:text-interaction-hover"
-      >
-        팀 생성하기
-      </button>
-    );
-  }
-
-  let displayGroupName = userData?.memberships[0]?.group.name || '팀 생성하기';
-  if (currentGroupId && userData?.memberships) {
+  if (currentGroupId) {
     const membership = userData.memberships.find(
       (m: Membership) => m.group.id === currentGroupId,
     );
@@ -61,7 +39,7 @@ export default function HeaderTeamDropdown() {
   }
 
   return (
-    <Dropdown className="relative inline-block" onClose={closeDropdown}>
+    <Dropdown className="relative hidden tablet:block" onClose={closeDropdown}>
       <DropdownToggle onClick={toggleDropdown}>
         <div className="flex items-center gap-3">
           {displayGroupName}
@@ -81,7 +59,7 @@ export default function HeaderTeamDropdown() {
           <DropdownItem
             key={membership.group.id}
             onClick={() => {
-              router.push(`/${membership.groupId}`);
+              router.push(`/${membership.group.id}`);
               closeDropdown();
             }}
             className="hover:bg-transparent"
