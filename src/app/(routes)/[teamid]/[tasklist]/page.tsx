@@ -13,8 +13,11 @@ import getGroupById from '@/app/lib/group/getGroupById';
 import Link from 'next/link';
 import { getLocalDateString } from '@/app/utils/formatDate';
 import useSaveScroll from '@/app/hooks/useSaveScroll';
+import useAuthRedirect from '@/app/hooks/useAuthRedirect';
+import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 
 function TaskListPage() {
+  const { isLoading: isAuthLoading } = useAuthRedirect();
   const { teamid, tasklist } = useParams();
   const { isOpen, openModal, closeModal } = useModal();
   const [modalType, setModalType] = useState<'list' | 'task' | null>(null);
@@ -33,6 +36,7 @@ function TaskListPage() {
     openModal();
   };
 
+  if (isAuthLoading) return <AuthCheckLoading />;
   if (isLoading) return <div>Loading...</div>;
 
   return (
