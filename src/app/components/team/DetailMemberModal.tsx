@@ -35,8 +35,10 @@ function DetailMemberModal({ member, isOpen, closeModal }: DetailMemberProps) {
             <IconProfileEmpty className="h-full w-full" />
           )}
         </div>
-        <div className="mb-2 text-md font-medium">{member.userName}</div>
-        <div className="mb-6 text-xs text-text-secondary">
+        <div className="mb-2 overflow-hidden text-ellipsis text-md font-medium">
+          {member.userName}
+        </div>
+        <div className="mb-6 overflow-hidden text-ellipsis text-xs text-text-secondary">
           {member.userEmail}
         </div>
         <Button className="w-full text-text-inverse" onClick={handleClick}>
