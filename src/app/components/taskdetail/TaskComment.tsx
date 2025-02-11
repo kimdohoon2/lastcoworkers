@@ -2,7 +2,6 @@ import { useTaskCommentQuery } from '@/app/lib/comment/getComment';
 import { Dispatch, SetStateAction } from 'react';
 import TaskCommentInput from './TaskCommentInput';
 import TaskCommentCard from './TaskCommentCard';
-import TaskCommentSkeleton from './TaskCommentSkeleton';
 
 function TaskComments({
   taskId,
@@ -11,7 +10,7 @@ function TaskComments({
   taskId: number;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-  const { data, isLoading, error } = useTaskCommentQuery(taskId);
+  const { data, error } = useTaskCommentQuery(taskId);
   const comments = data ?? [];
 
   return (
@@ -24,13 +23,7 @@ function TaskComments({
         </p>
       )}
 
-      {isLoading ? (
-        <div className="flex flex-col gap-4">
-          {Array.from({ length: 3 }, (_, i) => (
-            <TaskCommentSkeleton key={`skeleton-${i}`} />
-          ))}
-        </div>
-      ) : comments.length === 0 ? (
+      {comments.length === 0 ? (
         <p className="text-text-default">댓글이 없습니다.</p>
       ) : (
         <ul>

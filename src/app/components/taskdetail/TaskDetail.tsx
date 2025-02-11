@@ -6,6 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useEditTaskMutation } from '@/app/lib/task/patchTask';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useTaskCommentQuery } from '@/app/lib/comment/getComment';
 import Input from '../common/input/Input';
 import Button from '../common/button/Button';
 import IconCheck from '../icons/IconCheck';
@@ -37,9 +38,14 @@ function TaskDetail({
 
   const {
     data: task,
-    isLoading,
-    error,
-  } = useTaskQuery(groupId, taskListId, taskId as number);
+    isLoading: isTaskLoading,
+    error: taskError,
+  } = useTaskQuery(groupId, taskListId, Number(taskId));
+
+  const { isLoading: isCommentLoading, error: commentError } =
+    useTaskCommentQuery(Number(taskId));
+
+  const isLoading = isTaskLoading || isCommentLoading;
 
   const methods = useForm({
     mode: 'onChange',
@@ -62,7 +68,8 @@ function TaskDetail({
 
   if (!taskId) return <p>할 일 ID가 없습니다.</p>;
   if (isLoading) return <TaskDetailSkeleton />;
-  if (error) return <p>데이터를 불러오는 중 오류가 발생했습니다.</p>;
+  if (taskError || commentError)
+    return <p>데이터를 불러오는 중 오류가 발생했습니다.</p>;
   if (!task) return <p>데이터가 존재하지 않습니다.</p>;
 
   const { doneAt, date, frequency, writer, recurring } = task;
