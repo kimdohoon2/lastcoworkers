@@ -2,21 +2,16 @@
 
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { FieldValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { FieldValues, UseFormSetValue } from 'react-hook-form';
 import IconProfileEdit from '@/app/components/icons/IconProfileEdit';
 import IconProfile from '@/app/components/icons/IconProfile';
 
 interface ProfileUploaderProps {
   initialImage?: string;
-  register: UseFormRegister<FieldValues>;
   setValue: UseFormSetValue<FieldValues>;
 }
 
-function ProfileUploader({
-  initialImage,
-  register,
-  setValue,
-}: ProfileUploaderProps) {
+function ProfileUploader({ initialImage, setValue }: ProfileUploaderProps) {
   const [profileImage, setProfileImage] = useState<string | null>(
     initialImage || '',
   );
@@ -46,7 +41,6 @@ function ProfileUploader({
           className="sr-only"
           type="file"
           accept="image/*"
-          {...register('profile')}
           onChange={handleFileChange}
         />
         {profileImage ? (

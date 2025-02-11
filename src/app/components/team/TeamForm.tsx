@@ -21,7 +21,7 @@ function TeamForm({
   const method = useForm<FieldValues>({
     defaultValues: { profile: initialImage, name: initialName },
   });
-  const { register, handleSubmit, setValue } = method;
+  const { handleSubmit, setValue } = method;
 
   useEffect(() => {
     setValue('profile', initialImage);
@@ -31,11 +31,7 @@ function TeamForm({
   return (
     <FormProvider {...method}>
       <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
-        <ProfileUploader
-          initialImage={initialImage}
-          register={register}
-          setValue={setValue}
-        />
+        <ProfileUploader initialImage={initialImage} setValue={setValue} />
         <Input
           name="name"
           title="팀 이름"
