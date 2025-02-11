@@ -67,7 +67,12 @@ function TaskCommentCard({
               <Button onClick={handleCancelClick} variant="cancel" size="small">
                 취소
               </Button>
-              <Button onClick={handleSaveClick} variant="complete" size="small">
+              <Button
+                onClick={handleSaveClick}
+                variant="complete"
+                size="small"
+                disabled={editedComment.trim() === ''}
+              >
                 수정
               </Button>
             </div>

@@ -84,12 +84,15 @@ function TaskListPage() {
       >
         + 할 일 추가
       </Button>
-      {isOpen && modalType === 'list' && (
-        <CreateListModal onClose={closeModal} groupId={Number(teamid)} />
-      )}
-      {isOpen && modalType === 'task' && (
-        <CreateTaskModal onClose={closeModal} />
-      )}
+      <CreateListModal
+        isOpen={isOpen && modalType === 'list'}
+        onClose={closeModal}
+        groupId={Number(teamid)}
+      />
+      <CreateTaskModal
+        isOpen={isOpen && modalType === 'task'}
+        onClose={closeModal}
+      />
     </div>
   );
 }

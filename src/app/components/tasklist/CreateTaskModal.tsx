@@ -15,10 +15,14 @@ import RepeatSelector from './RepeatSelector';
 import DateTimeSelector from './DateTimeSeletor';
 
 interface CreateTaskModalProps {
+  isOpen: boolean;
   onClose: () => void;
 }
 
-export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
+export default function CreateTaskModal({
+  onClose,
+  isOpen,
+}: CreateTaskModalProps) {
   const params = useParams();
   const { teamid: groupId, tasklist: taskListId, date: selectedDate } = params;
   const [selectedTime, setSelectedTime] = useState('');
@@ -93,7 +97,7 @@ export default function CreateTaskModal({ onClose }: CreateTaskModalProps) {
 
   return (
     <>
-      <Modal isOpen closeModal={handleClose}>
+      <Modal isOpen={isOpen} closeModal={handleClose}>
         <div className="custom-scrollbar flex flex-col items-center gap-6 overflow-y-scroll px-2">
           <div className="flex w-full flex-col gap-4 text-center">
             <p className="text-lg font-medium">할 일 만들기</p>
