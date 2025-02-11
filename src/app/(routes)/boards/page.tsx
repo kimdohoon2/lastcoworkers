@@ -144,12 +144,6 @@ export default function BoardsPage() {
                   />
                 ))}
 
-                {!hasNextPage && allArticles.length > 0 && (
-                  <div className="py-4 text-center">
-                    더 이상 게시글이 없습니다.
-                  </div>
-                )}
-
                 {/* 무한 스크롤 시 UI 추가 */}
                 {isFetchingNextPage && (
                   <>
@@ -164,11 +158,23 @@ export default function BoardsPage() {
               <div>검색 결과에 해당하는 게시글이 없습니다.</div>
             )}
           </div>
+          {!hasNextPage && allArticles.length > 0 && (
+            <div className="py-4 text-center">더 이상 게시글이 없습니다.</div>
+          )}
         </div>
       </section>
 
+      {/* <Link
+        className="fixed bottom-5 right-4 block h-[48px] w-[104px] tablet:right-8 xl:bottom-9 xl:right-16 2xl:right-48"
+        href="/addboard"
+      >
+        <Button className="w-full !rounded-[2.5rem]">
+          <IconPlus />
+          글쓰기
+        </Button>
+      </Link> */}
       <Link
-        className="fixed bottom-5 right-4 block h-[48px] w-[104px] tablet:right-8 xl:bottom-9 xl:right-16 2xl:right-96"
+        className="fixed bottom-5 right-4 block h-[48px] w-[104px] tablet:right-8 xl:left-[50%] xl:top-[95%] xl:-translate-y-1/2 xl:translate-x-[29rem]"
         href="/addboard"
       >
         <Button className="w-full !rounded-[2.5rem]">
