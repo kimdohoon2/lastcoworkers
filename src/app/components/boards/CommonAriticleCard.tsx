@@ -66,7 +66,7 @@ export default function CommonAriticleCard({
       >
         <div
           key={id}
-          className="w-full rounded-[12px] border border-[#F8FAFC1A] bg-background-secondary px-4 pb-4 pt-2 tablet:px-8 tablet:pb-6 tablet:pt-6"
+          className="w-full rounded-[12px] border border-[#F8FAFC1A] bg-background-secondary px-4 pb-4 pt-2 transition-all duration-300 hover:scale-[1.02] tablet:px-8 tablet:pb-6 tablet:pt-6"
         >
           {isBest && (
             <div className="mb-3 flex items-center gap-2">
@@ -89,13 +89,13 @@ export default function CommonAriticleCard({
               </p>
               {/* 모바일에서만 보이는 날짜 */}
               <p className="mb-4 mt-12 text-xs text-text-disabled tablet:hidden">
-                {new Date(updatedAt).toLocaleDateString()}
+                {new Date(updatedAt).toLocaleDateString().replace(/\.$/, '')}
               </p>
               {/* 베스트 게시글 태블릿에서 조건부로 보이는 날짜 */}
               <p
                 className={`mb-4 mt-12 hidden text-xs text-text-disabled tablet:block tablet:text-md ${tabletHidden ? 'tablet:hidden' : ''}`}
               >
-                {new Date(updatedAt).toLocaleDateString()}
+                {new Date(updatedAt).toLocaleDateString().replace(/\.$/, '')}
               </p>
             </div>
             <div className="h-[64px] w-[64px] tablet:h-[72px] tablet:w-[72px]">
