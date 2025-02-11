@@ -61,7 +61,7 @@ export default function ArticleChanger({
             onContentChange(e.target.value);
           }}
           placeholder="내용을 입력해주세요."
-          className="[&::-webkit-scrollbar]:w-2 h-[15rem] w-full resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400"
+          className="h-[15rem] w-full resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400 [&::-webkit-scrollbar]:w-2"
         />
       </div>
     </div>
