@@ -124,7 +124,7 @@ function TaskCardList({
 
   if (!tasksState || tasksState.length === 0) {
     return (
-      <div className="mt-[11.9375rem] flex h-screen justify-center text-md text-text-default tablet:mt-[21.5625rem] lg:mt-[19.375rem]">
+      <div className="mt-[11.9375rem] flex justify-center text-md text-text-default tablet:mt-[21.5625rem] lg:mt-[19.375rem]">
         아직 할 일이 없습니다. <br /> 할 일을 추가해보세요.
       </div>
     );
