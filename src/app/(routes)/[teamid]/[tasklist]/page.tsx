@@ -11,14 +11,15 @@ import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getGroupById from '@/app/lib/group/getGroupById';
 import Link from 'next/link';
+import { getLocalDateString } from '@/app/utils/formatDate';
 
 function TaskListPage() {
   const { teamid, tasklist } = useParams();
   const { isOpen, openModal, closeModal } = useModal();
   const [modalType, setModalType] = useState<'list' | 'task' | null>(null);
-  const [selectedDate, setSelectedDate] = useState<string>(
-    new Date().toISOString().split('T')[0],
-  );
+  const [selectedDate, setSelectedDate] =
+    useState<string>(getLocalDateString());
+
   const { data, isLoading } = useQuery({
     queryKey: ['tasklists', Number(teamid)],
     queryFn: () => getGroupById(Number(teamid)),
