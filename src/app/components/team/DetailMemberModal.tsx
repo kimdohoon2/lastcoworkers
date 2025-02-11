@@ -28,7 +28,7 @@ function DetailMemberModal({ member, isOpen, closeModal }: DetailMemberProps) {
   return (
     <Modal hasCloseBtn isOpen={isOpen} closeModal={closeModal}>
       <div className="w-full px-12 text-center">
-        <div className="relative mx-auto mb-6 h-[2.875rem] w-[2.875rem] tablet:h-[3.25rem] tablet:w-[3.25rem]">
+        <div className="relative mx-auto mb-6 h-[2.875rem] w-[2.875rem] overflow-hidden rounded-full tablet:h-[3.25rem] tablet:w-[3.25rem]">
           {member.userImage ? (
             <Image src={member.userImage} fill alt="프로필 이미지" />
           ) : (
