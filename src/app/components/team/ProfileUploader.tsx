@@ -2,26 +2,31 @@
 
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { FieldValues, UseFormRegister } from 'react-hook-form';
+import { FieldValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import IconProfileEdit from '@/app/components/icons/IconProfileEdit';
 import IconProfile from '@/app/components/icons/IconProfile';
 
 interface ProfileUploaderProps {
   initialImage?: string;
   register: UseFormRegister<FieldValues>;
+  setValue: UseFormSetValue<FieldValues>;
 }
 
-function ProfileUploader({ initialImage, register }: ProfileUploaderProps) {
+function ProfileUploader({
+  initialImage,
+  register,
+  setValue,
+}: ProfileUploaderProps) {
   const [profileImage, setProfileImage] = useState<string | null>(
     initialImage || '',
   );
 
-  // 파일 처리하는 함수
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
       const url = URL.createObjectURL(file); // 미리보기 URL 생성
-      setProfileImage(url); // 미리보기 이미지 업데이트
+      setProfileImage(url);
+      setValue('profile', file);
     }
   };
 
