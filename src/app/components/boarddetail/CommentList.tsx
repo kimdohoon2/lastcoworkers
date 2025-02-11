@@ -115,80 +115,85 @@ export default function CommentList() {
     <div>
       <AddComment />
 
-      {/* 댓글 리스트 */}
       <div className="mt-8 flex flex-col gap-4 tablet:mt-10">
-        {data?.pages.map((page) =>
-          page.list.map((comment) => (
-            <div
-              key={comment.id}
-              className="rounded-lg border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary p-4"
-            >
-              <div className="flex flex-col gap-8">
-                <div className="text-primary flex items-center justify-between text-md tablet:text-lg">
-                  {editingCommentId === comment.id ? (
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="text"
-                        className="w-full rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-tertiary px-2 py-2"
-                        value={editedContent}
-                        onChange={(e) => setEditedContent(e.target.value)}
-                      />
+        {data?.pages.some((page) => page.list.length > 0) ? (
+          data?.pages.map((page) =>
+            page.list.map((comment) => (
+              <div
+                key={comment.id}
+                className="rounded-lg border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary p-4"
+              >
+                <div className="flex flex-col gap-8">
+                  <div className="text-primary flex items-center justify-between text-md tablet:text-lg">
+                    {editingCommentId === comment.id ? (
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="text"
+                          className="w-full rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-tertiary px-2 py-2"
+                          value={editedContent}
+                          onChange={(e) => setEditedContent(e.target.value)}
+                        />
 
-                      <div className="flex gap-2">
-                        <Button
-                          variant="cancel"
-                          size="small"
-                          onClick={handleEditCancel}
-                          className="font-light"
-                        >
-                          취소
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="cancel"
+                            size="small"
+                            onClick={handleEditCancel}
+                            className="font-light"
+                          >
+                            취소
+                          </Button>
 
-                        <Button
-                          variant="inverse"
-                          size="small"
-                          onClick={() => handleEditSubmit(comment.id)}
-                          className="font-light"
-                        >
-                          수정 완료
-                        </Button>
+                          <Button
+                            variant="inverse"
+                            size="small"
+                            onClick={() => handleEditSubmit(comment.id)}
+                            className="font-light"
+                          >
+                            수정 완료
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  ) : (
-                    <span>{comment.content}</span>
-                  )}
-
-                  <CommentDropdown
-                    commentId={comment.id}
-                    onEdit={() => handleEdit(comment.id, comment.content)}
-                    onDelete={handleDelete}
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    {comment.writer.image ? (
-                      <Image
-                        width={32}
-                        height={32}
-                        src={comment.writer.image}
-                        alt="Profile"
-                        className="h-8 w-8 rounded-full"
-                      />
                     ) : (
-                      <IconMember />
+                      <span>{comment.content}</span>
                     )}
-                    <p className="text-primary ml-1 text-xs tablet:text-md">
-                      {comment.writer.nickname}
-                    </p>
-                    <p className="border-l-[0.063rem] border-text-primary border-opacity-10 pl-2 text-xs text-text-disabled tablet:text-md">
-                      {new Date(comment.createdAt).toLocaleDateString()}
-                    </p>
+
+                    <CommentDropdown
+                      commentId={comment.id}
+                      onEdit={() => handleEdit(comment.id, comment.content)}
+                      onDelete={handleDelete}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      {comment.writer.image ? (
+                        <Image
+                          width={32}
+                          height={32}
+                          src={comment.writer.image}
+                          alt="Profile"
+                          className="h-8 w-8 rounded-full"
+                        />
+                      ) : (
+                        <IconMember />
+                      )}
+                      <p className="text-primary ml-1 text-xs tablet:text-md">
+                        {comment.writer.nickname}
+                      </p>
+                      <p className="border-l-[0.063rem] border-text-primary border-opacity-10 pl-2 text-xs text-text-disabled tablet:text-md">
+                        {new Date(comment.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )),
+            )),
+          )
+        ) : (
+          <div className="text-center text-text-default mt-36">
+            아직 작성된 댓글이 없습니다.
+          </div>
         )}
       </div>
 
