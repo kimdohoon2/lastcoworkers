@@ -14,6 +14,7 @@ import TaskDetailProfile from '../icons/TaskDetailProfile';
 import TaskDetailDropdown from './TaskDetailDropdown';
 import DateRepeatInfo from '../tasklist/DateRepeatInfo';
 import TaskComments from './TaskComment';
+import TaskDetailSkeleton from './TaskDetailSkeleton';
 
 interface TaskDetailProps {
   groupId: number;
@@ -60,7 +61,7 @@ function TaskDetail({
   }, [task, reset]);
 
   if (!taskId) return <p>할 일 ID가 없습니다.</p>;
-  if (isLoading) return <p>로딩 중</p>;
+  if (isLoading) return <TaskDetailSkeleton />;
   if (error) return <p>데이터를 불러오는 중 오류가 발생했습니다.</p>;
   if (!task) return <p>데이터가 존재하지 않습니다.</p>;
 
