@@ -99,7 +99,7 @@ export default function HeaderTeamDropdown() {
                   <IconDefaultImage />
                 )}
               </div>
-              <div>{membership.group.name}</div>
+              <div className="truncate">{membership.group.name}</div>
             </div>
           </DropdownItem>
         ))}
