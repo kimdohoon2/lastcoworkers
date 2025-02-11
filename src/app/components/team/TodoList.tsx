@@ -138,7 +138,7 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
           할 일 목록 ({items.length}개)
         </span>
         <button
-          className="text-sm font-normal text-brand-primary"
+          className="text-sm font-normal text-brand-primary hover:underline"
           onClick={openModal}
         >
           + 새로운 목록 추가하기
