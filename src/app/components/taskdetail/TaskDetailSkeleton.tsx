@@ -21,11 +21,11 @@ function TaskDetailSkeleton() {
             <div className="h-4 w-20 rounded bg-background-tertiary" />
           </div>
 
-          <div className="h-5 w-[18.5rem] rounded bg-background-tertiary" />
+          <div className="h-4 w-[18.5rem] rounded bg-background-tertiary" />
           <div className="mt-3 h-[6rem] rounded-xl bg-background-tertiary tablet:h-[8rem] xl:h-[10rem]" />
-
+        </div>
+        <div className="gap-6">
           <TaskCommentInput taskId={0} />
-
           <div className="mt-6 flex flex-col gap-4">
             {Array.from({ length: 3 }, (_, i) => (
               <TaskCommentSkeleton key={`comment-skeleton-${i}`} />

@@ -140,7 +140,7 @@ function TaskCardList({
         items={tasksState.map((task) => task.id)}
         strategy={verticalListSortingStrategy} // 세로 방향 정렬
       >
-        <div className="flex flex-col gap-6 overflow-hidden pb-24">
+        <div className="flex flex-col gap-6 overflow-hidden pb-[5.5rem]">
           <div className="flex flex-col gap-4">
             {tasksState.map((task) => (
               <div
