@@ -20,6 +20,7 @@ import { setTasks } from '@/app/stores/tasksSlice';
 import { useEditTaskOrderMutation } from '@/app/lib/task/patchTask';
 import TaskDetailDrawer from '../taskdetail/TaskDetailDrawer';
 import SortableTaskCard from './SortableTaskCard';
+import TaskCardSkeleton from './TaskCardSkeleton';
 
 function TaskCardList({
   groupId,
@@ -108,7 +109,13 @@ function TaskCardList({
   );
 
   if (isLoading) {
-    return <div>로딩 중입니다</div>;
+    return (
+      <div className="flex flex-col gap-4">
+        {Array.from({ length: 6 }, (_, i) => (
+          <TaskCardSkeleton key={`skeleton-${i}`} />
+        ))}
+      </div>
+    );
   }
 
   if (error) {
