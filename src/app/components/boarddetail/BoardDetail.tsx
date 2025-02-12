@@ -3,15 +3,12 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { GetArticleDetailResponse } from '@/app/lib/article/getArticleDetail';
-import patchArticle, {
-  PatchArticleRequest,
-} from '@/app/lib/article/patchArticle';
+import patchArticle, { PatchArticleRequest } from '@/app/lib/article/patchArticle';
 import Image from 'next/image';
 import useModal from '@/app/hooks/useModal';
 import IconMore from '@/app/components/icons/IconMore';
 import IconComment from '@/app/components/icons/IconComment';
-import IconHeart from '@/app/components/icons/IconHeart';
-
+import BoardsLikeBox from '../boards/BoardsLikeBox';
 import Dropdown from '@/app/components/common/dropdown/Dropdown';
 import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
@@ -36,9 +33,7 @@ export default function BoardDetail({ article }: BoardDetailProps) {
   const editMutation = useMutation({
     mutationFn: (data: PatchArticleRequest) => patchArticle(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['articleDetail', article.id],
-      });
+      queryClient.invalidateQueries({ queryKey: ['articleDetail', article.id] });
       setIsEditing(false);
     },
   });
@@ -81,10 +76,7 @@ export default function BoardDetail({ article }: BoardDetailProps) {
         )}
 
         <Dropdown onClose={() => setIsDropdownOpen(false)}>
-          <DropdownToggle
-            className="p-2"
-            onClick={() => setIsDropdownOpen((prev) => !prev)}
-          >
+          <DropdownToggle className="p-2" onClick={() => setIsDropdownOpen((prev) => !prev)}>
             <IconMore />
           </DropdownToggle>
           <DropdownList className="right-0 mt-2 w-28" isOpen={isDropdownOpen}>
@@ -107,26 +99,17 @@ export default function BoardDetail({ article }: BoardDetailProps) {
           <div className="flex items-center gap-1 text-xs text-text-disabled tablet:text-md">
             <IconComment />
             {article.commentCount}
+            <BoardsLikeBox id={article.id} likeCount={article.likeCount} isLiked={article.isLiked} />
           </div>
-          <span className="flex items-center gap-1 text-xs text-text-disabled tablet:text-md">
-            <IconHeart />
-            {article.likeCount}
-          </span>
+          
         </div>
       </div>
 
-      <div className="mb-4">
-        {article.image ? (
-          <Image
-            src={article.image}
-            alt="게시글 이미지"
-            width={343}
-            height={343}
-            className="rounded-lg"
-            objectFit="cover"
-          />
-        ) : null}
-      </div>
+      {article.image && (
+        <div className="mb-4">
+          <Image src={article.image} alt="게시글 이미지" width={343} height={343} className="rounded-lg" objectFit="cover" />
+        </div>
+      )}
 
       <div className="mb-20 mt-6 text-md leading-6 text-text-secondary tablet:text-lg tablet:leading-7">
         {isEditing ? (
@@ -137,20 +120,10 @@ export default function BoardDetail({ article }: BoardDetailProps) {
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
             />
-
             <div className="mt-2 flex justify-end gap-2">
-              <Button
-                variant="cancel"
-                size="small"
-                onClick={() => {
-                  setEditedTitle(article.title);
-                  setEditedContent(article.content);
-                  setIsEditing(false);
-                }}
-              >
+              <Button variant="cancel" size="small" onClick={() => setIsEditing(false)}>
                 취소
               </Button>
-
               <Button variant="primary" size="small" onClick={handleEditSubmit}>
                 수정
               </Button>
@@ -162,11 +135,7 @@ export default function BoardDetail({ article }: BoardDetailProps) {
       </div>
 
       {/* 삭제 확인 모달 */}
-      <DeleteArticleModal
-        isOpen={isOpen}
-        onClose={closeModal}
-        articleId={article.id}
-      />
+      <DeleteArticleModal isOpen={isOpen} onClose={closeModal} articleId={article.id} />
     </>
   );
 }

@@ -14,43 +14,39 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { useTasksQuery } from '@/app/lib/task/getTask';
 import { useAppDispatch } from '@/app/stores/hooks';
 import { setTasks } from '@/app/stores/tasksSlice';
 import { useEditTaskOrderMutation } from '@/app/lib/task/patchTask';
-import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
-import Loading from '@/app/components/common/loading/Loading';
+import { Task } from '@/app/types/task';
 import TaskDetailDrawer from '../taskdetail/TaskDetailDrawer';
 import SortableTaskCard from './SortableTaskCard';
 
 function TaskCardList({
   groupId,
   taskListId,
-  date,
+  taskListData,
 }: {
   groupId: number;
   taskListId: number;
-  date: string;
+  taskListData: Task[];
 }) {
   const dispatch = useAppDispatch();
-  const { data, isLoading, error } = useTasksQuery(groupId, taskListId, date);
   const { mutate: editTaskOrderMutation } = useEditTaskOrderMutation();
-  const [tasksState, setTasksState] = useState(data || []);
+  const [tasksState, setTasksState] = useState<Task[]>(taskListData || []);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
 
   useEffect(() => {
-    if (data) {
-      setTasksState(data);
-      dispatch(setTasks(data));
+    if (taskListData && Array.isArray(taskListData)) {
+      setTasksState(taskListData);
+      dispatch(setTasks(taskListData));
     }
-  }, [data, dispatch]);
+  }, [taskListData, dispatch]);
 
   useEffect(() => {
     if (isDrawerOpen) {
       document.body.style.overflow = 'hidden';
     }
-
     return () => {
       document.body.style.overflow = '';
     };
@@ -103,25 +99,13 @@ function TaskCardList({
   // 드래그 센서: 10px 이상 이동하면 드래그로 감지
   const sensors = useSensors(
     useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 10,
-      },
+      activationConstraint: { distance: 10 },
     }),
   );
 
-  const { isRedirecting } = useRedirectIfNotFound(
-    error?.message === 'not_found',
-  );
-
-  if (isLoading || isRedirecting) return <Loading />;
-
-  if (error) {
-    return <div>error</div>;
-  }
-
-  if (!tasksState || tasksState.length === 0) {
+  if (!taskListData || taskListData.length === 0) {
     return (
-      <div className="mt-[11.9375rem] flex h-screen justify-center text-md text-text-default tablet:mt-[21.5625rem] lg:mt-[19.375rem]">
+      <div className="mt-[11.9375rem] flex justify-center text-md text-text-default tablet:mt-[21.5625rem] lg:mt-[19.375rem]">
         아직 할 일이 없습니다. <br /> 할 일을 추가해보세요.
       </div>
     );
@@ -133,11 +117,11 @@ function TaskCardList({
       sensors={sensors}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext // 정렬 가능한 아이템 포함하는 컨텍스트
+      <SortableContext
         items={tasksState.map((task) => task.id)}
-        strategy={verticalListSortingStrategy} // 세로 방향 정렬
+        strategy={verticalListSortingStrategy}
       >
-        <div className="flex flex-col gap-6 overflow-hidden pb-24">
+        <div className="flex flex-col gap-6 overflow-hidden pb-[5.5rem]">
           <div className="flex flex-col gap-4">
             {tasksState.map((task) => (
               <div
