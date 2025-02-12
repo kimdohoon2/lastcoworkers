@@ -1,36 +1,65 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 const useSaveScroll = (storageKey: string) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return undefined;
+    setIsMounted(true);
+  }, []);
 
-    // 기존 스크롤 위치 복구
-    const savedScrollLeft = sessionStorage.getItem(storageKey);
-    if (savedScrollLeft) {
-      scrollContainer.scrollLeft = parseFloat(savedScrollLeft);
-    }
+  useEffect(() => {
+    if (!isMounted) return;
 
-    // 스크롤 이벤트 감지해서 위치 저장
-    const handleScroll = () => {
-      if (scrollRef.current) {
-        sessionStorage.setItem(
-          storageKey,
-          scrollRef.current.scrollLeft.toString(),
-        );
+    const attemptRestore = () => {
+      const scrollContainer = scrollRef.current;
+      if (!scrollContainer) {
+        setTimeout(attemptRestore, 50);
+        return;
       }
+
+      const savedScrollLeft = sessionStorage.getItem(storageKey);
+      if (savedScrollLeft !== null) {
+        scrollContainer.scrollLeft = parseFloat(savedScrollLeft);
+      }
+
+      sessionStorage.setItem(storageKey, String(scrollContainer.scrollLeft));
     };
 
-    scrollContainer.addEventListener('scroll', handleScroll);
+    attemptRestore();
+  }, [isMounted, storageKey]);
 
-    return () => {
-      if (scrollContainer) {
+  useEffect(() => {
+    if (!isMounted) return;
+
+    const registerScrollListener = () => {
+      const scrollContainer = scrollRef.current;
+      if (!scrollContainer) {
+        setTimeout(registerScrollListener, 50);
+        return;
+      }
+
+      const handleScroll = () => {
+        if (scrollRef.current) {
+          sessionStorage.setItem(
+            storageKey,
+            String(scrollRef.current.scrollLeft),
+          );
+        }
+      };
+
+      scrollContainer.removeEventListener('scroll', handleScroll);
+      scrollContainer.addEventListener('scroll', handleScroll);
+
+      // eslint-disable-next-line consistent-return
+      return () => {
         scrollContainer.removeEventListener('scroll', handleScroll);
-      }
+      };
     };
-  }, [storageKey]);
+
+    // eslint-disable-next-line consistent-return
+    return registerScrollListener();
+  }, [isMounted, storageKey]);
 
   return scrollRef;
 };
