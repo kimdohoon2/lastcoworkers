@@ -8,11 +8,13 @@ import CalendarNextArrow from '@/app/components/icons/CalendarNextArrow';
 interface CustomCalendarProps {
   selectedDate: Date;
   onDateChange: (date: Date) => void;
+  minDate?: Date;
 }
 
 export default function CustomCalendar({
   selectedDate,
   onDateChange,
+  minDate,
 }: CustomCalendarProps) {
   return (
     <>
@@ -24,6 +26,7 @@ export default function CustomCalendar({
             onDateChange(date);
           }
         }}
+        minDate={minDate}
         next2Label={null}
         prev2Label={null}
         prevLabel={<CalendarPrevArrow />}

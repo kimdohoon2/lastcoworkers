@@ -33,7 +33,7 @@ function TaskDetail({
   setIsModalOpen,
 }: TaskDetailProps) {
   const queryClient = useQueryClient();
-  const { mutate: editTask } = useEditTaskMutation();
+  const { mutate: editTask, isPending } = useEditTaskMutation();
   const [isEditing, setIsEditing] = useState(false);
 
   const {
@@ -55,7 +55,13 @@ function TaskDetail({
     },
   });
 
-  const { register, reset, watch, trigger } = methods;
+  const {
+    register,
+    reset,
+    watch,
+    trigger,
+    formState: { errors },
+  } = methods;
 
   useEffect(() => {
     if (task) {
@@ -146,23 +152,22 @@ function TaskDetail({
               {isEditing ? (
                 <div className="w-full">
                   <Input
+                    {...register('name', {
+                      required: '할 일 제목을 입력해주세요.',
+                      maxLength: {
+                        value: 30,
+                        message:
+                          '할 일 제목은 최대 30글자까지 입력 가능합니다.',
+                      },
+                      validate: (value) =>
+                        value.trim() !== '' ||
+                        '할 일 제목에 공백만 입력할 수 없습니다.',
+                    })}
                     name="name"
                     title=""
                     type="text"
                     placeholder="할 일 제목을 입력하세요."
                     autoComplete="off"
-                    validationRules={{
-                      required: '할 일 제목을 입력해주세요.',
-                      minLength: {
-                        value: 1,
-                        message: '할 일 제목은 최소 1글자 이상이어야 합니다.',
-                      },
-
-                      validate: (value) =>
-                        value.trim() !== '' ||
-                        '할 일 제목에 공백만 입력할 수 없습니다.',
-                    }}
-                    className="w-full rounded-xl border border-[#F8FAFC1A] bg-background-secondary px-4 py-[0.85rem] text-xl text-text-primary focus:border-interaction-focus focus:outline-none"
                   />
                 </div>
               ) : (
@@ -209,11 +214,26 @@ function TaskDetail({
           {isEditing ? (
             <div className="flex flex-col gap-3">
               <textarea
-                {...register('description')}
+                {...register('description', {
+                  maxLength: {
+                    value: 255,
+                    message: '메모는 최대 255글자까지 입력 가능합니다.',
+                  },
+                })}
                 placeholder="메모를 입력하세요."
                 autoComplete="off"
-                className="custom-scrollbar placeholder:text-text-danger h-[6rem] w-full resize-none rounded-xl border border-[#F8FAFC1A] bg-background-secondary px-4 py-[0.85rem] text-text-primary placeholder:text-lg focus:border-interaction-focus focus:outline-none tablet:h-[8rem] xl:h-[10rem]"
+                className={`custom-scrollbar placeholder:text-text-danger h-[6rem] w-full resize-none rounded-xl border border-[#F8FAFC1A] bg-background-secondary px-4 py-[0.85rem] text-text-primary placeholder:text-lg focus:border-interaction-focus focus:outline-none tablet:h-[8rem] xl:h-[10rem] ${
+                  errors.description
+                    ? 'border-status-danger'
+                    : 'border-[#F8FAFC1A]'
+                }`}
               />
+              {errors.description && (
+                <span className="text-sm text-status-danger">
+                  {errors.description?.message as string}
+                </span>
+              )}
+
               <div className="flex justify-end gap-2">
                 <Button
                   variant="cancel"
@@ -229,14 +249,14 @@ function TaskDetail({
                   variant="complete"
                   size="small"
                   onClick={handleEditTask}
-                  disabled={!nameValue.trim()}
+                  disabled={!nameValue.trim() || isPending}
                 >
                   수정
                 </Button>
               </div>
             </div>
           ) : (
-            <p className="mt-3 h-[6rem] break-words tablet:h-[8rem] xl:h-[10rem]">
+            <p className="my-3 min-h-[6rem] break-words tablet:min-h-[8rem] xl:min-h-[10rem]">
               {descriptionValue}
             </p>
           )}

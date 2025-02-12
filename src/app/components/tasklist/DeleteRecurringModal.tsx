@@ -23,10 +23,10 @@ export default function DeleteRecurringModal({
 }: DeleteRecurringModalProps) {
   const queryClient = useQueryClient();
   const task = useAppSelector((state) => state.tasks.taskById[taskId]);
-  const deleteRecurringMutation = useDeleteRecurringMutation();
+  const { mutate, isPending } = useDeleteRecurringMutation();
 
   const handleDelete = () => {
-    deleteRecurringMutation.mutate(
+    mutate(
       {
         groupId,
         taskListId,
@@ -91,6 +91,7 @@ export default function DeleteRecurringModal({
               variant="danger"
               size="large"
               onClick={handleDelete}
+              disabled={isPending}
             >
               삭제하기
             </Button>
