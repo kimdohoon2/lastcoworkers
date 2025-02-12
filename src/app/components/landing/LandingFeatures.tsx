@@ -18,7 +18,7 @@ export default function LandingFeatures() {
   };
 
   return (
-    <div className="flex flex-col gap-6 xl:gap-20">
+    <div className="flex flex-col gap-6 overflow-x-hidden xl:gap-20">
       <motion.div
         initial="hidden"
         whileInView="visible"
