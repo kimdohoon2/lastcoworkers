@@ -15,6 +15,8 @@ import { getLocalDateString } from '@/app/utils/formatDate';
 import useSaveScroll from '@/app/hooks/useSaveScroll';
 import useAuthRedirect from '@/app/hooks/useAuthRedirect';
 import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
+import { useTasksQuery } from '@/app/lib/task/getTask';
+import TaskCardSkeleton from '@/app/components/tasklist/TaskCardSkeleton';
 
 function TaskListPage() {
   const { isLoading: isAuthLoading } = useAuthRedirect();
@@ -26,18 +28,31 @@ function TaskListPage() {
 
   const scrollRef = useSaveScroll('taskListScrollPosition');
 
-  const { data, isLoading } = useQuery({
+  const { data: groupData, isLoading: isTeamLoading } = useQuery({
     queryKey: ['tasklists', Number(teamid)],
     queryFn: () => getGroupById(Number(teamid)),
   });
+
+  const { data: taskListData, isLoading: isTaskListLoading } = useTasksQuery(
+    Number(teamid),
+    Number(tasklist),
+    selectedDate,
+  );
+
+  const isLoading = isTeamLoading || (!groupData && !taskListData);
+
+  if (isAuthLoading) return <AuthCheckLoading />;
+  if (isLoading)
+    return (
+      <div className="flex h-screen items-center justify-center text-white">
+        Loading...
+      </div>
+    );
 
   const handleOpenModal = (type: 'task' | 'list') => {
     setModalType(type);
     openModal();
   };
-
-  if (isAuthLoading) return <AuthCheckLoading />;
-  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="mx-auto mt-24 flex w-full max-w-[75rem] flex-col gap-6 px-3.5 tablet:px-6">
@@ -63,8 +78,8 @@ function TaskListPage() {
         ref={scrollRef}
         className="custom-scrollbar flex max-w-full gap-3 overflow-x-auto whitespace-nowrap px-2 py-3"
       >
-        {data?.taskLists &&
-          data?.taskLists.map((list) => {
+        {groupData?.taskLists &&
+          groupData?.taskLists.map((list) => {
             const isActive = tasklist === String(list.id);
 
             return (
@@ -82,11 +97,19 @@ function TaskListPage() {
             );
           })}
       </div>
-      <TaskCardList
-        groupId={Number(teamid)}
-        taskListId={Number(tasklist)}
-        date={selectedDate}
-      />
+      {isTaskListLoading ? (
+        <div className="flex flex-col gap-4">
+          {Array.from({ length: 6 }, (_, i) => (
+            <TaskCardSkeleton key={`skeleton-${i}`} />
+          ))}
+        </div>
+      ) : (
+        <TaskCardList
+          groupId={Number(teamid)}
+          taskListId={Number(tasklist)}
+          taskListData={taskListData ?? []}
+        />
+      )}
       <Button
         variant="plus"
         size="plus"
