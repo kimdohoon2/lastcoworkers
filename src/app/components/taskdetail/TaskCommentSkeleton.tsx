@@ -1,6 +1,6 @@
 function TaskCommentSkeleton() {
   return (
-    <div className="shiny mb-4 animate-pulse border-b border-border-primary/10 bg-background-secondary pb-4">
+    <div className="mb-4 animate-pulse border-b border-border-primary/10 bg-background-secondary pb-4">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div className="h-6 w-3/4 rounded bg-background-tertiary" />

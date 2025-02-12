@@ -3,7 +3,7 @@ import TaskCommentSkeleton from './TaskCommentSkeleton';
 
 function TaskDetailSkeleton() {
   return (
-    <div className="shiny animate-pulse bg-background-secondary p-4 tablet:p-6 xl:p-10">
+    <div className="animate-pulse bg-background-secondary p-4 tablet:p-6 xl:p-10">
       <div className="flex flex-col gap-3">
         <div className="h-6 w-6 rounded bg-background-tertiary" />
 
