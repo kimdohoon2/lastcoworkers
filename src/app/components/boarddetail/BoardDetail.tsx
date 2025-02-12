@@ -6,6 +6,8 @@ import { GetArticleDetailResponse } from '@/app/lib/article/getArticleDetail';
 import patchArticle, {
   PatchArticleRequest,
 } from '@/app/lib/article/patchArticle';
+
+import useArticleActions from '@/app/hooks/useArticleActions';
 import Image from 'next/image';
 import useModal from '@/app/hooks/useModal';
 import IconMore from '@/app/components/icons/IconMore';
@@ -31,6 +33,8 @@ export default function BoardDetail({ article }: BoardDetailProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(article.title);
   const [editedContent, setEditedContent] = useState(article.content);
+
+  const { isAuthor } = useArticleActions(article);
 
   // 게시글 수정 API
   const editMutation = useMutation({
@@ -80,18 +84,20 @@ export default function BoardDetail({ article }: BoardDetailProps) {
           </h1>
         )}
 
-        <Dropdown onClose={() => setIsDropdownOpen(false)}>
-          <DropdownToggle
-            className="p-2"
-            onClick={() => setIsDropdownOpen((prev) => !prev)}
-          >
-            <IconMore />
-          </DropdownToggle>
-          <DropdownList className="right-0 mt-2 w-28" isOpen={isDropdownOpen}>
-            <DropdownItem onClick={handleEdit}>수정하기</DropdownItem>
-            <DropdownItem onClick={openModal}>삭제하기</DropdownItem>
-          </DropdownList>
-        </Dropdown>
+        {isAuthor && (
+          <Dropdown onClose={() => setIsDropdownOpen(false)}>
+            <DropdownToggle
+              className="p-2"
+              onClick={() => setIsDropdownOpen((prev) => !prev)}
+            >
+              <IconMore />
+            </DropdownToggle>
+            <DropdownList className="right-0 mt-2 w-28" isOpen={isDropdownOpen}>
+              <DropdownItem onClick={handleEdit}>수정하기</DropdownItem>
+              <DropdownItem onClick={openModal}>삭제하기</DropdownItem>
+            </DropdownList>
+          </Dropdown>
+        )}
       </div>
 
       <div className="flex h-[4.5rem] items-center justify-between">
