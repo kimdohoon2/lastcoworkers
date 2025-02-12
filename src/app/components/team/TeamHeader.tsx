@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import getUser, { GetUserResponse, Membership } from '@/app/lib/user/getUser';
 import TeamThumbnail from '@/app/components/icons/TeamThumbnail';
 import HeaderDropdown from './HeaderDropdown';
+import TeamHeaderSkeleton from './TeamHeaderSkelton';
 
 interface HeaderProps {
   groupName: string;
@@ -23,7 +24,11 @@ export default function TeamHeader({ groupName, groupId }: HeaderProps) {
   });
 
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return (
+      <div>
+        <TeamHeaderSkeleton />
+      </div>
+    );
   }
 
   if (error || !userData) {
