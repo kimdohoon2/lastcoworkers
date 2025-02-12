@@ -10,6 +10,8 @@ import patchArticle, {
 import Button from '@/app/components/common/button/Button';
 import ImageChanger from '@/app/components/editboard/ImageChanger';
 import ArticleChanger from '@/app/components/editboard/ArticleChanger';
+import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
+import Loading from '@/app/components/common/loading/Loading';
 
 export default function EditBoardPage() {
   const { boardid } = useParams();
@@ -56,6 +58,14 @@ export default function EditBoardPage() {
       title,
     });
   };
+
+  const isNotFound =
+    articleQuery.error?.message === 'not_found' ||
+    Number.isNaN(Number(boardid));
+
+  const { isRedirecting } = useRedirectIfNotFound(isNotFound);
+
+  if (articleQuery.isLoading || isRedirecting) return <Loading />;
 
   return (
     <form onSubmit={handleSubmit} className="flex justify-center pt-[6.25rem]">

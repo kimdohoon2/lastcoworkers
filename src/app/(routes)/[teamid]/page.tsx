@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import getGroup from '@/app/lib/group/getGroup';
 import TeamHeader from '@/app/components/team/TeamHeader';
 import TodoList from '@/app/components/team/TodoList';
@@ -9,8 +9,11 @@ import Report from '@/app/components/team/Report';
 import MemberContainer from '@/app/components/team/MemberContainer';
 import useAuthRedirect from '@/app/hooks/useAuthRedirect';
 import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
+import Loading from '@/app/components/common/loading/Loading';
+import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
 
 export default function TeamPage() {
+  const { teamid } = useParams();
   const { isLoading: isAuthLoading } = useAuthRedirect();
 
   const pathname = usePathname();
@@ -31,9 +34,14 @@ export default function TeamPage() {
     staleTime: 5 * 60 * 1000,
   });
 
+  const isNotFound =
+    (error && error.message === 'not_found') || Number.isNaN(Number(teamid));
+
+  const { isRedirecting } = useRedirectIfNotFound(isNotFound);
+
   if (isAuthLoading) return <AuthCheckLoading />;
 
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading || isRedirecting) return <Loading />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
   return (

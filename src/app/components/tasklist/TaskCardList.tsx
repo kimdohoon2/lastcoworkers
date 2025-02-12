@@ -18,6 +18,8 @@ import { useTasksQuery } from '@/app/lib/task/getTask';
 import { useAppDispatch } from '@/app/stores/hooks';
 import { setTasks } from '@/app/stores/tasksSlice';
 import { useEditTaskOrderMutation } from '@/app/lib/task/patchTask';
+import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
+import Loading from '@/app/components/common/loading/Loading';
 import TaskDetailDrawer from '../taskdetail/TaskDetailDrawer';
 import SortableTaskCard from './SortableTaskCard';
 
@@ -107,9 +109,11 @@ function TaskCardList({
     }),
   );
 
-  if (isLoading) {
-    return <div>로딩 중입니다</div>;
-  }
+  const { isRedirecting } = useRedirectIfNotFound(
+    error?.message === 'not_found',
+  );
+
+  if (isLoading || isRedirecting) return <Loading />;
 
   if (error) {
     return <div>error</div>;

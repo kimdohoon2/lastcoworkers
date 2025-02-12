@@ -11,6 +11,8 @@ import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getGroupById from '@/app/lib/group/getGroupById';
 import Link from 'next/link';
+import Loading from '@/app/components/common/loading/Loading';
+import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
 
 function TaskListPage() {
   const { teamid, tasklist } = useParams();
@@ -19,7 +21,7 @@ function TaskListPage() {
   const [selectedDate, setSelectedDate] = useState<string>(
     new Date().toISOString().split('T')[0],
   );
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['tasklists', Number(teamid)],
     queryFn: () => getGroupById(Number(teamid)),
   });
@@ -29,7 +31,14 @@ function TaskListPage() {
     openModal();
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  const isNotFound =
+    (error && error.message === 'not_found') ||
+    Number.isNaN(Number(teamid)) ||
+    Number.isNaN(Number(tasklist));
+
+  const { isRedirecting } = useRedirectIfNotFound(isNotFound);
+
+  if (isLoading || isRedirecting) return <Loading />;
 
   return (
     <div className="mx-auto mt-24 flex w-full max-w-[75rem] flex-col gap-6 px-3.5 tablet:px-6">
