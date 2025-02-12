@@ -27,6 +27,9 @@ instance.interceptors.response.use(
     if (error.response?.status === 401) {
       return handleTokenRefresh(error.config);
     }
+    if (error.response?.status === 404 || error.response?.status === 500) {
+      throw new Error('not_found');
+    }
     return Promise.reject(error);
   },
 );
