@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/app/stores/store';
 import AddMemberModal from './AddMemberModal';
 import MemberCard from './MemberCard';
+import MemberCardSkeleton from './MemberCardSkeleton';
 
 interface GroupMember {
   role: 'ADMIN' | 'MEMBER';
@@ -32,8 +33,6 @@ function MemberContainer({ members }: { members: GroupMember[] }) {
     queryFn: () => getInvitation(members[0].groupId),
   });
 
-  if (isLoading) return <div>Loading...</div>;
-
   if (isError) return null;
 
   return (
@@ -52,9 +51,19 @@ function MemberContainer({ members }: { members: GroupMember[] }) {
         </button>
       </div>
       <div className="grid grid-cols-2 gap-4 tablet:grid-cols-3 tablet:gap-6">
-        {members.map((member) => (
-          <MemberCard key={member.userId} member={member} isAdmin={isAdmin} />
-        ))}
+        {isLoading
+          ? Array.from({ length: 6 }).map(() => (
+              <MemberCardSkeleton
+                key={`memeber_skeleton_${crypto.randomUUID()}`}
+              />
+            ))
+          : members.map((member) => (
+              <MemberCard
+                key={member.userId}
+                member={member}
+                isAdmin={isAdmin}
+              />
+            ))}
       </div>
       <AddMemberModal
         token={token || ''}
