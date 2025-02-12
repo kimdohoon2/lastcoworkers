@@ -24,7 +24,7 @@ export default function BoardsOrderDropDown({
     <div className="w-28 tablet:w-36">
       <Dropdown className="w-full" onClose={closeDropdown}>
         <DropdownToggle className="w-full" onClick={toggleDropdown}>
-          <div className="flex w-full items-center justify-between rounded-xl bg-background-secondary px-2 py-[13.5px] text-xs text-text-primary hover:bg-background-tertiary tablet:px-4 tablet:text-md">
+          <div className="flex w-full items-center justify-between rounded-xl bg-background-secondary px-2 py-[0.84375rem] text-xs text-text-primary hover:bg-background-tertiary tablet:px-4 tablet:text-md">
             {currentItem || '최신순'}
             <IconToggle
               className={clsx('transition-transform', {
@@ -35,7 +35,7 @@ export default function BoardsOrderDropDown({
           </div>
         </DropdownToggle>
 
-        <DropdownList className="mt-[6px] w-full" isOpen={isOpen}>
+        <DropdownList className="mt-[0.375rem] w-full" isOpen={isOpen}>
           <DropdownItem
             className="pl-2 text-start text-xs tablet:pl-4 tablet:text-md"
             onClick={() => handleItemClick('최신순')}

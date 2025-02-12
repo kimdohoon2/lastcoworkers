@@ -165,7 +165,7 @@ export default function BoardsPage() {
       </section>
 
       <Link
-        className="fixed bottom-5 right-4 block h-[48px] w-[104px] tablet:right-8 xl:left-[50%] xl:top-[95%] xl:-translate-y-1/2 xl:translate-x-[29rem]"
+        className="fixed bottom-5 right-4 block h-12 w-[6.5rem] tablet:right-8 xl:left-[50%] xl:top-[95%] xl:-translate-y-1/2 xl:translate-x-[29rem]"
         href="/addboard"
       >
         <Button className="w-full !rounded-[2.5rem]">

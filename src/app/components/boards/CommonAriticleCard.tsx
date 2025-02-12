@@ -66,11 +66,11 @@ export default function CommonAriticleCard({
       >
         <div
           key={id}
-          className="w-full rounded-[12px] border border-[#F8FAFC1A] bg-background-secondary px-4 pb-4 pt-2 transition-all duration-300 hover:scale-[1.02] tablet:px-8 tablet:pb-6 tablet:pt-6"
+          className="w-full rounded-[0.75rem] border border-[#F8FAFC1A] bg-background-secondary px-4 pb-4 pt-2 transition-all duration-300 hover:scale-[1.02] tablet:px-8 tablet:pb-6 tablet:pt-6"
         >
           {isBest && (
             <div className="mb-3 flex items-center gap-2">
-              <div className="w-full max-w-[14px]">
+              <div className="w-full max-w-[0.875rem]">
                 <Image
                   className="w-full"
                   src="/icons/BoardsBestIcon.png"
@@ -98,9 +98,9 @@ export default function CommonAriticleCard({
                 {new Date(updatedAt).toLocaleDateString().replace(/\.$/, '')}
               </p>
             </div>
-            <div className="h-[64px] w-[64px] tablet:h-[72px] tablet:w-[72px]">
+            <div className="h-16 w-16 tablet:h-[4.5rem] tablet:w-[4.5rem]">
               <Image
-                className="h-full w-full rounded-[12px] object-cover"
+                className="h-full w-full rounded-[0.75rem] object-cover"
                 src={image || '/contents/UndefinedImg.png'}
                 alt="게시글 이미지"
                 width={72}
@@ -169,7 +169,10 @@ export default function CommonAriticleCard({
                     className="right-28 top-4 tablet:-top-20 xl:right-[8rem]"
                     onClose={closeDropdown}
                   >
-                    <DropdownList className="w-28 xl:w-[135px]" isOpen={isOpen}>
+                    <DropdownList
+                      className="w-28 xl:w-[8.4375rem]"
+                      isOpen={isOpen}
+                    >
                       <DropdownItem
                         className="xl:text-base"
                         onClick={() => {
