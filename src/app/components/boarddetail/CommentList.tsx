@@ -135,51 +135,48 @@ export default function CommentList() {
                 className="rounded-lg border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary p-4"
               >
                 <div className="flex flex-col gap-8">
-                  <div className="text-primary flex items-center justify-between text-md tablet:text-lg">
-                    {editingCommentId === comment.id ? (
-                      <div className="flex items-center gap-3">
-                        <input
-                          type="text"
-                          className="w-full rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-tertiary px-2 py-2"
-                          value={editedContent}
-                          onChange={(e) => setEditedContent(e.target.value)}
-                        />
-
-                        <div className="flex gap-2">
-                          <Button
-                            variant="cancel"
-                            size="small"
-                            onClick={handleEditCancel}
-                            className="font-light"
-                          >
-                            취소
-                          </Button>
-
-                          <Button
-                            variant="inverse"
-                            size="small"
-                            onClick={() => handleEditSubmit(comment.id)}
-                            className="font-light"
-                          >
-                            수정 완료
-                          </Button>
-                        </div>
-                      </div>
-                    ) : (
-                      <span>{comment.content}</span>
-                    )}
-
-                    {/* 댓글 작성자인 경우에만 수정/삭제 버튼 표시 */}
-                    {isCommentAuthor && (
-                      <CommentDropdown
-                        commentId={comment.id}
-                        onEdit={() => handleEdit(comment.id, comment.content)}
-                        onDelete={handleDelete}
+                  {editingCommentId === comment.id ? (
+                    <div className="relative flex flex-col">
+                      <input
+                        type="text"
+                        className="w-full bg-background-secondary pb-6 pt-0.5"
+                        value={editedContent}
+                        onChange={(e) => setEditedContent(e.target.value)}
                       />
-                    )}
-                  </div>
 
-                  <div className="flex items-center justify-between">
+                      <div className="mt-2 flex justify-end gap-2">
+                        <button
+                          type="button"
+                          onClick={handleEditCancel}
+                          className="mr-2 text-md font-light text-text-default"
+                        >
+                          취소
+                        </button>
+
+                        <Button
+                          variant="inverse"
+                          size="small"
+                          onClick={() => handleEditSubmit(comment.id)}
+                          className="font-light"
+                        >
+                          수정 완료
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between">
+                      <span>{comment.content}</span>
+                      {isCommentAuthor && (
+                        <CommentDropdown
+                          commentId={comment.id}
+                          onEdit={() => handleEdit(comment.id, comment.content)}
+                          onDelete={handleDelete}
+                        />
+                      )}
+                    </div>
+                  )}
+
+                  {editingCommentId !== comment.id && (
                     <div className="flex items-center gap-2">
                       {comment.writer.image ? (
                         <Image
@@ -201,7 +198,7 @@ export default function CommentList() {
                           .replace(/\.$/, '')}
                       </p>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             );
