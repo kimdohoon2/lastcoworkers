@@ -11,8 +11,10 @@ import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getGroupById from '@/app/lib/group/getGroupById';
 import Link from 'next/link';
+import useAuthRedirect from '@/app/hooks/useAuthRedirect';
 
 function TaskListPage() {
+  const { isLoading: isALoading } = useAuthRedirect();
   const { teamid, tasklist } = useParams();
   const { isOpen, openModal, closeModal } = useModal();
   const [modalType, setModalType] = useState<'list' | 'task' | null>(null);
@@ -29,6 +31,7 @@ function TaskListPage() {
     openModal();
   };
 
+  if (isALoading) return <div>Loading...</div>;
   if (isLoading) return <div>Loading...</div>;
 
   return (
