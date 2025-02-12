@@ -106,7 +106,9 @@ export default function BoardDetail({ article }: BoardDetailProps) {
             {article.writer?.nickname || '알 수 없음'}
           </p>
           <p className="border-l-[0.063rem] border-text-primary border-opacity-10 pl-2 text-xs text-text-disabled tablet:text-md">
-            {new Date(article.createdAt).toLocaleDateString()}
+            {new Date(article.createdAt)
+              .toLocaleDateString()
+              .replace(/\.$/, '')}
           </p>
         </div>
         <div className="flex gap-2">

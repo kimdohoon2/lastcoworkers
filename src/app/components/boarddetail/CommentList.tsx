@@ -169,7 +169,7 @@ export default function CommentList() {
                       <span>{comment.content}</span>
                     )}
 
-                    {/* ✅ 댓글 작성자인 경우에만 수정/삭제 버튼 표시 */}
+                    {/* 댓글 작성자인 경우에만 수정/삭제 버튼 표시 */}
                     {isCommentAuthor && (
                       <CommentDropdown
                         commentId={comment.id}
@@ -196,7 +196,9 @@ export default function CommentList() {
                         {comment.writer.nickname}
                       </p>
                       <p className="border-l-[0.063rem] border-text-primary border-opacity-10 pl-2 text-xs text-text-disabled tablet:text-md">
-                        {new Date(comment.createdAt).toLocaleDateString()}
+                        {new Date(comment.createdAt)
+                          .toLocaleDateString()
+                          .replace(/\.$/, '')}
                       </p>
                     </div>
                   </div>
