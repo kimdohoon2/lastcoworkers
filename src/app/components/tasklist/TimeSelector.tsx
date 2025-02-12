@@ -1,10 +1,12 @@
 'use client';
 
+import clsx from 'clsx';
 import { useState } from 'react';
-import Dropdown from '../common/dropdown/Dropdown';
-import DropdownToggle from '../common/dropdown/DropdownToggle';
-import DropdownList from '../common/dropdown/DropdownList';
-import DropdownItem from '../common/dropdown/DropdownItem';
+import { generateTimes } from '@/app/utils/formatTime';
+import Dropdown from '@/app/components/common/dropdown/Dropdown';
+import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
+import DropdownList from '@/app/components/common/dropdown/DropdownList';
+import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 
 interface TimeSelectorProps {
   isOpen: boolean;
@@ -19,31 +21,22 @@ export default function TimeSelector({
   onToggle,
   onClose,
   selectedTime,
-
   onTimeSelect,
 }: TimeSelectorProps) {
   const [isAM, setIsAM] = useState(true);
 
-  const generateTimes = (): string[] => {
-    const times: string[] = [];
-    for (let hour = 1; hour <= 12; hour += 1) {
-      times.push(`${hour}:00`, `${hour}:30`);
-    }
-    return times;
-  };
-
   const handleTimeSelect = (time: string) => {
-    const displayTime = `${isAM ? '오전' : '오후'} ${time}`;
-    onTimeSelect(displayTime);
+    onTimeSelect(`${isAM ? '오전' : '오후'} ${time}`);
   };
 
   return (
     <div className="mt-9 flex">
       <Dropdown onClose={onClose}>
         <DropdownToggle
-          className={`flex h-12 w-[7.75rem] items-center rounded-xl border border-[#F8FAFC1A] px-4 py-3 ${
-            selectedTime ? 'text-text-inverse' : 'text-text-default'
-          } focus:border-interaction-focus`}
+          className={clsx(
+            'flex h-12 w-[7.75rem] items-center rounded-xl border border-[#F8FAFC1A] px-4 focus:border-interaction-focus',
+            selectedTime ? 'text-text-inverse' : 'text-text-default',
+          )}
           onClick={onToggle}
         >
           {selectedTime || '시간'}
@@ -70,7 +63,7 @@ export default function TimeSelector({
               ))}
             </div>
 
-            <div className="custom-scrollbar max-h-[11rem] w-[13.75rem] overflow-y-scroll rounded-xl bg-background-darkPrimary p-2">
+            <div className="custom-scrollbar h-[11rem] w-[13.75rem] overflow-y-auto rounded-xl bg-background-darkPrimary p-2">
               {generateTimes().map((time) => (
                 <div
                   key={time}
