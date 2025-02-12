@@ -32,6 +32,7 @@ export default function CreateTaskModal({
   });
 
   const method = useForm<RecurringTaskDataBody>({
+    mode: 'onChange',
     defaultValues: {
       name: '',
       description: '',
@@ -44,7 +45,12 @@ export default function CreateTaskModal({
   const queryClient = useQueryClient();
   const { mutate, isPending } = useCreateRecurringTaskMutation();
 
-  const formValidation = isFormValid(allFields, selectedTime, repeatData);
+  const { description, ...fieldsWithoutDescription } = allFields;
+  const formValidation = isFormValid(
+    fieldsWithoutDescription,
+    selectedTime,
+    repeatData,
+  );
 
   const onSubmit = (data: RecurringTaskDataBody) => {
     const formattedDate =
@@ -92,6 +98,8 @@ export default function CreateTaskModal({
   }, []);
 
   const handleClose = () => {
+    method.reset();
+    setSelectedTime('');
     onClose();
   };
 
@@ -119,12 +127,23 @@ export default function CreateTaskModal({
                 type="text"
                 placeholder="할 일 제목을 입력해주세요."
                 autoComplete="off"
+                validationRules={{
+                  required: '할 일 제목을 입력해주세요.',
+                  maxLength: {
+                    value: 30,
+                    message: '할 일 제목은 최대 30글자까지 입력 가능합니다.',
+                  },
+                  validate: (value) =>
+                    value.trim() !== '' ||
+                    '할 일 제목은 공백만 입력할 수 없습니다.',
+                }}
               />
               <DateTimeSelector
                 date={allFields.startDate}
                 time={selectedTime}
                 onDateChange={(date) => setValue('startDate', date)}
                 onTimeChange={setSelectedTime}
+                disablePastDates
               />
               <div>
                 <div className="mb-4 text-lg font-medium">반복 설정 *</div>
@@ -132,12 +151,19 @@ export default function CreateTaskModal({
               </div>
               <Input
                 name="description"
-                title="할 일 메모 *"
+                title="할 일 메모"
                 type="text"
                 placeholder="메모를 입력해주세요."
                 autoComplete="off"
                 className="h-[4.6875rem]"
+                validationRules={{
+                  maxLength: {
+                    value: 255,
+                    message: '메모는 최대 255글자까지 입력 가능합니다.',
+                  },
+                }}
               />
+
               <Button
                 className="mt-2 text-text-inverse"
                 variant="primary"

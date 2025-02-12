@@ -19,9 +19,7 @@ export default function RepeatSelector({
   onRepeatChange,
 }: RepeatSelectorProps) {
   const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>([]);
-  const [selectedMonthDay, setSelectedMonthDay] = useState<number | undefined>(
-    undefined,
-  );
+  const [selectedMonthDay, setSelectedMonthDay] = useState<number>(1);
   const { isOpen, toggleDropdown, currentItem, closeDropdown, selectItem } =
     useDropdown();
 
@@ -29,7 +27,7 @@ export default function RepeatSelector({
     if (currentItem === '월 반복') {
       onRepeatChange({
         frequencyType: FrequencyType.MONTHLY,
-        monthDay: selectedMonthDay || 1,
+        monthDay: selectedMonthDay,
       });
     } else if (currentItem === '주 반복') {
       onRepeatChange({
@@ -106,7 +104,7 @@ export default function RepeatSelector({
 
       {currentItem === '주 반복' && (
         <div className="mt-4 flex flex-col gap-3">
-          <h3 className="w-full text-lg">반복 요일 *(복수 선택 가능)</h3>
+          <h3 className="w-full text-lg">반복 요일 * (복수 선택 가능)</h3>
           <ul className="flex justify-around">
             {WEEK_DAYS.map(({ name, value }) => (
               <li key={name}>
@@ -131,7 +129,7 @@ export default function RepeatSelector({
 
       {currentItem === '월 반복' && (
         <div className="mt-4 flex flex-col gap-3">
-          <h3 className="w-full text-lg">반복 날짜 *</h3>
+          <h3 className="w-full text-lg">반복 날짜 * (기본값: 1일)</h3>
           <div className="grid grid-cols-7 grid-rows-5 rounded-xl border border-interaction-hover p-4">
             {MONTH_DAYS.map((date) => (
               <button

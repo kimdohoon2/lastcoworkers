@@ -23,10 +23,14 @@ export default function DeleteTaskModal({
 }: DeleteTaskModalProps) {
   const queryClient = useQueryClient();
   const task = useAppSelector((state) => state.tasks.taskById[taskId]);
-  const deleteTaskMutation = useDeleteTaskMutation(groupId, taskListId, taskId);
+  const { mutate, isPending } = useDeleteTaskMutation(
+    groupId,
+    taskListId,
+    taskId,
+  );
 
   const handleDelete = () => {
-    deleteTaskMutation.mutate(undefined, {
+    mutate(undefined, {
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ['groups', groupId, 'taskLists', taskListId, 'tasks'],
@@ -83,6 +87,7 @@ export default function DeleteTaskModal({
               variant="danger"
               size="large"
               onClick={handleDelete}
+              disabled={isPending}
             >
               삭제하기
             </Button>

@@ -31,13 +31,16 @@ export default function EditTaskModal({
   const task = useAppSelector((state) => state.tasks.taskById[taskId]);
 
   const methods = useForm<FormValues>({
+    mode: 'onChange',
     defaultValues: {
       task: task?.name || '',
       memo: task?.description || '',
     },
   });
 
-  const { mutate } = useEditTaskMutation();
+  const { register } = methods;
+
+  const { mutate, isPending } = useEditTaskMutation();
 
   const onSubmit = (data: FormValues) => {
     mutate(
@@ -98,15 +101,28 @@ export default function EditTaskModal({
             <form onSubmit={methods.handleSubmit(onSubmit)}>
               <div className="flex flex-col gap-4">
                 <Input
-                  {...methods.register('task')}
-                  name="task"
+                  {...register('task', {
+                    required: '할 일 제목을 입력해주세요.',
+                    maxLength: {
+                      value: 30,
+                      message: '할 일 제목은 최대 30글자까지 입력 가능합니다.',
+                    },
+                    validate: (value) =>
+                      value.trim() !== '' ||
+                      '할 일 제목에 공백만 입력할 수 없습니다.',
+                  })}
                   title="할 일 제목"
                   type="text"
                   placeholder={task.name}
                   autoComplete="off"
                 />
                 <Input
-                  {...methods.register('memo')}
+                  {...register('memo', {
+                    maxLength: {
+                      value: 255,
+                      message: '메모는 최대 255글자까지 입력 가능합니다.',
+                    },
+                  })}
                   name="memo"
                   title="할 일 메모"
                   type="text"
@@ -131,6 +147,7 @@ export default function EditTaskModal({
                     className="w-[8.5rem] text-text-inverse"
                     variant="primary"
                     size="large"
+                    disabled={isPending}
                   >
                     수정하기
                   </Button>
