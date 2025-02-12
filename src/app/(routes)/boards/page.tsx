@@ -89,9 +89,9 @@ export default function BoardsPage() {
       <section className="mt-16 px-4 tablet:px-6 xl:mx-auto xl:w-[75rem]">
         <div className="pt-8 tablet:pt-10">
           <div className="flex flex-col gap-6 tablet:gap-8 xl:gap-10">
-            <h1 className="text-2lg tablet:text-2xl">자유게시판</h1>
+            <h1 className="text-2lg font-bold tablet:text-2xl">자유게시판</h1>
             <BoardsSearchBar onSearch={handleSearch} />
-            <h2 className="tablet:text-xl">베스트 게시글</h2>
+            <h2 className="font-bold tablet:text-xl">베스트 게시글</h2>
             <div className="flex flex-col gap-4 tablet:flex-row tablet:gap-4">
               {isBestLoading ? (
                 Array.from({ length: bestPageSize }).map(() => (
@@ -119,7 +119,7 @@ export default function BoardsPage() {
           <div>
             <div className="my-8 h-[1px] w-full bg-[#F8FAFC1A] tablet:my-10" />
             <div className="mb-6 flex w-full items-center justify-between">
-              <h3 className="tablet:text-xl">게시글</h3>
+              <h3 className="font-bold tablet:text-xl">게시글</h3>
               <BoardsOrderDropDown setSortOrder={setSortOrder} />
             </div>
             {isRecentLoading ? (
@@ -144,12 +144,6 @@ export default function BoardsPage() {
                   />
                 ))}
 
-                {!hasNextPage && allArticles.length > 0 && (
-                  <div className="py-4 text-center">
-                    더 이상 게시글이 없습니다.
-                  </div>
-                )}
-
                 {/* 무한 스크롤 시 UI 추가 */}
                 {isFetchingNextPage && (
                   <>
@@ -164,14 +158,17 @@ export default function BoardsPage() {
               <div>검색 결과에 해당하는 게시글이 없습니다.</div>
             )}
           </div>
+          {!hasNextPage && allArticles.length > 0 && (
+            <div className="py-4 text-center">더 이상 게시글이 없습니다.</div>
+          )}
         </div>
       </section>
 
       <Link
-        className="fixed bottom-5 right-4 block h-[48px] w-[125px] tablet:right-8 xl:bottom-9 xl:right-16 2xl:right-96"
+        className="fixed bottom-5 right-4 block h-12 w-[6.5rem] tablet:right-8 xl:left-[50%] xl:top-[95%] xl:-translate-y-1/2 xl:translate-x-[29rem]"
         href="/addboard"
       >
-        <Button variant="plus" size="plus">
+        <Button className="w-full !rounded-[2.5rem]">
           <IconPlus />
           글쓰기
         </Button>
