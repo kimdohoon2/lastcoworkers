@@ -23,6 +23,18 @@ export default function ArticleChanger({
     setContent(initialContent);
   }, [initialTitle, initialContent]);
 
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTitle = e.target.value;
+
+    if (newTitle.length > 200) {
+      alert('제목은 200자를 넘을 수 없습니다.');
+      return;
+    }
+
+    setTitle(newTitle);
+    onTitleChange(newTitle);
+  };
+
   return (
     <div className="flex flex-col gap-8">
       <div>
@@ -32,10 +44,7 @@ export default function ArticleChanger({
         <input
           type="text"
           value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-            onTitleChange(e.target.value);
-          }}
+          onChange={handleTitleChange}
           placeholder="제목을 입력해주세요."
           className="w-full rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-3 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400"
         />
@@ -52,7 +61,7 @@ export default function ArticleChanger({
             onContentChange(e.target.value);
           }}
           placeholder="내용을 입력해주세요."
-          className="h-[15rem] w-full resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400"
+          className="custom-scrollbar h-[15rem] w-full resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400"
         />
       </div>
     </div>
