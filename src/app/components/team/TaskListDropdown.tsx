@@ -16,6 +16,7 @@ import Input from '@/app/components/common/input/Input';
 import TaskCardDropdown from '@/app/components/icons/TaskCardDropdown';
 import useModal from '@/app/hooks/useModal';
 import IconAlert from '@/app/components/icons/IconAlert';
+import { AxiosError } from 'axios';
 
 interface DropdownMenuProps {
   groupId: number;
@@ -40,14 +41,18 @@ export default function TaskListDropdown({
 
   const editMutation = useMutation({
     mutationFn: (newName: string) =>
-      editTaskList({ groupId, id: taskListId, name: newName }),
+      editTaskList({ groupId, id: taskListId, name: newName.trim() }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['taskLists', groupId] });
       queryClient.invalidateQueries({ queryKey: ['group', groupId] });
       editModal.closeModal();
     },
-    onError: () => {
-      alert('그룹 내 이름이 같은 할 일 목록이 존재합니다.');
+    onError: (error: AxiosError) => {
+      if (error.response?.status === 409) {
+        alert('그룹 내 이름이 같은 할 일 목록이 존재합니다.');
+      } else {
+        alert('할 일 목록을 수정하는 중 오류가 발생했습니다.');
+      }
     },
   });
 
@@ -103,7 +108,19 @@ export default function TaskListDropdown({
                 defaultValue={taskListName}
                 placeholder="새 목록 이름을 입력해주세요."
                 autoComplete="off"
-                validationRules={{ required: '목록 이름을 입력해주세요.' }}
+                validationRules={{
+                  required: '목록 이름을 입력해주세요.',
+                  maxLength: {
+                    value: 30,
+                    message: '할 일 제목은 최대 30글자까지 입력 가능합니다.',
+                  },
+                  validate: (value: string) => {
+                    if (value.trim().length === 0) {
+                      return '할 일 제목에 공백만 입력할 수 없습니다.';
+                    }
+                    return true;
+                  },
+                }}
               />
               <Button
                 className="mt-2 w-full text-text-inverse"

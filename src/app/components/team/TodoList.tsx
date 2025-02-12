@@ -28,6 +28,7 @@ import Input from '@/app/components/common/input/Input';
 import { useForm, FormProvider } from 'react-hook-form';
 import { GroupTask } from '@/app/types/grouptask';
 import { editTaskListOrder } from '@/app/lib/tasklist/patchTaskList';
+import { AxiosError } from 'axios';
 
 interface TodoListProps {
   groupId: number;
@@ -50,7 +51,6 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
   ];
   const { isOpen, openModal, closeModal } = useModal();
   const methods = useForm<TodoListForm>();
-  const { setError } = methods;
   const queryClient = useQueryClient();
   const todayDate = getTodayDate();
 
@@ -77,16 +77,22 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
   });
 
   const createMutation = useMutation({
-    mutationFn: (newTaskList: { name: string }) =>
-      createTaskList({ groupId, name: newTaskList.name }),
+    mutationFn: (newTaskList: { name: string }) => {
+      const trimmedName = newTaskList.name.trim();
+      return createTaskList({ groupId, name: trimmedName });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['taskLists', groupId] });
       queryClient.invalidateQueries({ queryKey: ['group', groupId] });
       methods.reset();
       closeModal();
     },
-    onError: () => {
-      alert('그룹 내 이름이 같은 할 일 목록이 존재합니다.');
+    onError: (error: AxiosError) => {
+      if (error.response?.status === 409) {
+        alert('그룹 내 이름이 같은 할 일 목록이 존재합니다.');
+      } else {
+        alert('할 일 목록을 추가하는 중 오류가 발생했습니다.');
+      }
     },
   });
 
@@ -128,11 +134,16 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
   return (
     <div className="mx-auto my-6 max-w-[75rem]">
       <div className="flex justify-between">
-        <span className="text-lg font-normal">
-          할 일 목록 ({items.length}개)
-        </span>
+        <div className="flex gap-2">
+          <span className="text-lg font-medium text-text-primary">
+            할 일 목록
+          </span>
+          <span className="text-lg font-normal text-text-default">
+            ({items.length}개)
+          </span>
+        </div>
         <button
-          className="text-sm font-normal text-brand-primary"
+          className="text-sm font-normal text-brand-primary hover:underline"
           onClick={openModal}
         >
           + 새로운 목록 추가하기
@@ -150,7 +161,19 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
                   type="text"
                   placeholder="목록 이름을 입력해주세요."
                   autoComplete="off"
-                  validationRules={{ required: '목록 이름을 입력해주세요.' }}
+                  validationRules={{
+                    required: '목록 이름을 입력해주세요.',
+                    maxLength: {
+                      value: 30,
+                      message: '할 일 제목은 최대 30글자까지 입력 가능합니다.',
+                    },
+                    validate: (value: string) => {
+                      if (value.trim().length === 0) {
+                        return '할 일 제목에 공백만 입력할 수 없습니다.';
+                      }
+                      return true;
+                    },
+                  }}
                 />
                 <Button
                   className="mt-2 w-full text-text-inverse"
@@ -182,16 +205,20 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
       >
         <SortableContext items={items} strategy={verticalListSortingStrategy}>
           <div className="flex flex-col overflow-visible">
-            {items.map((taskList, index) => (
+            {items.map((taskList) => (
               <TodoListItem
                 key={taskList.id}
                 id={taskList.id}
                 taskList={taskList}
                 groupId={groupId}
                 backgroundColor={
-                  backgroundColors[index % backgroundColors.length]
+                  backgroundColors[taskList.id % backgroundColors.length]
                 }
-                taskListData={data?.[index] || { tasks: [] }}
+                taskListData={
+                  data?.[
+                    items.findIndex((item) => item.id === taskList.id)
+                  ] || { tasks: [] }
+                }
               />
             ))}
           </div>
@@ -200,19 +227,14 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
           {activeId ? (
             <div className="w-full">
               {(() => {
-                const activeIndex = items.findIndex(
-                  (item) => item.id === activeId,
-                );
-                const overlayBg =
-                  activeIndex !== -1
-                    ? backgroundColors[activeIndex % backgroundColors.length]
-                    : 'bg-gray-500';
+                const activeTask = items.find((item) => item.id === activeId);
+                const overlayBg = activeTask
+                  ? backgroundColors[activeTask.id % backgroundColors.length]
+                  : 'bg-gray-500';
                 return (
                   <TodoListItem
                     id={activeId}
-                    taskList={
-                      items.find((item) => item.id === activeId) as GroupTask
-                    }
+                    taskList={activeTask as GroupTask}
                     groupId={groupId}
                     backgroundColor={overlayBg}
                     taskListData={

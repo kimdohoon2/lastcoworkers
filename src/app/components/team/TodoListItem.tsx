@@ -36,7 +36,7 @@ export default function TodoListItem({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0 : 1,
+    opacity: isDragging ? 0.8 : 1,
   };
 
   const tasks = taskListData.tasks || [];
@@ -52,16 +52,18 @@ export default function TodoListItem({
       style={style}
       {...attributes}
       {...listeners}
-      className="relative mt-4 flex h-10 w-full items-center rounded-xl bg-background-secondary pl-6 pr-4"
+      className="relative mt-4 flex h-10 w-full items-center rounded-xl bg-background-secondary pl-6 pr-4 hover:z-10 hover:scale-102"
     >
       <Link
         href={`/${groupId}/${taskList.id}`}
-        className="z-0 flex flex-1 items-center justify-between"
+        className="z-0 flex flex-1 items-center justify-between overflow-hidden"
       >
         <div
           className={`absolute left-0 h-10 w-3 rounded-l-xl ${backgroundColor}`}
         />
-        <div className="text-base font-medium text-white">{taskList.name}</div>
+        <div className="truncate text-base font-medium text-white">
+          {taskList.name}
+        </div>
         <div className="flex items-center gap-2">
           <div className="flex w-14 items-center gap-1 rounded-xl bg-background-primary px-2 py-1">
             {completedItems === totalTasks ? (
@@ -79,6 +81,7 @@ export default function TodoListItem({
                   endAngle={-270}
                   fill="#F8FAFC"
                   stroke="none"
+                  isAnimationActive={false}
                 />
                 <Pie
                   data={[{ name: 'Completed', value: completionPercentage }]}

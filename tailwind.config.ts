@@ -9,6 +9,9 @@ export default {
   ],
   theme: {
     extend: {
+      scale: {
+        '102': '1.02',
+      },
       boxShadow: {
         custom: '0px 0px 12px 2px #FFFFFF40',
       },

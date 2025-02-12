@@ -27,6 +27,7 @@ export default function ProgressChart({
         endAngle={-90}
         fill="#334155"
         stroke="none"
+        isAnimationActive={false}
       />
       <Pie
         data={[{ name: 'Completed', value: completionPercentage }]}
@@ -38,8 +39,11 @@ export default function ProgressChart({
         startAngle={270}
         endAngle={270 + (completionPercentage * 360) / 100}
         fill="url(#progressGradient)"
-        cornerRadius={24}
         stroke="none"
+        cornerRadius={24}
+        isAnimationActive
+        animationDuration={500}
+        animationEasing="ease-out"
       />
       <text
         x="50%"
