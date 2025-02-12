@@ -38,6 +38,7 @@ export default function Header() {
 
   const handleLogout = (): void => {
     dispatch(logout());
+    router.push('/login');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
