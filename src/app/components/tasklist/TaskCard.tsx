@@ -112,7 +112,7 @@ export default function TaskCard({
         date={date}
         frequency={frequency}
         startDate={startDate}
-        showStartDate={false}
+        showStartTime={false}
       />
     </div>
   );
