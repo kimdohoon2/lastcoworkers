@@ -39,16 +39,23 @@ function TaskListPage() {
     queryFn: () => getGroupById(Number(teamid)),
   });
 
-  const { data: taskListData, isLoading: isTaskListLoading } = useTasksQuery(
-    Number(teamid),
-    Number(tasklist),
-    selectedDate,
-  );
+  const {
+    data: taskListData,
+    isLoading: isTaskListLoading,
+    error: taskError,
+  } = useTasksQuery(Number(teamid), Number(tasklist), selectedDate);
 
-  const isLoading = isTeamLoading || (!groupData && !taskListData);
+  const handleOpenModal = (type: 'task' | 'list') => {
+    setModalType(type);
+    openModal();
+  };
+
+  const isLoading =
+    isTeamLoading || (!groupData && !taskListData) || isTaskListLoading;
 
   const isNotFound =
-    (error && error.message === 'not_found') ||
+    error?.message === 'not_found' ||
+    taskError?.message === 'not_found' ||
     Number.isNaN(Number(teamid)) ||
     Number.isNaN(Number(tasklist));
 
@@ -57,11 +64,6 @@ function TaskListPage() {
   if (isLoading || isRedirecting) return <Loading />;
 
   if (isAuthLoading) return <AuthCheckLoading />;
-
-  const handleOpenModal = (type: 'task' | 'list') => {
-    setModalType(type);
-    openModal();
-  };
 
   return (
     <div className="mx-auto mt-24 flex w-full max-w-[75rem] flex-col gap-6 px-3.5 tablet:px-6">
