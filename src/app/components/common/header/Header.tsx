@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { RootState } from '@/app/stores/store';
@@ -16,6 +17,7 @@ import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import useDropdown from '@/app/hooks/useDropdown';
 import HeaderTeam from '@/app/components/common/header/HeaderTeam';
+import getUser, { GetUserResponse } from '@/app/lib/user/getUser';
 
 export default function Header() {
   const [visible, setVisible] = useState<boolean>(false);
@@ -23,8 +25,12 @@ export default function Header() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { user, accessToken } = useSelector((state: RootState) => state.auth);
+  const { accessToken } = useSelector((state: RootState) => state.auth);
 
+  const { data: userData } = useQuery<GetUserResponse>({
+    queryKey: ['user'],
+    queryFn: getUser,
+  });
   const isLoggedIn = !!accessToken;
 
   const handleOpenSlideMenubar = (): void => setVisible(true);
@@ -32,7 +38,6 @@ export default function Header() {
 
   const handleLogout = (): void => {
     dispatch(logout());
-    router.push('/');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -85,7 +90,7 @@ export default function Header() {
               >
                 <HeaderUserIcon />
                 <span className="hidden hover:text-interaction-hover xl:block">
-                  {user?.nickname || '사용자'}
+                  {userData?.nickname || '사용자'}
                 </span>
 
                 <Dropdown
@@ -133,12 +138,20 @@ export default function Header() {
                 </Dropdown>
               </div>
             ) : (
-              <Link
-                className="text-md hover:text-interaction-hover xl:text-base"
-                href="/login"
-              >
-                로그인
-              </Link>
+              <div className="flex gap-4">
+                <Link
+                  className="text-md hover:text-interaction-hover xl:text-base"
+                  href="/login"
+                >
+                  로그인
+                </Link>
+                <Link
+                  className="text-md hover:text-interaction-hover xl:text-base"
+                  href="/signup"
+                >
+                  회원가입
+                </Link>
+              </div>
             )}
           </div>
         </div>
