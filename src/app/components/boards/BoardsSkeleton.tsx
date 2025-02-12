@@ -7,7 +7,7 @@ export default function BoardsSkeleton({
 }: BoardsSkeletonProps) {
   return (
     <div
-      className={`w-full rounded-[12px] border border-[#F8FAFC1A] bg-background-secondary px-4 shinny tablet:px-8 ${className}`}
+      className={`w-full rounded-[0.75rem] border border-[#F8FAFC1A] bg-background-secondary px-4 shinny tablet:px-8 ${className}`}
     />
   );
 }
