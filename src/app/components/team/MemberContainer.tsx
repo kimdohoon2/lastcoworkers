@@ -52,7 +52,7 @@ function MemberContainer({ members }: { members: GroupMember[] }) {
       </div>
       <div className="grid grid-cols-2 gap-4 tablet:grid-cols-3 tablet:gap-6">
         {isLoading
-          ? Array.from({ length: 6 }).map(() => (
+          ? Array.from({ length: members.length || 6 }).map(() => (
               <MemberCardSkeleton
                 key={`memeber_skeleton_${crypto.randomUUID()}`}
               />
