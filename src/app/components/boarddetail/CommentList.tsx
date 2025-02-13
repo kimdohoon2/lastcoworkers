@@ -2,6 +2,8 @@
 
 import { useParams } from 'next/navigation';
 import { useRef, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/stores/store';
 import {
   useInfiniteQuery,
   useMutation,
@@ -28,10 +30,13 @@ export default function CommentList() {
   const params = useParams();
   const articleId = Number(params?.boardid);
   const queryClient = useQueryClient();
-
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editedContent, setEditedContent] = useState<string>('');
+
+  // 현재 로그인한 사용자 ID 가져오기
+  const currentUserId = useSelector((state: RootState) => state.auth.user?.id);
 
   // 댓글 목록 불러오기 API
   const { data, fetchNextPage, hasNextPage } =
@@ -77,7 +82,7 @@ export default function CommentList() {
   // 댓글 수정 취소 함수
   const handleEditCancel = () => {
     setEditingCommentId(null);
-    setEditedContent(''); // 입력값 초기화
+    setEditedContent('');
   };
 
   // 무한 스크롤
@@ -115,34 +120,40 @@ export default function CommentList() {
     <div>
       <AddComment />
 
-      {/* 댓글 리스트 */}
       <div className="mt-8 flex flex-col gap-4 tablet:mt-10">
+
         {data?.pages.map((page) =>
-          page.list.map((comment) => (
-            <div
-              key={comment.id}
-              className="rounded-lg border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary p-4"
-            >
-              <div className="flex flex-col gap-8">
-                <div className="text-primary flex items-center justify-between text-md tablet:text-lg">
+          page.list.map((comment) => {
+            // 현재 로그인한 사용자가 해당 댓글의 작성자인지 확인
+            const isCommentAuthor =
+              Boolean(currentUserId) &&
+              String(currentUserId) === String(comment.writer.id);
+
+            return (
+
+              <div
+                key={comment.id}
+                className="rounded-lg border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary p-4"
+              >
+                <div className="flex flex-col gap-8">
+
                   {editingCommentId === comment.id ? (
-                    <div className="flex items-center gap-3">
+                    <div className="relative flex flex-col">
                       <input
                         type="text"
-                        className="w-full rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-tertiary px-2 py-2"
+                        className="w-full bg-background-secondary pb-6 pt-0.5"
                         value={editedContent}
                         onChange={(e) => setEditedContent(e.target.value)}
                       />
 
-                      <div className="flex gap-2">
-                        <Button
-                          variant="cancel"
-                          size="small"
+                      <div className="mt-2 flex justify-end gap-2">
+                        <button
+                          type="button"
                           onClick={handleEditCancel}
-                          className="font-light"
+                          className="mr-2 text-md font-light text-text-default"
                         >
                           취소
-                        </Button>
+                        </button>
 
                         <Button
                           variant="inverse"
@@ -155,40 +166,48 @@ export default function CommentList() {
                       </div>
                     </div>
                   ) : (
-                    <span>{comment.content}</span>
+                    <div className="flex items-center justify-between">
+                      <span>{comment.content}</span>
+                      {isCommentAuthor && (
+                        <CommentDropdown
+                          commentId={comment.id}
+                          onEdit={() => handleEdit(comment.id, comment.content)}
+                          onDelete={handleDelete}
+                        />
+                      )}
+                    </div>
                   )}
 
-                  <CommentDropdown
-                    commentId={comment.id}
-                    onEdit={() => handleEdit(comment.id, comment.content)}
-                    onDelete={handleDelete}
-                  />
-                </div>
+                  {editingCommentId !== comment.id && (
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    {comment.writer.image ? (
-                      <Image
-                        width={32}
-                        height={32}
-                        src={comment.writer.image}
-                        alt="Profile"
-                        className="h-8 w-8 rounded-full"
-                      />
-                    ) : (
-                      <IconMember />
-                    )}
-                    <p className="text-primary ml-1 text-xs tablet:text-md">
-                      {comment.writer.nickname}
-                    </p>
-                    <p className="border-l-[0.063rem] border-text-primary border-opacity-10 pl-2 text-xs text-text-disabled tablet:text-md">
-                      {new Date(comment.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
+                    <div className="flex items-center gap-2">
+                      {comment.writer.image ? (
+                        <Image
+                          width={32}
+                          height={32}
+                          src={comment.writer.image}
+                          alt="Profile"
+                          className="h-8 w-8 rounded-full"
+                        />
+                      ) : (
+                        <IconMember />
+                      )}
+                      <p className="text-primary ml-1 text-xs tablet:text-md">
+                        {comment.writer.nickname}
+                      </p>
+                      <p className="border-l-[0.063rem] border-text-primary border-opacity-10 pl-2 text-xs text-text-disabled tablet:text-md">
+
+                        {new Date(comment.createdAt)
+                          .toLocaleDateString()
+                          .replace(/\.$/, '')}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
-          )),
+            );
+          }),
+
         )}
       </div>
 

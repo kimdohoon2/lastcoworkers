@@ -51,7 +51,7 @@ export default function LoginComponent() {
                 title="비밀번호"
                 type="password"
                 placeholder="비밀번호를 입력해주세요."
-                autoComplete="new-password"
+                autoComplete="password"
                 validationRules={{
                   required: '비밀번호를 입력해주세요.',
                   pattern: {
