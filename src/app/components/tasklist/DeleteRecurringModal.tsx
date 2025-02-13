@@ -1,9 +1,7 @@
-import { useDeleteRecurringMutation } from '@/app/lib/task/deleteTask';
-import { useQueryClient } from '@tanstack/react-query';
 import { useAppSelector } from '@/app/stores/hooks';
-import Button from '../common/button/Button';
-import Modal from '../common/modal/Modal';
-import IconAlert from '../icons/IconAlert';
+import { useQueryClient } from '@tanstack/react-query';
+import { useDeleteRecurringMutation } from '@/app/lib/task/deleteTask';
+import ConfirmModal from '@/app/components/common/modal/ConfirmModal';
 
 interface DeleteRecurringModalProps {
   isOpen: boolean;
@@ -50,54 +48,27 @@ export default function DeleteRecurringModal({
   };
 
   return (
-    <div
-      role="button"
-      tabIndex={0}
-      onClick={(e) => e.stopPropagation()}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-        }
-      }}
-      className={`${isOpen ? 'block' : 'hidden'}`}
-    >
-      <Modal isOpen={isOpen} closeModal={onClose}>
+    <ConfirmModal
+      isModalOpen={isOpen}
+      title={
         <div className="flex flex-col items-center gap-2 text-center">
-          <IconAlert />
-          <p className="mt-2 text-xl text-text-primary">{`'${task.name}'`}</p>
+          <p className="text-xl text-text-primary">{`'${task.name}'`}</p>
           <p className="text-lg text-text-primary">
             할 일의 반복을 정말 삭제하시겠어요?
           </p>
           <p className="text-md text-text-secondary">
             삭제 후에는 되돌릴 수 없습니다.
           </p>
-
-          <div className="mt-5 flex gap-2">
-            <Button
-              type="button"
-              className="w-[8.5rem] text-text-default"
-              variant="secondary"
-              size="large"
-              onClick={(e) => {
-                e.stopPropagation();
-                onClose();
-              }}
-            >
-              닫기
-            </Button>
-            <Button
-              type="button"
-              className="w-[8.5rem]"
-              variant="danger"
-              size="large"
-              onClick={handleDelete}
-              disabled={isPending}
-            >
-              삭제하기
-            </Button>
-          </div>
         </div>
-      </Modal>
-    </div>
+      }
+      cancelLabel="닫기"
+      confirmLabel="삭제하기"
+      handleCancel={(e) => {
+        if (e) e.stopPropagation();
+        onClose();
+      }}
+      handleConfirm={handleDelete}
+      isConfirmDisabled={isPending}
+    />
   );
 }
