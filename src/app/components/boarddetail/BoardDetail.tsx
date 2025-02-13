@@ -39,7 +39,9 @@ export default function BoardDetail({ article }: BoardDetailProps) {
   const editMutation = useMutation({
     mutationFn: (data: PatchArticleRequest) => patchArticle(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['articleDetail', article.id] });
+      queryClient.invalidateQueries({
+        queryKey: ['articleDetail', article.id],
+      });
       setIsEditing(false);
     },
   });
@@ -95,7 +97,6 @@ export default function BoardDetail({ article }: BoardDetailProps) {
             </DropdownList>
           </Dropdown>
         )}
-
       </div>
 
       <div className="flex h-[4.5rem] items-center justify-between">
@@ -113,15 +114,25 @@ export default function BoardDetail({ article }: BoardDetailProps) {
           <div className="flex items-center gap-1 text-xs text-text-disabled tablet:text-md">
             <IconComment />
             {article.commentCount}
-            <BoardsLikeBox id={article.id} likeCount={article.likeCount} isLiked={article.isLiked} />
+            <BoardsLikeBox
+              id={article.id}
+              likeCount={article.likeCount}
+              isLiked={article.isLiked}
+            />
           </div>
-          
         </div>
       </div>
 
       {article.image && (
         <div className="mb-4">
-          <Image src={article.image} alt="게시글 이미지" width={343} height={343} className="rounded-lg" objectFit="cover" />
+          <Image
+            src={article.image}
+            alt="게시글 이미지"
+            width={343}
+            height={343}
+            className="rounded-lg"
+            objectFit="cover"
+          />
         </div>
       )}
 
@@ -135,7 +146,11 @@ export default function BoardDetail({ article }: BoardDetailProps) {
               onChange={(e) => setEditedContent(e.target.value)}
             />
             <div className="mt-2 flex justify-end gap-2">
-              <Button variant="cancel" size="small" onClick={() => setIsEditing(false)}>
+              <Button
+                variant="cancel"
+                size="small"
+                onClick={() => setIsEditing(false)}
+              >
                 취소
               </Button>
               <Button variant="primary" size="small" onClick={handleEditSubmit}>
@@ -149,7 +164,11 @@ export default function BoardDetail({ article }: BoardDetailProps) {
       </div>
 
       {/* 삭제 확인 모달 */}
-      <DeleteArticleModal isOpen={isOpen} onClose={closeModal} articleId={article.id} />
+      <DeleteArticleModal
+        isOpen={isOpen}
+        onClose={closeModal}
+        articleId={article.id}
+      />
     </>
   );
 }

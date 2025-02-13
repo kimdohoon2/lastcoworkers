@@ -41,7 +41,7 @@ export default function TeamHeader({ groupName, groupId }: HeaderProps) {
   );
 
   return (
-    <div className="border-state-50/10 relative mx-auto mt-[5.25rem] flex h-16 w-full max-w-[75rem] items-center justify-between rounded-xl border bg-background-secondary px-6">
+    <div className="relative mx-auto mt-[5.25rem] flex h-16 w-full max-w-[75rem] items-center justify-between rounded-xl border border-state-50/10 bg-background-secondary px-6">
       <span className="z-10 mr-2 truncate text-xl font-bold">
         {groupName || '그룹 이름 없음'}
       </span>
