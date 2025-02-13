@@ -73,7 +73,7 @@ export default function BoardDetail({ article }: BoardDetailProps) {
           <div className="flex w-full items-center gap-2 py-6">
             <input
               type="text"
-              className="h-8 w-[90%] resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400 placeholder:tablet:text-lg"
+              className="h-12 w-[90%] resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400 focus:border-interaction-focus focus:outline-none placeholder:tablet:text-lg"
               value={editedTitle}
               onChange={(e) => setEditedTitle(e.target.value)}
             />
@@ -144,7 +144,7 @@ export default function BoardDetail({ article }: BoardDetailProps) {
         {isEditing ? (
           <div>
             <textarea
-              className="w-full resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400 placeholder:tablet:text-lg"
+              className="w-full resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400 focus:border-interaction-focus focus:outline-none placeholder:tablet:text-lg"
               rows={5}
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
