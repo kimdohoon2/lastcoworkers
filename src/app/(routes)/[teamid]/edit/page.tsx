@@ -11,6 +11,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { FieldValues } from 'react-hook-form';
 import { useState } from 'react';
+import Loading from '@/app/components/common/loading/Loading';
+import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
 
 function Page() {
   const { isLoading: isAuthLoading } = useAuthRedirect();
@@ -21,7 +23,11 @@ function Page() {
   const queryClient = useQueryClient();
   const groupId = Number(teamid);
 
-  const { data: groupData, isLoading } = useQuery({
+  const {
+    data: groupData,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['group', groupId],
     queryFn: () => getGroupById(groupId),
     enabled: !!groupId,
@@ -47,15 +53,14 @@ function Page() {
     },
   });
 
+  const isNotFound =
+    (error && error.message === 'not_found') || Number.isNaN(Number(teamid));
+
+  const { isRedirecting } = useRedirectIfNotFound(isNotFound);
+
   if (isAuthLoading) return <AuthCheckLoading />;
 
-  if (isLoading) {
-    return (
-      <div className="flex h-screen items-center justify-center text-white">
-        Loading...
-      </div>
-    );
-  }
+  if (isLoading || isRedirecting) return <Loading />;
 
   return (
     <div>
