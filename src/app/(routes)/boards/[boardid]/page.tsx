@@ -8,6 +8,7 @@ import getArticleDetail, {
 
 import CommentList from '@/app/components/boarddetail/CommentList';
 import BoardDetail from '@/app/components/boarddetail/BoardDetail';
+import BoardDetailSkeleton from '@/app/components/boarddetail/BoardDetailSkeleton';
 
 export default function BoardDetailPage() {
   const params = useParams();
@@ -26,7 +27,7 @@ export default function BoardDetailPage() {
   });
 
   if (isLoading) {
-    return <div className="pt-20 text-center">로딩 중...</div>;
+    return <BoardDetailSkeleton />;
   }
 
   if (isError || !article) {
