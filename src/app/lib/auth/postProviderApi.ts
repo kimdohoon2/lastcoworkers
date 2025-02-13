@@ -8,7 +8,7 @@ interface OauthDataType {
 }
 
 const postProviderApi = async (
-  provider: 'GOOGLE' | 'KAKAO',
+  provider: 'KAKAO',
   data: OauthDataType,
 ): Promise<SignInResponse> => {
   console.log('Request data:', data);

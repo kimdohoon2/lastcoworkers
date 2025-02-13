@@ -3,7 +3,7 @@ import instance from '@/app/lib/instance';
 interface OauthData {
   appSecret?: string;
   appKey?: string;
-  provider: 'GOOGLE' | 'KAKAO';
+  provider: 'KAKAO';
 }
 
 const postOauthApi = async (data: OauthData) => {

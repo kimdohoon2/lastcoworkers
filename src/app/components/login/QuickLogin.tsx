@@ -6,35 +6,31 @@ interface OAuthResponse {
   updatedAt: string;
   appSecret: string;
   appKey: string;
-  provider: 'GOOGLE' | 'KAKAO';
+  provider: 'KAKAO';
   teamId: string;
   id: number;
 }
 
 export default function QuickLogin() {
-  const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_APP_KEY;
-  const GOOGLE_REDIRECT_URI = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
   const KAKAO_REST_API = process.env.NEXT_PUBLIC_KAKAO_APP_KEY;
   const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
   const kakaoLink = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
-  const googleLink = `https://accounts.google.com/o/oauth2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=email profile`;
 
-  const handleLogin = async (provider: 'GOOGLE' | 'KAKAO', url: string) => {
+  const handleLogin = async (provider: 'KAKAO', url: string) => {
     try {
       console.log(`${provider} OAuth 앱 등록 시도 중...`);
       const result = await postOauthApi({
         provider,
-        appKey: provider === 'GOOGLE' ? GOOGLE_CLIENT_ID : KAKAO_REST_API,
+        appKey: KAKAO_REST_API,
       });
       console.log(`OAuth 앱 등록 결과:`, result);
 
       const oauthResponse = result as OAuthResponse;
       if (oauthResponse && oauthResponse.id) {
         console.log(`${provider} OAuth 앱 등록 성공. ID: ${oauthResponse.id}`);
-        // 등록 성공 후 리다이렉트
         setTimeout(() => {
           window.location.href = url;
-        }, 2000); // 2초 후 리다이렉트
+        }, 2000);
       } else {
         console.error(
           `${provider} OAuth 앱 등록 실패. 예상치 못한 응답:`,
@@ -56,21 +52,6 @@ export default function QuickLogin() {
       <div className="flex justify-between">
         <p>간편 로그인하기</p>
         <div className="flex gap-4">
-          <button
-            className="relative h-[2.625rem] w-[2.625rem] rounded-full bg-white"
-            onClick={() => handleLogin('GOOGLE', googleLink)}
-          >
-            <div className="absolute left-1/2 top-1/2 h-[1.375rem] w-[1.375rem] -translate-x-1/2 -translate-y-1/2 transform">
-              <Image
-                className="h-full w-full object-cover"
-                src="/icons/google.png"
-                alt="google"
-                width={22}
-                height={22}
-              />
-            </div>
-          </button>
-
           <button
             className="relative h-[2.625rem] w-[2.625rem] rounded-full bg-[#F1E148]"
             onClick={() => handleLogin('KAKAO', kakaoLink)}
