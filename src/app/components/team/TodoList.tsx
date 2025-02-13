@@ -29,6 +29,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { GroupTask } from '@/app/types/grouptask';
 import { editTaskListOrder } from '@/app/lib/tasklist/patchTaskList';
 import { AxiosError } from 'axios';
+import TodoListSkeleton from './TodoListSkeleton';
 
 interface TodoListProps {
   groupId: number;
@@ -190,7 +191,7 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
         </Modal>
       </div>
 
-      {isLoading && <div className="my-4">로딩 중...</div>}
+      {/* {isLoading && <div className="my-4">로딩 중...</div>}
       {isError && (
         <div className="my-4 text-red-500">
           데이터를 불러오는 중 오류가 발생했습니다.
@@ -250,7 +251,63 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
             </div>
           ) : null}
         </DragOverlay>
-      </DndContext>
+      </DndContext> */}
+      {isLoading ? (
+        <TodoListSkeleton />
+      ) : (
+        <DndContext
+          collisionDetection={closestCenter}
+          sensors={sensors}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext items={items} strategy={verticalListSortingStrategy}>
+            <div className="flex flex-col overflow-visible">
+              {items.map((taskList) => (
+                <TodoListItem
+                  key={taskList.id}
+                  id={taskList.id}
+                  taskList={taskList}
+                  groupId={groupId}
+                  backgroundColor={
+                    backgroundColors[taskList.id % backgroundColors.length]
+                  }
+                  taskListData={
+                    data?.[
+                      items.findIndex((item) => item.id === taskList.id)
+                    ] || { tasks: [] }
+                  }
+                />
+              ))}
+            </div>
+          </SortableContext>
+          <DragOverlay>
+            {activeId ? (
+              <div className="w-full">
+                {(() => {
+                  const activeTask = items.find((item) => item.id === activeId);
+                  const overlayBg = activeTask
+                    ? backgroundColors[activeTask.id % backgroundColors.length]
+                    : 'bg-gray-500';
+                  return (
+                    <TodoListItem
+                      id={activeId}
+                      taskList={activeTask as GroupTask}
+                      groupId={groupId}
+                      backgroundColor={overlayBg}
+                      taskListData={
+                        data?.[
+                          items.findIndex((item) => item.id === activeId)
+                        ] || { tasks: [] }
+                      }
+                    />
+                  );
+                })()}
+              </div>
+            ) : null}
+          </DragOverlay>
+        </DndContext>
+      )}
     </div>
   );
 }
