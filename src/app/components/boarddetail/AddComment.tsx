@@ -26,7 +26,7 @@ export default function AddComment() {
       <div className="tablet:text-xl">댓글 달기</div>
       <textarea
         placeholder="내용을 입력해주세요."
-        className="h-[6.5rem] w-full resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400 focus:border-interaction-focus focus:outline-none placeholder:tablet:text-lg"
+        className="custom-scrollbar h-[6.5rem] w-full resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400 focus:border-interaction-focus focus:outline-none placeholder:tablet:text-lg"
         value={commentContent}
         onChange={(e) => setCommentContent(e.target.value)}
       />
