@@ -1,5 +1,4 @@
 import type { Config } from 'tailwindcss';
-import plugin from 'tailwindcss/plugin';
 
 export default {
   content: [
@@ -100,30 +99,5 @@ export default {
       },
     },
   },
-  plugins: [
-    require('tailwind-scrollbar'),
-    plugin(function ({ addUtilities }) {
-      addUtilities({
-        '@keyframes shine': {
-          '0%': { transform: 'skew(45deg) translateX(0%)' },
-          '100%': { transform: 'skew(45deg) translateX(200%)' },
-        },
-        '.shinny': {
-          position: 'relative',
-          overflow: 'hidden',
-        },
-        '.shinny::before': {
-          content: '""',
-          position: 'absolute',
-          top: '0',
-          left: '0',
-          width: '100%',
-          height: '100%',
-          background: 'rgba(255, 255, 255, 0.2)',
-          transform: 'skew(5deg)',
-          animation: 'shine 1.5s ease-in-out infinite',
-        },
-      });
-    }),
-  ],
+  plugins: [require('tailwind-scrollbar')],
 } satisfies Config;
