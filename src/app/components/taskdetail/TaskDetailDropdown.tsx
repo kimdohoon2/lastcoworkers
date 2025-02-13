@@ -2,13 +2,13 @@ import useDropdown from '@/app/hooks/useDropdown';
 import { Dispatch, SetStateAction } from 'react';
 import { useAppSelector } from '@/app/stores/hooks';
 import useModal from '@/app/hooks/useModal';
-import Dropdown from '../common/dropdown/Dropdown';
-import DropdownItem from '../common/dropdown/DropdownItem';
-import DropdownList from '../common/dropdown/DropdownList';
-import DropdownToggle from '../common/dropdown/DropdownToggle';
-import TaskCardDropdown from '../icons/TaskCardDropdown';
-import DeleteTaskModal from '../tasklist/DeleteTaskModal';
-import DeleteRecurringModal from '../tasklist/DeleteRecurringModal';
+import Dropdown from '@/app/components/common/dropdown/Dropdown';
+import TaskCardDropdown from '@/app/components/icons/TaskCardDropdown';
+import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
+import DropdownList from '@/app/components/common/dropdown/DropdownList';
+import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
+import DeleteTaskModal from '@/app/components/tasklist/DeleteTaskModal';
+import DeleteRecurringModal from '@/app/components/tasklist/DeleteRecurringModal';
 
 export default function TaskDetailDropdown({
   groupId,
