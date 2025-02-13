@@ -51,7 +51,7 @@ function TaskListPage() {
   };
 
   const isLoading =
-    isTeamLoading || (!groupData && !taskListData) || isTaskListLoading;
+    isTeamLoading || (!groupData && !taskListData && !isTaskListLoading);
 
   const isNotFound =
     error?.message === 'not_found' ||
@@ -61,9 +61,9 @@ function TaskListPage() {
 
   const { isRedirecting } = useRedirectIfNotFound(isNotFound);
 
-  if (isLoading || isRedirecting) return <Loading />;
-
   if (isAuthLoading) return <AuthCheckLoading />;
+
+  if (isLoading || isRedirecting) return <Loading />;
 
   return (
     <div className="mx-auto mt-24 flex w-full max-w-[75rem] flex-col gap-6 px-3.5 tablet:px-6">
