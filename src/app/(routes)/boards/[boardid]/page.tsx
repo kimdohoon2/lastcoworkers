@@ -9,6 +9,7 @@ import getArticleDetail, {
 import CommentList from '@/app/components/boarddetail/CommentList';
 import BoardDetail from '@/app/components/boarddetail/BoardDetail';
 import BoardDetailSkeleton from '@/app/components/boarddetail/BoardDetailSkeleton';
+import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
 
 export default function BoardDetailPage() {
   const params = useParams();
@@ -20,15 +21,19 @@ export default function BoardDetailPage() {
     data: article,
     isLoading,
     isError,
+    error,
   } = useQuery<GetArticleDetailResponse>({
     queryKey: ['articleDetail', numericArticleId],
     queryFn: () => getArticleDetail({ articleId: numericArticleId }),
     enabled: !!articleId && !Number.isNaN(numericArticleId),
   });
 
-  if (isLoading) {
-    return <BoardDetailSkeleton />;
-  }
+  const isNotFound =
+    error?.message === 'not_found' || Number.isNaN(numericArticleId);
+
+  const { isRedirecting } = useRedirectIfNotFound(isNotFound);
+
+  if (isLoading || isRedirecting) return <BoardDetailSkeleton />;
 
   if (isError || !article) {
     return <div className="pt-20 text-center">게시물을 찾을 수 없습니다.</div>;

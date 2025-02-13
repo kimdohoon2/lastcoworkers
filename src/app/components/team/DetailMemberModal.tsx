@@ -28,15 +28,17 @@ function DetailMemberModal({ member, isOpen, closeModal }: DetailMemberProps) {
   return (
     <Modal hasCloseBtn isOpen={isOpen} closeModal={closeModal}>
       <div className="w-full px-12 text-center">
-        <div className="relative mx-auto mb-6 h-[2.875rem] w-[2.875rem] tablet:h-[3.25rem] tablet:w-[3.25rem]">
+        <div className="relative mx-auto mb-6 h-[2.875rem] w-[2.875rem] overflow-hidden rounded-full tablet:h-[3.25rem] tablet:w-[3.25rem]">
           {member.userImage ? (
             <Image src={member.userImage} fill alt="프로필 이미지" />
           ) : (
             <IconProfileEmpty className="h-full w-full" />
           )}
         </div>
-        <div className="mb-2 text-md font-medium">{member.userName}</div>
-        <div className="mb-6 text-xs text-text-secondary">
+        <div className="mb-2 overflow-hidden text-ellipsis text-md font-medium">
+          {member.userName}
+        </div>
+        <div className="mb-6 overflow-hidden text-ellipsis text-xs text-text-secondary">
           {member.userEmail}
         </div>
         <Button className="w-full text-text-inverse" onClick={handleClick}>
