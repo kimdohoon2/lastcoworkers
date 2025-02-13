@@ -17,6 +17,8 @@ import useAuthRedirect from '@/app/hooks/useAuthRedirect';
 import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 import { useTasksQuery } from '@/app/lib/task/getTask';
 import TaskCardSkeleton from '@/app/components/tasklist/TaskCardSkeleton';
+import Loading from '@/app/components/common/loading/Loading';
+import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
 
 function TaskListPage() {
   const { isLoading: isAuthLoading } = useAuthRedirect();
@@ -28,31 +30,40 @@ function TaskListPage() {
 
   const scrollRef = useSaveScroll('taskListScrollPosition');
 
-  const { data: groupData, isLoading: isTeamLoading } = useQuery({
+  const {
+    data: groupData,
+    isLoading: isTeamLoading,
+    error,
+  } = useQuery({
     queryKey: ['tasklists', Number(teamid)],
     queryFn: () => getGroupById(Number(teamid)),
   });
 
-  const { data: taskListData, isLoading: isTaskListLoading } = useTasksQuery(
-    Number(teamid),
-    Number(tasklist),
-    selectedDate,
-  );
-
-  const isLoading = isTeamLoading || (!groupData && !taskListData);
-
-  if (isAuthLoading) return <AuthCheckLoading />;
-  if (isLoading)
-    return (
-      <div className="flex h-screen items-center justify-center text-white">
-        Loading...
-      </div>
-    );
+  const {
+    data: taskListData,
+    isLoading: isTaskListLoading,
+    error: taskError,
+  } = useTasksQuery(Number(teamid), Number(tasklist), selectedDate);
 
   const handleOpenModal = (type: 'task' | 'list') => {
     setModalType(type);
     openModal();
   };
+
+  const isLoading =
+    isTeamLoading || (!groupData && !taskListData) || isTaskListLoading;
+
+  const isNotFound =
+    error?.message === 'not_found' ||
+    taskError?.message === 'not_found' ||
+    Number.isNaN(Number(teamid)) ||
+    Number.isNaN(Number(tasklist));
+
+  const { isRedirecting } = useRedirectIfNotFound(isNotFound);
+
+  if (isLoading || isRedirecting) return <Loading />;
+
+  if (isAuthLoading) return <AuthCheckLoading />;
 
   return (
     <div className="mx-auto mt-24 flex w-full max-w-[75rem] flex-col gap-6 px-3.5 tablet:px-6">
