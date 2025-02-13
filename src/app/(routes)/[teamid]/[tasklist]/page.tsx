@@ -1,32 +1,33 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import useModal from '@/app/hooks/useModal';
+import useSaveScroll from '@/app/hooks/useSaveScroll';
+import useAuthRedirect from '@/app/hooks/useAuthRedirect';
+import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
+import { useTasksQuery } from '@/app/lib/task/getTask';
+import getGroupById from '@/app/lib/group/getGroupById';
+import { formatDateISO } from '@/app/utils/formatDate';
+import Button from '@/app/components/common/button/Button';
+import Loading from '@/app/components/common/loading/Loading';
+import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 import DatePicker from '@/app/components/tasklist/DatePicker';
 import TaskCardList from '@/app/components/tasklist/TaskCardList';
 import CreateTaskModal from '@/app/components/tasklist/CreateTaskModal';
-import useModal from '@/app/hooks/useModal';
-import Button from '@/app/components/common/button/Button';
 import CreateListModal from '@/app/components/tasklist/CreateListModal';
-import { useParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import getGroupById from '@/app/lib/group/getGroupById';
-import Link from 'next/link';
-import { getLocalDateString } from '@/app/utils/formatDate';
-import useSaveScroll from '@/app/hooks/useSaveScroll';
-import useAuthRedirect from '@/app/hooks/useAuthRedirect';
-import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
-import { useTasksQuery } from '@/app/lib/task/getTask';
 import TaskCardSkeleton from '@/app/components/tasklist/TaskCardSkeleton';
-import Loading from '@/app/components/common/loading/Loading';
-import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
 
 function TaskListPage() {
   const { isLoading: isAuthLoading } = useAuthRedirect();
   const { teamid, tasklist } = useParams();
   const { isOpen, openModal, closeModal } = useModal();
   const [modalType, setModalType] = useState<'list' | 'task' | null>(null);
-  const [selectedDate, setSelectedDate] =
-    useState<string>(getLocalDateString());
+  const [selectedDate, setSelectedDate] = useState<string>(
+    formatDateISO(new Date()),
+  );
 
   const scrollRef = useSaveScroll('taskListScrollPosition');
 

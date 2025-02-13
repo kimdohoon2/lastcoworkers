@@ -24,12 +24,10 @@ const formatDateShort = (dateString: string | undefined) => {
 };
 
 // YYYY-MM-DD
-const getLocalDateString = (): string => {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+const formatDateISO = (date: Date): string => {
+  return `${date.getFullYear()}-${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 };
 
-export { formatDate, formatDateShort, getLocalDateString };
+export { formatDate, formatDateShort, formatDateISO };
