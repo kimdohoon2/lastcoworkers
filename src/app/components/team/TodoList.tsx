@@ -29,7 +29,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { GroupTask } from '@/app/types/grouptask';
 import { editTaskListOrder } from '@/app/lib/tasklist/patchTaskList';
 import { AxiosError } from 'axios';
-import TodoListSkeleton from './TodoListSkeleton';
+import TodoListSkeleton from '@/app/components/team/TodoListSkeleton';
 
 interface TodoListProps {
   groupId: number;
@@ -131,6 +131,8 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
     }
     setActiveId(null);
   };
+
+  if (isError) return null;
 
   return (
     <div className="mx-auto my-6 max-w-[75rem]">

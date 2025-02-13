@@ -4,8 +4,8 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import getUser, { GetUserResponse, Membership } from '@/app/lib/user/getUser';
 import TeamThumbnail from '@/app/components/icons/TeamThumbnail';
-import HeaderDropdown from './HeaderDropdown';
-import TeamHeaderSkeleton from './TeamHeaderSkelton';
+import HeaderDropdown from '@/app/components/team/HeaderDropdown';
+import TeamHeaderSkeleton from '@/app/components/team/TeamHeaderSkelton';
 
 interface HeaderProps {
   groupName: string;

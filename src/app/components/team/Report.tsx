@@ -2,11 +2,11 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import getTaskList, { GetTaskListResponse } from '@/app/lib/group/getTaskList';
 import getTodayDate from '@/app/utils/getTodayDate';
-import IconReportTodo from '../icons/IconReportTodo';
-import IconReportDone from '../icons/IconReportDone';
-import ProgressChart from './ProgressChart';
-import TaskSummaryCard from './TaskSummaryCard';
-import ReportSkeleton from './ReportSkeleton';
+import IconReportTodo from '@/app/components/icons/IconReportTodo';
+import IconReportDone from '@/app/components/icons/IconReportDone';
+import ProgressChart from '@/app/components/team/ProgressChart';
+import TaskSummaryCard from '@/app/components/team/TaskSummaryCard';
+import ReportSkeleton from '@/app/components/team/ReportSkeleton';
 
 interface ReportProps {
   groupId: number;
