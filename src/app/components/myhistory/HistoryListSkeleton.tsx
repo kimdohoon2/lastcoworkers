@@ -10,7 +10,7 @@ export default function HistoryListSkeleton() {
       {/* 날짜 제목 스켈레톤 */}
       {dateKeys.map((dateKey) => (
         <div key={dateKey}>
-          <div className="mb-4 h-5 w-40 animate-pulse rounded bg-background-tertiary" />
+          <div className="mb-4 h-5 w-40 animate-pulse rounded-lg bg-background-tertiary" />
           <ul className="flex flex-col gap-5">
             {/* 리스트 아이템 스켈레톤 */}
             {itemKeys.map((itemKey) => (
