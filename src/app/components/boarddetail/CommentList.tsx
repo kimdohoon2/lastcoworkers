@@ -121,7 +121,6 @@ export default function CommentList() {
       <AddComment />
 
       <div className="mt-8 flex flex-col gap-4 tablet:mt-10">
-
         {data?.pages.map((page) =>
           page.list.map((comment) => {
             // 현재 로그인한 사용자가 해당 댓글의 작성자인지 확인
@@ -130,13 +129,11 @@ export default function CommentList() {
               String(currentUserId) === String(comment.writer.id);
 
             return (
-
               <div
                 key={comment.id}
                 className="rounded-lg border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary p-4"
               >
                 <div className="flex flex-col gap-8">
-
                   {editingCommentId === comment.id ? (
                     <div className="relative flex flex-col">
                       <input
@@ -179,7 +176,6 @@ export default function CommentList() {
                   )}
 
                   {editingCommentId !== comment.id && (
-
                     <div className="flex items-center gap-2">
                       {comment.writer.image ? (
                         <Image
@@ -196,7 +192,6 @@ export default function CommentList() {
                         {comment.writer.nickname}
                       </p>
                       <p className="border-l-[0.063rem] border-text-primary border-opacity-10 pl-2 text-xs text-text-disabled tablet:text-md">
-
                         {new Date(comment.createdAt)
                           .toLocaleDateString()
                           .replace(/\.$/, '')}
@@ -207,7 +202,6 @@ export default function CommentList() {
               </div>
             );
           }),
-
         )}
       </div>
 
