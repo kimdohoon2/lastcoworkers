@@ -144,7 +144,7 @@ export default function CommonAriticleCard({
               <p
                 className={`hidden text-xs text-text-disabled tablet:block tablet:text-md ${isOnlyTablet ? 'tablet:hidden' : ''}`}
               >
-                {new Date(updatedAt).toLocaleDateString()}
+                {new Date(updatedAt).toLocaleDateString().replace(/\.$/, '')}
               </p>
             </div>
             <div className="flex items-center gap-1">
