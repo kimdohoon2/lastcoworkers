@@ -173,11 +173,6 @@ export default function BoardDetail({ article }: BoardDetailProps) {
         onClose={closeModal}
         articleId={article.id}
       />
-      <DeleteArticleModal
-        isOpen={isOpen}
-        onClose={closeModal}
-        articleId={article.id}
-      />
     </>
   );
 }
