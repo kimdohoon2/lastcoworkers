@@ -2,7 +2,7 @@ import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import postArticleComment from '@/app/lib/articlecomment/postArticleComment';
-import Button from '../common/button/Button';
+import Button from '@/app/components/common/button/Button';
 
 export default function AddComment() {
   const params = useParams();

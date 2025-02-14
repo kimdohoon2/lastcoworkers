@@ -6,9 +6,9 @@ import useModal from '@/app/hooks/useModal';
 import getUser, { GetUserResponse } from '@/app/lib/user/getUser';
 import { SignInResponse, FormData } from '@/app/types/AuthType';
 import postSignInApi from '@/app/lib/auth/postSignInApi';
-import Input from '../common/input/Input';
-import Button from '../common/button/Button';
-import ResetPasswordModal from './ResetPasswordModal';
+import Input from '@/app/components/common/input/Input';
+import Button from '@/app/components/common/button/Button';
+import ResetPasswordModal from '@/app/components/mypage/ResetPasswordModal';
 
 export default function ResetPassword() {
   const methods = useForm<FormData>();

@@ -4,8 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import getHistory, { Task } from '@/app/lib/user/getHistory';
 import { formatDate } from '@/app/utils/formatDate';
 import useAuthRedirect from '@/app/hooks/useAuthRedirect';
-import IconCheckBox from '../icons/IconCheckBox';
-import HistoryListSkeleton from './HistoryListSkeleton';
+import IconCheckBox from '@/app/components/icons/IconCheckBox';
+import HistoryListSkeleton from '@/app/components/myhistory/HistoryListSkeleton';
 
 // task.date 기준으로 데이터 그룹화
 const groupByDate = (tasks: Task[]) => {

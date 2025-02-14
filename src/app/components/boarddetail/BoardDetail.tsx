@@ -17,9 +17,9 @@ import Dropdown from '@/app/components/common/dropdown/Dropdown';
 import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
-import BoardsLikeBox from '../boards/BoardsLikeBox';
-import DeleteArticleModal from './DeleteArticleModal';
-import Button from '../common/button/Button';
+import BoardsLikeBox from '@/app/components/boards/BoardsLikeBox';
+import DeleteArticleModal from '@/app/components/boarddetail/DeleteArticleModal';
+import Button from '@/app/components/common/button/Button';
 
 interface BoardDetailProps {
   article: GetArticleDetailResponse;

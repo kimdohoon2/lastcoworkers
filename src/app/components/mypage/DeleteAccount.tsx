@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 import { logout } from '@/app/stores/auth/authSlice';
 import deleteUser, { DeleteUserResponse } from '@/app/lib/user/deleteUser';
 import useModal from '@/app/hooks/useModal';
-import ConfirmModal from '../common/modal/ConfirmModal';
-import IconSubtract from '../icons/IconSubtract';
+import ConfirmModal from '@/app/components/common/modal/ConfirmModal';
+import IconSubtract from '@/app/components/icons/IconSubtract';
 
 export default function DeleteAccount() {
   const dispatch = useDispatch();

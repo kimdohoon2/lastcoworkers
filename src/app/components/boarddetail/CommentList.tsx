@@ -21,10 +21,10 @@ import deleteArticleComment, {
 } from '@/app/lib/articlecomment/deleteArticleComment';
 import Image from 'next/image';
 
-import AddComment from './AddComment';
-import CommentDropdown from './CommentDropdown';
-import Button from '../common/button/Button';
-import IconMember from '../icons/IconMember';
+import AddComment from '@/app/components/boarddetail/AddComment';
+import CommentDropdown from '@/app/components/boarddetail/CommentDropdown';
+import Button from '@/app/components/common/button/Button';
+import IconMember from '@/app/components/icons/IconMember';
 
 export default function CommentList() {
   const params = useParams();
