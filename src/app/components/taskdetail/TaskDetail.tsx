@@ -207,7 +207,7 @@ function TaskDetail({
               date={date}
               frequency={frequency}
               startDate={startDate}
-              showStartDate
+              showStartTime
             />
           </div>
 

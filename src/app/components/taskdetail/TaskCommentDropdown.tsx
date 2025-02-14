@@ -1,29 +1,31 @@
+import { Dispatch, SetStateAction, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import useDropdown from '@/app/hooks/useDropdown';
 import { useAppSelector } from '@/app/stores/hooks';
-import { Dispatch, SetStateAction, useState } from 'react';
 import { useDeleteTaskCommentMutation } from '@/app/lib/comment/deleteComment';
-import { useQueryClient } from '@tanstack/react-query';
-import Dropdown from '../common/dropdown/Dropdown';
-import DropdownItem from '../common/dropdown/DropdownItem';
-import DropdownList from '../common/dropdown/DropdownList';
-import DropdownToggle from '../common/dropdown/DropdownToggle';
-import TaskCardDropdown from '../icons/TaskCardDropdown';
-import DeleteCommentModal from './DeleteCommentModal';
+import TaskCardDropdown from '@/app/components/icons/TaskCardDropdown';
+import Dropdown from '@/app/components/common/dropdown/Dropdown';
+import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
+import DropdownList from '@/app/components/common/dropdown/DropdownList';
+import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
+import DeleteCommentModal from '@/app/components/taskdetail/DeleteCommentModal';
 
-export default function TaskCommentMenu({
-  taskId,
-  commentId,
-  onEdit,
-  setIsModalOpen,
-}: {
+interface TaskCommentDropdownProps {
   taskId: number;
   commentId: number;
   onEdit: () => void;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
-}) {
+}
+
+export default function TaskCommentDropdown({
+  taskId,
+  commentId,
+  onEdit,
+  setIsModalOpen,
+}: TaskCommentDropdownProps) {
   const queryClient = useQueryClient();
   const task = useAppSelector((state) => state.tasks.taskById[taskId]);
-  const { mutate: deleteComment } = useDeleteTaskCommentMutation();
+  const { mutate: deleteComment, isPending } = useDeleteTaskCommentMutation();
 
   const {
     isOpen: isDropdownOpen,
@@ -90,6 +92,7 @@ export default function TaskCommentMenu({
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onDelete={handleDelete}
+        isConfirmDisabled={isPending}
       />
     </>
   );

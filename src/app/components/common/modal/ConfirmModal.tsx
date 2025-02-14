@@ -3,14 +3,16 @@
 import Button from '@/app/components/common/button/Button';
 import Modal from '@/app/components/common/modal/Modal';
 import IconAlert from '@/app/components/icons/IconAlert';
+import { ReactElement } from 'react';
 
 interface ConfirmModalInterface {
-  title: string;
+  title: string | ReactElement;
   cancelLabel?: string;
   confirmLabel?: string;
   isModalOpen: boolean;
-  handleCancel: () => void;
+  handleCancel: (e?: React.MouseEvent) => void;
   handleConfirm: () => void;
+  isConfirmDisabled?: boolean;
 }
 
 function ConfirmModal({
@@ -20,6 +22,7 @@ function ConfirmModal({
   isModalOpen,
   handleCancel,
   handleConfirm,
+  isConfirmDisabled = false,
 }: ConfirmModalInterface) {
   return (
     <Modal isOpen={isModalOpen} closeModal={handleCancel}>
@@ -41,6 +44,7 @@ function ConfirmModal({
             onClick={handleConfirm}
             variant="danger"
             className="w-[8.5rem]"
+            disabled={isConfirmDisabled}
           >
             {confirmLabel || '회원 탈퇴'}
           </Button>
