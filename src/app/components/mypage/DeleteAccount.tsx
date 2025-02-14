@@ -1,18 +1,22 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
+import { useDispatch } from 'react-redux';
+import { logout } from '@/app/stores/auth/authSlice';
 import deleteUser, { DeleteUserResponse } from '@/app/lib/user/deleteUser';
 import useModal from '@/app/hooks/useModal';
 import ConfirmModal from '../common/modal/ConfirmModal';
 import IconSubtract from '../icons/IconSubtract';
 
 export default function DeleteAccount() {
+  const dispatch = useDispatch();
   const { isOpen: isModalOpen, openModal, closeModal } = useModal();
 
   const mutation = useMutation<DeleteUserResponse, Error>({
     mutationFn: deleteUser,
     onSuccess: () => {
       alert('회원 탈퇴가 완료되었습니다.');
+      dispatch(logout()); // Redux Store 초기화
       closeModal();
       window.location.href = '/';
     },
@@ -23,7 +27,6 @@ export default function DeleteAccount() {
 
   const handleDelete = () => {
     mutation.mutate();
-    closeModal();
   };
 
   return (
