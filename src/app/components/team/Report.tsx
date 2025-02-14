@@ -16,7 +16,7 @@ interface ReportProps {
 export default function Report({ groupId, taskLists = [] }: ReportProps) {
   const todayDate = getTodayDate();
 
-  const { data, isLoading, isError } = useQuery<GetTaskListResponse[]>({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['taskLists', groupId],
     queryFn: async () => {
       const responses = await Promise.all(
@@ -32,14 +32,18 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
   if (isLoading) return <ReportSkeleton />;
   if (isError) return <div className="text-red-500">데이터 오류 발생</div>;
 
+  const dataArray = (
+    Array.isArray(data) ? data : Object.values(data ?? {})
+  ) as GetTaskListResponse[];
+
   const totalTasks =
-    data?.reduce(
+    dataArray.reduce(
       (acc: number, taskList: GetTaskListResponse) =>
         acc + taskList.tasks.length,
       0,
     ) ?? 0;
   const completedTasks =
-    data?.reduce(
+    dataArray.reduce(
       (acc: number, taskList: GetTaskListResponse) =>
         acc + taskList.tasks.filter((task) => task.doneAt).length,
       0,

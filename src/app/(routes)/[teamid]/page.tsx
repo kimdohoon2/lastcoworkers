@@ -31,7 +31,8 @@ export default function TeamPage() {
         ? getGroup({ id: groupId })
         : Promise.reject(new Error('No ID provided')),
     enabled: !!groupId,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
+    refetchOnMount: 'always',
   });
 
   const isNotFound =

@@ -17,7 +17,7 @@ import {
   arrayMove,
 } from '@dnd-kit/sortable';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import getTaskList from '@/app/lib/group/getTaskList';
+import getTaskList, { GetTaskListResponse } from '@/app/lib/group/getTaskList';
 import { createTaskList } from '@/app/lib/tasklist/postTaskList';
 import TodoListItem from '@/app/components/team/TodoListItem';
 import getTodayDate from '@/app/utils/getTodayDate';
@@ -26,7 +26,7 @@ import Modal from '@/app/components/common/modal/Modal';
 import Button from '@/app/components/common/button/Button';
 import Input from '@/app/components/common/input/Input';
 import { useForm, FormProvider } from 'react-hook-form';
-import { GroupTask } from '@/app/types/grouptask';
+import { GroupResponse, GroupTask } from '@/app/types/grouptask';
 import { editTaskListOrder } from '@/app/lib/tasklist/patchTaskList';
 import { AxiosError } from 'axios';
 import TodoListSkeleton from '@/app/components/team/TodoListSkeleton';
@@ -70,7 +70,12 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
           getTaskList({ groupId, taskListId: taskList.id, date: todayDate }),
         ),
       );
-      return responses;
+      const mappedResponses: Record<number, GetTaskListResponse> = {};
+      responses.forEach((response, index) => {
+        const taskList = items[index];
+        mappedResponses[taskList.id] = response;
+      });
+      return mappedResponses;
     },
     staleTime: 5 * 60 * 1000,
     refetchOnMount: 'always',
@@ -128,6 +133,16 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
         id: Number(active.id),
         displayIndex: newIndex,
       });
+      queryClient.setQueryData<GroupResponse>(
+        ['group', groupId],
+        (oldData?: GroupResponse): GroupResponse | undefined => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            taskLists: newItems,
+          };
+        },
+      );
     }
     setActiveId(null);
   };
@@ -212,11 +227,7 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
                   backgroundColor={
                     backgroundColors[taskList.id % backgroundColors.length]
                   }
-                  taskListData={
-                    data?.[
-                      items.findIndex((item) => item.id === taskList.id)
-                    ] || { tasks: [] }
-                  }
+                  taskListData={data?.[taskList.id] || { tasks: [] }}
                 />
               ))}
             </div>
@@ -235,11 +246,7 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
                       taskList={activeTask as GroupTask}
                       groupId={groupId}
                       backgroundColor={overlayBg}
-                      taskListData={
-                        data?.[
-                          items.findIndex((item) => item.id === activeId)
-                        ] || { tasks: [] }
-                      }
+                      taskListData={data?.[activeId] || { tasks: [] }}
                     />
                   );
                 })()}

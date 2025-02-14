@@ -17,6 +17,7 @@ import TaskCardDropdown from '@/app/components/icons/TaskCardDropdown';
 import useModal from '@/app/hooks/useModal';
 import IconAlert from '@/app/components/icons/IconAlert';
 import { AxiosError } from 'axios';
+import { GroupResponse, GroupTask } from '@/app/types/grouptask';
 
 interface DropdownMenuProps {
   groupId: number;
@@ -59,7 +60,18 @@ export default function TaskListDropdown({
   const deleteMutation = useMutation({
     mutationFn: () => deleteTaskList({ groupId, id: taskListId }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['taskLists', groupId] });
+      queryClient.setQueryData<GroupResponse>(
+        ['group', groupId],
+        (oldData?: GroupResponse): GroupResponse | undefined => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            taskLists: oldData.taskLists.filter(
+              (tl: GroupTask) => tl.id !== taskListId,
+            ),
+          };
+        },
+      );
       queryClient.invalidateQueries({ queryKey: ['group', groupId] });
       deleteModal.closeModal();
     },
