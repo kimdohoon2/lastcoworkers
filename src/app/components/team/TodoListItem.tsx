@@ -33,11 +33,23 @@ export default function TodoListItem({
     transition,
     isDragging,
   } = useSortable({ id });
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.8 : 1,
   };
+
+  if (isDragging) {
+    return (
+      <div
+        ref={setNodeRef}
+        {...attributes}
+        {...listeners}
+        style={style}
+        className="mt-4 h-10 w-full rounded-xl border border-background-inverse"
+      />
+    );
+  }
 
   const tasks = taskListData.tasks || [];
   const completedItems = tasks.filter((task) => task.doneAt !== null).length;
