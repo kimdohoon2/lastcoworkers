@@ -8,8 +8,8 @@ import getArticleDetail, {
 
 import CommentList from '@/app/components/boarddetail/CommentList';
 import BoardDetail from '@/app/components/boarddetail/BoardDetail';
+import BoardDetailSkeleton from '@/app/components/boarddetail/BoardDetailSkeleton';
 import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
-import Loading from '@/app/components/common/loading/Loading';
 
 export default function BoardDetailPage() {
   const params = useParams();
@@ -33,7 +33,7 @@ export default function BoardDetailPage() {
 
   const { isRedirecting } = useRedirectIfNotFound(isNotFound);
 
-  if (isLoading || isRedirecting) return <Loading />;
+  if (isLoading || isRedirecting) return <BoardDetailSkeleton />;
 
   if (isError || !article) {
     return <div className="pt-20 text-center">게시물을 찾을 수 없습니다.</div>;

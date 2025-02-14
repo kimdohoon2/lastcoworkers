@@ -1,13 +1,13 @@
-import { Comment } from '@/app/lib/comment/getComment';
-import { getTimeDifference } from '@/app/utils/formatTime';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { useEditTaskCommentMutation } from '@/app/lib/comment/patchComment';
 import Image from 'next/image';
 import { useSelector } from 'react-redux';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { RootState } from '@/app/stores/store';
-import TaskDetailProfile from '../icons/TaskDetailProfile';
-import TaskCommentMenu from './TaskCommentDropdown';
-import Button from '../common/button/Button';
+import { Comment } from '@/app/lib/comment/getComment';
+import { getTimeDifference } from '@/app/utils/formatTime';
+import { useEditTaskCommentMutation } from '@/app/lib/comment/patchComment';
+import Button from '@/app/components/common/button/Button';
+import TaskDetailProfile from '@/app/components/icons/TaskDetailProfile';
+import TaskCommentDropdown from '@/app/components/taskdetail/TaskCommentDropdown';
 
 interface TaskCommentItemProps {
   taskId: number;
@@ -33,7 +33,7 @@ function TaskCommentCard({
   };
 
   const handleCancelClick = () => {
-    setEditedComment(comment.content);
+    setEditedComment(currentComment);
     setIsEditing(false);
   };
 
@@ -83,7 +83,7 @@ function TaskCommentCard({
               <p className="text-md text-text-primary">{currentComment}</p>
               <div className="min-h-[1.64rem]">
                 {isUserComment && (
-                  <TaskCommentMenu
+                  <TaskCommentDropdown
                     taskId={taskId}
                     commentId={comment.id}
                     onEdit={handleEditClick}

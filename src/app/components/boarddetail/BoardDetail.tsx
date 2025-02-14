@@ -12,11 +12,12 @@ import Image from 'next/image';
 import useModal from '@/app/hooks/useModal';
 import IconMore from '@/app/components/icons/IconMore';
 import IconComment from '@/app/components/icons/IconComment';
-import BoardsLikeBox from '../boards/BoardsLikeBox';
+
 import Dropdown from '@/app/components/common/dropdown/Dropdown';
 import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
+import BoardsLikeBox from '../boards/BoardsLikeBox';
 import DeleteArticleModal from './DeleteArticleModal';
 import Button from '../common/button/Button';
 
