@@ -1,16 +1,22 @@
 'use client';
 
-import ProfileChanger from '@/app/components/mypage/ProflieChanger';
 import { useForm } from 'react-hook-form';
 import { useQuery } from '@tanstack/react-query';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/stores/store';
 import getUser, { GetUserResponse } from '@/app/lib/user/getUser';
 import DeleteAccount from '@/app/components/mypage/DeleteAccount';
 import ResetPassword from '@/app/components/mypage/ResetPassword';
 import NicknameChanger from '@/app/components/mypage/NicknameChanger';
+import ProfileChanger from '@/app/components/mypage/ProflieChanger';
+import useAuthRedirect from '@/app/hooks/useAuthRedirect';
 
 export default function MyPage() {
   const method = useForm();
   const { register } = method;
+  const { isLoading: isAuthLoading } = useAuthRedirect();
+
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
 
   const {
     data: userData,
@@ -20,10 +26,11 @@ export default function MyPage() {
   } = useQuery<GetUserResponse>({
     queryKey: ['user'],
     queryFn: getUser,
+    enabled: !!accessToken, // 로그인 상태일 때만 실행
   });
 
-  if (isLoading) {
-    return <div className="text-center">사용자 정보를 불러오는 중</div>;
+  if (isAuthLoading || isLoading) {
+    return <div className="text-center">사용자 정보를 불러오는 중...</div>;
   }
 
   if (isError) {
