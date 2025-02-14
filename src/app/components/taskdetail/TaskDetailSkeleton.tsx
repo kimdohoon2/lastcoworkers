@@ -1,5 +1,5 @@
-import TaskCommentInput from './TaskCommentInput';
-import TaskCommentSkeleton from './TaskCommentSkeleton';
+import TaskCommentInput from '@/app/components/taskdetail/TaskCommentInput';
+import TaskCommentSkeleton from '@/app/components/taskdetail/TaskCommentSkeleton';
 
 function TaskDetailSkeleton() {
   return (

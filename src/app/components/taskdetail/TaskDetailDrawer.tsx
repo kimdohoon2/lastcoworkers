@@ -1,9 +1,9 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import useClickOutside from '@/app/hooks/useClickOutside';
-import { useEffect, useRef, useState } from 'react';
-import TaskDetail from './TaskDetail';
+import TaskDetail from '@/app/components/taskdetail/TaskDetail';
 
 interface TaskDetailDrawerProps {
   isOpen: boolean;
@@ -25,9 +25,7 @@ function TaskDetailDrawer({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
-      setShouldRender(true);
-    }
+    if (isOpen) setShouldRender(true);
   }, [isOpen]);
 
   const closeDrawer = () => {
@@ -35,14 +33,13 @@ function TaskDetailDrawer({
       setIsModalOpen(false);
       setTimeout(() => {
         setShouldRender(false);
-        setTimeout(onClose, 300);
-      }, 100);
+        onClose();
+      }, 150);
       return;
     }
+
     setShouldRender(false);
-    setTimeout(() => {
-      onClose();
-    }, 300);
+    setTimeout(onClose, 200);
   };
 
   useClickOutside(drawerRef, () => {
@@ -60,7 +57,6 @@ function TaskDetailDrawer({
             className="fixed inset-0 bg-black/30 transition-opacity"
             onClick={closeDrawer}
           />
-
           <motion.div
             ref={drawerRef}
             initial={{ x: '100%' }}

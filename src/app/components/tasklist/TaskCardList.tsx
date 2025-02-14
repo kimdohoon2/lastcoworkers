@@ -14,24 +14,27 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { useAppDispatch } from '@/app/stores/hooks';
-import { setTasks } from '@/app/stores/tasksSlice';
-import { useEditTaskOrderMutation } from '@/app/lib/task/patchTask';
 import { Task } from '@/app/types/task';
-import TaskDetailDrawer from '../taskdetail/TaskDetailDrawer';
-import SortableTaskCard from './SortableTaskCard';
+import { setTasks } from '@/app/stores/tasksSlice';
+import { useAppDispatch } from '@/app/stores/hooks';
+import { useEditTaskOrderMutation } from '@/app/lib/task/patchTask';
+import SortableTaskCard from '@/app/components/tasklist/SortableTaskCard';
+import TaskDetailDrawer from '@/app/components/taskdetail/TaskDetailDrawer';
+
+interface TaskCardListProps {
+  groupId: number;
+  taskListId: number;
+  taskListData: Task[];
+}
 
 function TaskCardList({
   groupId,
   taskListId,
   taskListData,
-}: {
-  groupId: number;
-  taskListId: number;
-  taskListData: Task[];
-}) {
+}: TaskCardListProps) {
   const dispatch = useAppDispatch();
   const { mutate: editTaskOrderMutation } = useEditTaskOrderMutation();
+
   const [tasksState, setTasksState] = useState<Task[]>(taskListData || []);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
@@ -44,9 +47,7 @@ function TaskCardList({
   }, [taskListData, dispatch]);
 
   useEffect(() => {
-    if (isDrawerOpen) {
-      document.body.style.overflow = 'hidden';
-    }
+    document.body.style.overflow = isDrawerOpen ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
@@ -75,7 +76,6 @@ function TaskCardList({
     }
   };
 
-  // 드래그가 끝나면 호출되는 함수
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -96,22 +96,15 @@ function TaskCardList({
     }
   };
 
-  // 드래그 센서: 10px 이상 이동하면 드래그로 감지
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: { distance: 10 },
-    }),
+    useSensor(PointerSensor, { activationConstraint: { distance: 10 } }),
   );
 
-  if (!taskListData || taskListData.length === 0) {
-    return (
-      <div className="mt-[11.9375rem] flex justify-center text-md text-text-default tablet:mt-[21.5625rem] lg:mt-[19.375rem]">
-        아직 할 일이 없습니다. <br /> 할 일을 추가해보세요.
-      </div>
-    );
-  }
-
-  return (
+  return tasksState.length === 0 ? (
+    <div className="mt-[12rem] flex justify-center text-md text-text-default tablet:mt-[18rem]">
+      아직 할 일이 없습니다. <br /> 할 일을 추가해보세요.
+    </div>
+  ) : (
     <DndContext
       collisionDetection={closestCenter}
       sensors={sensors}

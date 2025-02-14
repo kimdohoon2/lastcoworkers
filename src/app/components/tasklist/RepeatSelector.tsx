@@ -1,15 +1,15 @@
 'use client';
 
+import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { MONTH_DAYS, WEEK_DAYS } from '@/app/constants/dateConstants';
-import useDropdown from '@/app/hooks/useDropdown';
-import clsx from 'clsx';
 import { FrequencyType, RecurringTaskDataBody } from '@/app/types/task';
-import IconToggle from '../icons/IconToggle';
-import Dropdown from '../common/dropdown/Dropdown';
-import DropdownToggle from '../common/dropdown/DropdownToggle';
-import DropdownList from '../common/dropdown/DropdownList';
-import DropdownItem from '../common/dropdown/DropdownItem';
+import useDropdown from '@/app/hooks/useDropdown';
+import IconToggle from '@/app/components/icons/IconToggle';
+import Dropdown from '@/app/components/common/dropdown/Dropdown';
+import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
+import DropdownList from '@/app/components/common/dropdown/DropdownList';
+import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 
 interface RepeatSelectorProps {
   onRepeatChange: (repeatData: RecurringTaskDataBody) => void;
@@ -24,25 +24,25 @@ export default function RepeatSelector({
     useDropdown();
 
   useEffect(() => {
+    let repeatData: RecurringTaskDataBody;
+
     if (currentItem === '월 반복') {
-      onRepeatChange({
+      repeatData = {
         frequencyType: FrequencyType.MONTHLY,
         monthDay: selectedMonthDay,
-      });
+      };
     } else if (currentItem === '주 반복') {
-      onRepeatChange({
+      repeatData = {
         frequencyType: FrequencyType.WEEKLY,
         weekDays: selectedWeekDays,
-      });
+      };
     } else if (currentItem === '매일') {
-      onRepeatChange({
-        frequencyType: FrequencyType.DAILY,
-      });
+      repeatData = { frequencyType: FrequencyType.DAILY };
     } else {
-      onRepeatChange({
-        frequencyType: FrequencyType.ONCE,
-      });
+      repeatData = { frequencyType: FrequencyType.ONCE };
     }
+
+    onRepeatChange(repeatData);
   }, [currentItem, selectedWeekDays, selectedMonthDay, onRepeatChange]);
 
   const handleWeekDaySelect = (day: number) => {

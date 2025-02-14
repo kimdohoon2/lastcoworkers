@@ -1,21 +1,21 @@
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useTaskQuery } from '@/app/lib/task/getTask';
-import { formatDateShort } from '@/app/utils/formatDate';
 import { useQueryClient } from '@tanstack/react-query';
 import { FormProvider, useForm } from 'react-hook-form';
+import { formatDateShort } from '@/app/utils/formatDate';
 import { useEditTaskMutation } from '@/app/lib/task/patchTask';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import Image from 'next/image';
 import { useTaskCommentQuery } from '@/app/lib/comment/getComment';
-import Input from '../common/input/Input';
-import Button from '../common/button/Button';
-import IconCheck from '../icons/IconCheck';
-import IconCancel from '../icons/IconCancel';
-import TaskDetailProfile from '../icons/TaskDetailProfile';
-import TaskDetailDropdown from './TaskDetailDropdown';
-import DateRepeatInfo from '../tasklist/DateRepeatInfo';
-import TaskComments from './TaskComment';
-import TaskDetailSkeleton from './TaskDetailSkeleton';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import Input from '@/app/components/common/input/Input';
+import Button from '@/app/components/common/button/Button';
+import IconCheck from '@/app/components/icons/IconCheck';
+import IconCancel from '@/app/components/icons/IconCancel';
+import TaskComment from '@/app/components/taskdetail/TaskComment';
+import DateRepeatInfo from '@/app/components/tasklist/DateRepeatInfo';
+import TaskDetailProfile from '@/app/components/icons/TaskDetailProfile';
+import TaskDetailDropdown from '@/app/components/taskdetail/TaskDetailDropdown';
+import TaskDetailSkeleton from '@/app/components/taskdetail/TaskDetailSkeleton';
 
 interface TaskDetailProps {
   groupId: number;
@@ -49,10 +49,7 @@ function TaskDetail({
 
   const methods = useForm({
     mode: 'onChange',
-    defaultValues: {
-      name: '',
-      description: '',
-    },
+    defaultValues: { name: '', description: '' },
   });
 
   const {
@@ -65,10 +62,7 @@ function TaskDetail({
 
   useEffect(() => {
     if (task) {
-      reset({
-        name: task.name || '',
-        description: task.description || '',
-      });
+      reset({ name: task.name || '', description: task.description || '' });
     }
   }, [task, reset]);
 
@@ -79,11 +73,7 @@ function TaskDetail({
   if (!task) return <p>데이터가 존재하지 않습니다.</p>;
 
   const { doneAt, date, frequency, writer, recurring } = task;
-  const startDate = recurring?.startDate;
-  const createDate = recurring?.createdAt;
-
-  const nameValue = watch('name');
-  const descriptionValue = watch('description');
+  const { name: nameValue, description: descriptionValue } = watch();
 
   const toggleDone = () => {
     editTask(
@@ -193,6 +183,7 @@ function TaskDetail({
                     alt="Profile"
                     width={32}
                     height={32}
+                    className="h-8 w-8 rounded-full object-cover"
                   />
                 ) : (
                   <TaskDetailProfile />
@@ -200,13 +191,13 @@ function TaskDetail({
                 <p className="text-md">{writer.nickname}</p>
               </div>
               <p className="text-text-secondary">
-                {formatDateShort(createDate)}
+                {formatDateShort(recurring?.createdAt)}
               </p>
             </div>
             <DateRepeatInfo
               date={date}
               frequency={frequency}
-              startDate={startDate}
+              startDate={recurring?.startDate}
               showStartTime
             />
           </div>
@@ -260,7 +251,7 @@ function TaskDetail({
               {descriptionValue}
             </p>
           )}
-          <TaskComments taskId={taskId} setIsModalOpen={setIsModalOpen} />
+          <TaskComment taskId={taskId} setIsModalOpen={setIsModalOpen} />
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{
