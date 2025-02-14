@@ -46,7 +46,7 @@ export default function ArticleChanger({
           value={title}
           onChange={handleTitleChange}
           placeholder="제목을 입력해주세요."
-          className="w-full rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-3 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400"
+          className="w-full rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-3 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400 focus:border-interaction-focus focus:outline-none"
         />
       </div>
 
@@ -61,7 +61,7 @@ export default function ArticleChanger({
             onContentChange(e.target.value);
           }}
           placeholder="내용을 입력해주세요."
-          className="custom-scrollbar h-[15rem] w-full resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400"
+          className="custom-scrollbar h-[15rem] w-full resize-none rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-4 pl-4 placeholder:text-md placeholder:font-light placeholder:text-gray-400 focus:border-interaction-focus focus:outline-none"
         />
       </div>
     </div>

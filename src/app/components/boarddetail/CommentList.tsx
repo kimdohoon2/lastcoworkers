@@ -21,10 +21,10 @@ import deleteArticleComment, {
 } from '@/app/lib/articlecomment/deleteArticleComment';
 import Image from 'next/image';
 
-import AddComment from './AddComment';
-import CommentDropdown from './CommentDropdown';
-import Button from '../common/button/Button';
-import IconMember from '../icons/IconMember';
+import AddComment from '@/app/components/boarddetail/AddComment';
+import CommentDropdown from '@/app/components/boarddetail/CommentDropdown';
+import Button from '@/app/components/common/button/Button';
+import IconMember from '@/app/components/icons/IconMember';
 
 export default function CommentList() {
   const params = useParams();
@@ -136,14 +136,13 @@ export default function CommentList() {
                 <div className="flex flex-col gap-8">
                   {editingCommentId === comment.id ? (
                     <div className="relative flex flex-col">
-                      <input
-                        type="text"
-                        className="w-full bg-background-secondary pb-6 pt-0.5"
+                      <textarea
+                        className="custom-scrollbar flex h-20 w-full resize-none items-center justify-center rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-2 pl-4 text-start focus:border-interaction-focus focus:outline-none"
                         value={editedContent}
                         onChange={(e) => setEditedContent(e.target.value)}
                       />
 
-                      <div className="mt-2 flex justify-end gap-2">
+                      <div className="mt-4 flex justify-end gap-2">
                         <button
                           type="button"
                           onClick={handleEditCancel}
@@ -163,8 +162,11 @@ export default function CommentList() {
                       </div>
                     </div>
                   ) : (
-                    <div className="flex items-center justify-between">
-                      <span>{comment.content}</span>
+                    <div className="flex justify-between">
+                      <div className="w-[97%] whitespace-pre-wrap break-words break-all">
+                        {comment.content}
+                      </div>
+
                       {isCommentAuthor && (
                         <CommentDropdown
                           commentId={comment.id}

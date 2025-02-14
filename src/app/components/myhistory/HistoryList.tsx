@@ -3,8 +3,9 @@
 import { useQuery } from '@tanstack/react-query';
 import getHistory, { Task } from '@/app/lib/user/getHistory';
 import { formatDate } from '@/app/utils/formatDate';
-import IconCheckBox from '../icons/IconCheckBox';
-import HistoryLIstSkeleton from './HistoryListSkeleton';
+import useAuthRedirect from '@/app/hooks/useAuthRedirect';
+import IconCheckBox from '@/app/components/icons/IconCheckBox';
+import HistoryListSkeleton from '@/app/components/myhistory/HistoryListSkeleton';
 
 // task.date 기준으로 데이터 그룹화
 const groupByDate = (tasks: Task[]) => {
@@ -19,13 +20,15 @@ const groupByDate = (tasks: Task[]) => {
 };
 
 export default function HistoryList() {
+  const { isLoading: isAuthLoading } = useAuthRedirect();
+
   const { data, error, isLoading } = useQuery({
     queryKey: ['history'],
     queryFn: getHistory,
   });
 
-  if (isLoading) {
-    return <HistoryLIstSkeleton />;
+  if (isLoading || isAuthLoading) {
+    return <HistoryListSkeleton />;
   }
 
   if (error) {

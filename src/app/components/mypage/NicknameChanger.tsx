@@ -17,7 +17,12 @@ export default function NicknameChanger({
   refetchUser,
 }: NicknameChangerProps) {
   const methods = useForm({ defaultValues: { nickname: currentNickname } });
-  const { watch, handleSubmit } = methods;
+  const {
+    watch,
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = methods;
   const { isOpen, openModal, closeModal } = useModal();
   const newNickname = watch('nickname');
 
@@ -53,8 +58,12 @@ export default function NicknameChanger({
         <div className="relative flex w-full items-center">
           <input
             className="w-full rounded-xl border-[0.063rem] border-text-primary border-opacity-10 bg-background-secondary py-3 pl-4 focus:border-interaction-focus focus:outline-none"
-            {...methods.register('nickname', {
+            {...register('nickname', {
               required: '닉네임을 입력하세요.',
+              maxLength: {
+                value: 30,
+                message: '닉네임은 최대 30자까지 입력할 수 있습니다.',
+              },
             })}
             type="text"
             placeholder="새 닉네임 입력"
@@ -66,6 +75,13 @@ export default function NicknameChanger({
             </Button>
           </div>
         </div>
+
+        {/* 닉네임 길이 제한 오류 메시지 */}
+        {errors.nickname && (
+          <p className="ml-2 mt-3 text-sm text-point-red">
+            {errors.nickname.message}
+          </p>
+        )}
       </form>
 
       <Modal isOpen={isOpen} closeModal={closeModal} hasCloseBtn>

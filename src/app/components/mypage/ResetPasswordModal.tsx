@@ -3,9 +3,9 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import patchPassword from '@/app/lib/user/patchPassword';
-import Modal from '../common/modal/Modal';
-import Input from '../common/input/Input';
-import Button from '../common/button/Button';
+import Modal from '@/app/components/common/modal/Modal';
+import Input from '@/app/components/common/input/Input';
+import Button from '@/app/components/common/button/Button';
 
 interface FormData {
   newPassword: string;
