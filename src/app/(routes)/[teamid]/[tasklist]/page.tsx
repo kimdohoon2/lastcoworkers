@@ -46,6 +46,13 @@ function TaskListPage() {
     error: taskError,
   } = useTasksQuery(Number(teamid), Number(tasklist), selectedDate);
 
+  const handleDateChange = (date: Date) => {
+    const localDate = new Date(
+      date.getTime() - date.getTimezoneOffset() * 60000,
+    );
+    setSelectedDate(localDate.toISOString().split('T')[0]);
+  };
+
   const handleOpenModal = (type: 'task' | 'list') => {
     setModalType(type);
     openModal();
@@ -63,7 +70,6 @@ function TaskListPage() {
   const { isRedirecting } = useRedirectIfNotFound(isNotFound);
 
   if (isAuthLoading) return <AuthCheckLoading />;
-
   if (isLoading || isRedirecting) return <Loading />;
 
   return (
@@ -72,15 +78,10 @@ function TaskListPage() {
       <div className="flex justify-between">
         <DatePicker
           selectedDate={selectedDate}
-          onDateChange={(date: Date) => {
-            const localDate = new Date(
-              date.getTime() - date.getTimezoneOffset() * 60000,
-            );
-            setSelectedDate(localDate.toISOString().split('T')[0]);
-          }}
+          onDateChange={handleDateChange}
         />
         <button
-          className="text-md text-brand-primary hover:text-interaction-hover"
+          className="text-md text-brand-primary hover:underline"
           onClick={() => handleOpenModal('list')}
         >
           + 새로운 목록 추가하기
