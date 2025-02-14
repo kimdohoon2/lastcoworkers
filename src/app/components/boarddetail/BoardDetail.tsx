@@ -137,14 +137,6 @@ export default function BoardDetail({ article }: BoardDetailProps) {
             className="rounded-lg"
             objectFit="cover"
           />
-          <Image
-            src={article.image}
-            alt="게시글 이미지"
-            width={343}
-            height={343}
-            className="rounded-lg"
-            objectFit="cover"
-          />
         </div>
       )}
 

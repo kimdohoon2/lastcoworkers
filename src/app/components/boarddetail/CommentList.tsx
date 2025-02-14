@@ -163,7 +163,10 @@ export default function CommentList() {
                     </div>
                   ) : (
                     <div className="flex justify-between">
-                      <span>{comment.content}</span>
+                      <div className="w-[97%] whitespace-pre-wrap break-words break-all">
+                        {comment.content}
+                      </div>
+
                       {isCommentAuthor && (
                         <CommentDropdown
                           commentId={comment.id}
