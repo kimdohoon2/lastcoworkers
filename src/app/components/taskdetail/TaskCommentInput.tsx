@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCreateTaskCommentMutation } from '@/app/lib/comment/postComment';
-import CommentActive from '../icons/CommentActive';
-import CommentInactive from '../icons/CommentInactive';
+import CommentActive from '@/app/components/icons/CommentActive';
+import CommentInactive from '@/app/components/icons/CommentInactive';
 
 interface TaskCommentInputProps {
   taskId: number;

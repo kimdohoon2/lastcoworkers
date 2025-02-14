@@ -54,7 +54,7 @@ function TaskCommentCard({
   };
 
   return (
-    <li className="mb-4 border-b border-border-primary/10 bg-background-secondary pb-4">
+    <div className="mb-4 border-b border-border-primary/10 bg-background-secondary pb-4">
       <div className="flex flex-col gap-4">
         {isEditing ? (
           <div className="flex flex-col gap-2">
@@ -100,6 +100,7 @@ function TaskCommentCard({
                     alt="Profile"
                     width={32}
                     height={32}
+                    className="h-8 w-8 rounded-full object-cover"
                   />
                 ) : (
                   <TaskDetailProfile />
@@ -113,7 +114,7 @@ function TaskCommentCard({
           </>
         )}
       </div>
-    </li>
+    </div>
   );
 }
 export default TaskCommentCard;
