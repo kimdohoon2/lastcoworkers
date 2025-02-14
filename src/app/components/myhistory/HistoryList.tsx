@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import getHistory, { Task } from '@/app/lib/user/getHistory';
 import { formatDate } from '@/app/utils/formatDate';
 import IconCheckBox from '../icons/IconCheckBox';
+import HistoryLIstSkeleton from './HistoryListSkeleton';
 
 // task.date 기준으로 데이터 그룹화
 const groupByDate = (tasks: Task[]) => {
@@ -18,13 +19,13 @@ const groupByDate = (tasks: Task[]) => {
 };
 
 export default function HistoryList() {
-  const { data, isLoading, error } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryKey: ['history'],
     queryFn: getHistory,
   });
 
   if (isLoading) {
-    return <p className="text-md font-medium">히스토리를 불러오는 중...</p>;
+    return <HistoryLIstSkeleton />;
   }
 
   if (error) {

@@ -12,6 +12,8 @@ import BoardsOrderDropDown from '@/app/components/boards/BoardsOrderDropDown';
 import BoardsSearchBar from '@/app/components/boards/BoardsSearchBar';
 import useGetArticleInfinite from '@/app/hooks/useGetArticleInfinite';
 import BoardsSkeleton from '@/app/components/boards/BoardsSkeleton';
+import useAuthRedirect from '@/app/hooks/useAuthRedirect';
+import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 
 interface SizeMap {
   mobile: number;
@@ -20,6 +22,7 @@ interface SizeMap {
 }
 
 export default function BoardsPage() {
+  const { isLoading: isAuthLoading } = useAuthRedirect();
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 0,
   );
@@ -83,6 +86,10 @@ export default function BoardsPage() {
       fetchMore();
     }
   }, [inView, fetchMore]);
+
+  if (isAuthLoading) {
+    return <AuthCheckLoading />;
+  }
 
   return (
     <>
