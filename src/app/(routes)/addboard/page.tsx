@@ -97,7 +97,7 @@ export default function AddBoard() {
                 {...methods.register('content', { required: true })}
               />
             </div>
-            <div>
+            <div className="mb-10">
               <h4 className="mb-4 flex gap-1.5 text-md tablet:text-lg">
                 이미지
               </h4>
