@@ -1,5 +1,8 @@
-import { formatDateShort } from './formatDate';
+import { formatDateShort } from '@/app/utils/formatDate';
 
+// 12시간제 -> 24시간제 형식 변환 함수
+// time: 12시간제 문자열
+// isAm: true = 오전 | false = 오후
 const adjustTimeFormat = (time: string, isAM: boolean): string => {
   try {
     const [hourStr, minuteStr] = time.split(':');
@@ -24,6 +27,7 @@ const adjustTimeFormat = (time: string, isAM: boolean): string => {
   }
 };
 
+// 오전(오후) HH:MM 형식 변환 함수
 const formatToAmPm = (dateString: string): string => {
   try {
     const dateObj = new Date(dateString);
@@ -39,7 +43,6 @@ const formatToAmPm = (dateString: string): string => {
 
     return `${period} ${formattedTime}`;
   } catch (error) {
-    console.error('시간 변환 오류:', error);
     return '오전 00:00';
   }
 };
@@ -67,4 +70,14 @@ const getTimeDifference = (createdAt: string): string => {
   return formatDateShort(createdAt);
 };
 
-export { adjustTimeFormat, formatToAmPm, getTimeDifference };
+// 12시간제 시간 생성 함수
+// ['1:00', '1:30', ..., '12:00', '12:30'] 형식의 문자열 배열
+const generateTimes = (): string[] => {
+  const times: string[] = [];
+  for (let hour = 1; hour <= 12; hour += 1) {
+    times.push(`${hour}:00`, `${hour}:30`);
+  }
+  return times;
+};
+
+export { adjustTimeFormat, formatToAmPm, getTimeDifference, generateTimes };
