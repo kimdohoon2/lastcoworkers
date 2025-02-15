@@ -36,7 +36,6 @@ function Page() {
 
   return (
     <div>
-      {/* <div className="mx-auto mt-[3.75rem] max-w-[23.4375rem] px-4 pt-[4.5rem] tablet:w-[28.75rem] tablet:px-0 tablet:pt-[6.25rem]"> */}
       <div className="mx-auto flex h-screen max-w-[23.4375rem] flex-col justify-center px-4 tablet:w-[28.75rem] tablet:px-0">
         <h2 className="my-6 text-center text-2xl font-medium text-text-primary tablet:mb-20">
           팀 참여하기
