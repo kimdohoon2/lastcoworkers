@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import getGroup from '@/app/lib/group/getGroup';
 import TeamHeader from '@/app/components/team/TeamHeader';
 import TodoList from '@/app/components/team/TodoList';
@@ -11,10 +11,15 @@ import useAuthRedirect from '@/app/hooks/useAuthRedirect';
 import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 import Loading from '@/app/components/common/loading/Loading';
 import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
+import { RootState } from '@/app/stores/store';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 export default function TeamPage() {
   const { teamid } = useParams();
   const { isLoading: isAuthLoading } = useAuthRedirect();
+  const { user } = useSelector((state: RootState) => state.auth);
+  const router = useRouter();
 
   const pathname = usePathname();
   const teamId = pathname?.split('/').filter(Boolean).pop();
@@ -39,6 +44,17 @@ export default function TeamPage() {
     (error && error.message === 'not_found') || Number.isNaN(Number(teamid));
 
   const { isRedirecting } = useRedirectIfNotFound(isNotFound);
+
+  useEffect(() => {
+    if (
+      !isLoading &&
+      groupData &&
+      !groupData.members.some(({ userId }) => userId === Number(user?.id))
+    ) {
+      alert('접근제한: 팀의 멤버가 아닙니다!');
+      router.replace('/');
+    }
+  }, [isLoading, groupData, user?.id, router]);
 
   if (isAuthLoading) return <AuthCheckLoading />;
 
