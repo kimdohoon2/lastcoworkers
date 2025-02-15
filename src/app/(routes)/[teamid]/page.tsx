@@ -31,7 +31,8 @@ export default function TeamPage() {
         ? getGroup({ id: groupId })
         : Promise.reject(new Error('No ID provided')),
     enabled: !!groupId,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
+    refetchOnMount: 'always',
   });
 
   const isNotFound =
@@ -46,7 +47,10 @@ export default function TeamPage() {
 
   return (
     <div className="box-border h-full w-full px-4">
-      <TeamHeader groupName={groupData?.name || '그룹 이름 없음'} />
+      <TeamHeader
+        groupName={groupData?.name || '그룹 이름 없음'}
+        groupId={groupId!}
+      />
       <TodoList taskLists={groupData?.taskLists || []} groupId={groupId!} />
       <Report taskLists={groupData?.taskLists || []} groupId={groupId!} />
       <MemberContainer members={groupData?.members || []} />
