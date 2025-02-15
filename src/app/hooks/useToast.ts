@@ -2,11 +2,11 @@ import { toast, Bounce } from 'react-toastify';
 
 interface ToastMessage {
   message: string;
-  type: 'info' | 'success' | 'warning' | 'error';
+  type?: 'info' | 'success' | 'warning' | 'error';
 }
 
 const useToast = () => {
-  const showToast = ({ message, type }: ToastMessage) => {
+  const showToast = ({ message, type = 'warning' }: ToastMessage) => {
     toast[type](message, {
       position: 'top-right',
       autoClose: 1500,
