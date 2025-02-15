@@ -19,6 +19,7 @@ import TaskCardList from '@/app/components/tasklist/TaskCardList';
 import CreateTaskModal from '@/app/components/tasklist/CreateTaskModal';
 import CreateListModal from '@/app/components/tasklist/CreateListModal';
 import TaskCardSkeleton from '@/app/components/tasklist/TaskCardSkeleton';
+import useRedirectIfNotMember from '@/app/hooks/useRedirectIfNotMember';
 
 function TaskListPage() {
   const { isLoading: isAuthLoading } = useAuthRedirect();
@@ -68,6 +69,11 @@ function TaskListPage() {
     Number.isNaN(Number(tasklist));
 
   const { isRedirecting } = useRedirectIfNotFound(isNotFound);
+
+  useRedirectIfNotMember({
+    isLoading,
+    groupData,
+  });
 
   if (isAuthLoading) return <AuthCheckLoading />;
   if (isLoading || isRedirecting) return <Loading />;

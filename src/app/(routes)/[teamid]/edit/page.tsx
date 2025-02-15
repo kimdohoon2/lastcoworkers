@@ -13,6 +13,7 @@ import { FieldValues } from 'react-hook-form';
 import { useState } from 'react';
 import Loading from '@/app/components/common/loading/Loading';
 import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
+import useRedirectIfNotMember from '@/app/hooks/useRedirectIfNotMember';
 
 function Page() {
   const { isLoading: isAuthLoading } = useAuthRedirect();
@@ -58,8 +59,11 @@ function Page() {
 
   const { isRedirecting } = useRedirectIfNotFound(isNotFound);
 
+  useRedirectIfNotMember({
+    isLoading,
+    groupData,
+  });
   if (isAuthLoading) return <AuthCheckLoading />;
-
   if (isLoading || isRedirecting) return <Loading />;
 
   return (
