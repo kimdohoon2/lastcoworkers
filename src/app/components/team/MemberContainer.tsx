@@ -44,7 +44,7 @@ function MemberContainer({ members }: { members: GroupMember[] }) {
         </div>
         <button
           type="button"
-          className="text-md text-brand-primary"
+          className="text-md text-brand-primary hover:underline"
           onClick={openModal}
         >
           + 새로운 멤버 초대하기
