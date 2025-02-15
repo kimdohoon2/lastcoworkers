@@ -63,8 +63,18 @@ function MemberCard({
                 <IconProfileEmpty className="h-full w-full" />
               )}
             </div>
-            <div className="w-full overflow-hidden text-ellipsis text-md font-medium">
+            <div className="relative w-fit max-w-full overflow-hidden text-ellipsis whitespace-nowrap pr-5 text-md font-medium">
               {member.userName}
+              {member.role === 'ADMIN' && (
+                <span className="absolute right-0 top-0">
+                  <Image
+                    src="/icons/ic_star.webp"
+                    width={17}
+                    height={17}
+                    alt="관리자 아이콘"
+                  />
+                </span>
+              )}
             </div>
           </div>
           <div className="w-full overflow-hidden text-ellipsis text-xs text-text-secondary tablet:pl-11">
