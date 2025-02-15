@@ -12,6 +12,7 @@ import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 import Loading from '@/app/components/common/loading/Loading';
 import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
 import useRedirectIfNotMember from '@/app/hooks/useRedirectIfNotMember';
+
 export default function TeamPage() {
   const { teamid } = useParams();
   const { isLoading: isAuthLoading } = useAuthRedirect();
