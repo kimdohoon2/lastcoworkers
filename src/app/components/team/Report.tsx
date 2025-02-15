@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import getTaskList, { GetTaskListResponse } from '@/app/lib/group/getTaskList';
@@ -16,8 +18,10 @@ interface ReportProps {
 export default function Report({ groupId, taskLists = [] }: ReportProps) {
   const todayDate = getTodayDate();
 
+  const taskListIds = taskLists.map((task) => task.id).join(',');
+
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['taskLists', groupId],
+    queryKey: ['taskLists', groupId, taskListIds],
     queryFn: async () => {
       const responses = await Promise.all(
         taskLists.map((taskList) =>
@@ -36,18 +40,15 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
     Array.isArray(data) ? data : Object.values(data ?? {})
   ) as GetTaskListResponse[];
 
-  const totalTasks =
-    dataArray.reduce(
-      (acc: number, taskList: GetTaskListResponse) =>
-        acc + taskList.tasks.length,
-      0,
-    ) ?? 0;
-  const completedTasks =
-    dataArray.reduce(
-      (acc: number, taskList: GetTaskListResponse) =>
-        acc + taskList.tasks.filter((task) => task.doneAt).length,
-      0,
-    ) ?? 0;
+  const totalTasks = dataArray.reduce(
+    (acc: number, taskList: GetTaskListResponse) => acc + taskList.tasks.length,
+    0,
+  );
+  const completedTasks = dataArray.reduce(
+    (acc: number, taskList: GetTaskListResponse) =>
+      acc + taskList.tasks.filter((task) => task.doneAt).length,
+    0,
+  );
   const completionPercentage =
     totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
 
@@ -66,7 +67,6 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
             </div>
           </div>
         </div>
-
         <div className="flex flex-col gap-4">
           <TaskSummaryCard
             title="오늘의 할 일"
