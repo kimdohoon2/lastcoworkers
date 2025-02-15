@@ -3,9 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import getInvitation from '@/app/lib/group/getInvitaion';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/stores/store';
-import AddMemberModal from './AddMemberModal';
-import MemberCard from './MemberCard';
-import MemberCardSkeleton from './MemberCardSkeleton';
+import AddMemberModal from '@/app/components/team/AddMemberModal';
+import MemberCard from '@/app/components/team/MemberCard';
+import MemberCardSkeleton from '@/app/components/team/MemberCardSkeleton';
+import getRandomId from '@/app/utils/getRandomId';
 
 interface GroupMember {
   role: 'ADMIN' | 'MEMBER';
@@ -53,9 +54,7 @@ function MemberContainer({ members }: { members: GroupMember[] }) {
       <div className="grid grid-cols-2 gap-4 tablet:grid-cols-3 tablet:gap-6">
         {isLoading
           ? Array.from({ length: members.length || 6 }).map(() => (
-              <MemberCardSkeleton
-                key={`memeber_skeleton_${crypto.randomUUID()}`}
-              />
+              <MemberCardSkeleton key={`memeber_skeleton_${getRandomId()}`} />
             ))
           : members.map((member) => (
               <MemberCard
