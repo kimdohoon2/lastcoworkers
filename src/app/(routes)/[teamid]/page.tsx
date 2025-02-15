@@ -40,14 +40,14 @@ export default function TeamPage() {
 
   const { isRedirecting } = useRedirectIfNotFound(isNotFound);
 
-  useRedirectIfNotMember({
+  const { isRedirecting: isRedirectingMember } = useRedirectIfNotMember({
     isLoading,
     groupData,
   });
 
   if (isAuthLoading) return <AuthCheckLoading />;
 
-  if (isLoading || isRedirecting) return <Loading />;
+  if (isLoading || isRedirecting || isRedirectingMember) return <Loading />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
   return (

@@ -70,13 +70,13 @@ function TaskListPage() {
 
   const { isRedirecting } = useRedirectIfNotFound(isNotFound);
 
-  useRedirectIfNotMember({
+  const { isRedirecting: isRedirectingMember } = useRedirectIfNotMember({
     isLoading,
     groupData,
   });
 
   if (isAuthLoading) return <AuthCheckLoading />;
-  if (isLoading || isRedirecting) return <Loading />;
+  if (isLoading || isRedirecting || isRedirectingMember) return <Loading />;
 
   return (
     <div className="mx-auto mt-24 flex w-full max-w-[75rem] flex-col gap-6 px-3.5 tablet:px-6">
