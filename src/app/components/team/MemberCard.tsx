@@ -67,7 +67,7 @@ function MemberCard({
               {member.userName}
             </div>
           </div>
-          <div className="w-full overflow-hidden text-ellipsis text-xs text-text-secondary tablet:ml-11">
+          <div className="w-full overflow-hidden text-ellipsis text-xs text-text-secondary tablet:pl-11">
             {member.userEmail}
           </div>
         </div>
