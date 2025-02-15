@@ -3,6 +3,7 @@ import '@/app/styles/globals.css';
 import Header from '@/app/components/common/header/Header';
 import TanStackProvider from '@/app/providers/TanStackProvider';
 import ReduxProvider from '@/app/providers/ReduxProvider';
+import { ToastContainer } from 'react-toastify';
 
 export const metadata: Metadata = {
   title: 'Coworkers',
@@ -33,6 +34,7 @@ export default function RootLayout({
           <TanStackProvider>
             <Header />
             {children}
+            <ToastContainer />
           </TanStackProvider>
         </ReduxProvider>
       </body>
