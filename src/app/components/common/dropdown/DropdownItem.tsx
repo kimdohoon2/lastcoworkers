@@ -2,8 +2,8 @@ import { PropsWithChildren } from 'react';
 
 interface DropdownItemProps {
   className?: string;
-  onClick: () => void; // 아이템 클릭시 실행 함수
-  onClose?: () => void; // 아이템 클릭 후 드롭다운을 닫는 함수
+  onClick: () => void;
+  onClose?: () => void;
 }
 
 export default function DropdownItem({
