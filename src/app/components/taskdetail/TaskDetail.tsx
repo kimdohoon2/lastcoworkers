@@ -272,6 +272,7 @@ function TaskDetail({
               variant={doneAt ? 'cancel' : 'complete'}
               size={doneAt ? 'cancel' : 'complete'}
               onClick={toggleDone}
+              className="transform duration-200"
             >
               <IconCheck />
               {doneAt ? '완료 취소하기' : '완료하기'}
