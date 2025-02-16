@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import useModal from '@/app/hooks/useModal';
 import useSaveScroll from '@/app/hooks/useSaveScroll';
@@ -19,10 +19,12 @@ import TaskCardList from '@/app/components/tasklist/TaskCardList';
 import CreateTaskModal from '@/app/components/tasklist/CreateTaskModal';
 import CreateListModal from '@/app/components/tasklist/CreateListModal';
 import TaskCardSkeleton from '@/app/components/tasklist/TaskCardSkeleton';
+import IconBack from '@/app/components/icons/IconBack';
 
 function TaskListPage() {
-  const { isLoading: isAuthLoading } = useAuthRedirect();
+  const router = useRouter();
   const { teamid, tasklist } = useParams();
+  const { isLoading: isAuthLoading } = useAuthRedirect();
   const { isOpen, openModal, closeModal } = useModal();
   const [modalType, setModalType] = useState<'list' | 'task' | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>(
@@ -58,6 +60,12 @@ function TaskListPage() {
     openModal();
   };
 
+  const handleBack = () => {
+    if (teamid) {
+      router.push(`/${teamid}`);
+    }
+  };
+
   const isLoading =
     isTeamLoading || (!groupData && !taskListData && !isTaskListLoading);
 
@@ -74,6 +82,9 @@ function TaskListPage() {
 
   return (
     <div className="mx-auto mt-24 flex w-full max-w-[75rem] flex-col gap-6 px-3.5 tablet:px-6">
+      <button onClick={handleBack} className="cursor-pointer">
+        <IconBack />
+      </button>
       <p className="text-xl">할 일</p>
       <div className="flex justify-between">
         <DatePicker
