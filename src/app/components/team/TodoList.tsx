@@ -7,6 +7,7 @@ import {
   DragEndEvent,
   DragStartEvent,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   DragOverlay,
@@ -107,8 +108,9 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
   };
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: { distance: 10 },
+    useSensor(PointerSensor, { activationConstraint: { distance: 10 } }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 150, tolerance: 5 },
     }),
   );
 
