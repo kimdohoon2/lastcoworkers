@@ -1,52 +1,27 @@
 'use client';
 
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import getTaskList, { GetTaskListResponse } from '@/app/lib/group/getTaskList';
-import getTodayDate from '@/app/utils/getTodayDate';
 import IconReportTodo from '@/app/components/icons/IconReportTodo';
 import IconReportDone from '@/app/components/icons/IconReportDone';
 import ProgressChart from '@/app/components/team/ProgressChart';
 import TaskSummaryCard from '@/app/components/team/TaskSummaryCard';
-import ReportSkeleton from '@/app/components/team/ReportSkeleton';
 
 interface ReportProps {
-  groupId: number;
-  taskLists?: { id: number; name: string }[];
+  taskLists: {
+    id: number;
+    name: string;
+    tasks: { doneAt: string | null }[];
+  }[];
 }
 
-export default function Report({ groupId, taskLists = [] }: ReportProps) {
-  const todayDate = getTodayDate();
-  const taskListIds = taskLists.map((task) => task.id).join(',');
-
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['taskLists', groupId, taskListIds],
-    queryFn: async () => {
-      const responses = await Promise.all(
-        taskLists.map((taskList) =>
-          getTaskList({ groupId, taskListId: taskList.id, date: todayDate }),
-        ),
-      );
-      return responses;
-    },
-    staleTime: 0,
-    refetchOnWindowFocus: true,
-  });
-
-  if (isLoading) return <ReportSkeleton />;
-  if (isError) return <div className="text-red-500">데이터 오류 발생</div>;
-
-  const dataArray = (
-    Array.isArray(data) ? data : Object.values(data ?? {})
-  ) as GetTaskListResponse[];
-
-  const totalTasks = dataArray.reduce(
-    (acc: number, taskList: GetTaskListResponse) => acc + taskList.tasks.length,
+export default function Report({ taskLists }: ReportProps) {
+  const totalTasks = taskLists.reduce(
+    (acc, list) => acc + list.tasks.length,
     0,
   );
-  const completedTasks = dataArray.reduce(
-    (acc: number, taskList: GetTaskListResponse) =>
-      acc + taskList.tasks.filter((task) => task.doneAt).length,
+  const completedTasks = taskLists.reduce(
+    (acc, list) =>
+      acc + list.tasks.filter((task) => task.doneAt !== null).length,
     0,
   );
   const completionPercentage =

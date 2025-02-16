@@ -52,7 +52,7 @@ export default function TeamPage() {
         groupId={groupId!}
       />
       <TodoList taskLists={groupData?.taskLists || []} groupId={groupId!} />
-      <Report taskLists={groupData?.taskLists || []} groupId={groupId!} />
+      <Report taskLists={groupData?.taskLists || []} />
       <MemberContainer members={groupData?.members || []} />
     </div>
   );
