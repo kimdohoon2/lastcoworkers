@@ -17,7 +17,6 @@ interface ReportProps {
 
 export default function Report({ groupId, taskLists = [] }: ReportProps) {
   const todayDate = getTodayDate();
-
   const taskListIds = taskLists.map((task) => task.id).join(',');
 
   const { data, isLoading, isError } = useQuery({
@@ -30,7 +29,8 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
       );
       return responses;
     },
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
 
   if (isLoading) return <ReportSkeleton />;
