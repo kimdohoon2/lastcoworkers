@@ -81,7 +81,7 @@ function TaskListPage() {
   if (isLoading || isRedirecting) return <Loading />;
 
   return (
-    <div className="mx-auto mt-24 flex w-full max-w-[75rem] flex-col gap-6 px-3.5 tablet:px-6">
+    <div className="mx-auto mt-24 flex w-full max-w-[75rem] flex-col gap-5 px-3.5 tablet:px-6">
       <button onClick={handleBack} className="cursor-pointer">
         <IconBack />
       </button>
