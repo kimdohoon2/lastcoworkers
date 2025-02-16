@@ -30,6 +30,7 @@ export default function Header() {
   const { data: userData } = useQuery<GetUserResponse>({
     queryKey: ['user'],
     queryFn: getUser,
+    enabled: Boolean(accessToken),
   });
   const isLoggedIn = !!accessToken;
 
