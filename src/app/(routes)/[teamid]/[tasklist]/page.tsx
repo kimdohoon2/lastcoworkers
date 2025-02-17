@@ -88,8 +88,14 @@ function TaskListPage() {
 
   return (
     <div className="mx-auto mt-24 flex w-full max-w-[75rem] flex-col gap-5 px-3.5 tablet:px-6">
-      <button onClick={handleBack} className="cursor-pointer">
-        <IconBack />
+      <button
+        onClick={handleBack}
+        className="block w-fit cursor-pointer hover:text-interaction-focus"
+      >
+        <div className="flex items-center gap-2 text-md">
+          <IconBack />
+          <p>팀 페이지로 돌아가기</p>
+        </div>
       </button>
       <p className="text-xl">할 일</p>
       <div className="flex justify-between">
