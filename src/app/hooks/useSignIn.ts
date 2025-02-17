@@ -4,10 +4,12 @@ import postSignInApi from '@/app/lib/auth/postSignInApi';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '@/app/stores/auth/authSlice';
 import { useRouter } from 'next/navigation';
+import useToast from '@/app/hooks/useToast';
 
 const useSignIn = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const { showToast } = useToast();
 
   return useMutation({
     mutationFn: postSignInApi,
@@ -22,9 +24,12 @@ const useSignIn = () => {
     },
     onError: (error: unknown) => {
       if (isAxiosError(error) && error.response) {
-        alert(error.response.data?.message || '로그인에 실패했습니다.');
+        showToast({ message: '로그인에 실패했습니다.', type: 'error' });
       } else {
-        alert('로그인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+        showToast({
+          message: '로그인 중 오류가 발생했습니다. 다시 시도해 주세요.',
+          type: 'error',
+        });
       }
     },
   });

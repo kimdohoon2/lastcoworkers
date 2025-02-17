@@ -8,6 +8,7 @@ import IconCheckBox from '@/app/components/icons/IconCheckBox';
 import IconUncheckBox from '@/app/components/icons/IconUncheckBox';
 import DateRepeatInfo from '@/app/components/tasklist/DateRepeatInfo';
 import TaskCardDropdown from '@/app/components/tasklist/TaskCardDropdown';
+import useToast from '@/app/hooks/useToast';
 
 interface TaskCardInterface {
   teamId: number;
@@ -23,6 +24,7 @@ export default function TaskCard({
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
   const { mutate: editTask } = useEditTaskMutation();
+  const { showToast } = useToast();
 
   const task = useAppSelector((state) => state.tasks.taskById[taskId]);
   if (!task) return null;
@@ -55,7 +57,10 @@ export default function TaskCard({
           dispatch(updateTask(updatedTask));
         },
         onError: () => {
-          alert('할 일 상태 변경에 실패했습니다.');
+          showToast({
+            message: '할 일 상태 변경에 실패했습니다.',
+            type: 'error',
+          });
         },
       },
     );

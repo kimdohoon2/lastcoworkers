@@ -18,6 +18,7 @@ import useModal from '@/app/hooks/useModal';
 import IconAlert from '@/app/components/icons/IconAlert';
 import { AxiosError } from 'axios';
 import { GroupResponse, GroupTask } from '@/app/types/grouptask';
+import useToast from '@/app/hooks/useToast';
 
 interface DropdownMenuProps {
   groupId: number;
@@ -39,6 +40,7 @@ export default function TaskListDropdown({
   const deleteModal = useModal();
   const methods = useForm<{ name: string }>();
   const queryClient = useQueryClient();
+  const { showToast } = useToast();
 
   const editMutation = useMutation({
     mutationFn: (newName: string) =>
@@ -50,9 +52,15 @@ export default function TaskListDropdown({
     },
     onError: (error: AxiosError) => {
       if (error.response?.status === 409) {
-        alert('그룹 내 이름이 같은 할 일 목록이 존재합니다.');
+        showToast({
+          message: '그룹 내 이름이 같은 할 일 목록이 존재합니다.',
+          type: 'warning',
+        });
       } else {
-        alert('할 일 목록을 수정하는 중 오류가 발생했습니다.');
+        showToast({
+          message: '할 일 목록을 수정하는 중 오류가 발생했습니다.',
+          type: 'error',
+        });
       }
     },
   });
