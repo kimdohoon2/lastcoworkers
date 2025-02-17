@@ -12,6 +12,7 @@ const useRedirectIfNotMember = ({
   groupData?: GroupResponse;
 }) => {
   const router = useRouter();
+  const token = useSelector((state: RootState) => state.auth.accessToken);
   const userId = useSelector((state: RootState) => state.auth.user?.id);
   const [isRedirecting, setIsRedirecting] = useState(false);
 
@@ -23,13 +24,14 @@ const useRedirectIfNotMember = ({
 
   useEffect(() => {
     if (
+      token &&
       !isLoading &&
       groupData &&
       !groupData.members.some(({ userId: id }) => id === Number(userId))
     ) {
       redirect();
     }
-  }, [isLoading, groupData, userId, redirect]);
+  }, [token, isLoading, groupData, userId, redirect]);
 
   return { isRedirecting };
 };
