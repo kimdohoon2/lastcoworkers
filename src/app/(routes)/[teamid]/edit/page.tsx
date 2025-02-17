@@ -1,82 +1,75 @@
 'use client';
 
+import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 import TeamForm from '@/app/components/team/TeamForm';
+import useAuthRedirect from '@/app/hooks/useAuthRedirect';
 import getGroupById from '@/app/lib/group/getGroupById';
 import patchGroup from '@/app/lib/group/patchGroup';
-import postImage from '@/app/lib/image/postImage';
-import { RootState } from '@/app/stores/store';
 import { GroupData } from '@/app/types/group';
+import uploadImage from '@/app/utils/uploadImage';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import { FieldValues } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import Loading from '@/app/components/common/loading/Loading';
+import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
+import useRedirectIfNotMember from '@/app/hooks/useRedirectIfNotMember';
 
 function Page() {
+  const { isLoading: isAuthLoading } = useAuthRedirect();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const router = useRouter();
   const { teamid } = useParams();
   const queryClient = useQueryClient();
-  const { accessToken } = useSelector((state: RootState) => state.auth);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const groupId = Number(teamid);
 
-  const { data: groupData, isLoading } = useQuery({
-    queryKey: ['group', teamid],
-    queryFn: () => getGroupById(Number(teamid)),
-    enabled: !!teamid, // teamid가 있을 때만 실행
+  const {
+    data: groupData,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['group', groupId],
+    queryFn: () => getGroupById(groupId),
+    enabled: !!groupId,
   });
 
   const mutation = useMutation({
     mutationFn: async ({ profile, name }: FieldValues) => {
-      let imageUrl: string | null = null;
-
       setIsSubmitting(true);
+      const imageUrl = await uploadImage(profile);
 
-      // 이미지 업로드 (선택된 경우만)
-      if (profile && profile[0] instanceof File) {
-        const formData = new FormData();
-        formData.append('image', profile[0]);
-
-        const { url } = await postImage(formData);
-        imageUrl = url;
-      }
-
-      // 업데이트할 데이터 생성
       const teamData: GroupData = { name };
       if (imageUrl) teamData.image = imageUrl;
 
-      // 그룹 데이터 업데이트
-      await patchGroup(Number(teamid), teamData);
+      await patchGroup(groupId, teamData);
     },
     onSuccess: () => {
-      // 캐시 업데이트 및 페이지 이동
-      queryClient.invalidateQueries({ queryKey: ['group', Number(teamid)] });
-      router.push(`/${teamid}`);
+      queryClient.invalidateQueries({ queryKey: ['group', groupId] });
+      router.push(`/${groupId}`);
     },
     onError: () => {
       alert('팀 수정에 실패했습니다.');
-      setIsSubmitting(true);
+      setIsSubmitting(false);
     },
   });
 
-  useEffect(() => {
-    if (!accessToken) {
-      alert('로그인 후 이용할 수 있습니다.');
-      router.push('/login');
-    }
-  }, [accessToken, router]);
+  const isNotFound =
+    (error && error.message === 'not_found') || Number.isNaN(Number(teamid));
 
-  if (isLoading) {
-    return (
-      <div className="flex h-screen items-center justify-center text-white">
-        Loading...
-      </div>
-    );
-  }
+  const { isRedirecting } = useRedirectIfNotFound(isNotFound);
+
+  const { isRedirecting: isRedirectingMember } = useRedirectIfNotMember({
+    isLoading,
+    groupData,
+  });
+  if (isAuthLoading) return <AuthCheckLoading />;
+  if (isLoading || isRedirecting || isRedirectingMember) return <Loading />;
 
   return (
     <div>
-      <div className="mx-auto mt-[3.75rem] max-w-[23.4375rem] px-4 pt-[4.5rem] tablet:w-[28.75rem] tablet:px-0 tablet:pt-[6.25rem]">
-        <h2 className="mb-6 text-center text-2xl font-medium text-text-primary tablet:mb-20">
+      <div className="mx-auto flex h-screen max-w-[23.4375rem] flex-col justify-center px-4 tablet:w-[28.75rem] tablet:px-0">
+        <h2 className="my-6 text-center text-2xl font-medium text-text-primary tablet:mb-20">
           팀 수정하기
         </h2>
         <TeamForm

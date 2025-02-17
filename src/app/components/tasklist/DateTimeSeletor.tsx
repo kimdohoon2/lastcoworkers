@@ -1,14 +1,17 @@
+import clsx from 'clsx';
 import { useState, useRef } from 'react';
 import useClickOutside from '@/app/hooks/useClickOutside';
-import Input from '../common/input/Input';
-import CustomCalendar from './CustomCalendar';
-import TimeSelector from './TimeSelector';
+import Input from '@/app/components/common/input/Input';
+import TimeSelector from '@/app/components/tasklist/TimeSelector';
+import CustomCalendar from '@/app/components/tasklist/CustomCalendar';
+import { formatDateISO } from '@/app/utils/formatDate';
 
 interface DateTimeSelectorProps {
   date: string | undefined;
   time: string;
   onDateChange: (date: string) => void;
   onTimeChange: (time: string) => void;
+  disablePastDates?: boolean;
 }
 
 export default function DateTimeSelector({
@@ -16,6 +19,7 @@ export default function DateTimeSelector({
   time,
   onDateChange,
   onTimeChange,
+  disablePastDates = false,
 }: DateTimeSelectorProps) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isTimeSelectorOpen, setIsTimeSelectorOpen] = useState(false);
@@ -26,17 +30,18 @@ export default function DateTimeSelector({
   useClickOutside(timeSelectorRef, () => setIsTimeSelectorOpen(false));
 
   const toggleCalendar = () => {
-    setIsCalendarOpen((prev) => {
-      if (!prev) setIsTimeSelectorOpen(false);
-      return !prev;
-    });
+    setIsCalendarOpen((prev) => !prev);
+    setIsTimeSelectorOpen(false);
   };
 
   const toggleTimeSelector = () => {
-    setIsTimeSelectorOpen((prev) => {
-      if (!prev) setIsCalendarOpen(false);
-      return !prev;
-    });
+    setIsTimeSelectorOpen((prev) => !prev);
+    setIsCalendarOpen(false);
+  };
+
+  const handleDateChange = (newDate: Date) => {
+    onDateChange(formatDateISO(newDate));
+    setIsCalendarOpen(false);
   };
 
   return (
@@ -57,14 +62,10 @@ export default function DateTimeSelector({
             <CustomCalendar
               selectedDate={date ? new Date(date) : new Date()}
               onDateChange={(newDate) => {
-                const kstDate = new Date(
-                  newDate.getTime() + 9 * 60 * 60 * 1000,
-                );
-                const formattedDate = `${kstDate.getFullYear()}-${String(kstDate.getMonth() + 1).padStart(2, '0')}-${String(kstDate.getDate()).padStart(2, '0')}`;
-
-                onDateChange(formattedDate);
+                handleDateChange(newDate);
                 setIsCalendarOpen(false);
               }}
+              minDate={disablePastDates ? new Date() : undefined}
             />
           )}
         </div>
@@ -72,7 +73,7 @@ export default function DateTimeSelector({
 
       <div
         ref={timeSelectorRef}
-        className={`${isTimeSelectorOpen ? 'mb-[13rem]' : ''}`}
+        className={clsx({ 'mb-[13rem]': isTimeSelectorOpen })}
       >
         <TimeSelector
           isOpen={isTimeSelectorOpen}

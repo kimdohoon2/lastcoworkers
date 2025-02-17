@@ -11,6 +11,9 @@ import useDebounce from '@/app/hooks/useDebounce';
 import BoardsOrderDropDown from '@/app/components/boards/BoardsOrderDropDown';
 import BoardsSearchBar from '@/app/components/boards/BoardsSearchBar';
 import useGetArticleInfinite from '@/app/hooks/useGetArticleInfinite';
+import BoardsSkeleton from '@/app/components/boards/BoardsSkeleton';
+import useAuthRedirect from '@/app/hooks/useAuthRedirect';
+import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 
 interface SizeMap {
   mobile: number;
@@ -19,6 +22,7 @@ interface SizeMap {
 }
 
 export default function BoardsPage() {
+  const { isLoading: isAuthLoading } = useAuthRedirect();
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 0,
   );
@@ -28,7 +32,10 @@ export default function BoardsPage() {
   const [sortOrder, setSortOrder] = useState('recent');
 
   const debouncedWidth = useDebounce(windowWidth, 300);
-  const debouncedSearchKeyword = useDebounce(searchKeyword, 100);
+
+  const handleSearch = (keyword: string) => {
+    setSearchKeyword(keyword);
+  };
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -49,7 +56,7 @@ export default function BoardsPage() {
     page: 1,
     pageSize: bestPageSize,
     orderBy: 'like',
-    keyword: debouncedSearchKeyword,
+    keyword: searchKeyword,
   });
 
   const {
@@ -59,9 +66,9 @@ export default function BoardsPage() {
     hasNextPage,
     isFetchingNextPage,
   } = useGetArticleInfinite({
-    pageSize: 3,
+    pageSize: 4,
     orderBy: sortOrder,
-    keyword: debouncedSearchKeyword,
+    keyword: searchKeyword,
   });
   const allArticles = recentPosts?.pages.flatMap((page) => page.list) || [];
 
@@ -80,22 +87,28 @@ export default function BoardsPage() {
     }
   }, [inView, fetchMore]);
 
+  if (isAuthLoading) {
+    return <AuthCheckLoading />;
+  }
+
   return (
     <>
       <section className="mt-16 px-4 tablet:px-6 xl:mx-auto xl:w-[75rem]">
         <div className="pt-8 tablet:pt-10">
           <div className="flex flex-col gap-6 tablet:gap-8 xl:gap-10">
-            <h1 className="text-2lg tablet:text-2xl">자유게시판</h1>
-            <BoardsSearchBar
-              searchKeyword={searchKeyword}
-              setSearchKeyword={setSearchKeyword}
-            />
-            <h2 className="tablet:text-xl">베스트 게시글</h2>
-            {isBestLoading ? (
-              <div>베스트 게시글 가져오는 중</div>
-            ) : bestPosts && bestPosts.list.length > 0 ? (
-              <div className="flex flex-col gap-4 tablet:flex-row tablet:gap-4">
-                {bestPosts?.list.map((article) => (
+            <h1 className="text-2lg font-bold tablet:text-2xl">자유게시판</h1>
+            <BoardsSearchBar onSearch={handleSearch} />
+            <h2 className="font-bold tablet:text-xl">베스트 게시글</h2>
+            <div className="flex flex-col gap-4 tablet:flex-row tablet:gap-4">
+              {isBestLoading ? (
+                Array.from({ length: bestPageSize }).map(() => (
+                  <BoardsSkeleton
+                    className="h-40 tablet:h-56"
+                    key={`skeleton-${crypto.randomUUID()}`}
+                  />
+                ))
+              ) : bestPosts && bestPosts.list.length > 0 ? (
+                bestPosts.list.map((article) => (
                   <CommonAriticleCard
                     key={article.id}
                     {...article}
@@ -104,62 +117,65 @@ export default function BoardsPage() {
                     isOnlyTablet
                     isLiked
                   />
-                ))}
-              </div>
-            ) : (
-              <div>검색 결과에 해당하는 베스트 게시글이 없습니다.</div>
-            )}
+                ))
+              ) : (
+                <div>검색 결과에 해당하는 베스트 게시글이 없습니다.</div>
+              )}
+            </div>
           </div>
           <div>
             <div className="my-8 h-[1px] w-full bg-[#F8FAFC1A] tablet:my-10" />
             <div className="mb-6 flex w-full items-center justify-between">
-              <h3 className="tablet:text-xl">게시글</h3>
+              <h3 className="font-bold tablet:text-xl">게시글</h3>
               <BoardsOrderDropDown setSortOrder={setSortOrder} />
             </div>
             {isRecentLoading ? (
-              <div>게시글 가져오는 중</div>
-            ) : allArticles.length > 0 ? (
-              <div className="flex flex-col">
-                {allArticles.map((article) => (
-                  <div key={article.id} className="mb-4 tablet:mb-6">
-                    <CommonAriticleCard
-                      {...article}
-                      isBest={false}
-                      isOnlyTablet={false}
-                      tabletHidden
-                      isLiked
-                    />
-                  </div>
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+                {Array.from({ length: 4 }).map(() => (
+                  <BoardsSkeleton
+                    className="h-[8.5rem] tablet:h-44"
+                    key={crypto.randomUUID()}
+                  />
                 ))}
-
-                {/* 모든 게시글을 가져왔을 때 메시지 표시 */}
-                {!hasNextPage && allArticles.length > 0 && (
-                  <div className="py-4 text-center">
-                    더 이상 게시글이 없습니다.
-                  </div>
-                )}
+              </div>
+            ) : allArticles.length > 0 ? (
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+                {allArticles.map((article) => (
+                  <CommonAriticleCard
+                    key={article.id}
+                    {...article}
+                    isBest={false}
+                    isOnlyTablet={false}
+                    tabletHidden
+                    isLiked
+                  />
+                ))}
 
                 {/* 무한 스크롤 시 UI 추가 */}
                 {isFetchingNextPage && (
-                  <div className="py-4 text-center">게시글 가져오는 중</div>
+                  <>
+                    <BoardsSkeleton className="h-[8.5rem] tablet:h-44" />
+                    <BoardsSkeleton className="hidden h-[8.5rem] tablet:h-44 xl:block" />
+                  </>
                 )}
 
-                <div ref={ref} className="h-10">
-                  {hasNextPage && !isFetchingNextPage && '스크롤하여 더 보기'}
-                </div>
+                <div ref={ref} className="h-10" />
               </div>
             ) : (
               <div>검색 결과에 해당하는 게시글이 없습니다.</div>
             )}
           </div>
+          {!hasNextPage && allArticles.length > 0 && (
+            <div className="py-4 text-center">더 이상 게시글이 없습니다.</div>
+          )}
         </div>
       </section>
 
       <Link
-        className="fixed bottom-5 right-4 block h-[48px] w-[125px] tablet:right-8 xl:bottom-9 xl:right-96"
+        className="fixed bottom-5 right-4 block h-12 w-[6.5rem] tablet:right-8 xl:left-[50%] xl:top-[95%] xl:-translate-y-1/2 xl:translate-x-[29rem]"
         href="/addboard"
       >
-        <Button variant="plus" size="plus">
+        <Button className="w-full !rounded-[2.5rem]">
           <IconPlus />
           글쓰기
         </Button>

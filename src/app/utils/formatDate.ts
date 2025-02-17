@@ -23,4 +23,11 @@ const formatDateShort = (dateString: string | undefined) => {
     .padStart(2, '0')}`;
 };
 
-export { formatDate, formatDateShort };
+// YYYY-MM-DD
+const formatDateISO = (date: Date): string => {
+  return `${date.getFullYear()}-${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+};
+
+export { formatDate, formatDateShort, formatDateISO };

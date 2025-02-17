@@ -1,40 +1,42 @@
-import { useTaskCommentQuery } from '@/app/lib/comment/getComment';
 import { Dispatch, SetStateAction } from 'react';
-import TaskCommentInput from './TaskCommentInput';
-import TaskCommentCard from './TaskCommentCard';
+import { useTaskCommentQuery } from '@/app/lib/comment/getComment';
+import TaskCommentInput from '@/app/components/taskdetail/TaskCommentInput';
+import TaskCommentCard from '@/app/components/taskdetail/TaskCommentCard';
 
-function TaskComments({
-  taskId,
-  setIsModalOpen,
-}: {
+interface TaskCommentProps {
   taskId: number;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
-}) {
-  const { data, isLoading, error } = useTaskCommentQuery(taskId);
+}
+
+function TaskComment({ taskId, setIsModalOpen }: TaskCommentProps) {
+  const { data, error } = useTaskCommentQuery(taskId);
   const comments = data ?? [];
 
-  if (isLoading) return <p>댓글을 불러오는 중..</p>;
-  if (error) return <p>댓글을 불러오는 중 오류가 발생했습니다.</p>;
-
   return (
-    <div className="mb-24 flex flex-col gap-6">
+    <div className="mb-24 flex flex-col">
       <TaskCommentInput taskId={taskId} />
-      {comments?.length === 0 ? (
-        <p className="text-text-default">댓글이 없습니다.</p>
-      ) : (
-        <ul>
-          {comments?.map((comment) => (
+
+      {error && (
+        <p className="text-text-default">
+          댓글을 불러오는 중 오류가 발생했습니다.
+        </p>
+      )}
+      <div className="mt-6">
+        {comments.length === 0 ? (
+          <p className="text-text-default">댓글이 없습니다.</p>
+        ) : (
+          comments.map((comment) => (
             <TaskCommentCard
               key={comment.id}
               taskId={taskId}
               comment={comment}
               setIsModalOpen={setIsModalOpen}
             />
-          ))}
-        </ul>
-      )}
+          ))
+        )}
+      </div>
     </div>
   );
 }
 
-export default TaskComments;
+export default TaskComment;

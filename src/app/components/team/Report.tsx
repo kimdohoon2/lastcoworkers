@@ -2,10 +2,11 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import getTaskList, { GetTaskListResponse } from '@/app/lib/group/getTaskList';
 import getTodayDate from '@/app/utils/getTodayDate';
-import IconReportTodo from '../icons/IconReportTodo';
-import IconReportDone from '../icons/IconReportDone';
-import ProgressChart from './ProgressChart';
-import TaskSummaryCard from './TaskSummaryCard';
+import IconReportTodo from '@/app/components/icons/IconReportTodo';
+import IconReportDone from '@/app/components/icons/IconReportDone';
+import ProgressChart from '@/app/components/team/ProgressChart';
+import TaskSummaryCard from '@/app/components/team/TaskSummaryCard';
+import ReportSkeleton from '@/app/components/team/ReportSkeleton';
 
 interface ReportProps {
   groupId: number;
@@ -15,7 +16,7 @@ interface ReportProps {
 export default function Report({ groupId, taskLists = [] }: ReportProps) {
   const todayDate = getTodayDate();
 
-  const { data, isLoading, isError } = useQuery<GetTaskListResponse[]>({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['taskLists', groupId],
     queryFn: async () => {
       const responses = await Promise.all(
@@ -28,17 +29,21 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
     staleTime: 5 * 60 * 1000,
   });
 
-  if (isLoading) return <div className="text-white">로딩 중...</div>;
+  if (isLoading) return <ReportSkeleton />;
   if (isError) return <div className="text-red-500">데이터 오류 발생</div>;
 
+  const dataArray = (
+    Array.isArray(data) ? data : Object.values(data ?? {})
+  ) as GetTaskListResponse[];
+
   const totalTasks =
-    data?.reduce(
+    dataArray.reduce(
       (acc: number, taskList: GetTaskListResponse) =>
         acc + taskList.tasks.length,
       0,
     ) ?? 0;
   const completedTasks =
-    data?.reduce(
+    dataArray.reduce(
       (acc: number, taskList: GetTaskListResponse) =>
         acc + taskList.tasks.filter((task) => task.doneAt).length,
       0,
@@ -48,7 +53,7 @@ export default function Report({ groupId, taskLists = [] }: ReportProps) {
 
   return (
     <div className="mx-auto my-12 flex max-w-[75rem] flex-col gap-4 xl:my-16">
-      <h2 className="text-lg font-semibold text-white">리포트</h2>
+      <h2 className="text-lg font-semibold text-text-primary">리포트</h2>
       <div className="flex h-56 w-full justify-between gap-4 rounded-xl bg-background-secondary p-6 xl:h-[13.5625rem]">
         <div className="flex items-center gap-10 xl:gap-16">
           <ProgressChart completionPercentage={completionPercentage} />

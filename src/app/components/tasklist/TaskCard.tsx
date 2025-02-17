@@ -1,13 +1,13 @@
 import clsx from 'clsx';
-import { useEditTaskMutation } from '@/app/lib/task/patchTask';
 import { useQueryClient } from '@tanstack/react-query';
+import { useEditTaskMutation } from '@/app/lib/task/patchTask';
 import { useAppDispatch, useAppSelector } from '@/app/stores/hooks';
 import { updateTask } from '@/app/stores/tasksSlice';
-import IconComment from '../icons/IconComment';
-import IconCheckBox from '../icons/IconCheckBox';
-import IconUncheckBox from '../icons/IconUncheckBox';
-import DateRepeatInfo from './DateRepeatInfo';
-import TaskCardDropdown from './TaskCardDropdown';
+import IconComment from '@/app/components/icons/IconComment';
+import IconCheckBox from '@/app/components/icons/IconCheckBox';
+import IconUncheckBox from '@/app/components/icons/IconUncheckBox';
+import DateRepeatInfo from '@/app/components/tasklist/DateRepeatInfo';
+import TaskCardDropdown from '@/app/components/tasklist/TaskCardDropdown';
 
 interface TaskCardInterface {
   teamId: number;
@@ -25,18 +25,13 @@ export default function TaskCard({
   const { mutate: editTask } = useEditTaskMutation();
 
   const task = useAppSelector((state) => state.tasks.taskById[taskId]);
-
-  if (!task) {
-    return null;
-  }
+  if (!task) return null;
 
   const { name, commentCount, doneAt, date, frequency, recurring } = task;
-
   const startDate = recurring?.startDate;
 
   const toggleDone = (e: React.MouseEvent | React.KeyboardEvent) => {
     e.stopPropagation();
-
     const updatedDoneStatus = !doneAt;
     const updatedTask = {
       ...task,
@@ -75,8 +70,8 @@ export default function TaskCard({
 
   return (
     <div className="flex flex-col gap-2.5 rounded-lg bg-background-secondary px-3.5 py-3">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex flex-grow items-center gap-2">
+      <div className="flex flex-nowrap items-center justify-between gap-2">
+        <div className="flex flex-grow items-center gap-2 overflow-hidden">
           <span
             className="cursor-pointer"
             onClick={toggleDone}
@@ -87,7 +82,7 @@ export default function TaskCard({
             {doneAt ? <IconCheckBox /> : <IconUncheckBox />}
           </span>
           <span
-            className={clsx('cursor-pointer pr-1 text-md', {
+            className={clsx('cursor-pointer truncate pr-1 text-md', {
               'line-through': !!doneAt,
             })}
             onClick={toggleDone}
@@ -112,7 +107,7 @@ export default function TaskCard({
         date={date}
         frequency={frequency}
         startDate={startDate}
-        showStartDate={false}
+        showStartTime={false}
       />
     </div>
   );

@@ -3,6 +3,7 @@
 import { useRef, useEffect } from 'react';
 import HeaderBoardButton from '@/app/components/common/header/Boards';
 import IconClose from '@/app/components/icons/IconClose';
+import HeaderTeam from '@/app/components/common/header/HeaderTeam';
 
 interface SlidemenuBarType {
   visible: boolean;
@@ -59,6 +60,7 @@ export default function SideMenuBar({ visible, onClose }: SlidemenuBarType) {
             <IconClose />
           </button>
           <div className="flex flex-col gap-6">
+            <HeaderTeam type="sidebar" onClick={onClose} />
             <HeaderBoardButton
               className="block text-md tablet:hidden"
               onClick={onClose}

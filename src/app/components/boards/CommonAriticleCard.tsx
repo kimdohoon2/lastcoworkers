@@ -6,8 +6,8 @@ import ConfirmModal from '@/app/components/common/modal/ConfirmModal';
 import Dropdown from '@/app/components/common/dropdown/Dropdown';
 import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
-import IconPlus from '@/app/components/icons/IconPlus';
 import useArticleActions from '@/app/hooks/useArticleActions';
+import TaskCardDropdown from '@/app/components/icons/TaskCardDropdown';
 
 interface CommonArticleCardProps extends Article {
   isBest?: boolean;
@@ -40,6 +40,7 @@ export default function CommonAriticleCard({
     confirmDelete,
     handleKeyDown,
     handleDropdownToggle,
+    isAuthor,
   } = useArticleActions({
     id,
     title,
@@ -65,11 +66,11 @@ export default function CommonAriticleCard({
       >
         <div
           key={id}
-          className="w-full rounded-[12px] border border-[#F8FAFC1A] bg-background-secondary px-4 pb-4 pt-2 tablet:px-8 tablet:pb-6 tablet:pt-6"
+          className="w-full rounded-[0.75rem] border border-[#F8FAFC1A] bg-background-secondary px-4 pb-4 pt-2 transition-all duration-300 hover:scale-[1.02] tablet:px-8 tablet:pb-6 tablet:pt-6"
         >
           {isBest && (
             <div className="mb-3 flex items-center gap-2">
-              <div className="w-full max-w-[14px]">
+              <div className="w-full max-w-[0.875rem]">
                 <Image
                   className="w-full"
                   src="/icons/BoardsBestIcon.png"
@@ -88,27 +89,27 @@ export default function CommonAriticleCard({
               </p>
               {/* 모바일에서만 보이는 날짜 */}
               <p className="mb-4 mt-12 text-xs text-text-disabled tablet:hidden">
-                {new Date(updatedAt).toLocaleDateString()}
+                {new Date(updatedAt).toLocaleDateString().replace(/\.$/, '')}
               </p>
               {/* 베스트 게시글 태블릿에서 조건부로 보이는 날짜 */}
               <p
                 className={`mb-4 mt-12 hidden text-xs text-text-disabled tablet:block tablet:text-md ${tabletHidden ? 'tablet:hidden' : ''}`}
               >
-                {new Date(updatedAt).toLocaleDateString()}
+                {new Date(updatedAt).toLocaleDateString().replace(/\.$/, '')}
               </p>
             </div>
-            <div className="h-[64px] w-[64px] tablet:h-[72px] tablet:w-[72px]">
+            <div className="h-16 w-16 tablet:h-[4.5rem] tablet:w-[4.5rem]">
               <Image
-                className="h-full w-full rounded-[12px] object-cover"
+                className="h-full w-full rounded-[0.75rem] object-cover"
                 src={image || '/contents/UndefinedImg.png'}
                 alt="게시글 이미지"
                 width={72}
                 height={72}
               />
             </div>
-            {isBasic && (
+            {isBasic && isAuthor && (
               <div
-                className="relative ml-4 hidden h-5 w-5 rounded-full border border-border-primary tablet:block"
+                className="relative ml-4 hidden h-5 w-5 tablet:block"
                 onClick={handleDropdownToggle}
                 role="button"
                 tabIndex={0}
@@ -118,7 +119,7 @@ export default function CommonAriticleCard({
                 aria-label="Toggle dropdown"
               >
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <IconPlus />
+                  <TaskCardDropdown />
                 </div>
               </div>
             )}
@@ -143,15 +144,15 @@ export default function CommonAriticleCard({
               <p
                 className={`hidden text-xs text-text-disabled tablet:block tablet:text-md ${isOnlyTablet ? 'tablet:hidden' : ''}`}
               >
-                {new Date(updatedAt).toLocaleDateString()}
+                {new Date(updatedAt).toLocaleDateString().replace(/\.$/, '')}
               </p>
             </div>
             <div className="flex items-center gap-1">
               <BoardsLikeBox id={id} likeCount={likeCount} isLiked={isLiked} />
-              {isBasic && (
+              {isBasic && isAuthor && (
                 <>
                   <div
-                    className="relative ml-4 h-5 w-5 rounded-full border border-border-primary tablet:hidden"
+                    className="relative ml-4 h-5 w-5 rounded-full tablet:hidden"
                     onClick={handleDropdownToggle}
                     role="button"
                     tabIndex={0}
@@ -161,14 +162,17 @@ export default function CommonAriticleCard({
                     aria-label="Toggle dropdown"
                   >
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                      <IconPlus />
+                      <TaskCardDropdown />
                     </div>
                   </div>
                   <Dropdown
                     className="right-28 top-4 tablet:-top-20 xl:right-[8rem]"
                     onClose={closeDropdown}
                   >
-                    <DropdownList className="w-28 xl:w-[135px]" isOpen={isOpen}>
+                    <DropdownList
+                      className="w-28 xl:w-[8.4375rem]"
+                      isOpen={isOpen}
+                    >
                       <DropdownItem
                         className="xl:text-base"
                         onClick={() => {

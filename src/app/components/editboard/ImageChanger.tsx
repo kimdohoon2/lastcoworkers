@@ -52,7 +52,7 @@ export default function ImageChanger({
   };
 
   return (
-    <div>
+    <div className="mb-10">
       <h4 className="mb-4 mt-6 flex gap-1.5 text-md tablet:mt-10 tablet:text-lg">
         이미지
       </h4>

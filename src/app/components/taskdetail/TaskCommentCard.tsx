@@ -1,13 +1,13 @@
-import { Comment } from '@/app/lib/comment/getComment';
-import { getTimeDifference } from '@/app/utils/formatTime';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { useEditTaskCommentMutation } from '@/app/lib/comment/patchComment';
 import Image from 'next/image';
 import { useSelector } from 'react-redux';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { RootState } from '@/app/stores/store';
-import TaskDetailProfile from '../icons/TaskDetailProfile';
-import TaskCommentMenu from './TaskCommentDropdown';
-import Button from '../common/button/Button';
+import { Comment } from '@/app/lib/comment/getComment';
+import { getTimeDifference } from '@/app/utils/formatTime';
+import { useEditTaskCommentMutation } from '@/app/lib/comment/patchComment';
+import Button from '@/app/components/common/button/Button';
+import TaskDetailProfile from '@/app/components/icons/TaskDetailProfile';
+import TaskCommentDropdown from '@/app/components/taskdetail/TaskCommentDropdown';
 
 interface TaskCommentItemProps {
   taskId: number;
@@ -33,7 +33,7 @@ function TaskCommentCard({
   };
 
   const handleCancelClick = () => {
-    setEditedComment(comment.content);
+    setEditedComment(currentComment);
     setIsEditing(false);
   };
 
@@ -54,7 +54,7 @@ function TaskCommentCard({
   };
 
   return (
-    <li className="mb-4 border-b border-border-primary/10 bg-background-secondary pb-4">
+    <div className="mb-4 border-b border-border-primary/10 bg-background-secondary pb-4">
       <div className="flex flex-col gap-4">
         {isEditing ? (
           <div className="flex flex-col gap-2">
@@ -67,7 +67,12 @@ function TaskCommentCard({
               <Button onClick={handleCancelClick} variant="cancel" size="small">
                 취소
               </Button>
-              <Button onClick={handleSaveClick} variant="complete" size="small">
+              <Button
+                onClick={handleSaveClick}
+                variant="complete"
+                size="small"
+                disabled={editedComment.trim() === ''}
+              >
                 수정
               </Button>
             </div>
@@ -78,7 +83,7 @@ function TaskCommentCard({
               <p className="text-md text-text-primary">{currentComment}</p>
               <div className="min-h-[1.64rem]">
                 {isUserComment && (
-                  <TaskCommentMenu
+                  <TaskCommentDropdown
                     taskId={taskId}
                     commentId={comment.id}
                     onEdit={handleEditClick}
@@ -95,6 +100,7 @@ function TaskCommentCard({
                     alt="Profile"
                     width={32}
                     height={32}
+                    className="h-8 w-8 rounded-full object-cover"
                   />
                 ) : (
                   <TaskDetailProfile />
@@ -108,7 +114,7 @@ function TaskCommentCard({
           </>
         )}
       </div>
-    </li>
+    </div>
   );
 }
 export default TaskCommentCard;

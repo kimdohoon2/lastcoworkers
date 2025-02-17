@@ -27,6 +27,7 @@ export default function ProgressChart({
         endAngle={-90}
         fill="#334155"
         stroke="none"
+        isAnimationActive={false}
       />
       <Pie
         data={[{ name: 'Completed', value: completionPercentage }]}
@@ -38,8 +39,11 @@ export default function ProgressChart({
         startAngle={270}
         endAngle={270 + (completionPercentage * 360) / 100}
         fill="url(#progressGradient)"
-        cornerRadius={24}
         stroke="none"
+        cornerRadius={24}
+        isAnimationActive
+        animationDuration={500}
+        animationEasing="ease-out"
       />
       <text
         x="50%"
@@ -48,6 +52,7 @@ export default function ProgressChart({
         fontSize="12"
         fontWeight="500"
         fill="#F8FAFC"
+        className="block tablet:hidden"
       >
         오늘
       </text>
@@ -58,6 +63,7 @@ export default function ProgressChart({
         fontSize="20"
         fontWeight="700"
         fill="url(#progressGradient)"
+        className="block tablet:hidden"
       >
         {completionPercentage.toFixed(0)}%
       </text>

@@ -60,7 +60,7 @@ export default function LandingHeader() {
       </div>
       <button
         onClick={handleStartClick}
-        className="cursor-pointer rounded-[2rem] bg-gradient-to-r from-brand-primary to-brand-tertiary px-[8.9375rem] py-3 text-base font-semibold text-white"
+        className="cursor-pointer rounded-[2rem] bg-gradient-to-r from-brand-primary to-brand-tertiary px-[8rem] py-3 text-base font-semibold text-white tablet:px-[8.9375rem]"
       >
         지금 시작하기
       </button>

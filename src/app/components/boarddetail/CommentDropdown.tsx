@@ -5,8 +5,8 @@ import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import useModal from '@/app/hooks/useModal';
-import IconMore from '../icons/IconMore';
-import DeleteCommentModal from './DeleteCommentModal';
+import IconMore from '@/app/components/icons/IconMore';
+import DeleteCommentModal from '@/app/components/boarddetail/DeleteCommentModal';
 
 interface CommentDropdownProps {
   commentId: number;

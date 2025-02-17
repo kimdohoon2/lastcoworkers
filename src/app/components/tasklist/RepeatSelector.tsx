@@ -1,15 +1,15 @@
 'use client';
 
+import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { MONTH_DAYS, WEEK_DAYS } from '@/app/constants/dateConstants';
-import useDropdown from '@/app/hooks/useDropdown';
-import clsx from 'clsx';
 import { FrequencyType, RecurringTaskDataBody } from '@/app/types/task';
-import IconToggle from '../icons/IconToggle';
-import Dropdown from '../common/dropdown/Dropdown';
-import DropdownToggle from '../common/dropdown/DropdownToggle';
-import DropdownList from '../common/dropdown/DropdownList';
-import DropdownItem from '../common/dropdown/DropdownItem';
+import useDropdown from '@/app/hooks/useDropdown';
+import IconToggle from '@/app/components/icons/IconToggle';
+import Dropdown from '@/app/components/common/dropdown/Dropdown';
+import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
+import DropdownList from '@/app/components/common/dropdown/DropdownList';
+import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 
 interface RepeatSelectorProps {
   onRepeatChange: (repeatData: RecurringTaskDataBody) => void;
@@ -19,32 +19,30 @@ export default function RepeatSelector({
   onRepeatChange,
 }: RepeatSelectorProps) {
   const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>([]);
-  const [selectedMonthDay, setSelectedMonthDay] = useState<number | undefined>(
-    undefined,
-  );
+  const [selectedMonthDay, setSelectedMonthDay] = useState<number>(1);
   const { isOpen, toggleDropdown, currentItem, closeDropdown, selectItem } =
     useDropdown();
 
   useEffect(() => {
+    let repeatData: RecurringTaskDataBody;
+
     if (currentItem === '월 반복') {
-      onRepeatChange({
+      repeatData = {
         frequencyType: FrequencyType.MONTHLY,
-        monthDay: selectedMonthDay || 1,
-      });
+        monthDay: selectedMonthDay,
+      };
     } else if (currentItem === '주 반복') {
-      onRepeatChange({
+      repeatData = {
         frequencyType: FrequencyType.WEEKLY,
         weekDays: selectedWeekDays,
-      });
+      };
     } else if (currentItem === '매일') {
-      onRepeatChange({
-        frequencyType: FrequencyType.DAILY,
-      });
+      repeatData = { frequencyType: FrequencyType.DAILY };
     } else {
-      onRepeatChange({
-        frequencyType: FrequencyType.ONCE,
-      });
+      repeatData = { frequencyType: FrequencyType.ONCE };
     }
+
+    onRepeatChange(repeatData);
   }, [currentItem, selectedWeekDays, selectedMonthDay, onRepeatChange]);
 
   const handleWeekDaySelect = (day: number) => {
@@ -106,7 +104,7 @@ export default function RepeatSelector({
 
       {currentItem === '주 반복' && (
         <div className="mt-4 flex flex-col gap-3">
-          <h3 className="w-full text-lg">반복 요일 *(복수 선택 가능)</h3>
+          <h3 className="w-full text-lg">반복 요일 * (복수 선택 가능)</h3>
           <ul className="flex justify-around">
             {WEEK_DAYS.map(({ name, value }) => (
               <li key={name}>
@@ -131,7 +129,7 @@ export default function RepeatSelector({
 
       {currentItem === '월 반복' && (
         <div className="mt-4 flex flex-col gap-3">
-          <h3 className="w-full text-lg">반복 날짜 *</h3>
+          <h3 className="w-full text-lg">반복 날짜 * (기본값: 1일)</h3>
           <div className="grid grid-cols-7 grid-rows-5 rounded-xl border border-interaction-hover p-4">
             {MONTH_DAYS.map((date) => (
               <button

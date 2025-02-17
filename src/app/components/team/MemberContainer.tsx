@@ -1,8 +1,12 @@
 import useModal from '@/app/hooks/useModal';
 import { useQuery } from '@tanstack/react-query';
 import getInvitation from '@/app/lib/group/getInvitaion';
-import AddMemberModal from './AddMemberModal';
-import MemberCard from './MemberCard';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/stores/store';
+import AddMemberModal from '@/app/components/team/AddMemberModal';
+import MemberCard from '@/app/components/team/MemberCard';
+import MemberCardSkeleton from '@/app/components/team/MemberCardSkeleton';
+import getRandomId from '@/app/utils/getRandomId';
 
 interface GroupMember {
   role: 'ADMIN' | 'MEMBER';
@@ -15,6 +19,11 @@ interface GroupMember {
 
 function MemberContainer({ members }: { members: GroupMember[] }) {
   const { isOpen, openModal, closeModal } = useModal();
+  const { user } = useSelector((state: RootState) => state.auth);
+
+  const isAdmin =
+    members.find((member) => member.userId === Number(user?.id))?.role ===
+    'ADMIN';
 
   const {
     data: token,
@@ -25,12 +34,10 @@ function MemberContainer({ members }: { members: GroupMember[] }) {
     queryFn: () => getInvitation(members[0].groupId),
   });
 
-  if (isLoading) return <div>Loading...</div>;
-
   if (isError) return null;
 
   return (
-    <div className="mx-auto mb-6 mt-12 max-w-[75rem]">
+    <div className="mx-auto mb-24 mt-12 max-w-[75rem]">
       <div className="mb-6 flex items-center justify-between">
         <div className="text-lg font-medium">
           멤버
@@ -38,16 +45,24 @@ function MemberContainer({ members }: { members: GroupMember[] }) {
         </div>
         <button
           type="button"
-          className="text-md text-brand-primary"
+          className="text-md text-brand-primary hover:underline"
           onClick={openModal}
         >
           + 새로운 멤버 초대하기
         </button>
       </div>
       <div className="grid grid-cols-2 gap-4 tablet:grid-cols-3 tablet:gap-6">
-        {members.map((member) => (
-          <MemberCard key={member.userId} member={member} />
-        ))}
+        {isLoading
+          ? Array.from({ length: members.length || 6 }).map(() => (
+              <MemberCardSkeleton key={`memeber_skeleton_${getRandomId()}`} />
+            ))
+          : members.map((member) => (
+              <MemberCard
+                key={member.userId}
+                member={member}
+                isAdmin={isAdmin}
+              />
+            ))}
       </div>
       <AddMemberModal
         token={token || ''}
