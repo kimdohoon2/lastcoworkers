@@ -52,6 +52,7 @@ export default function ProgressChart({
         fontSize="12"
         fontWeight="500"
         fill="#F8FAFC"
+        className="block tablet:hidden"
       >
         오늘
       </text>
@@ -62,6 +63,7 @@ export default function ProgressChart({
         fontSize="20"
         fontWeight="700"
         fill="url(#progressGradient)"
+        className="block tablet:hidden"
       >
         {completionPercentage.toFixed(0)}%
       </text>

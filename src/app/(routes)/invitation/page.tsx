@@ -36,7 +36,6 @@ function Page() {
 
   return (
     <div>
-      {/* <div className="mx-auto mt-[3.75rem] max-w-[23.4375rem] px-4 pt-[4.5rem] tablet:w-[28.75rem] tablet:px-0 tablet:pt-[6.25rem]"> */}
       <div className="mx-auto flex h-screen max-w-[23.4375rem] flex-col justify-center px-4 tablet:w-[28.75rem] tablet:px-0">
         <h2 className="my-6 text-center text-2xl font-medium text-text-primary tablet:mb-20">
           팀 참여하기
@@ -44,7 +43,7 @@ function Page() {
         <div className="mb-3 text-lg font-medium">팀 링크</div>
         <input
           type="text"
-          className="w-full rounded-xl border border-border-primary bg-background-secondary px-4 py-[0.85rem] disabled:cursor-not-allowed disabled:text-text-default"
+          className="w-full rounded-xl border border-border-primary bg-background-secondary px-4 py-[0.85rem] focus:border-interaction-focus focus:outline-none disabled:cursor-not-allowed disabled:text-text-default"
           placeholder="팀 링크를 입력해주세요."
           value={token}
           onChange={(e) => setToken(e.target.value)}

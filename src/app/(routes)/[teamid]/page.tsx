@@ -11,6 +11,7 @@ import useAuthRedirect from '@/app/hooks/useAuthRedirect';
 import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 import Loading from '@/app/components/common/loading/Loading';
 import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
+import useRedirectIfNotMember from '@/app/hooks/useRedirectIfNotMember';
 
 export default function TeamPage() {
   const { teamid } = useParams();
@@ -31,7 +32,8 @@ export default function TeamPage() {
         ? getGroup({ id: groupId })
         : Promise.reject(new Error('No ID provided')),
     enabled: !!groupId,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
+    refetchOnMount: 'always',
   });
 
   const isNotFound =
@@ -39,14 +41,22 @@ export default function TeamPage() {
 
   const { isRedirecting } = useRedirectIfNotFound(isNotFound);
 
+  const { isRedirecting: isRedirectingMember } = useRedirectIfNotMember({
+    isLoading,
+    groupData,
+  });
+
   if (isAuthLoading) return <AuthCheckLoading />;
 
-  if (isLoading || isRedirecting) return <Loading />;
+  if (isLoading || isRedirecting || isRedirectingMember) return <Loading />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
   return (
     <div className="box-border h-full w-full px-4">
-      <TeamHeader groupName={groupData?.name || '그룹 이름 없음'} />
+      <TeamHeader
+        groupName={groupData?.name || '그룹 이름 없음'}
+        groupId={groupId!}
+      />
       <TodoList taskLists={groupData?.taskLists || []} groupId={groupId!} />
       <Report taskLists={groupData?.taskLists || []} groupId={groupId!} />
       <MemberContainer members={groupData?.members || []} />

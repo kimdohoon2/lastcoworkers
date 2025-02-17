@@ -17,7 +17,7 @@ import {
   arrayMove,
 } from '@dnd-kit/sortable';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import getTaskList from '@/app/lib/group/getTaskList';
+import getTaskList, { GetTaskListResponse } from '@/app/lib/group/getTaskList';
 import { createTaskList } from '@/app/lib/tasklist/postTaskList';
 import TodoListItem from '@/app/components/team/TodoListItem';
 import getTodayDate from '@/app/utils/getTodayDate';
@@ -26,9 +26,10 @@ import Modal from '@/app/components/common/modal/Modal';
 import Button from '@/app/components/common/button/Button';
 import Input from '@/app/components/common/input/Input';
 import { useForm, FormProvider } from 'react-hook-form';
-import { GroupTask } from '@/app/types/grouptask';
+import { GroupResponse, GroupTask } from '@/app/types/grouptask';
 import { editTaskListOrder } from '@/app/lib/tasklist/patchTaskList';
 import { AxiosError } from 'axios';
+import TodoListSkeleton from '@/app/components/team/TodoListSkeleton';
 
 interface TodoListProps {
   groupId: number;
@@ -69,7 +70,12 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
           getTaskList({ groupId, taskListId: taskList.id, date: todayDate }),
         ),
       );
-      return responses;
+      const mappedResponses: Record<number, GetTaskListResponse> = {};
+      responses.forEach((response, index) => {
+        const taskList = items[index];
+        mappedResponses[taskList.id] = response;
+      });
+      return mappedResponses;
     },
     staleTime: 5 * 60 * 1000,
     refetchOnMount: 'always',
@@ -127,9 +133,21 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
         id: Number(active.id),
         displayIndex: newIndex,
       });
+      queryClient.setQueryData<GroupResponse>(
+        ['group', groupId],
+        (oldData?: GroupResponse): GroupResponse | undefined => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            taskLists: newItems,
+          };
+        },
+      );
     }
     setActiveId(null);
   };
+
+  if (isError) return null;
 
   return (
     <div className="mx-auto my-6 max-w-[75rem]">
@@ -189,68 +207,54 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
           </FormProvider>
         </Modal>
       </div>
-
-      {isLoading && <div className="my-4">로딩 중...</div>}
-      {isError && (
-        <div className="my-4 text-red-500">
-          데이터를 불러오는 중 오류가 발생했습니다.
-        </div>
-      )}
-
-      <DndContext
-        collisionDetection={closestCenter}
-        sensors={sensors}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext items={items} strategy={verticalListSortingStrategy}>
-          <div className="flex flex-col overflow-visible">
-            {items.map((taskList) => (
-              <TodoListItem
-                key={taskList.id}
-                id={taskList.id}
-                taskList={taskList}
-                groupId={groupId}
-                backgroundColor={
-                  backgroundColors[taskList.id % backgroundColors.length]
-                }
-                taskListData={
-                  data?.[
-                    items.findIndex((item) => item.id === taskList.id)
-                  ] || { tasks: [] }
-                }
-              />
-            ))}
-          </div>
-        </SortableContext>
-        <DragOverlay>
-          {activeId ? (
-            <div className="w-full">
-              {(() => {
-                const activeTask = items.find((item) => item.id === activeId);
-                const overlayBg = activeTask
-                  ? backgroundColors[activeTask.id % backgroundColors.length]
-                  : 'bg-gray-500';
-                return (
-                  <TodoListItem
-                    id={activeId}
-                    taskList={activeTask as GroupTask}
-                    groupId={groupId}
-                    backgroundColor={overlayBg}
-                    taskListData={
-                      data?.[
-                        items.findIndex((item) => item.id === activeId)
-                      ] || {
-                        tasks: [],
-                      }
-                    }
-                  />
-                );
-              })()}
+      {isLoading ? (
+        <TodoListSkeleton />
+      ) : (
+        <DndContext
+          collisionDetection={closestCenter}
+          sensors={sensors}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext items={items} strategy={verticalListSortingStrategy}>
+            <div className="flex flex-col overflow-visible">
+              {items.map((taskList) => (
+                <TodoListItem
+                  key={taskList.id}
+                  id={taskList.id}
+                  taskList={taskList}
+                  groupId={groupId}
+                  backgroundColor={
+                    backgroundColors[taskList.id % backgroundColors.length]
+                  }
+                  taskListData={data?.[taskList.id] || { tasks: [] }}
+                />
+              ))}
             </div>
-          ) : null}
-        </DragOverlay>
-      </DndContext>
+          </SortableContext>
+          <DragOverlay>
+            {activeId ? (
+              <div className="w-full">
+                {(() => {
+                  const activeTask = items.find((item) => item.id === activeId);
+                  const overlayBg = activeTask
+                    ? backgroundColors[activeTask.id % backgroundColors.length]
+                    : 'bg-gray-500';
+                  return (
+                    <TodoListItem
+                      id={activeId}
+                      taskList={activeTask as GroupTask}
+                      groupId={groupId}
+                      backgroundColor={overlayBg}
+                      taskListData={data?.[activeId] || { tasks: [] }}
+                    />
+                  );
+                })()}
+              </div>
+            ) : null}
+          </DragOverlay>
+        </DndContext>
+      )}
     </div>
   );
 }
