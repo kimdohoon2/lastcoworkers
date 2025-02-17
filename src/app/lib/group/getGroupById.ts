@@ -1,11 +1,5 @@
 import axios from '@/app/lib/instance';
-import { GroupTask } from '@/app/types/grouptask';
-
-type GroupResponse = {
-  image?: string | null;
-  name: string;
-  taskLists: GroupTask[];
-};
+import { GroupResponse } from '@/app/types/grouptask';
 
 const getGroupById = async (id: number): Promise<GroupResponse> => {
   const res = await axios.get<GroupResponse>(`/groups/${id}`, {
