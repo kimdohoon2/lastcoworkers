@@ -11,12 +11,13 @@ export default function DropdownList({
   children,
   isOpen,
 }: PropsWithChildren<DropdownListProps>) {
-  if (!isOpen) return null;
-
   return (
     <div
       className={clsx(
         'absolute z-30 overflow-hidden rounded-xl border border-background-tertiary bg-background-secondary',
+        isOpen
+          ? 'opacity-100 transition-all duration-200'
+          : 'pointer-events-none opacity-0 transition-all duration-200',
         className,
       )}
     >
