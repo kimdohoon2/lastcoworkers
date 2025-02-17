@@ -6,10 +6,11 @@ import {
   closestCenter,
   DragEndEvent,
   DragStartEvent,
-  PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   DragOverlay,
+  MouseSensor,
 } from '@dnd-kit/core';
 import {
   SortableContext,
@@ -115,8 +116,16 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
   };
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: { distance: 10 },
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 150,
+        tolerance: 5,
+      },
     }),
   );
 

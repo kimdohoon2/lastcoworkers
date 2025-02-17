@@ -40,7 +40,6 @@ export default function ProgressChart({
         endAngle={270 + (completionPercentage * 360) / 100}
         fill="url(#progressGradient)"
         stroke="none"
-        cornerRadius={24}
         isAnimationActive
         animationDuration={500}
         animationEasing="ease-out"
