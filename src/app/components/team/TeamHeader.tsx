@@ -20,7 +20,8 @@ export default function TeamHeader({ groupName, groupId }: HeaderProps) {
   } = useQuery<GetUserResponse>({
     queryKey: ['user'],
     queryFn: getUser,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
+    refetchOnMount: 'always',
   });
 
   if (isLoading) {
