@@ -6,19 +6,20 @@ import Input from '@/app/components/common/input/Input';
 import Button from '@/app/components/common/button/Button';
 import useConfirmPassword from '@/app/hooks/useConfirmPassword';
 import { ConfirmPasswordType } from '@/app/types/AuthType';
+import useToast from '@/app/hooks/useToast';
 
 export default function ResetPasswordForm() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
   const { mutate } = useConfirmPassword();
-
+  const { showToast } = useToast();
   const methods = useForm<ConfirmPasswordType>({
     mode: 'onChange',
   });
 
   const onSubmit = (data: ConfirmPasswordType) => {
     if (!token) {
-      alert('유효하지 않은 토큰입니다.');
+      showToast({ message: '유효하지 않은 토큰입니다.' });
       return;
     }
     mutate({

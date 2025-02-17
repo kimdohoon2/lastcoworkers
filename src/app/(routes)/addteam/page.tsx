@@ -10,12 +10,15 @@ import { useMutation } from '@tanstack/react-query';
 import uploadImage from '@/app/utils/uploadImage';
 import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 import { useState } from 'react';
+import useToast from '@/app/hooks/useToast';
 
 function Page() {
   const { isLoading } = useAuthRedirect();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
+
+  const { showToast } = useToast();
 
   const mutation = useMutation({
     mutationFn: async ({ profile, name }: FieldValues) => {
@@ -36,7 +39,7 @@ function Page() {
       router.push(`/${id}`);
     },
     onError: () => {
-      alert('팀 생성에 실패했습니다.');
+      showToast({ message: '팀 생성에 실패했습니다.' });
       setIsSubmitting(false);
     },
   });

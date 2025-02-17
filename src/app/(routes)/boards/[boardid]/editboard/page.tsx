@@ -12,10 +12,12 @@ import ImageChanger from '@/app/components/editboard/ImageChanger';
 import ArticleChanger from '@/app/components/editboard/ArticleChanger';
 import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
 import Loading from '@/app/components/common/loading/Loading';
+import useToast from '@/app/hooks/useToast';
 
 export default function EditBoardPage() {
   const { boardid } = useParams();
   const router = useRouter();
+  const { showToast } = useToast();
 
   const articleQuery = useQuery({
     queryKey: ['articleDetail', boardid],
@@ -38,7 +40,7 @@ export default function EditBoardPage() {
   const patchArticleMutation = useMutation({
     mutationFn: (updatedData: PatchArticleRequest) => patchArticle(updatedData),
     onSuccess: () => {
-      alert('게시글이 수정되었습니다.');
+      showToast({ message: '게시글이 수정되었습니다.' });
       router.push(`/boards/${boardid}`);
     },
   });
@@ -47,7 +49,7 @@ export default function EditBoardPage() {
     e.preventDefault();
 
     if (!title.trim() || !content.trim()) {
-      alert('제목과 내용을 입력해주세요.');
+      showToast({ message: '제목과 내용을 입력해주세요.' });
       return;
     }
 
