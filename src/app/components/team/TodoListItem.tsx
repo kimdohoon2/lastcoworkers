@@ -37,7 +37,6 @@ export default function TodoListItem({
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
-    touchAction: 'none',
     WebkitUserSelect: 'none',
     WebkitTouchCallout: 'none',
   };
