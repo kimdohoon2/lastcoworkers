@@ -11,6 +11,7 @@ import useAuthRedirect from '@/app/hooks/useAuthRedirect';
 import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 import Loading from '@/app/components/common/loading/Loading';
 import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
+import useRedirectIfNotMember from '@/app/hooks/useRedirectIfNotMember';
 
 export default function TeamPage() {
   const { teamid } = useParams();
@@ -40,9 +41,14 @@ export default function TeamPage() {
 
   const { isRedirecting } = useRedirectIfNotFound(isNotFound);
 
+  const { isRedirecting: isRedirectingMember } = useRedirectIfNotMember({
+    isLoading,
+    groupData,
+  });
+
   if (isAuthLoading) return <AuthCheckLoading />;
 
-  if (isLoading || isRedirecting) return <Loading />;
+  if (isLoading || isRedirecting || isRedirectingMember) return <Loading />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
   return (

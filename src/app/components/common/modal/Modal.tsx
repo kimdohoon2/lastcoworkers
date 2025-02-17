@@ -1,6 +1,12 @@
 'use client';
 
-import { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { createPortal } from 'react-dom';
 import IconClose from '@/app/components/icons/IconClose';
 
@@ -18,20 +24,32 @@ function Modal({
   isOpen,
   children,
 }: PropsWithChildren<ModalProps>) {
-  const [renderModal, setRenderModal] = useState(isOpen);
+  const [isAnimating, setIsAnimating] = useState(false); // 애니메이션 상태를 추가
   const modalRef = useRef<HTMLDivElement | null>(null);
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeModal();
+    },
+    [closeModal],
+  );
 
   useEffect(() => {
     if (isOpen) {
-      setRenderModal(true); // isOpen이 true면 렌더링 활성화
       document.body.style.overflow = 'hidden';
+      document.addEventListener('keydown', handleKeyDown);
+      setIsAnimating(true);
     }
-  }, [isOpen]);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, handleKeyDown]);
 
   const handleAnimationEnd = () => {
     if (!isOpen) {
-      setRenderModal(false); // 애니메이션 종료 후 렌더링 중단
       document.body.style.overflow = '';
+      setIsAnimating(false);
     }
   };
 
@@ -52,19 +70,16 @@ function Modal({
     };
   }, [closeModal]);
 
-  if (!renderModal) return null;
+  if (!isOpen && !isAnimating) return null;
 
   return createPortal(
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-end transition-opacity tablet:justify-center ${
-        isOpen ? 'opacity-100' : 'pointer-events-none hidden opacity-0'
-      }`}
-      style={{ display: renderModal ? 'flex' : 'none' }}
+      className="fixed inset-0 z-50 flex flex-col items-center justify-end transition-opacity tablet:justify-center"
       onPointerDown={(e) => e.stopPropagation()}
     >
       <div ref={modalRef} className="absolute inset-0 bg-black opacity-50" />
       <div
-        className={`relative flex max-h-[80%] w-full transform flex-col items-center overflow-y-hidden rounded-t-xl bg-background-secondary pb-8 pt-12 transition-transform tablet:w-96 tablet:rounded-b-xl ${isOpen ? 'translate-y-0' : 'translate-y-4'}`}
+        className={`relative flex max-h-[80%] w-full transform flex-col items-center overflow-y-hidden rounded-t-xl bg-background-secondary pb-8 pt-12 transition-all duration-300 tablet:w-96 tablet:rounded-b-xl ${isOpen && isAnimating ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
         onTransitionEnd={handleAnimationEnd}
       >
         {hasCloseBtn && (

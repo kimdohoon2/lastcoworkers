@@ -20,6 +20,7 @@ import CreateTaskModal from '@/app/components/tasklist/CreateTaskModal';
 import CreateListModal from '@/app/components/tasklist/CreateListModal';
 import TaskCardSkeleton from '@/app/components/tasklist/TaskCardSkeleton';
 import IconBack from '@/app/components/icons/IconBack';
+import useRedirectIfNotMember from '@/app/hooks/useRedirectIfNotMember';
 
 function TaskListPage() {
   const router = useRouter();
@@ -77,8 +78,13 @@ function TaskListPage() {
 
   const { isRedirecting } = useRedirectIfNotFound(isNotFound);
 
+  const { isRedirecting: isRedirectingMember } = useRedirectIfNotMember({
+    isLoading,
+    groupData,
+  });
+
   if (isAuthLoading) return <AuthCheckLoading />;
-  if (isLoading || isRedirecting) return <Loading />;
+  if (isLoading || isRedirecting || isRedirectingMember) return <Loading />;
 
   return (
     <div className="mx-auto mt-24 flex w-full max-w-[75rem] flex-col gap-5 px-3.5 tablet:px-6">
