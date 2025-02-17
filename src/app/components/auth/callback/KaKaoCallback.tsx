@@ -39,7 +39,7 @@ export default function KaKaoCallback() {
           }
         } catch (error) {
           console.error('소셜 로그인 오류:', error);
-          showToast({ message: '로그인에 실패했습니다.' });
+          showToast({ message: '로그인에 실패했습니다.', type: 'error' });
           router.push('/login');
         }
       };

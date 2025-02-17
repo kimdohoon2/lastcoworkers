@@ -12,7 +12,7 @@ const useAuthRedirect = () => {
 
   useEffect(() => {
     if (!accessToken) {
-      showToast({ message: '로그인 후 이용할 수 있습니다.' });
+      showToast({ message: '로그인 후 이용할 수 있습니다.', type: 'info' });
       setTimeout(() => {
         router.replace('/login');
       }, 300);

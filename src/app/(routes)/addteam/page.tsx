@@ -39,7 +39,7 @@ function Page() {
       router.push(`/${id}`);
     },
     onError: () => {
-      showToast({ message: '팀 생성에 실패했습니다.' });
+      showToast({ message: '팀 생성에 실패했습니다.', type: 'error' });
       setIsSubmitting(false);
     },
   });

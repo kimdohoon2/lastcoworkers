@@ -52,9 +52,15 @@ export default function TaskListDropdown({
     },
     onError: (error: AxiosError) => {
       if (error.response?.status === 409) {
-        showToast({ message: '그룹 내 이름이 같은 할 일 목록이 존재합니다.' });
+        showToast({
+          message: '그룹 내 이름이 같은 할 일 목록이 존재합니다.',
+          type: 'warning',
+        });
       } else {
-        showToast({ message: '할 일 목록을 수정하는 중 오류가 발생했습니다.' });
+        showToast({
+          message: '할 일 목록을 수정하는 중 오류가 발생했습니다.',
+          type: 'error',
+        });
       }
     },
   });

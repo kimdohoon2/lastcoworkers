@@ -29,7 +29,10 @@ export default function ArticleChanger({
     const newTitle = e.target.value;
 
     if (newTitle.length > 200) {
-      showToast({ message: '제목은 200자를 넘을 수 없습니다.' });
+      showToast({
+        message: '제목은 200자를 넘을 수 없습니다.',
+        type: 'warning',
+      });
       return;
     }
 

@@ -62,6 +62,7 @@ export default function useArticleActions(article: Article) {
           closeDeleteModal();
           showToast({
             message: '게시글 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.',
+            type: 'error',
           });
           console.error('Delete error:', error);
         },

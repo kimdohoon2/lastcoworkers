@@ -19,7 +19,7 @@ const useRedirectIfNotMember = ({
 
   const redirect = useCallback(() => {
     setIsRedirecting(true);
-    showToast({ message: '접근제한: 팀의 멤버가 아닙니다!' });
+    showToast({ message: '접근제한: 팀의 멤버가 아닙니다!', type: 'warning' });
     router.replace('/');
   }, [router]);
 

@@ -38,13 +38,14 @@ export default function NicknameChanger({
     onError: () => {
       showToast({
         message: '이미 사용 중인 닉네임입니다. 다른 닉네임을 사용해주세요.',
+        type: 'warning',
       });
     },
   });
 
   const handleNicknameChange = () => {
     if (!newNickname.trim()) {
-      showToast({ message: '닉네임을 입력하세요.' });
+      showToast({ message: '닉네임을 입력하세요.', type: 'warning' });
       return;
     }
     openModal();

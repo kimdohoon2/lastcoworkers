@@ -19,7 +19,7 @@ export default function ResetPasswordForm() {
 
   const onSubmit = (data: ConfirmPasswordType) => {
     if (!token) {
-      showToast({ message: '유효하지 않은 토큰입니다.' });
+      showToast({ message: '유효하지 않은 토큰입니다.', type: 'error' });
       return;
     }
     mutate({

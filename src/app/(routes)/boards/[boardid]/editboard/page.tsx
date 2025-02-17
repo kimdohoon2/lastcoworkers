@@ -40,7 +40,7 @@ export default function EditBoardPage() {
   const patchArticleMutation = useMutation({
     mutationFn: (updatedData: PatchArticleRequest) => patchArticle(updatedData),
     onSuccess: () => {
-      showToast({ message: '게시글이 수정되었습니다.' });
+      showToast({ message: '게시글이 수정되었습니다.', type: 'success' });
       router.push(`/boards/${boardid}`);
     },
   });
@@ -49,7 +49,7 @@ export default function EditBoardPage() {
     e.preventDefault();
 
     if (!title.trim() || !content.trim()) {
-      showToast({ message: '제목과 내용을 입력해주세요.' });
+      showToast({ message: '제목과 내용을 입력해주세요.', type: 'error' });
       return;
     }
 

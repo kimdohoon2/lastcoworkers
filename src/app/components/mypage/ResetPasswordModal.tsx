@@ -31,7 +31,7 @@ export default function ResetPasswordModal({
   const mutation = useMutation({
     mutationFn: patchPassword,
     onSuccess: () => {
-      showToast({ message: '비밀번호가 변경되었습니다.' });
+      showToast({ message: '비밀번호가 변경되었습니다.', type: 'success' });
       closeModal();
     },
     onError: (error: unknown) => {

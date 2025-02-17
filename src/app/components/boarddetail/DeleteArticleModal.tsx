@@ -24,7 +24,7 @@ export default function DeleteArticleModal({
   const deleteMutation = useMutation({
     mutationFn: () => deleteArticle({ articleId }),
     onSuccess: () => {
-      showToast({ message: '게시글이 삭제되었습니다.' });
+      showToast({ message: '게시글이 삭제되었습니다.', type: 'success' });
       onClose();
       router.push('/boards'); // 삭제 후 게시판 목록으로 이동
     },

@@ -95,7 +95,10 @@ function TaskDetail({
           });
         },
         onError: () => {
-          showToast({ message: '할 일 상태 변경에 실패했습니다.' });
+          showToast({
+            message: '할 일 상태 변경에 실패했습니다.',
+            type: 'error',
+          });
         },
       },
     );

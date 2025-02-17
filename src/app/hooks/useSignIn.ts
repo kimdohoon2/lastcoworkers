@@ -24,10 +24,11 @@ const useSignIn = () => {
     },
     onError: (error: unknown) => {
       if (isAxiosError(error) && error.response) {
-        showToast({ message: '로그인에 실패했습니다.' });
+        showToast({ message: '로그인에 실패했습니다.', type: 'error' });
       } else {
         showToast({
           message: '로그인 중 오류가 발생했습니다. 다시 시도해 주세요.',
+          type: 'error',
         });
       }
     },

@@ -51,7 +51,7 @@ function Page() {
       router.push(`/${groupId}`);
     },
     onError: () => {
-      showToast({ message: '팀 수정에 실패했습니다.' });
+      showToast({ message: '팀 수정에 실패했습니다.', type: 'error' });
       setIsSubmitting(false);
     },
   });
