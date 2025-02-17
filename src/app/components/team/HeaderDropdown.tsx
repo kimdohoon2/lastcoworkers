@@ -32,7 +32,7 @@ export default function HeaderDropdown({ groupName }: HeaderDropdownProps) {
       queryClient.invalidateQueries({ queryKey: ['groups'] });
       queryClient.invalidateQueries({ queryKey: ['user'] });
       deleteModal.closeModal();
-      router.push('/');
+      window.location.href = '/';
     },
   });
 
