@@ -3,6 +3,7 @@
 import AuthCheckLoading from '@/app/components/common/auth/AuthCheckLoading';
 import Button from '@/app/components/common/button/Button';
 import useAuthRedirect from '@/app/hooks/useAuthRedirect';
+import useToast from '@/app/hooks/useToast';
 import postAcceptInvitation from '@/app/lib/group/postAcceptInvitation';
 import { RootState } from '@/app/stores/store';
 import { useQueryClient } from '@tanstack/react-query';
@@ -18,6 +19,8 @@ function Page() {
   const { user } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
+  const { showToast } = useToast();
+
   const handleClick = async () => {
     try {
       const { groupId } = await postAcceptInvitation({
@@ -28,7 +31,7 @@ function Page() {
       queryClient.invalidateQueries({ queryKey: ['group', groupId] });
       router.push(groupId.toString());
     } catch (error) {
-      alert('이미 그룹에 소속된 유저입니다.');
+      showToast({ message: '이미 그룹에 소속된 유저입니다.', type: 'error' });
     }
   };
 

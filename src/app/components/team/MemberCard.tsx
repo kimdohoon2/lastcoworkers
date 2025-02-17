@@ -11,6 +11,7 @@ import DetailMemberModal from '@/app/components/team/DetailMemberModal';
 import deleteMember from '@/app/lib/group/deleteMemeber';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ConfirmModal from '@/app/components/common/modal/ConfirmModal';
+import useToast from '@/app/hooks/useToast';
 
 interface GroupMember {
   role: 'ADMIN' | 'MEMBER';
@@ -36,6 +37,7 @@ function MemberCard({
     openModal: openConfirmModal,
     closeModal: closeConfirmModal,
   } = useModal();
+  const { showToast } = useToast();
 
   const { mutate: expelMember } = useMutation({
     mutationFn: deleteMember,
@@ -43,7 +45,7 @@ function MemberCard({
       queryClient.invalidateQueries({ queryKey: ['group', member.groupId] });
     },
     onError: () => {
-      alert('멤버 추방을 실패했습니다.');
+      showToast({ message: '멤버 추방을 실패했습니다.', type: 'error' });
     },
   });
 

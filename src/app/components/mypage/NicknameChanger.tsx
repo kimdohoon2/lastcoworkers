@@ -6,6 +6,7 @@ import patchUser, { PatchUserRequest } from '@/app/lib/user/patchUser';
 import Modal from '@/app/components/common/modal/Modal';
 import useModal from '@/app/hooks/useModal';
 import Button from '@/app/components/common/button/Button';
+import useToast from '@/app/hooks/useToast';
 
 interface NicknameChangerProps {
   currentNickname: string;
@@ -25,6 +26,7 @@ export default function NicknameChanger({
   } = methods;
   const { isOpen, openModal, closeModal } = useModal();
   const newNickname = watch('nickname');
+  const { showToast } = useToast();
 
   // 닉네임 변경 API 호출
   const updateNicknameMutation = useMutation({
@@ -34,13 +36,16 @@ export default function NicknameChanger({
       closeModal();
     },
     onError: () => {
-      alert('이미 사용 중인 닉네임입니다. 다른 닉네임을 사용해주세요.');
+      showToast({
+        message: '이미 사용 중인 닉네임입니다. 다른 닉네임을 사용해주세요.',
+        type: 'warning',
+      });
     },
   });
 
   const handleNicknameChange = () => {
     if (!newNickname.trim()) {
-      alert('닉네임을 입력하세요.');
+      showToast({ message: '닉네임을 입력하세요.', type: 'warning' });
       return;
     }
     openModal();

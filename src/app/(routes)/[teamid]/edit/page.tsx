@@ -14,6 +14,7 @@ import { useState } from 'react';
 import Loading from '@/app/components/common/loading/Loading';
 import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
 import useRedirectIfNotMember from '@/app/hooks/useRedirectIfNotMember';
+import useToast from '@/app/hooks/useToast';
 
 function Page() {
   const { isLoading: isAuthLoading } = useAuthRedirect();
@@ -23,6 +24,7 @@ function Page() {
   const { teamid } = useParams();
   const queryClient = useQueryClient();
   const groupId = Number(teamid);
+  const { showToast } = useToast();
 
   const {
     data: groupData,
@@ -49,7 +51,7 @@ function Page() {
       router.push(`/${groupId}`);
     },
     onError: () => {
-      alert('팀 수정에 실패했습니다.');
+      showToast({ message: '팀 수정에 실패했습니다.', type: 'error' });
       setIsSubmitting(false);
     },
   });
