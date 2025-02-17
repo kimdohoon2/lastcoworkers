@@ -6,7 +6,7 @@ import { combineReducers } from 'redux';
 import authReducer from '@/app/stores/auth/authSlice';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 import tasksReducer from '@/app/stores/tasksSlice';
-import oauthReducer from '@/app/stores/oauthSlide';
+import oauthReducer from '@/app/stores/oauthSlice';
 
 const createNoopStorage = () => {
   return {

@@ -15,8 +15,11 @@ const oauthSlice = createSlice({
     setProvider: (state, action: PayloadAction<'KAKAO'>) => {
       state.provider = action.payload;
     },
+    oauthlogout: (state) => {
+      state.provider = null;
+    },
   },
 });
 
-export const { setProvider } = oauthSlice.actions;
+export const { setProvider, oauthlogout } = oauthSlice.actions;
 export default oauthSlice.reducer;
