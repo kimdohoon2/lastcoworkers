@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import postOauthApi from '@/app/lib/oauth/postOauthApi';
-import { setProvider } from '@/app/stores/oauthSlide';
+import { setProvider } from '@/app/stores/oauthSlice';
 
 interface OAuthResponse {
   createdAt: string;
