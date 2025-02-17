@@ -7,7 +7,7 @@ import Dropdown from '@/app/components/common/dropdown/Dropdown';
 import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import useArticleActions from '@/app/hooks/useArticleActions';
-import IconMore from '@/app/components/icons/IconMore';
+import TaskCardDropdown from '@/app/components/icons/TaskCardDropdown';
 
 interface CommonArticleCardProps extends Article {
   isBest?: boolean;
@@ -119,7 +119,7 @@ export default function CommonAriticleCard({
                 aria-label="Toggle dropdown"
               >
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <IconMore />
+                  <TaskCardDropdown />
                 </div>
               </div>
             )}
@@ -162,7 +162,7 @@ export default function CommonAriticleCard({
                     aria-label="Toggle dropdown"
                   >
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                      <IconMore />
+                      <TaskCardDropdown />
                     </div>
                   </div>
                   <Dropdown
