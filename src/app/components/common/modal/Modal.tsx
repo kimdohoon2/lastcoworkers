@@ -43,7 +43,10 @@ function Modal({
       document.body.style.overflow = ''; // 모달이 닫힐 때 바로 처리
     }
 
+    // clean-up : 모달 언마운트 시 body overflow hidden 삭제
+    // 모달 조건부로 렌더링하는 케이스 고려
     return () => {
+      document.body.style.overflow = '';
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, isAnimating, handleKeyDown]);
