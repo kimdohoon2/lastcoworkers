@@ -1,5 +1,6 @@
 'use client';
 
+import useToast from '@/app/hooks/useToast';
 import { useState, useEffect } from 'react';
 
 interface ArticleChangerProps {
@@ -17,6 +18,7 @@ export default function ArticleChanger({
 }: ArticleChangerProps) {
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
+  const { showToast } = useToast();
 
   useEffect(() => {
     setTitle(initialTitle);
@@ -27,7 +29,10 @@ export default function ArticleChanger({
     const newTitle = e.target.value;
 
     if (newTitle.length > 200) {
-      alert('제목은 200자를 넘을 수 없습니다.');
+      showToast({
+        message: '제목은 200자를 넘을 수 없습니다.',
+        type: 'warning',
+      });
       return;
     }
 
