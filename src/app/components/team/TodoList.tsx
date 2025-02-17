@@ -30,6 +30,7 @@ import { GroupResponse, GroupTask } from '@/app/types/grouptask';
 import { editTaskListOrder } from '@/app/lib/tasklist/patchTaskList';
 import { AxiosError } from 'axios';
 import TodoListSkeleton from '@/app/components/team/TodoListSkeleton';
+import useToast from '@/app/hooks/useToast';
 
 interface TodoListProps {
   groupId: number;
@@ -57,6 +58,7 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
 
   const [items, setItems] = useState<GroupTask[]>(taskLists);
   const [activeId, setActiveId] = useState<number | null>(null);
+  const { showToast } = useToast();
 
   useEffect(() => {
     setItems(taskLists);
@@ -95,9 +97,15 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
     },
     onError: (error: AxiosError) => {
       if (error.response?.status === 409) {
-        alert('그룹 내 이름이 같은 할 일 목록이 존재합니다.');
+        showToast({
+          message: '그룹 내 이름이 같은 할 일 목록이 존재합니다.',
+          type: 'warning',
+        });
       } else {
-        alert('할 일 목록을 추가하는 중 오류가 발생했습니다.');
+        showToast({
+          message: '할 일 목록을 추가하는 중 오류가 발생했습니다.',
+          type: 'error',
+        });
       }
     },
   });
@@ -183,11 +191,11 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
                     required: '목록 이름을 입력해주세요.',
                     maxLength: {
                       value: 30,
-                      message: '할 일 제목은 최대 30글자까지 입력 가능합니다.',
+                      message: '목록 이름은 최대 30글자까지 입력 가능합니다.',
                     },
                     validate: (value: string) => {
                       if (value.trim().length === 0) {
-                        return '할 일 제목에 공백만 입력할 수 없습니다.';
+                        return '목록 이름은 공백만 입력할 수 없습니다.';
                       }
                       return true;
                     },

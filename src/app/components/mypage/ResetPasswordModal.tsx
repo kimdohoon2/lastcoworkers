@@ -6,6 +6,7 @@ import patchPassword from '@/app/lib/user/patchPassword';
 import Modal from '@/app/components/common/modal/Modal';
 import Input from '@/app/components/common/input/Input';
 import Button from '@/app/components/common/button/Button';
+import useToast from '@/app/hooks/useToast';
 
 interface FormData {
   newPassword: string;
@@ -25,11 +26,12 @@ export default function ResetPasswordModal({
   const { handleSubmit, setError, watch } = methods;
 
   const newPassword = watch('newPassword');
+  const { showToast } = useToast();
 
   const mutation = useMutation({
     mutationFn: patchPassword,
     onSuccess: () => {
-      alert('비밀번호가 변경되었습니다');
+      showToast({ message: '비밀번호가 변경되었습니다.', type: 'success' });
       closeModal();
     },
     onError: (error: unknown) => {

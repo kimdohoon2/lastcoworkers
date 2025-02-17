@@ -7,6 +7,7 @@ import Button from '@/app/components/common/button/Button';
 import postArticle, { PostArticleRequest } from '@/app/lib/article/postArticle';
 import postImage from '@/app/lib/image/postImage';
 import { useRouter } from 'next/navigation';
+import useToast from '@/app/hooks/useToast';
 
 interface FormValues {
   title: string;
@@ -18,6 +19,7 @@ export default function AddBoard() {
   const methods = useForm<FormValues>();
   const { handleSubmit } = methods;
   const router = useRouter();
+  const { showToast } = useToast();
 
   const { mutate: postArticleMutate } = useMutation({
     mutationFn: async (formData: PostArticleRequest) => postArticle(formData),
@@ -54,7 +56,7 @@ export default function AddBoard() {
     try {
       postArticleMutate(requestBody);
     } catch {
-      alert('게시글 등록에 실패했습니다.');
+      showToast({ message: '게시글 등록에 실패했습니다.', type: 'error' });
     }
   };
 
