@@ -39,16 +39,17 @@ function Modal({
       document.body.style.overflow = 'hidden';
       document.addEventListener('keydown', handleKeyDown);
       setIsAnimating(true);
+    } else if (!isAnimating) {
+      document.body.style.overflow = ''; // 모달이 닫힐 때 바로 처리
     }
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen, handleKeyDown]);
+  }, [isOpen, isAnimating, handleKeyDown]);
 
   const handleAnimationEnd = () => {
     if (!isOpen) {
-      document.body.style.overflow = '';
       setIsAnimating(false);
     }
   };
