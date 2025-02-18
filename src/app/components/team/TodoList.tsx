@@ -226,6 +226,10 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
       </div>
       {isLoading ? (
         <TodoListSkeleton />
+      ) : items.length === 0 ? (
+        <div className="mt-6 flex items-center justify-center text-md font-medium text-text-default">
+          아직 할 일 목록이 없습니다.
+        </div>
       ) : (
         <DndContext
           collisionDetection={closestCenter}
