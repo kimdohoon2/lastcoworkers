@@ -65,7 +65,7 @@ export default function TeamHeaderDropdown({
             className="hover:bg-transparent"
           >
             <div className="flex h-12 w-[11.625rem] items-center gap-3 rounded-xl px-2 hover:bg-background-tertiary">
-              <div className="relative h-8 w-8">
+              <div className="relative h-8 w-8 flex-shrink-0">
                 {membership.group.image ? (
                   <Image
                     src={membership.group.image}
