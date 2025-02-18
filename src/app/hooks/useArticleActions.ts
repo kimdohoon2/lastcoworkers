@@ -56,15 +56,15 @@ export default function useArticleActions(article: Article) {
       { articleId: id },
       {
         onSuccess: () => {
+          showToast({ message: '게시글 삭제 완료!😊', type: 'success' });
           closeDeleteModal();
         },
-        onError: (error) => {
+        onError: () => {
           closeDeleteModal();
           showToast({
-            message: '게시글 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.',
+            message: '게시글 삭제에 실패했어요.🙁',
             type: 'error',
           });
-          console.error('Delete error:', error);
         },
       },
     );

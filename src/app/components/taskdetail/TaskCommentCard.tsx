@@ -8,6 +8,7 @@ import { useEditTaskCommentMutation } from '@/app/lib/comment/patchComment';
 import Button from '@/app/components/common/button/Button';
 import TaskDetailProfile from '@/app/components/icons/TaskDetailProfile';
 import TaskCommentDropdown from '@/app/components/taskdetail/TaskCommentDropdown';
+import useToast from '@/app/hooks/useToast';
 
 interface TaskCommentItemProps {
   taskId: number;
@@ -20,6 +21,7 @@ function TaskCommentCard({
   comment,
   setIsModalOpen,
 }: TaskCommentItemProps) {
+  const { showToast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(comment.content);
   const [currentComment, setCurrentComment] = useState(comment.content);
@@ -48,6 +50,10 @@ function TaskCommentCard({
         onSuccess: () => {
           setCurrentComment(editedComment);
           setIsEditing(false);
+          showToast({ message: '댓글 수정 완료!😊', type: 'success' });
+        },
+        onError: () => {
+          showToast({ message: '댓글 수정에 실패했어요.🙁', type: 'error' });
         },
       },
     );

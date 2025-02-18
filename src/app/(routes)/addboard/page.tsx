@@ -55,8 +55,9 @@ export default function AddBoard() {
 
     try {
       postArticleMutate(requestBody);
+      showToast({ message: '게시글 등록 완료!😊', type: 'success' });
     } catch {
-      showToast({ message: '게시글 등록에 실패했습니다.', type: 'error' });
+      showToast({ message: '게시글 등록에 실패했어요.🙁', type: 'error' });
     }
   };
 

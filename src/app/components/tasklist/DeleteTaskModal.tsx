@@ -2,6 +2,7 @@ import { useAppSelector } from '@/app/stores/hooks';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteTaskMutation } from '@/app/lib/task/deleteTask';
 import ConfirmModal from '@/app/components/common/modal/ConfirmModal';
+import useToast from '@/app/hooks/useToast';
 
 interface DeleteTaskModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ export default function DeleteTaskModal({
   taskListId,
   taskId,
 }: DeleteTaskModalProps) {
+  const { showToast } = useToast();
   const queryClient = useQueryClient();
   const task = useAppSelector((state) => state.tasks.taskById[taskId]);
   const { mutate, isPending } = useDeleteTaskMutation(
@@ -33,12 +35,15 @@ export default function DeleteTaskModal({
         queryClient.invalidateQueries({
           queryKey: ['groups', groupId, 'taskLists', taskListId, 'tasks'],
         });
-
         onClose();
         onDeleteSuccess?.();
+        showToast({ message: '할 일 단일 삭제 완료!😊', type: 'success' });
       },
-      onError: (error) => {
-        console.error('삭제 실패:', error);
+      onError: () => {
+        showToast({
+          message: '할 일 단일 삭제에 실패했어요.🙁',
+          type: 'error',
+        });
       },
     });
   };

@@ -2,6 +2,8 @@
 
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQuery, useMutation } from '@tanstack/react-query';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/stores/store';
 import useModal from '@/app/hooks/useModal';
 import getUser, { GetUserResponse } from '@/app/lib/user/getUser';
 import { SignInResponse, FormData } from '@/app/types/AuthType';
@@ -9,11 +11,16 @@ import postSignInApi from '@/app/lib/auth/postSignInApi';
 import Input from '@/app/components/common/input/Input';
 import Button from '@/app/components/common/button/Button';
 import ResetPasswordModal from '@/app/components/mypage/ResetPasswordModal';
+import useToast from '@/app/hooks/useToast';
 
 export default function ResetPassword() {
   const methods = useForm<FormData>();
   const { handleSubmit, setError } = methods;
   const { isOpen, openModal, closeModal } = useModal();
+  const { showToast } = useToast();
+
+  // 현재 로그인한 OAuth 제공자 확인
+  const provider = useSelector((state: RootState) => state.oauth.provider);
 
   // 유저 데이터 가져오기
   const { data: userData, isLoading } = useQuery<GetUserResponse>({
@@ -44,6 +51,15 @@ export default function ResetPassword() {
   const onSubmit = async (data: FormData) => {
     if (!userData?.email) {
       setError('password', { message: '유저 정보를 불러올 수 없습니다.' });
+      return;
+    }
+
+    // 카카오 로그인 시 비밀번호 변경 불가 처리
+    if (provider === 'KAKAO') {
+      showToast({
+        message: '카카오 로그인 계정은 비밀번호 변경이 불가합니다.🧐',
+        type: 'info',
+      });
       return;
     }
 

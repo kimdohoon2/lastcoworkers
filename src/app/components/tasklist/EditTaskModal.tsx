@@ -6,6 +6,7 @@ import { useEditTaskMutation } from '@/app/lib/task/patchTask';
 import Button from '@/app/components/common/button/Button';
 import Input from '@/app/components/common/input/Input';
 import Modal from '@/app/components/common/modal/Modal';
+import useToast from '@/app/hooks/useToast';
 
 interface EditTaskModalProps {
   isOpen: boolean;
@@ -29,6 +30,7 @@ export default function EditTaskModal({
 }: EditTaskModalProps) {
   const queryClient = useQueryClient();
   const task = useAppSelector((state) => state.tasks.taskById[taskId]);
+  const { showToast } = useToast();
 
   const methods = useForm<FormValues>({
     mode: 'onChange',
@@ -56,11 +58,24 @@ export default function EditTaskModal({
               queryKey: ['groups', groupId, 'taskLists', taskListId, 'tasks'],
             });
             onClose();
+            showToast({ message: '할 일 수정 완료!😊', type: 'success' });
+          },
+          onError: () => {
+            showToast({ message: '할 일 수정에 실패했어요.🙁', type: 'error' });
           },
         },
       );
     },
-    [groupId, taskListId, taskId, task, mutate, queryClient, onClose],
+    [
+      groupId,
+      taskListId,
+      taskId,
+      task,
+      mutate,
+      queryClient,
+      showToast,
+      onClose,
+    ],
   );
 
   useEffect(() => {
