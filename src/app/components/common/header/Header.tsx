@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
@@ -35,8 +35,21 @@ export default function Header() {
   });
   const isLoggedIn = !!accessToken;
 
-  const handleOpenSlideMenubar = (): void => setVisible(true);
-  const handleCloseSlideMenubar = (): void => setVisible(false);
+  const handleOpenSlideMenubar = (): void => {
+    setVisible(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const handleCloseSlideMenubar = (): void => {
+    setVisible(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
 
   const handleLogout = (): void => {
     dispatch(logout());
