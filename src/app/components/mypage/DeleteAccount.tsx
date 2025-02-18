@@ -17,13 +17,13 @@ export default function DeleteAccount() {
   const mutation = useMutation<DeleteUserResponse, Error>({
     mutationFn: deleteUser,
     onSuccess: () => {
-      showToast({ message: '회원 탈퇴가 완료되었습니다.', type: 'success' });
+      showToast({ message: '회원 탈퇴 완료!😊', type: 'success' });
       dispatch(logout()); // Redux Store 초기화
       closeModal();
       window.location.href = '/';
     },
     onError: () => {
-      showToast({ message: '계정이 존재하지 않습니다.', type: 'error' });
+      showToast({ message: '계정이 존재하지 않습니다.🧐', type: 'info' });
     },
   });
 

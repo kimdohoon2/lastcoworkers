@@ -98,12 +98,12 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
     onError: (error: AxiosError) => {
       if (error.response?.status === 409) {
         showToast({
-          message: '그룹 내 이름이 같은 할 일 목록이 존재합니다.',
+          message: '그룹 내 이름이 같은 할 일 목록이 있어요.😃',
           type: 'warning',
         });
       } else {
         showToast({
-          message: '할 일 목록을 추가하는 중 오류가 발생했습니다.',
+          message: '할 일 목록 수정에 실패했어요.🙁',
           type: 'error',
         });
       }

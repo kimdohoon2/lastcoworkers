@@ -57,7 +57,7 @@ export default function BoardDetail({ article }: BoardDetailProps) {
 
   const handleEditSubmit = () => {
     if (!editedTitle.trim() || !editedContent.trim()) {
-      showToast({ message: '제목과 내용을 입력하세요.', type: 'warning' });
+      showToast({ message: '제목과 내용을 입력해주세요.😃', type: 'warning' });
       return;
     }
 

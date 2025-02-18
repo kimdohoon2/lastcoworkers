@@ -51,6 +51,7 @@ export default function TaskCard({
       },
       {
         onSuccess: () => {
+          showToast({ message: '할 일 상태 변경 완료!😊.', type: 'success' });
           queryClient.invalidateQueries({
             queryKey: ['groups', groupId, 'taskLists', taskListId, 'tasks'],
           });
@@ -58,7 +59,7 @@ export default function TaskCard({
         },
         onError: () => {
           showToast({
-            message: '할 일 상태 변경에 실패했습니다.',
+            message: '할 일 상태 변경에 실패했어요.🙁',
             type: 'error',
           });
         },
