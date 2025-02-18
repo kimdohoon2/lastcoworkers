@@ -41,10 +41,10 @@ export default function TeamHeaderDropdown({
   return (
     <Dropdown className="relative hidden tablet:block" onClose={closeDropdown}>
       <DropdownToggle onClick={toggleDropdown}>
-        <div className="flex items-center gap-3">
-          {displayGroupName}
+        <div className="flex w-[13.625rem] items-center gap-3 truncate">
+          <span className="flex-1 truncate text-start">{displayGroupName}</span>
           <IconHeaderCheck
-            className={clsx('transition-transform', {
+            className={clsx('flex-shrink-0 transition-transform', {
               'rotate-180': isOpen,
               'rotate-0': !isOpen,
             })}
@@ -64,7 +64,7 @@ export default function TeamHeaderDropdown({
             }}
             className="hover:bg-transparent"
           >
-            <div className="flex h-12 w-[11.625rem] items-center gap-3 rounded-xl px-2 hover:bg-background-tertiary">
+            <div className="flex h-12 w-full items-center gap-3 rounded-xl px-2 hover:bg-background-tertiary">
               <div className="relative h-8 w-8 flex-shrink-0">
                 {membership.group.image ? (
                   <Image
@@ -88,7 +88,7 @@ export default function TeamHeaderDropdown({
           }}
           className="hover:bg-transparent"
         >
-          <div className="flex h-12 w-[11.625rem] items-center justify-center gap-1 rounded-xl border border-slate-50 hover:bg-background-tertiary">
+          <div className="flex h-12 w-full items-center justify-center gap-1 rounded-xl border border-slate-50 hover:bg-background-tertiary">
             <IconPlus />
             <span className="text-lg font-medium">팀 추가하기</span>
           </div>
