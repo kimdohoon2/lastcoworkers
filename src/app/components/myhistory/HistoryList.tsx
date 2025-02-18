@@ -22,21 +22,13 @@ const groupByDate = (tasks: Task[]) => {
 export default function HistoryList() {
   const { isLoading: isAuthLoading } = useAuthRedirect();
 
-  const { data, error, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['history'],
     queryFn: getHistory,
   });
 
   if (isLoading || isAuthLoading) {
     return <HistoryListSkeleton />;
-  }
-
-  if (error) {
-    return (
-      <p className="text-md font-medium text-red-500">
-        오류 발생: {error instanceof Error ? error.message : '알 수 없는 오류'}
-      </p>
-    );
   }
 
   const history: Task[] = data?.tasksDone || [];
@@ -47,26 +39,31 @@ export default function HistoryList() {
       {Object.entries(groupedHistory).length === 0 ? (
         <p className="text-md font-medium">아직 히스토리가 없습니다.</p>
       ) : (
-        Object.entries(groupedHistory).map(([date, tasks]) => (
-          <div key={date}>
-            <h2 className="mb-4 text-lg font-medium">
-              {date ? formatDate(date) : '날짜 없음'}
-            </h2>
-            <ul>
-              {tasks.map((task) => (
-                <li
-                  className="mb-4 flex items-center rounded-lg bg-background-secondary py-2.5 pl-3.5"
-                  key={task.id}
-                >
-                  <IconCheckBox />
-                  <p className="ml-[0.4375rem] text-md line-through">
-                    {task.name}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
+        Object.entries(groupedHistory)
+          .sort(
+            ([dateA], [dateB]) =>
+              new Date(dateB).getTime() - new Date(dateA).getTime(),
+          )
+          .map(([date, tasks]) => (
+            <div key={date}>
+              <h2 className="mb-4 text-lg font-medium">
+                {date ? formatDate(date) : '날짜 없음'}
+              </h2>
+              <ul>
+                {tasks.map((task) => (
+                  <li
+                    className="mb-4 flex items-center rounded-lg bg-background-secondary py-2.5 pl-3.5"
+                    key={task.id}
+                  >
+                    <IconCheckBox />
+                    <p className="ml-[0.4375rem] text-md line-through">
+                      {task.name}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
       )}
     </div>
   );

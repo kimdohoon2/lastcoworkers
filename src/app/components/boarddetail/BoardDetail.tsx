@@ -10,7 +10,6 @@ import patchArticle, {
 import useArticleActions from '@/app/hooks/useArticleActions';
 import Image from 'next/image';
 import useModal from '@/app/hooks/useModal';
-import IconMore from '@/app/components/icons/IconMore';
 import IconComment from '@/app/components/icons/IconComment';
 
 import Dropdown from '@/app/components/common/dropdown/Dropdown';
@@ -21,6 +20,7 @@ import BoardsLikeBox from '@/app/components/boards/BoardsLikeBox';
 import DeleteArticleModal from '@/app/components/boarddetail/DeleteArticleModal';
 import Button from '@/app/components/common/button/Button';
 import useToast from '@/app/hooks/useToast';
+import TaskCardDropdown from '../icons/TaskCardDropdown';
 
 interface BoardDetailProps {
   article: GetArticleDetailResponse;
@@ -93,7 +93,7 @@ export default function BoardDetail({ article }: BoardDetailProps) {
               className="p-2"
               onClick={() => setIsDropdownOpen((prev) => !prev)}
             >
-              <IconMore />
+              <TaskCardDropdown />
             </DropdownToggle>
             <DropdownList className="right-0 mt-2 w-28" isOpen={isDropdownOpen}>
               <DropdownItem onClick={handleEdit}>수정하기</DropdownItem>
@@ -156,7 +156,11 @@ export default function BoardDetail({ article }: BoardDetailProps) {
               <Button
                 variant="cancel"
                 size="small"
-                onClick={() => setIsEditing(false)}
+                onClick={() => {
+                  setEditedTitle(article.title);
+                  setEditedContent(article.content);
+                  setIsEditing(false);
+                }}
               >
                 취소
               </Button>

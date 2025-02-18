@@ -5,8 +5,8 @@ import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import useModal from '@/app/hooks/useModal';
-import IconMore from '@/app/components/icons/IconMore';
 import DeleteCommentModal from '@/app/components/boarddetail/DeleteCommentModal';
+import TaskCardDropdown from '../icons/TaskCardDropdown';
 
 interface CommentDropdownProps {
   commentId: number;
@@ -30,7 +30,7 @@ export default function CommentDropdown({
     <>
       <Dropdown className="relative" onClose={closeDropdown}>
         <DropdownToggle className="p-2" onClick={openDropdown}>
-          <IconMore />
+          <TaskCardDropdown />
         </DropdownToggle>
 
         <DropdownList
