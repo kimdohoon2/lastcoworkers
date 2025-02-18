@@ -234,7 +234,13 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
           onDragEnd={handleDragEnd}
         >
           <SortableContext items={items} strategy={verticalListSortingStrategy}>
-            <div className="flex flex-col overflow-visible">
+            <div
+              className={`custom-scrollbar mt-2 flex flex-col px-4 ${
+                items.length > 6
+                  ? 'max-h-[336px] overflow-y-auto overflow-x-hidden'
+                  : ''
+              }`}
+            >
               {items.map((taskList) => (
                 <TodoListItem
                   key={taskList.id}
