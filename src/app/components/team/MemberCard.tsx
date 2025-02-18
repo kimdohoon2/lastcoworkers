@@ -11,6 +11,7 @@ import DetailMemberModal from '@/app/components/team/DetailMemberModal';
 import deleteMember from '@/app/lib/group/deleteMemeber';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ConfirmModal from '@/app/components/common/modal/ConfirmModal';
+import useToast from '@/app/hooks/useToast';
 
 interface GroupMember {
   role: 'ADMIN' | 'MEMBER';
@@ -36,6 +37,7 @@ function MemberCard({
     openModal: openConfirmModal,
     closeModal: closeConfirmModal,
   } = useModal();
+  const { showToast } = useToast();
 
   const { mutate: expelMember } = useMutation({
     mutationFn: deleteMember,
@@ -43,11 +45,12 @@ function MemberCard({
       queryClient.invalidateQueries({ queryKey: ['group', member.groupId] });
     },
     onError: () => {
-      alert('멤버 추방을 실패했습니다.');
+      showToast({ message: '멤버 추방을 실패했습니다.', type: 'error' });
     },
   });
 
   const handleExpel = async () => {
+    closeConfirmModal();
     expelMember({ groupId: member.groupId, userId: member.userId });
   };
 
@@ -63,11 +66,21 @@ function MemberCard({
                 <IconProfileEmpty className="h-full w-full" />
               )}
             </div>
-            <div className="w-full overflow-hidden text-ellipsis text-md font-medium">
+            <div className="relative w-fit max-w-full overflow-hidden text-ellipsis whitespace-nowrap pr-5 text-md font-medium">
               {member.userName}
+              {member.role === 'ADMIN' && (
+                <span className="absolute right-0 top-0">
+                  <Image
+                    src="/icons/ic_star.webp"
+                    width={17}
+                    height={17}
+                    alt="관리자 아이콘"
+                  />
+                </span>
+              )}
             </div>
           </div>
-          <div className="w-full overflow-hidden text-ellipsis text-xs text-text-secondary tablet:ml-11">
+          <div className="w-full overflow-hidden text-ellipsis text-xs text-text-secondary tablet:pl-11">
             {member.userEmail}
           </div>
         </div>

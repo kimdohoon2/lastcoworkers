@@ -5,6 +5,7 @@ import useDropdown from '@/app/hooks/useDropdown';
 import useModal from '@/app/hooks/useModal';
 import useDeleteArticle from '@/app/hooks/useDeleteArticle';
 import { Article } from '@/app/types/ArticleType';
+import useToast from '@/app/hooks/useToast';
 
 export default function useArticleActions(article: Article) {
   const { id, writer } = article;
@@ -17,6 +18,7 @@ export default function useArticleActions(article: Article) {
     closeModal: closeDeleteModal,
   } = useModal();
   const deleteArticleMutation = useDeleteArticle();
+  const { showToast } = useToast();
 
   // 현재 로그인한 사용자가 게시글 작성자인지 확인
   const isAuthor =
@@ -58,7 +60,10 @@ export default function useArticleActions(article: Article) {
         },
         onError: (error) => {
           closeDeleteModal();
-          alert('게시글 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.');
+          showToast({
+            message: '게시글 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.',
+            type: 'error',
+          });
           console.error('Delete error:', error);
         },
       },
