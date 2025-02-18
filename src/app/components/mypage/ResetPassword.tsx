@@ -4,7 +4,6 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/stores/store';
-import 'react-toastify/dist/ReactToastify.css';
 import useModal from '@/app/hooks/useModal';
 import getUser, { GetUserResponse } from '@/app/lib/user/getUser';
 import { SignInResponse, FormData } from '@/app/types/AuthType';
