@@ -42,10 +42,11 @@ function MemberCard({
   const { mutate: expelMember } = useMutation({
     mutationFn: deleteMember,
     onSuccess: () => {
+      showToast({ message: '멤버 추방 완료!😊.', type: 'success' });
       queryClient.invalidateQueries({ queryKey: ['group', member.groupId] });
     },
     onError: () => {
-      showToast({ message: '멤버 추방을 실패했습니다.', type: 'error' });
+      showToast({ message: '멤버 추방에 실패했어요.🙁', type: 'error' });
     },
   });
 

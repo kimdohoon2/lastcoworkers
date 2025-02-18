@@ -30,7 +30,7 @@ export default function ArticleChanger({
 
     if (newTitle.length > 200) {
       showToast({
-        message: '제목은 200자를 넘을 수 없습니다.',
+        message: '제목은 200자를 넘을 수 없어요.😃',
         type: 'warning',
       });
       return;
