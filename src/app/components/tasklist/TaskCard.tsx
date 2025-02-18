@@ -56,6 +56,9 @@ export default function TaskCard({
             queryKey: ['groups', groupId, 'taskLists', taskListId, 'tasks'],
           });
           dispatch(updateTask(updatedTask));
+          if (updatedDoneStatus) {
+            showToast({ message: '할 일 완료!🎉', type: 'success' });
+          }
         },
         onError: () => {
           showToast({

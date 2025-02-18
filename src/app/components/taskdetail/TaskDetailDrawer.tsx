@@ -31,15 +31,13 @@ function TaskDetailDrawer({
   const closeDrawer = () => {
     if (isModalOpen) {
       setIsModalOpen(false);
-      setTimeout(() => {
-        setShouldRender(false);
-        onClose();
-      }, 150);
+      setShouldRender(false);
+      onClose();
+
       return;
     }
-
     setShouldRender(false);
-    setTimeout(onClose, 200);
+    onClose();
   };
 
   useClickOutside(drawerRef, () => {
@@ -53,7 +51,6 @@ function TaskDetailDrawer({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.3 } }}
             className="fixed inset-0 bg-black/30 transition-opacity"
             onClick={closeDrawer}
           />
@@ -61,10 +58,6 @@ function TaskDetailDrawer({
             ref={drawerRef}
             initial={{ x: '100%' }}
             animate={{ x: 0, transition: { duration: 0.3, ease: 'easeOut' } }}
-            exit={{
-              x: '100%',
-              transition: { duration: 0.3, ease: 'easeInOut' },
-            }}
             className="fixed right-0 top-[3.75rem] z-30 h-full w-[23.4375rem] border border-[rgba(248,250,252,0.1)] bg-background-secondary md:w-[27.1875rem] xl:w-[48.6875rem]"
             onAnimationComplete={() => {
               if (!shouldRender) onClose();

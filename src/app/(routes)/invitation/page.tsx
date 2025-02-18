@@ -28,7 +28,7 @@ function Page() {
         token,
       });
 
-      queryClient.invalidateQueries({ queryKey: ['group', groupId] });
+      await queryClient.refetchQueries({ queryKey: ['group', groupId] });
       router.push(groupId.toString());
     } catch (error) {
       showToast({ message: '이미 그룹에 소속된 유저입니다.🧐', type: 'info' });

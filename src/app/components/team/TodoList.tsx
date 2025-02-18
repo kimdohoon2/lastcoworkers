@@ -6,10 +6,11 @@ import {
   closestCenter,
   DragEndEvent,
   DragStartEvent,
-  PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   DragOverlay,
+  MouseSensor,
 } from '@dnd-kit/core';
 import {
   SortableContext,
@@ -115,8 +116,16 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
   };
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: { distance: 10 },
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 150,
+        tolerance: 5,
+      },
     }),
   );
 
@@ -191,11 +200,11 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
                     required: '목록 이름을 입력해주세요.',
                     maxLength: {
                       value: 30,
-                      message: '할 일 제목은 최대 30글자까지 입력 가능합니다.',
+                      message: '목록 이름은 최대 30글자까지 입력 가능합니다.',
                     },
                     validate: (value: string) => {
                       if (value.trim().length === 0) {
-                        return '할 일 제목에 공백만 입력할 수 없습니다.';
+                        return '목록 이름은 공백만 입력할 수 없습니다.';
                       }
                       return true;
                     },

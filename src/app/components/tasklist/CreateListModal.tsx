@@ -11,6 +11,7 @@ import {
 import Input from '@/app/components/common/input/Input';
 import Modal from '@/app/components/common/modal/Modal';
 import Button from '@/app/components/common/button/Button';
+import useToast from '@/app/hooks/useToast';
 
 interface CreateListModalProps {
   isOpen: boolean;
@@ -23,6 +24,7 @@ export default function CreateListModal({
   onClose,
   groupId,
 }: CreateListModalProps) {
+  const { showToast } = useToast();
   const methods = useForm<PostTaskListRequest>();
   const { setError, reset, handleSubmit } = methods;
   const queryClient = useQueryClient();
@@ -43,13 +45,21 @@ export default function CreateListModal({
             queryKey: ['tasklists', groupId],
           });
           onClose();
+          showToast({ message: '할 일 목록 생성 완료!😊', type: 'success' });
         },
         onError: (error: unknown) => {
-          if (error instanceof AxiosError && error.response?.status === 409) {
-            setError('name', {
-              type: 'manual',
-              message: '이미 존재하는 목록입니다.',
-            });
+          if (error instanceof AxiosError) {
+            if (error.response?.status === 409) {
+              setError('name', {
+                type: 'manual',
+                message: '그룹 내 이름이 같은 할 일 목록이 존재합니다.',
+              });
+            } else {
+              showToast({
+                message: '할 일 목록 생성에 실패했어요.🙁',
+                type: 'error',
+              });
+            }
           }
         },
       },
@@ -59,7 +69,7 @@ export default function CreateListModal({
   return (
     <Modal isOpen={isOpen} closeModal={onClose}>
       <div className="mb-4 flex w-[17.5rem] w-full flex-col gap-4 text-center">
-        <p className="text-lg font-medium">새로운 목록 추가</p>
+        <p className="text-lg font-medium">할 일 목록 추가</p>
         <p className="text-md text-text-secondary">
           할 일에 대한 목록을 추가하고
           <br />
@@ -72,19 +82,18 @@ export default function CreateListModal({
           <div className="flex w-full flex-col gap-6">
             <Input
               name="name"
-              title="목록 이름"
               type="text"
-              placeholder="할 일 목록을 입력해주세요."
+              placeholder="목록 이름을 입력해주세요."
               autoComplete="off"
               validationRules={{
-                required: '할 일 목록을 입력해주세요.',
+                required: '목록 이름을 입력해주세요.',
                 maxLength: {
                   value: 30,
-                  message: '할 일 목록은 최대 30글자까지 입력 가능합니다.',
+                  message: '목록 이름은 최대 30글자까지 입력 가능합니다.',
                 },
                 validate: (value) =>
                   value.trim() !== '' ||
-                  '할 일 목록은 공백만 입력할 수 없습니다.',
+                  '목록 이름은 공백만 입력할 수 없습니다.',
               }}
             />
 
