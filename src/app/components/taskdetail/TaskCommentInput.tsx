@@ -3,14 +3,16 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useCreateTaskCommentMutation } from '@/app/lib/comment/postComment';
 import CommentActive from '@/app/components/icons/CommentActive';
 import CommentInactive from '@/app/components/icons/CommentInactive';
+import useToast from '@/app/hooks/useToast';
 
 interface TaskCommentInputProps {
   taskId: number;
 }
 
 function TaskCommentInput({ taskId }: TaskCommentInputProps) {
-  const [comment, setComment] = useState('');
+  const { showToast } = useToast();
   const queryClient = useQueryClient();
+  const [comment, setComment] = useState('');
   const { mutate: createComment, isPending } = useCreateTaskCommentMutation();
 
   const handleSubmit = () => {
@@ -24,6 +26,10 @@ function TaskCommentInput({ taskId }: TaskCommentInputProps) {
           queryClient.invalidateQueries({
             queryKey: ['tasks', taskId, 'comments'],
           });
+          showToast({ message: '댓글 생성 완료!😊', type: 'success' });
+        },
+        onError: () => {
+          showToast({ message: '댓글 생성에 실패했어요.🙁', type: 'error' });
         },
       },
     );

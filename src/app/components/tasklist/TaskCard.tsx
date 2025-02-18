@@ -55,10 +55,13 @@ export default function TaskCard({
             queryKey: ['groups', groupId, 'taskLists', taskListId, 'tasks'],
           });
           dispatch(updateTask(updatedTask));
+          if (updatedDoneStatus) {
+            showToast({ message: '할 일 완료!🎉', type: 'success' });
+          }
         },
         onError: () => {
           showToast({
-            message: '할 일 상태 변경에 실패했습니다.',
+            message: '할 일 완료에 실패했어요.',
             type: 'error',
           });
         },
