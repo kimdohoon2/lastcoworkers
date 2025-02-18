@@ -1,6 +1,6 @@
 # 🗓️ 일정 관리와 공유 기능을 제공하는 Taskify
 
-![Coworkers](<img width="1020" alt="랜딩 페이지" src="https://github.com/user-attachments/assets/5c70544f-bdf7-451f-af18-47afe61f1b1d" />)
+<img width="1020" alt="랜딩 페이지" src="https://github.com/user-attachments/assets/5c70544f-bdf7-451f-af18-47afe61f1b1d" />
 
 <br>
 
