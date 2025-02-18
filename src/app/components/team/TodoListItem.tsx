@@ -77,7 +77,7 @@ export default function TodoListItem({
           {taskList.name}
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex w-14 items-center gap-1 rounded-xl bg-background-primary px-2 py-1">
+          <div className="flex w-16 items-center gap-1 rounded-xl bg-background-primary px-2 py-1">
             {completedItems === totalTasks ? (
               <IconTaskDone />
             ) : (
