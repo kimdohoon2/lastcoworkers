@@ -156,7 +156,11 @@ export default function BoardDetail({ article }: BoardDetailProps) {
               <Button
                 variant="cancel"
                 size="small"
-                onClick={() => setIsEditing(false)}
+                onClick={() => {
+                  setEditedTitle(article.title);
+                  setEditedContent(article.content);
+                  setIsEditing(false);
+                }}
               >
                 취소
               </Button>
