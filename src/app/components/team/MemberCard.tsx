@@ -50,6 +50,7 @@ function MemberCard({
   });
 
   const handleExpel = async () => {
+    closeConfirmModal();
     expelMember({ groupId: member.groupId, userId: member.userId });
   };
 

@@ -1,5 +1,7 @@
 import Image from 'next/image';
+import { useDispatch } from 'react-redux';
 import postOauthApi from '@/app/lib/oauth/postOauthApi';
+import { setProvider } from '@/app/stores/oauthSlice';
 
 interface OAuthResponse {
   createdAt: string;
@@ -15,6 +17,7 @@ export default function QuickLogin() {
   const KAKAO_REST_API = process.env.NEXT_PUBLIC_KAKAO_APP_KEY;
   const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
   const kakaoLink = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
+  const dispatch = useDispatch();
 
   const handleLogin = async (provider: 'KAKAO', url: string) => {
     try {
@@ -28,6 +31,7 @@ export default function QuickLogin() {
       const oauthResponse = result as OAuthResponse;
       if (oauthResponse && oauthResponse.id) {
         console.log(`${provider} OAuth 앱 등록 성공. ID: ${oauthResponse.id}`);
+        dispatch(setProvider(provider));
         setTimeout(() => {
           window.location.href = url;
         }, 2000);

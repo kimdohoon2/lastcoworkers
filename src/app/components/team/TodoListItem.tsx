@@ -34,9 +34,11 @@ export default function TodoListItem({
     isDragging,
   } = useSortable({ id });
 
-  const style = {
+  const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
+    WebkitUserSelect: 'none',
+    WebkitTouchCallout: 'none',
   };
 
   if (isDragging) {

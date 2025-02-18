@@ -1,12 +1,13 @@
 import React from 'react';
 import TaskCardDropdown from '@/app/components/icons/TaskCardDropdown';
+import getRandomId from '@/app/utils/getRandomId';
 
 export default function TodoListSkeleton() {
   return (
     <div className="space-y-4">
-      {Array.from({ length: 6 }).map((_, i) => (
+      {Array.from({ length: 6 }).map(() => (
         <div
-          key={i}
+          key={`todolist_skeleton_${getRandomId()}`}
           className="relative mt-4 flex h-10 w-full animate-pulse items-center rounded-xl bg-background-secondary pl-6 pr-4"
         >
           <div className="absolute left-0 h-10 w-3 rounded-l-xl bg-background-tertiary" />

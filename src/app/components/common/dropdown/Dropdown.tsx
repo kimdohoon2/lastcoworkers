@@ -4,7 +4,7 @@ import useClickOutside from '@/app/hooks/useClickOutside';
 
 interface DropdownProps {
   className?: string;
-  onClose: () => void; // 드롭다운을 닫는 함수
+  onClose: () => void;
 }
 
 export default function Dropdown({

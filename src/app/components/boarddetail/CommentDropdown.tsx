@@ -57,13 +57,12 @@ export default function CommentDropdown({
       </Dropdown>
 
       {/* 삭제 확인 모달 */}
-
       <DeleteCommentModal
         isOpen={isModalOpen}
         onClose={closeModal}
         onConfirm={() => {
-          onDelete(commentId);
           closeModal();
+          onDelete(commentId);
         }}
       />
     </>

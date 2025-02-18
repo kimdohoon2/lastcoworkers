@@ -38,6 +38,8 @@ export default function SortableTaskCard({
         transition,
         zIndex: isDragging ? 10 : 'auto',
         opacity: isDragging ? 0.8 : 1,
+        WebkitUserSelect: 'none',
+        WebkitTouchCallout: 'none',
       }}
       {...attributes}
       {...listeners}

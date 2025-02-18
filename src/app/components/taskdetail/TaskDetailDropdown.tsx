@@ -46,7 +46,7 @@ export default function TaskDetailDropdown({
         </DropdownToggle>
         <DropdownList
           isOpen={isDropdownOpen}
-          className="absolute right-0 w-[5.875rem] overflow-hidden border sm:w-[7.5rem]"
+          className="absolute right-0 w-[7rem] overflow-hidden border sm:w-[7.5rem]"
         >
           <DropdownItem
             className="text-sm"

@@ -6,6 +6,7 @@ import { combineReducers } from 'redux';
 import authReducer from '@/app/stores/auth/authSlice';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 import tasksReducer from '@/app/stores/tasksSlice';
+import oauthReducer from '@/app/stores/oauthSlice';
 
 const createNoopStorage = () => {
   return {
@@ -29,13 +30,14 @@ const rootPersistConfig = {
   key: 'root',
   storage,
   // 특정 리듀서만 영구 저장
-  whitelist: ['auth'],
+  whitelist: ['auth', 'oauth'],
 };
 
 // 리듀서 결합
 const rootReducer = combineReducers({
   auth: authReducer,
   tasks: tasksReducer, // tasksReducer 추가
+  oauth: oauthReducer, // OAuth 리듀서 추가
 });
 
 // Persist 리듀서 생성

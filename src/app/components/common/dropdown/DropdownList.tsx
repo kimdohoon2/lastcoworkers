@@ -3,7 +3,7 @@ import { PropsWithChildren } from 'react';
 
 interface DropdownListProps {
   className?: string;
-  isOpen: boolean; // 드롭다운 열림 여부 판단 변수
+  isOpen: boolean;
 }
 
 export default function DropdownList({
@@ -11,12 +11,13 @@ export default function DropdownList({
   children,
   isOpen,
 }: PropsWithChildren<DropdownListProps>) {
-  if (!isOpen) return null;
-
   return (
     <div
       className={clsx(
         'absolute z-30 overflow-hidden rounded-xl border border-background-tertiary bg-background-secondary',
+        isOpen
+          ? 'opacity-100 transition-all duration-200'
+          : 'pointer-events-none opacity-0 transition-all duration-200',
         className,
       )}
     >
