@@ -1,4 +1,4 @@
-# 🗓️ 일정 관리와 공유 기능을 제공하는 Taskify
+# 🗓️ 업무 배정 및 현황 공유 서비스를 제공하는 Coworkers
 
 <img width="1020" alt="랜딩 페이지" src="https://github.com/user-attachments/assets/5c70544f-bdf7-451f-af18-47afe61f1b1d" />
 
