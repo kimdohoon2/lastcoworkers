@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import deleteArticle from '@/app/lib/article/deleteArticle';
 import ConfirmModal from '@/app/components/common/modal/ConfirmModal';
+import useToast from '@/app/hooks/useToast';
 
 interface DeleteArticleModalProps {
   isOpen: boolean;
@@ -17,12 +18,13 @@ export default function DeleteArticleModal({
   articleId,
 }: DeleteArticleModalProps) {
   const router = useRouter();
+  const { showToast } = useToast();
 
   // 게시글 삭제 API
   const deleteMutation = useMutation({
     mutationFn: () => deleteArticle({ articleId }),
     onSuccess: () => {
-      alert('게시글이 삭제되었습니다.');
+      showToast({ message: '게시글이 삭제되었습니다.', type: 'success' });
       onClose();
       router.push('/boards'); // 삭제 후 게시판 목록으로 이동
     },

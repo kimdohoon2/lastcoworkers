@@ -6,10 +6,11 @@ import {
   closestCenter,
   DragEndEvent,
   DragStartEvent,
-  PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   DragOverlay,
+  MouseSensor,
 } from '@dnd-kit/core';
 import {
   SortableContext,
@@ -17,7 +18,7 @@ import {
   arrayMove,
 } from '@dnd-kit/sortable';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import getTaskList from '@/app/lib/group/getTaskList';
+import getTaskList, { GetTaskListResponse } from '@/app/lib/group/getTaskList';
 import { createTaskList } from '@/app/lib/tasklist/postTaskList';
 import TodoListItem from '@/app/components/team/TodoListItem';
 import getTodayDate from '@/app/utils/getTodayDate';
@@ -26,9 +27,11 @@ import Modal from '@/app/components/common/modal/Modal';
 import Button from '@/app/components/common/button/Button';
 import Input from '@/app/components/common/input/Input';
 import { useForm, FormProvider } from 'react-hook-form';
-import { GroupTask } from '@/app/types/grouptask';
+import { GroupResponse, GroupTask } from '@/app/types/grouptask';
 import { editTaskListOrder } from '@/app/lib/tasklist/patchTaskList';
 import { AxiosError } from 'axios';
+import TodoListSkeleton from '@/app/components/team/TodoListSkeleton';
+import useToast from '@/app/hooks/useToast';
 
 interface TodoListProps {
   groupId: number;
@@ -56,6 +59,7 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
 
   const [items, setItems] = useState<GroupTask[]>(taskLists);
   const [activeId, setActiveId] = useState<number | null>(null);
+  const { showToast } = useToast();
 
   useEffect(() => {
     setItems(taskLists);
@@ -69,7 +73,12 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
           getTaskList({ groupId, taskListId: taskList.id, date: todayDate }),
         ),
       );
-      return responses;
+      const mappedResponses: Record<number, GetTaskListResponse> = {};
+      responses.forEach((response, index) => {
+        const taskList = items[index];
+        mappedResponses[taskList.id] = response;
+      });
+      return mappedResponses;
     },
     staleTime: 5 * 60 * 1000,
     refetchOnMount: 'always',
@@ -89,9 +98,15 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
     },
     onError: (error: AxiosError) => {
       if (error.response?.status === 409) {
-        alert('그룹 내 이름이 같은 할 일 목록이 존재합니다.');
+        showToast({
+          message: '그룹 내 이름이 같은 할 일 목록이 존재합니다.',
+          type: 'warning',
+        });
       } else {
-        alert('할 일 목록을 추가하는 중 오류가 발생했습니다.');
+        showToast({
+          message: '할 일 목록을 추가하는 중 오류가 발생했습니다.',
+          type: 'error',
+        });
       }
     },
   });
@@ -101,8 +116,16 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
   };
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: { distance: 10 },
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 150,
+        tolerance: 5,
+      },
     }),
   );
 
@@ -127,9 +150,21 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
         id: Number(active.id),
         displayIndex: newIndex,
       });
+      queryClient.setQueryData<GroupResponse>(
+        ['group', groupId],
+        (oldData?: GroupResponse): GroupResponse | undefined => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            taskLists: newItems,
+          };
+        },
+      );
     }
     setActiveId(null);
   };
+
+  if (isError) return null;
 
   return (
     <div className="mx-auto my-6 max-w-[75rem]">
@@ -165,11 +200,11 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
                     required: '목록 이름을 입력해주세요.',
                     maxLength: {
                       value: 30,
-                      message: '할 일 제목은 최대 30글자까지 입력 가능합니다.',
+                      message: '목록 이름은 최대 30글자까지 입력 가능합니다.',
                     },
                     validate: (value: string) => {
                       if (value.trim().length === 0) {
-                        return '할 일 제목에 공백만 입력할 수 없습니다.';
+                        return '목록 이름은 공백만 입력할 수 없습니다.';
                       }
                       return true;
                     },
@@ -189,68 +224,54 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
           </FormProvider>
         </Modal>
       </div>
-
-      {isLoading && <div className="my-4">로딩 중...</div>}
-      {isError && (
-        <div className="my-4 text-red-500">
-          데이터를 불러오는 중 오류가 발생했습니다.
-        </div>
-      )}
-
-      <DndContext
-        collisionDetection={closestCenter}
-        sensors={sensors}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext items={items} strategy={verticalListSortingStrategy}>
-          <div className="flex flex-col overflow-visible">
-            {items.map((taskList) => (
-              <TodoListItem
-                key={taskList.id}
-                id={taskList.id}
-                taskList={taskList}
-                groupId={groupId}
-                backgroundColor={
-                  backgroundColors[taskList.id % backgroundColors.length]
-                }
-                taskListData={
-                  data?.[
-                    items.findIndex((item) => item.id === taskList.id)
-                  ] || { tasks: [] }
-                }
-              />
-            ))}
-          </div>
-        </SortableContext>
-        <DragOverlay>
-          {activeId ? (
-            <div className="w-full">
-              {(() => {
-                const activeTask = items.find((item) => item.id === activeId);
-                const overlayBg = activeTask
-                  ? backgroundColors[activeTask.id % backgroundColors.length]
-                  : 'bg-gray-500';
-                return (
-                  <TodoListItem
-                    id={activeId}
-                    taskList={activeTask as GroupTask}
-                    groupId={groupId}
-                    backgroundColor={overlayBg}
-                    taskListData={
-                      data?.[
-                        items.findIndex((item) => item.id === activeId)
-                      ] || {
-                        tasks: [],
-                      }
-                    }
-                  />
-                );
-              })()}
+      {isLoading ? (
+        <TodoListSkeleton />
+      ) : (
+        <DndContext
+          collisionDetection={closestCenter}
+          sensors={sensors}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext items={items} strategy={verticalListSortingStrategy}>
+            <div className="flex flex-col overflow-visible">
+              {items.map((taskList) => (
+                <TodoListItem
+                  key={taskList.id}
+                  id={taskList.id}
+                  taskList={taskList}
+                  groupId={groupId}
+                  backgroundColor={
+                    backgroundColors[taskList.id % backgroundColors.length]
+                  }
+                  taskListData={data?.[taskList.id] || { tasks: [] }}
+                />
+              ))}
             </div>
-          ) : null}
-        </DragOverlay>
-      </DndContext>
+          </SortableContext>
+          <DragOverlay>
+            {activeId ? (
+              <div className="w-full">
+                {(() => {
+                  const activeTask = items.find((item) => item.id === activeId);
+                  const overlayBg = activeTask
+                    ? backgroundColors[activeTask.id % backgroundColors.length]
+                    : 'bg-gray-500';
+                  return (
+                    <TodoListItem
+                      id={activeId}
+                      taskList={activeTask as GroupTask}
+                      groupId={groupId}
+                      backgroundColor={overlayBg}
+                      taskListData={data?.[activeId] || { tasks: [] }}
+                    />
+                  );
+                })()}
+              </div>
+            ) : null}
+          </DragOverlay>
+        </DndContext>
+      )}
     </div>
   );
 }

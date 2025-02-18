@@ -7,21 +7,23 @@ import deleteUser, { DeleteUserResponse } from '@/app/lib/user/deleteUser';
 import useModal from '@/app/hooks/useModal';
 import ConfirmModal from '@/app/components/common/modal/ConfirmModal';
 import IconSubtract from '@/app/components/icons/IconSubtract';
+import useToast from '@/app/hooks/useToast';
 
 export default function DeleteAccount() {
   const dispatch = useDispatch();
   const { isOpen: isModalOpen, openModal, closeModal } = useModal();
+  const { showToast } = useToast();
 
   const mutation = useMutation<DeleteUserResponse, Error>({
     mutationFn: deleteUser,
     onSuccess: () => {
-      alert('회원 탈퇴가 완료되었습니다.');
+      showToast({ message: '회원 탈퇴가 완료되었습니다.', type: 'success' });
       dispatch(logout()); // Redux Store 초기화
       closeModal();
       window.location.href = '/';
     },
     onError: () => {
-      alert('이미 탈퇴된 회원입니다.');
+      showToast({ message: '계정이 존재하지 않습니다.', type: 'error' });
     },
   });
 

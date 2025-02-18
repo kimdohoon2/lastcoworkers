@@ -16,6 +16,7 @@ import DateRepeatInfo from '@/app/components/tasklist/DateRepeatInfo';
 import TaskDetailProfile from '@/app/components/icons/TaskDetailProfile';
 import TaskDetailDropdown from '@/app/components/taskdetail/TaskDetailDropdown';
 import TaskDetailSkeleton from '@/app/components/taskdetail/TaskDetailSkeleton';
+import useToast from '@/app/hooks/useToast';
 
 interface TaskDetailProps {
   groupId: number;
@@ -51,6 +52,8 @@ function TaskDetail({
     mode: 'onChange',
     defaultValues: { name: '', description: '' },
   });
+
+  const { showToast } = useToast();
 
   const {
     register,
@@ -92,7 +95,10 @@ function TaskDetail({
           });
         },
         onError: () => {
-          alert('할 일 상태 변경에 실패했습니다.');
+          showToast({
+            message: '할 일 상태 변경에 실패했습니다.',
+            type: 'error',
+          });
         },
       },
     );
@@ -119,7 +125,7 @@ function TaskDetail({
           setIsEditing(false);
         },
         onError: () => {
-          alert('할 일 수정에 실패했습니다.');
+          showToast({ message: '할 일 수정에 실패했습니다.' });
         },
       },
     );
@@ -272,6 +278,7 @@ function TaskDetail({
               variant={doneAt ? 'cancel' : 'complete'}
               size={doneAt ? 'cancel' : 'complete'}
               onClick={toggleDone}
+              className="transform duration-200"
             >
               <IconCheck />
               {doneAt ? '완료 취소하기' : '완료하기'}

@@ -13,6 +13,8 @@ import { FieldValues } from 'react-hook-form';
 import { useState } from 'react';
 import Loading from '@/app/components/common/loading/Loading';
 import useRedirectIfNotFound from '@/app/hooks/useRedirectIfNotFound';
+import useRedirectIfNotMember from '@/app/hooks/useRedirectIfNotMember';
+import useToast from '@/app/hooks/useToast';
 
 function Page() {
   const { isLoading: isAuthLoading } = useAuthRedirect();
@@ -22,6 +24,7 @@ function Page() {
   const { teamid } = useParams();
   const queryClient = useQueryClient();
   const groupId = Number(teamid);
+  const { showToast } = useToast();
 
   const {
     data: groupData,
@@ -48,7 +51,7 @@ function Page() {
       router.push(`/${groupId}`);
     },
     onError: () => {
-      alert('팀 수정에 실패했습니다.');
+      showToast({ message: '팀 수정에 실패했습니다.', type: 'error' });
       setIsSubmitting(false);
     },
   });
@@ -58,9 +61,12 @@ function Page() {
 
   const { isRedirecting } = useRedirectIfNotFound(isNotFound);
 
+  const { isRedirecting: isRedirectingMember } = useRedirectIfNotMember({
+    isLoading,
+    groupData,
+  });
   if (isAuthLoading) return <AuthCheckLoading />;
-
-  if (isLoading || isRedirecting) return <Loading />;
+  if (isLoading || isRedirecting || isRedirectingMember) return <Loading />;
 
   return (
     <div>

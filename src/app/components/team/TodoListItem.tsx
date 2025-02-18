@@ -33,11 +33,25 @@ export default function TodoListItem({
     transition,
     isDragging,
   } = useSortable({ id });
-  const style = {
+
+  const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.8 : 1,
+    WebkitUserSelect: 'none',
+    WebkitTouchCallout: 'none',
   };
+
+  if (isDragging) {
+    return (
+      <div
+        ref={setNodeRef}
+        {...attributes}
+        {...listeners}
+        style={style}
+        className="mt-4 h-10 w-full rounded-xl border border-background-inverse"
+      />
+    );
+  }
 
   const tasks = taskListData.tasks || [];
   const completedItems = tasks.filter((task) => task.doneAt !== null).length;

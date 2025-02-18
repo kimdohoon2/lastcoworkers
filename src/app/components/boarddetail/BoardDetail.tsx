@@ -20,6 +20,7 @@ import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import BoardsLikeBox from '@/app/components/boards/BoardsLikeBox';
 import DeleteArticleModal from '@/app/components/boarddetail/DeleteArticleModal';
 import Button from '@/app/components/common/button/Button';
+import useToast from '@/app/hooks/useToast';
 
 interface BoardDetailProps {
   article: GetArticleDetailResponse;
@@ -33,6 +34,8 @@ export default function BoardDetail({ article }: BoardDetailProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(article.title);
   const [editedContent, setEditedContent] = useState(article.content);
+
+  const { showToast } = useToast();
 
   const { isAuthor } = useArticleActions(article);
 
@@ -54,7 +57,7 @@ export default function BoardDetail({ article }: BoardDetailProps) {
 
   const handleEditSubmit = () => {
     if (!editedTitle.trim() || !editedContent.trim()) {
-      alert('제목과 내용을 입력하세요.');
+      showToast({ message: '제목과 내용을 입력하세요.', type: 'warning' });
       return;
     }
 

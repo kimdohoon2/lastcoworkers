@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { RootState } from '@/app/stores/store';
 import { logout } from '@/app/stores/auth/authSlice';
+import { oauthlogout } from '@/app/stores/oauthSlice';
 import SideMenuBar from '@/app/components/common/header/SideMenubar';
 import HeaderMenuBar from '@/app/components/icons/HeaderMenuBar';
 import HeaderBoardButton from '@/app/components/common/header/Boards';
@@ -52,6 +53,7 @@ export default function Header() {
 
   const handleLogout = (): void => {
     dispatch(logout());
+    dispatch(oauthlogout());
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {

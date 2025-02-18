@@ -1,11 +1,46 @@
+'use client';
+
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import getUser, { GetUserResponse, Membership } from '@/app/lib/user/getUser';
 import TeamThumbnail from '@/app/components/icons/TeamThumbnail';
-import HeaderDropdown from './HeaderDropdown';
+import HeaderDropdown from '@/app/components/team/HeaderDropdown';
+import TeamHeaderSkeleton from '@/app/components/team/TeamHeaderSkelton';
 
 interface HeaderProps {
   groupName: string;
+  groupId: number;
 }
 
-export default function TeamHeader({ groupName }: HeaderProps) {
+export default function TeamHeader({ groupName, groupId }: HeaderProps) {
+  const {
+    data: userData,
+    isLoading,
+    error,
+  } = useQuery<GetUserResponse>({
+    queryKey: ['user'],
+    queryFn: getUser,
+    staleTime: 0,
+    refetchOnMount: 'always',
+  });
+
+  if (isLoading) {
+    return (
+      <div>
+        <TeamHeaderSkeleton />
+      </div>
+    );
+  }
+
+  if (error || !userData) {
+    return <div>유저 데이터를 불러오는 중 오류가 발생했습니다.</div>;
+  }
+
+  const isAdmin = userData.memberships.some(
+    (membership: Membership) =>
+      membership.group.id === groupId && membership.role === 'ADMIN',
+  );
+
   return (
     <div className="relative mx-auto mt-[5.25rem] flex h-16 w-full max-w-[75rem] items-center justify-between rounded-xl border border-state-50/10 bg-background-secondary px-6">
       <span className="z-10 mr-2 truncate text-xl font-bold">
@@ -14,7 +49,7 @@ export default function TeamHeader({ groupName }: HeaderProps) {
       <div className="absolute right-[5.625rem] z-0">
         <TeamThumbnail />
       </div>
-      <HeaderDropdown groupName={groupName} />
+      {isAdmin && <HeaderDropdown groupName={groupName} />}
     </div>
   );
 }
