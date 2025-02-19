@@ -77,9 +77,13 @@ function Modal({
   if (!isOpen && !isAnimating) return null;
 
   return createPortal(
+    // 모달 내부 드래그 시 이벤트 전파를 막기 위해 추가한 이벤트
+    // 이 경우 사용할 수 있는 적절한 역할(role)이 없어 아래 규칙을 비활성화
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       className="fixed inset-0 z-50 flex flex-col items-center justify-end transition-opacity tablet:justify-center"
-      onPointerDown={(e) => e.stopPropagation()}
+      onMouseDown={(e) => e.stopPropagation()}
+      onTouchStart={(e) => e.stopPropagation()}
     >
       <div ref={modalRef} className="absolute inset-0 bg-black opacity-50" />
       <div
