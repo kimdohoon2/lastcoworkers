@@ -25,6 +25,7 @@ import AddComment from '@/app/components/boarddetail/AddComment';
 import CommentDropdown from '@/app/components/boarddetail/CommentDropdown';
 import Button from '@/app/components/common/button/Button';
 import IconMember from '@/app/components/icons/IconMember';
+import useToast from '@/app/hooks/useToast';
 
 export default function CommentList() {
   const params = useParams();
@@ -34,6 +35,7 @@ export default function CommentList() {
 
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editedContent, setEditedContent] = useState<string>('');
+  const { showToast } = useToast();
 
   // 현재 로그인한 사용자 ID 가져오기
   const currentUserId = useSelector((state: RootState) => state.auth.user?.id);
@@ -62,6 +64,7 @@ export default function CommentList() {
     mutationFn: (requestData: PatchArticleCommentRequest) =>
       patchArticleComment(requestData),
     onSuccess: () => {
+      showToast({ message: '댓글 수정 완료!😊', type: 'success' });
       queryClient.invalidateQueries({
         queryKey: ['articleComments', articleId],
       });
@@ -73,6 +76,7 @@ export default function CommentList() {
   const deleteCommentMutation = useMutation<void, Error, DeleteArticleComment>({
     mutationFn: (commentData) => deleteArticleComment(commentData),
     onSuccess: () => {
+      showToast({ message: '댓글 삭제 완료!😊', type: 'success' });
       queryClient.invalidateQueries({
         queryKey: ['articleComments', articleId],
       });

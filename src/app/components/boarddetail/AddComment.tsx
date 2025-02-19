@@ -3,17 +3,20 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import postArticleComment from '@/app/lib/articlecomment/postArticleComment';
 import Button from '@/app/components/common/button/Button';
+import useToast from '@/app/hooks/useToast';
 
 export default function AddComment() {
   const params = useParams();
   const articleId = Number(params?.boardid);
   const queryClient = useQueryClient();
   const [commentContent, setCommentContent] = useState('');
+  const { showToast } = useToast();
 
   // 댓글 등록 API 요청
   const mutation = useMutation({
     mutationFn: (content: string) => postArticleComment({ articleId, content }),
     onSuccess: () => {
+      showToast({ message: '댓글 등록 완료!😊', type: 'success' });
       setCommentContent('');
       queryClient.invalidateQueries({
         queryKey: ['articleComments', articleId],

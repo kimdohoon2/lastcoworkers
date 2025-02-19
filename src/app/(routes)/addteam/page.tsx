@@ -36,10 +36,11 @@ function Page() {
       return postGroup(teamData);
     },
     onSuccess: ({ id }) => {
+      showToast({ message: '팀 생성 완료!😊', type: 'success' });
       router.push(`/${id}`);
     },
     onError: () => {
-      showToast({ message: '팀 생성에 실패했습니다.', type: 'error' });
+      showToast({ message: '팀 생성에 실패했어요.🙁', type: 'error' });
       setIsSubmitting(false);
     },
   });

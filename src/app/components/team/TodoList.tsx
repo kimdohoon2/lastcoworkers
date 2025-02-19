@@ -99,12 +99,12 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
     onError: (error: AxiosError) => {
       if (error.response?.status === 409) {
         showToast({
-          message: '그룹 내 이름이 같은 할 일 목록이 존재합니다.',
+          message: '그룹 내 이름이 같은 할 일 목록이 있어요.😃',
           type: 'warning',
         });
       } else {
         showToast({
-          message: '할 일 목록을 추가하는 중 오류가 발생했습니다.',
+          message: '할 일 목록 수정에 실패했어요.🙁',
           type: 'error',
         });
       }
@@ -226,6 +226,10 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
       </div>
       {isLoading ? (
         <TodoListSkeleton />
+      ) : items.length === 0 ? (
+        <div className="mt-6 flex items-center justify-center text-md font-medium text-text-default">
+          아직 할 일 목록이 없습니다.
+        </div>
       ) : (
         <DndContext
           collisionDetection={closestCenter}
@@ -234,7 +238,13 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
           onDragEnd={handleDragEnd}
         >
           <SortableContext items={items} strategy={verticalListSortingStrategy}>
-            <div className="flex flex-col overflow-visible">
+            <div
+              className={`custom-scrollbar mt-2 flex flex-col px-4 ${
+                items.length > 6
+                  ? 'max-h-[336px] overflow-y-auto overflow-x-hidden'
+                  : ''
+              }`}
+            >
               {items.map((taskList) => (
                 <TodoListItem
                   key={taskList.id}

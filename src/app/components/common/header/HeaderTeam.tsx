@@ -23,7 +23,7 @@ export default function HeaderTeam({ type, onClick }: HeaderTeamProps) {
   });
 
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return <div className="hidden tablet:block">로딩 중...</div>;
   }
 
   if (error) {

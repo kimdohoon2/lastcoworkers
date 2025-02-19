@@ -48,8 +48,11 @@ function TaskCardList({
   }, [taskListData, dispatch]);
 
   useEffect(() => {
+    document.documentElement.style.overflow = isDrawerOpen ? 'hidden' : '';
     document.body.style.overflow = isDrawerOpen ? 'hidden' : '';
+
     return () => {
+      document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
     };
   }, [isDrawerOpen]);

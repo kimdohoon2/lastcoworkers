@@ -13,6 +13,7 @@ import Input from '@/app/components/common/input/Input';
 import Button from '@/app/components/common/button/Button';
 import RepeatSelector from '@/app/components/tasklist/RepeatSelector';
 import DateTimeSelector from '@/app/components/tasklist/DateTimeSeletor';
+import useToast from '@/app/hooks/useToast';
 
 interface CreateTaskModalProps {
   isOpen: boolean;
@@ -41,6 +42,7 @@ export default function CreateTaskModal({
     },
   });
   const queryClient = useQueryClient();
+  const { showToast } = useToast();
   const { mutate, isPending } = useCreateRecurringTaskMutation();
 
   const { setValue, watch, handleSubmit } = method;
@@ -87,9 +89,10 @@ export default function CreateTaskModal({
           method.reset();
           setSelectedTime('');
           onClose();
+          showToast({ message: '할 일 생성 완료!😊', type: 'success' });
         },
-        onError: (error) => {
-          console.error('에러:', error);
+        onError: () => {
+          showToast({ message: '할 일 생성에 실패했어요.🙁', type: 'error' });
         },
       },
     );

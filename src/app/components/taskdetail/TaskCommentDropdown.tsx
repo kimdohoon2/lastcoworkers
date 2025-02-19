@@ -9,6 +9,7 @@ import DropdownItem from '@/app/components/common/dropdown/DropdownItem';
 import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import DropdownToggle from '@/app/components/common/dropdown/DropdownToggle';
 import DeleteCommentModal from '@/app/components/taskdetail/DeleteCommentModal';
+import useToast from '@/app/hooks/useToast';
 
 interface TaskCommentDropdownProps {
   taskId: number;
@@ -23,6 +24,7 @@ export default function TaskCommentDropdown({
   onEdit,
   setIsModalOpen,
 }: TaskCommentDropdownProps) {
+  const { showToast } = useToast();
   const queryClient = useQueryClient();
   const task = useAppSelector((state) => state.tasks.taskById[taskId]);
   const { mutate: deleteComment, isPending } = useDeleteTaskCommentMutation();
@@ -47,9 +49,10 @@ export default function TaskCommentDropdown({
           });
           closeDropdown();
           setIsDeleteModalOpen(false);
+          showToast({ message: '댓글 삭제 완료!😊', type: 'success' });
         },
         onError: () => {
-          console.error('댓글 삭제 실패');
+          showToast({ message: '댓글 삭제에 실패했어요.🙁', type: 'error' });
         },
       },
     );
