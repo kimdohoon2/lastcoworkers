@@ -241,7 +241,7 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
             <div
               className={`custom-scrollbar mt-2 flex flex-col px-4 ${
                 items.length > 6
-                  ? 'max-h-[336px] overflow-y-auto overflow-x-hidden'
+                  ? 'max-h-[336px] overflow-y-auto overflow-x-hidden pb-20'
                   : ''
               }`}
             >

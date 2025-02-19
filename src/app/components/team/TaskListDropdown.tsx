@@ -100,7 +100,7 @@ export default function TaskListDropdown({
           <TaskCardDropdown />
         </DropdownToggle>
         <DropdownList
-          className="absolute right-4 top-6 w-28"
+          className="absolute right-2 top-6 w-28"
           isOpen={isDropdownOpen}
         >
           <DropdownItem className="text-center" onClick={editModal.openModal}>
