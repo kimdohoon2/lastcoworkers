@@ -9,15 +9,18 @@ const useResetPassword = () => {
 
   return useMutation({
     mutationFn: (data: ResetPasswordType) => postResetPasswordApi(data),
-    onSuccess: (data) => {
-      showToast({ message: data.message });
+    onSuccess: () => {
+      showToast({
+        message: '이메일 전송 성공!😊',
+        type: 'success',
+      });
     },
     onError: (error: unknown) => {
       if (isAxiosError(error) && error.response) {
-        showToast({ message: '이메일 전송에 실패했습니다.', type: 'error' });
+        showToast({ message: '이메일 전송에 실패했어요.🙁', type: 'error' });
       } else {
         showToast({
-          message: '이메일로 전송 중 오류가 발생했습니다. 다시 시도해 주세요.',
+          message: '이메일로 전송 중 오류가 발생했어요.🙁',
           type: 'error',
         });
       }

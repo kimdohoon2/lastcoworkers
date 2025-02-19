@@ -48,7 +48,7 @@ export default function TodoListItem({
         {...attributes}
         {...listeners}
         style={style}
-        className="mt-4 h-10 w-full rounded-xl border border-background-inverse"
+        className="mt-4 block h-10 min-h-[2.5rem] w-full rounded-xl border border-background-inverse"
       />
     );
   }
@@ -70,7 +70,7 @@ export default function TodoListItem({
     >
       <Link
         href={`/${groupId}/${taskList.id}`}
-        className="z-0 flex flex-1 items-center justify-between overflow-hidden"
+        className="z-0 flex h-10 flex-1 items-center justify-between overflow-hidden"
       >
         <div
           className={`absolute left-0 h-10 w-3 rounded-l-xl ${backgroundColor}`}

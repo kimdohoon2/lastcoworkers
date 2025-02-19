@@ -48,10 +48,11 @@ function Page() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['group', groupId] });
+      showToast({ message: '팀 수정 완료!😊', type: 'success' });
       router.push(`/${groupId}`);
     },
     onError: () => {
-      showToast({ message: '팀 수정에 실패했습니다.', type: 'error' });
+      showToast({ message: '팀 수정에 실패했어요.🙁', type: 'error' });
       setIsSubmitting(false);
     },
   });

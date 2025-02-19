@@ -18,7 +18,7 @@ function TaskComment({ taskId, setIsModalOpen }: TaskCommentProps) {
 
       {error && (
         <p className="text-text-default">
-          댓글을 불러오는 중 오류가 발생했습니다.
+          댓글을 불러오는 중 오류가 발생했어요.
         </p>
       )}
       <div className="mt-6">

@@ -79,6 +79,8 @@ function TaskDetail({
   const { name: nameValue, description: descriptionValue } = watch();
 
   const toggleDone = () => {
+    const newDoneState = !doneAt;
+
     editTask(
       {
         groupId,
@@ -86,19 +88,20 @@ function TaskDetail({
         taskId,
         name: nameValue,
         description: descriptionValue,
-        done: !doneAt,
+        done: newDoneState,
       },
       {
         onSuccess: () => {
+          showToast({ message: '할 일 상태 변경 완료!😊', type: 'success' });
           queryClient.invalidateQueries({
             queryKey: ['groups', groupId, 'taskLists', taskListId, 'tasks'],
           });
+          if (newDoneState) {
+            showToast({ message: '할 일 완료!🎉', type: 'success' });
+          }
         },
         onError: () => {
-          showToast({
-            message: '할 일 상태 변경에 실패했습니다.',
-            type: 'error',
-          });
+          showToast({ message: '할 일 완료에 실패했어요.🙁', type: 'error' });
         },
       },
     );
@@ -123,9 +126,10 @@ function TaskDetail({
             queryKey: ['groups', groupId, 'taskLists', taskListId, 'tasks'],
           });
           setIsEditing(false);
+          showToast({ message: '할 일 수정 완료!😊', type: 'success' });
         },
         onError: () => {
-          showToast({ message: '할 일 수정에 실패했습니다.' });
+          showToast({ message: '할 일 수정에 실패했어요.🙁', type: 'error' });
         },
       },
     );

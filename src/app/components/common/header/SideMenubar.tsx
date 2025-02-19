@@ -46,12 +46,12 @@ export default function SideMenuBar({ visible, onClose }: SlidemenuBarType) {
       <div
         role="menubar"
         tabIndex={0}
-        className="h-screen w-1/2 bg-background-secondary transition-all duration-300 ease-in-out"
+        className="h-screen w-1/2 overflow-y-auto bg-background-secondary transition-all duration-300 ease-in-out"
         onClick={stopPropagation}
         aria-label="Close Menu"
         onKeyDown={handleKeyDown}
       >
-        <div className="flex flex-col px-4 pt-5">
+        <div className="mx-4 flex flex-col overflow-hidden pt-5">
           <button
             className="mb-9 flex self-end"
             onClick={onClose}

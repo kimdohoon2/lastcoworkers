@@ -11,6 +11,7 @@ import {
 import Input from '@/app/components/common/input/Input';
 import Modal from '@/app/components/common/modal/Modal';
 import Button from '@/app/components/common/button/Button';
+import useToast from '@/app/hooks/useToast';
 
 interface CreateListModalProps {
   isOpen: boolean;
@@ -23,6 +24,7 @@ export default function CreateListModal({
   onClose,
   groupId,
 }: CreateListModalProps) {
+  const { showToast } = useToast();
   const methods = useForm<PostTaskListRequest>();
   const { setError, reset, handleSubmit } = methods;
   const queryClient = useQueryClient();
@@ -43,13 +45,21 @@ export default function CreateListModal({
             queryKey: ['tasklists', groupId],
           });
           onClose();
+          showToast({ message: '할 일 목록 생성 완료!😊', type: 'success' });
         },
         onError: (error: unknown) => {
-          if (error instanceof AxiosError && error.response?.status === 409) {
-            setError('name', {
-              type: 'manual',
-              message: '그룹 내 이름이 같은 할 일 목록이 존재합니다.',
-            });
+          if (error instanceof AxiosError) {
+            if (error.response?.status === 409) {
+              setError('name', {
+                type: 'manual',
+                message: '그룹 내 이름이 같은 할 일 목록이 존재합니다.',
+              });
+            } else {
+              showToast({
+                message: '할 일 목록 생성에 실패했어요.🙁',
+                type: 'error',
+              });
+            }
           }
         },
       },

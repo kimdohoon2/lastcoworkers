@@ -11,14 +11,18 @@ const useSignUp = () => {
   return useMutation({
     mutationFn: SignUpApi,
     onSuccess: () => {
+      showToast({
+        message: '회원가입 완료!😊',
+        type: 'success',
+      });
       router.push('/login');
     },
     onError: (error: unknown) => {
       if (isAxiosError(error) && error.response) {
-        showToast({ message: '회원가입에 실패했습니다.', type: 'error' });
+        showToast({ message: '회원가입에 실패했어요.🙁', type: 'error' });
       } else {
         showToast({
-          message: '회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.',
+          message: '회원가입 중 오류가 발생했어요.🙁',
           type: 'error',
         });
       }

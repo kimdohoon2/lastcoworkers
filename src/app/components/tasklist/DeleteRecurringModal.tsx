@@ -2,6 +2,7 @@ import { useAppSelector } from '@/app/stores/hooks';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteRecurringMutation } from '@/app/lib/task/deleteTask';
 import ConfirmModal from '@/app/components/common/modal/ConfirmModal';
+import useToast from '@/app/hooks/useToast';
 
 interface DeleteRecurringModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ export default function DeleteRecurringModal({
   taskListId,
   taskId,
 }: DeleteRecurringModalProps) {
+  const { showToast } = useToast();
   const queryClient = useQueryClient();
   const task = useAppSelector((state) => state.tasks.taskById[taskId]);
   const { mutate, isPending } = useDeleteRecurringMutation();
@@ -36,12 +38,15 @@ export default function DeleteRecurringModal({
           queryClient.invalidateQueries({
             queryKey: ['groups', groupId, 'taskLists', taskListId, 'tasks'],
           });
-
           onClose();
           onDeleteSuccess?.();
+          showToast({ message: '할 일 반복 삭제 완료!😊', type: 'success' });
         },
-        onError: (error) => {
-          console.error('반복 삭제 실패:', error);
+        onError: () => {
+          showToast({
+            message: '할 일 반복 삭제에 실패했어요.🙁',
+            type: 'error',
+          });
         },
       },
     );

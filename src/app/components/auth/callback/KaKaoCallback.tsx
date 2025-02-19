@@ -19,7 +19,6 @@ export default function KaKaoCallback() {
       const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
 
       if (!code) {
-        showToast({ message: '인증 코드가 누락되었습니다.' });
         router.push('/login');
         return;
       }
@@ -31,15 +30,13 @@ export default function KaKaoCallback() {
             redirectUri: KAKAO_REDIRECT_URI || '',
             token: code,
           });
-          console.log('Response:', response);
 
           if (response) {
             dispatch(setCredentials(response));
             router.push('/');
           }
         } catch (error) {
-          console.error('소셜 로그인 오류:', error);
-          showToast({ message: '로그인에 실패했습니다.', type: 'error' });
+          showToast({ message: '로그인에 실패했어요.🙁', type: 'error' });
           router.push('/login');
         }
       };
