@@ -1,9 +1,11 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import HeaderBoardButton from '@/app/components/common/header/Boards';
 import IconClose from '@/app/components/icons/IconClose';
 import HeaderTeam from '@/app/components/common/header/HeaderTeam';
+import IconPlus from '@/app/components/icons/IconPlus';
 
 interface SlidemenuBarType {
   visible: boolean;
@@ -12,6 +14,7 @@ interface SlidemenuBarType {
 
 export default function SideMenuBar({ visible, onClose }: SlidemenuBarType) {
   const divRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
 
   // 키보드 이벤트 처리
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -65,6 +68,18 @@ export default function SideMenuBar({ visible, onClose }: SlidemenuBarType) {
               className="block text-md tablet:hidden"
               onClick={onClose}
             />
+            <button
+              onClick={() => {
+                router.push('/addteam');
+                onClose();
+              }}
+              className="hover:bg-transparent"
+            >
+              <div className="flex items-center justify-center gap-1 rounded-xl border border-slate-50 py-2">
+                <IconPlus />
+                <span className="text-md font-medium">팀 추가하기</span>
+              </div>
+            </button>
           </div>
         </div>
       </div>
