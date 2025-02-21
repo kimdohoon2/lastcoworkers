@@ -24,7 +24,7 @@ export default function ResetPasswordModal({
   const methods = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    const redirectUrl = 'https://coworkers-psi.vercel.app/'; // 배포한 url 나중에 변경할 예정
+    const redirectUrl = 'https://team8-coworkers.vercel.app/'; // 배포한 url 나중에 변경할 예정
 
     resetPasswordMutation.mutate(
       {

@@ -9,6 +9,24 @@ export const metadata: Metadata = {
   title: 'Coworkers',
   description:
     '업무 배정과 현황 공유를 효율적으로 관리하며, 최적화된 To-do 리스트와 성과 지표 시각화로 사용자가 업무를 쉽게 생성하고 진행 상황을 확인할 수 있는 서비스입니다.',
+  keywords: 'Coworkers, 일정관리 사이트, 업무관리 사이트, 코드잇',
+  openGraph: {
+    siteName: 'Coworkers',
+    title: 'Coworkers',
+    type: 'website',
+    description:
+      '업무 배정과 현황 공유를 효율적으로 관리하며, 최적화된 To-do 리스트와 성과 지표 시각화로 사용자가 업무를 쉽게 생성하고 진행 상황을 확인할 수 있는 서비스입니다.',
+    images: [
+      {
+        url: 'https://team8-coworkers.vercel.app/meta/SumMeta.png',
+        alt: 'Coworkers 대표 이미지',
+      },
+    ],
+    url: 'https://team8-coworkers.vercel.app/',
+  },
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
