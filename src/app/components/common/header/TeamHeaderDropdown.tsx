@@ -41,11 +41,8 @@ export default function TeamHeaderDropdown({
   }
 
   return (
-    <Dropdown
-      className="relative hidden tablet:flex tablet:items-center"
-      onClose={closeDropdown}
-    >
-      <DropdownToggle onClick={toggleDropdown}>
+    <Dropdown className="relative hidden tablet:block" onClose={closeDropdown}>
+      <DropdownToggle className="flex" onClick={toggleDropdown}>
         <div className="flex w-[13.625rem] items-center gap-3 truncate px-4">
           <div className="relative h-8 w-8 flex-shrink-0">
             {displayGroupImage ? (
