@@ -69,32 +69,34 @@ export default function TeamHeaderDropdown({
         isOpen={isOpen}
         className="absolute right-0 mt-2 w-[13.625rem] rounded shadow-lg"
       >
-        {userData?.memberships.map((membership: Membership) => (
-          <DropdownItem
-            key={membership.group.id}
-            onClick={() => {
-              router.push(`/${membership.group.id}`);
-              closeDropdown();
-            }}
-            className="hover:bg-transparent"
-          >
-            <div className="flex h-12 w-full items-center gap-3 rounded-xl px-2 hover:bg-background-tertiary">
-              <div className="relative h-8 w-8 flex-shrink-0">
-                {membership.group.image ? (
-                  <Image
-                    src={membership.group.image}
-                    alt={membership.group.name}
-                    fill
-                    className="rounded-md"
-                  />
-                ) : (
-                  <IconDefaultImage />
-                )}
+        <div className="custom-scrollbar max-h-[18rem] overflow-y-scroll">
+          {userData?.memberships.map((membership: Membership) => (
+            <DropdownItem
+              key={membership.group.id}
+              onClick={() => {
+                router.push(`/${membership.group.id}`);
+                closeDropdown();
+              }}
+              className="hover:bg-transparent"
+            >
+              <div className="flex h-12 w-full items-center gap-3 rounded-xl px-2 hover:bg-background-tertiary">
+                <div className="relative h-8 w-8 flex-shrink-0">
+                  {membership.group.image ? (
+                    <Image
+                      src={membership.group.image}
+                      alt={membership.group.name}
+                      fill
+                      className="rounded-md"
+                    />
+                  ) : (
+                    <IconDefaultImage />
+                  )}
+                </div>
+                <div className="truncate">{membership.group.name}</div>
               </div>
-              <div className="truncate">{membership.group.name}</div>
-            </div>
-          </DropdownItem>
-        ))}
+            </DropdownItem>
+          ))}
+        </div>
         <DropdownItem
           onClick={() => {
             router.push('/addteam');
