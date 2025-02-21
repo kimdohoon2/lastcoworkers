@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useState, useRef } from 'react';
-import useClickOutside from '@/app/hooks/useClickOutside';
+import useCloseOnOutsideClickAndEsc from '@/app/hooks/useCloseOnOutsideClickAndEsc';
 import Input from '@/app/components/common/input/Input';
 import TimeSelector from '@/app/components/tasklist/TimeSelector';
 import CustomCalendar from '@/app/components/tasklist/CustomCalendar';
@@ -26,8 +26,10 @@ export default function DateTimeSelector({
   const calendarRef = useRef<HTMLDivElement>(null);
   const timeSelectorRef = useRef<HTMLDivElement>(null);
 
-  useClickOutside(calendarRef, () => setIsCalendarOpen(false));
-  useClickOutside(timeSelectorRef, () => setIsTimeSelectorOpen(false));
+  useCloseOnOutsideClickAndEsc(calendarRef, () => setIsCalendarOpen(false));
+  useCloseOnOutsideClickAndEsc(timeSelectorRef, () =>
+    setIsTimeSelectorOpen(false),
+  );
 
   const toggleCalendar = () => {
     setIsCalendarOpen((prev) => !prev);

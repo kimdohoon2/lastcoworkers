@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import { useRef, useState } from 'react';
-import useClickOutside from '@/app/hooks/useClickOutside';
+import useCloseOnOutsideClickAndEsc from '@/app/hooks/useCloseOnOutsideClickAndEsc';
 import IconPrevDate from '@/app/components/icons/IconPrevDate';
 import IconNextDate from '@/app/components/icons/IconNextDate';
 import IconCalendar from '@/app/components/icons/IconCalendar';
@@ -20,7 +20,7 @@ export default function DatePicker({
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
 
-  useClickOutside(calendarRef, () => setIsCalendarOpen(false));
+  useCloseOnOutsideClickAndEsc(calendarRef, () => setIsCalendarOpen(false));
 
   const formattedDate = new Date(selectedDate).toLocaleDateString('ko-KR', {
     month: 'long',

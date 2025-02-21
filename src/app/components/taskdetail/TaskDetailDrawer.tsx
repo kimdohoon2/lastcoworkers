@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import useClickOutside from '@/app/hooks/useClickOutside';
+import useCloseOnOutsideClickAndEsc from '@/app/hooks/useCloseOnOutsideClickAndEsc';
 import TaskDetail from '@/app/components/taskdetail/TaskDetail';
 
 interface TaskDetailDrawerProps {
@@ -40,7 +40,7 @@ function TaskDetailDrawer({
     onClose();
   };
 
-  useClickOutside(drawerRef, () => {
+  useCloseOnOutsideClickAndEsc(drawerRef, () => {
     if (!isModalOpen) closeDrawer();
   });
 

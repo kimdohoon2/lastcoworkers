@@ -1,6 +1,6 @@
 import { PropsWithChildren, useRef } from 'react';
 import clsx from 'clsx';
-import useClickOutside from '@/app/hooks/useClickOutside';
+import useCloseOnOutsideClickAndEsc from '@/app/hooks/useCloseOnOutsideClickAndEsc';
 
 interface DropdownProps {
   className?: string;
@@ -14,7 +14,7 @@ export default function Dropdown({
 }: PropsWithChildren<DropdownProps>) {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  useClickOutside(dropdownRef, onClose);
+  useCloseOnOutsideClickAndEsc(dropdownRef, onClose);
 
   return (
     <div ref={dropdownRef} className={clsx('relative w-fit', className)}>

@@ -1,14 +1,9 @@
 'use client';
 
-import {
-  PropsWithChildren,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import IconClose from '@/app/components/icons/IconClose';
+import useCloseOnOutsideClickAndEsc from '@/app/hooks/useCloseOnOutsideClickAndEsc';
 
 interface ModalProps {
   hasCloseBtn?: boolean;
@@ -27,17 +22,11 @@ function Modal({
   const [isAnimating, setIsAnimating] = useState(false); // 애니메이션 상태를 추가
   const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeModal();
-    },
-    [closeModal],
-  );
+  useCloseOnOutsideClickAndEsc(modalRef, closeModal);
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      document.addEventListener('keydown', handleKeyDown);
       setIsAnimating(true);
     } else if (!isAnimating) {
       document.body.style.overflow = ''; // 모달이 닫힐 때 바로 처리
@@ -47,32 +36,14 @@ function Modal({
     // 모달 조건부로 렌더링하는 케이스 고려
     return () => {
       document.body.style.overflow = '';
-      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen, isAnimating, handleKeyDown]);
+  }, [isOpen, isAnimating]);
 
   const handleAnimationEnd = () => {
     if (!isOpen) {
       setIsAnimating(false);
     }
   };
-
-  useEffect(() => {
-    // 모달 외부 클릭 시 닫히도록 이벤트 처리
-    const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && modalRef.current.contains(event.target as Node)) {
-        closeModal();
-      }
-    };
-
-    // 마운트 시 이벤트 리스너 추가
-    document.addEventListener('mousedown', handleClickOutside);
-
-    // clean-up : 언마운트 시 이벤트 리스너 제거
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [closeModal]);
 
   if (!isOpen && !isAnimating) return null;
 
@@ -85,8 +56,9 @@ function Modal({
       onMouseDown={(e) => e.stopPropagation()}
       onTouchStart={(e) => e.stopPropagation()}
     >
-      <div ref={modalRef} className="absolute inset-0 bg-black opacity-50" />
+      <div className="absolute inset-0 bg-black opacity-50" />
       <div
+        ref={modalRef}
         className={`relative flex max-h-[80%] w-full transform flex-col items-center overflow-y-hidden rounded-t-xl bg-background-secondary pb-8 pt-12 transition-all duration-300 tablet:w-96 tablet:rounded-b-xl ${isOpen && isAnimating ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
         onTransitionEnd={handleAnimationEnd}
       >
