@@ -92,7 +92,6 @@ function TaskDetail({
       },
       {
         onSuccess: () => {
-          showToast({ message: '할 일 상태 변경 완료!😊', type: 'success' });
           queryClient.invalidateQueries({
             queryKey: ['groups', groupId, 'taskLists', taskListId, 'tasks'],
           });
@@ -101,7 +100,10 @@ function TaskDetail({
           }
         },
         onError: () => {
-          showToast({ message: '할 일 완료에 실패했어요.🙁', type: 'error' });
+          showToast({
+            message: '할 일 상태 변경에 실패했어요.🙁',
+            type: 'error',
+          });
         },
       },
     );

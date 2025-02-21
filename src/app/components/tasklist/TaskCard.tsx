@@ -51,7 +51,6 @@ export default function TaskCard({
       },
       {
         onSuccess: () => {
-          showToast({ message: '할 일 상태 변경 완료!😊.', type: 'success' });
           queryClient.invalidateQueries({
             queryKey: ['groups', groupId, 'taskLists', taskListId, 'tasks'],
           });
