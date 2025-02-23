@@ -59,23 +59,29 @@ export default function DateTimeSelector({
           onClick={toggleCalendar}
           readOnly
         />
+
         <div className="mt-2">
           {isCalendarOpen && (
-            <CustomCalendar
-              selectedDate={date ? new Date(date) : new Date()}
-              onDateChange={(newDate) => {
-                handleDateChange(newDate);
-                setIsCalendarOpen(false);
-              }}
-              minDate={disablePastDates ? new Date() : undefined}
-            />
+            // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
+            <div onClick={(e) => e.stopPropagation()}>
+              <CustomCalendar
+                selectedDate={date ? new Date(date) : new Date()}
+                onDateChange={(newDate) => {
+                  handleDateChange(newDate);
+                  setIsCalendarOpen(false);
+                }}
+                minDate={disablePastDates ? new Date() : undefined}
+              />
+            </div>
           )}
         </div>
       </div>
 
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
       <div
         ref={timeSelectorRef}
         className={clsx({ 'mb-[13rem]': isTimeSelectorOpen })}
+        onClick={(e) => e.stopPropagation()}
       >
         <TimeSelector
           isOpen={isTimeSelectorOpen}

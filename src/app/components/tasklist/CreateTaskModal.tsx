@@ -25,7 +25,7 @@ export default function CreateTaskModal({
   isOpen,
 }: CreateTaskModalProps) {
   const params = useParams();
-  const { teamid: groupId, tasklist: taskListId, date: selectedDate } = params;
+  const { teamid: groupId, tasklist: taskListId } = params;
   const [selectedTime, setSelectedTime] = useState('');
 
   const [repeatData, setRepeatData] = useState<RecurringTaskDataBody>({
@@ -82,7 +82,6 @@ export default function CreateTaskModal({
               'taskLists',
               Number(taskListId),
               'tasks',
-              selectedDate || new Date().toISOString().split('T')[0],
             ],
           });
 
