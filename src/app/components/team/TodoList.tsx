@@ -65,6 +65,14 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
     setItems(taskLists);
   }, [taskLists]);
 
+  useEffect(() => {
+    if (isOpen) {
+      methods.reset({
+        name: '',
+      });
+    }
+  }, [isOpen, methods]);
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ['taskLists', groupId],
     queryFn: async () => {

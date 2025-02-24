@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm, FormProvider } from 'react-hook-form';
 import { editTaskList } from '@/app/lib/tasklist/patchTaskList';
@@ -41,6 +41,14 @@ export default function TaskListDropdown({
   const methods = useForm<{ name: string }>();
   const queryClient = useQueryClient();
   const { showToast } = useToast();
+
+  useEffect(() => {
+    if (editModal.isOpen) {
+      methods.reset({
+        name: taskListName,
+      });
+    }
+  }, [editModal.isOpen, taskListName, methods]);
 
   const editMutation = useMutation({
     mutationFn: (newName: string) =>
