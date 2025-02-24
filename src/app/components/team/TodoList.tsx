@@ -182,7 +182,7 @@ export default function TodoList({ groupId, taskLists }: TodoListProps) {
             할 일 목록
           </span>
           <span className="text-lg font-normal text-text-default">
-            ({items.length}개)
+            (드래그로 할 일 목록 순서 변경 가능)
           </span>
         </div>
         <button

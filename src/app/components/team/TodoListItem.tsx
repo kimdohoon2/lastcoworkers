@@ -66,7 +66,7 @@ export default function TodoListItem({
       style={style}
       {...attributes}
       {...listeners}
-      className="relative mt-4 flex h-10 w-full items-center rounded-xl bg-background-secondary pl-6 pr-4 hover:z-10 hover:scale-102"
+      className="relative mt-4 flex h-10 w-full items-center rounded-xl bg-background-secondary pl-6 pr-4 hover:z-10"
     >
       <Link
         href={`/${groupId}/${taskList.id}`}
