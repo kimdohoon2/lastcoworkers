@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
@@ -53,6 +53,18 @@ export default function CreateTaskModal({
     selectedTime,
     repeatData,
   );
+
+  useEffect(() => {
+    if (isOpen) {
+      method.reset({
+        name: '',
+        description: '',
+        startDate: '',
+        frequencyType: FrequencyType.ONCE,
+      });
+      setSelectedTime('');
+    }
+  }, [isOpen, method]);
 
   const onSubmit = (data: RecurringTaskDataBody) => {
     const formattedDate =
