@@ -31,11 +31,10 @@ export default function BoardsPage() {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [sortOrder, setSortOrder] = useState('recent');
 
-  const debouncedWidth = useDebounce(windowWidth, 300);
+  // 디바운싱된 검색어 상태
+  const debouncedSearchKeyword = useDebounce(searchKeyword, 300);
 
-  const handleSearch = (keyword: string) => {
-    setSearchKeyword(keyword);
-  };
+  const debouncedWidth = useDebounce(windowWidth, 300);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -52,13 +51,15 @@ export default function BoardsPage() {
     setBestPageSize(getPageSize(debouncedWidth));
   }, [debouncedWidth]);
 
+  // 베스트 게시글 데이터 가져오기
   const { data: bestPosts, isLoading: isBestLoading } = useGetArticle({
     page: 1,
     pageSize: bestPageSize,
     orderBy: 'like',
-    keyword: searchKeyword,
+    keyword: debouncedSearchKeyword, // 디바운싱된 검색어 사용
   });
 
+  // 최신 게시글 데이터 가져오기 (무한 스크롤)
   const {
     data: recentPosts,
     isLoading: isRecentLoading,
@@ -68,11 +69,12 @@ export default function BoardsPage() {
   } = useGetArticleInfinite({
     pageSize: 4,
     orderBy: sortOrder,
-    keyword: searchKeyword,
+    keyword: debouncedSearchKeyword, // 디바운싱된 검색어 사용
   });
+
   const allArticles = recentPosts?.pages.flatMap((page) => page.list) || [];
 
-  // 리엑트 인터셉션 옵저버 활용한 무한스크롤
+  // 리엑트 인터섹션 옵저버 활용한 무한스크롤
   const [ref, inView] = useInView();
 
   const fetchMore = useCallback(() => {
@@ -97,7 +99,11 @@ export default function BoardsPage() {
         <div className="pt-8 tablet:pt-10">
           <div className="flex flex-col gap-6 tablet:gap-8 xl:gap-10">
             <h1 className="text-2lg font-bold tablet:text-2xl">자유게시판</h1>
-            <BoardsSearchBar onSearch={handleSearch} />
+            {/* 검색 바 */}
+            <BoardsSearchBar
+              searchKeyword={searchKeyword}
+              setSearchKeyword={setSearchKeyword}
+            />
             <h2 className="font-bold tablet:text-xl">베스트 게시글</h2>
             <div className="flex flex-col gap-4 tablet:flex-row tablet:gap-4">
               {isBestLoading ? (
@@ -171,6 +177,7 @@ export default function BoardsPage() {
         </div>
       </section>
 
+      {/* 글쓰기 버튼 */}
       <Link
         className="fixed bottom-5 right-4 block h-12 w-[6.5rem] tablet:right-8 xl:left-[50%] xl:top-[95%] xl:-translate-y-1/2 xl:translate-x-[29rem]"
         href="/addboard"

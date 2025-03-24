@@ -24,7 +24,7 @@ const createNoopStorage = () => {
 const storage =
   typeof window === 'undefined'
     ? createNoopStorage()
-    : createWebStorage('local');
+    : createWebStorage('session');
 // Persist 설정 간소화
 const rootPersistConfig = {
   key: 'root',
