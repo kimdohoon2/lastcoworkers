@@ -30,7 +30,7 @@ export default function HeaderTeam({ type, onClick }: HeaderTeamProps) {
     return <div>유저 데이터를 불러오는데 실패했습니다.</div>;
   }
 
-  if (!userData || userData.memberships.length === 0) {
+  if (!userData || userData.memberships?.length === 0) {
     return (
       <button className="inline-block rounded text-white hover:text-interaction-hover">
         팀 생성하기

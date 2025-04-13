@@ -7,21 +7,22 @@ interface AuthState {
     'updatedAt' | 'createdAt' | 'image'
   > | null;
   accessToken: string;
-  refreshToken: string;
 }
 
 const initialState: AuthState = {
   user: null,
   accessToken: '',
-  refreshToken: '',
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setCredentials: (state, action: PayloadAction<SignInResponse>) => {
-      const { user, accessToken, refreshToken } = action.payload;
+    setCredentials: (
+      state,
+      action: PayloadAction<Omit<SignInResponse, 'refreshToken'>>,
+    ) => {
+      const { user, accessToken } = action.payload;
 
       // 필요한 필드만 저장 (Omit을 통해 필드 제외)
       state.user = {
@@ -32,7 +33,6 @@ const authSlice = createSlice({
       };
 
       state.accessToken = accessToken ?? '';
-      state.refreshToken = refreshToken ?? '';
     },
     setAccessToken: (state, action: PayloadAction<string>) => {
       state.accessToken = action.payload;
@@ -40,7 +40,6 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.accessToken = '';
-      state.refreshToken = '';
     },
   },
 });

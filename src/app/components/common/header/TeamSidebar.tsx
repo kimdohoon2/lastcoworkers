@@ -12,7 +12,7 @@ interface TeamSidebarProps {
 export default function TeamSidebar({ userData, onClick }: TeamSidebarProps) {
   return (
     <div className="flex flex-col gap-6">
-      {userData?.memberships.map((membership: Membership) => (
+      {userData?.memberships?.map((membership: Membership) => (
         <Link
           href={`/${membership.group.id}`}
           key={membership.group.id}

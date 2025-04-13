@@ -4,11 +4,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { RootState } from '@/app/stores/store';
-import { logout } from '@/app/stores/auth/authSlice';
-import { oauthlogout } from '@/app/stores/oauthSlice';
 import SideMenuBar from '@/app/components/common/header/SideMenubar';
 import HeaderMenuBar from '@/app/components/icons/HeaderMenuBar';
 import HeaderBoardButton from '@/app/components/common/header/Boards';
@@ -19,12 +17,13 @@ import DropdownList from '@/app/components/common/dropdown/DropdownList';
 import useDropdown from '@/app/hooks/useDropdown';
 import HeaderTeam from '@/app/components/common/header/HeaderTeam';
 import getUser, { GetUserResponse } from '@/app/lib/user/getUser';
+import useLogout from '@/app/hooks/useLogout';
 
 export default function Header() {
   const [visible, setVisible] = useState<boolean>(false);
   const { isOpen, toggleDropdown, closeDropdown } = useDropdown();
-  const dispatch = useDispatch();
   const router = useRouter();
+  const { handleLogout } = useLogout();
 
   const { accessToken } = useSelector((state: RootState) => state.auth);
 
@@ -50,11 +49,6 @@ export default function Header() {
       document.body.style.overflow = 'auto';
     };
   }, []);
-
-  const handleLogout = (): void => {
-    dispatch(logout());
-    dispatch(oauthlogout());
-  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -97,61 +91,63 @@ export default function Header() {
           </div>
           <div>
             {isLoggedIn ? (
-              <div
-                className="relative flex cursor-pointer items-center gap-2"
-                onClick={toggleDropdown}
-                role="button"
-                tabIndex={0}
-                onKeyDown={handleKeyDown}
-              >
-                <HeaderUserIcon />
-                <span className="hidden hover:text-interaction-hover xl:block">
-                  {userData?.nickname || '사용자'}
-                </span>
-
-                <Dropdown
-                  className="right-28 top-4 xl:right-[8rem] xl:top-7"
-                  onClose={closeDropdown}
+              <div className="flex items-center gap-4">
+                <div
+                  className="relative flex cursor-pointer items-center gap-2"
+                  onClick={toggleDropdown}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={handleKeyDown}
                 >
-                  <DropdownList className="w-28 xl:w-[135px]" isOpen={isOpen}>
-                    <DropdownItem
-                      className="xl:text-base"
-                      onClick={() => {
-                        closeDropdown();
-                        router.push('/myhistory');
-                      }}
-                    >
-                      마이 히스토리
-                    </DropdownItem>
-                    <DropdownItem
-                      className="xl:text-base"
-                      onClick={() => {
-                        closeDropdown();
-                        router.push('/mypage');
-                      }}
-                    >
-                      계정 설정
-                    </DropdownItem>
-                    <DropdownItem
-                      className="xl:text-base"
-                      onClick={() => {
-                        closeDropdown();
-                        router.push('/invitation');
-                      }}
-                    >
-                      팀 참여
-                    </DropdownItem>
-                    <DropdownItem
-                      className="xl:text-base"
-                      onClick={() => {
-                        closeDropdown();
-                        handleLogout();
-                      }}
-                    >
-                      로그아웃
-                    </DropdownItem>
-                  </DropdownList>
-                </Dropdown>
+                  <HeaderUserIcon />
+                  <span className="hidden hover:text-interaction-hover xl:block">
+                    {userData?.nickname || '사용자'}
+                  </span>
+
+                  <Dropdown
+                    className="right-28 top-4 xl:right-[8rem] xl:top-7"
+                    onClose={closeDropdown}
+                  >
+                    <DropdownList className="w-28 xl:w-[135px]" isOpen={isOpen}>
+                      <DropdownItem
+                        className="xl:text-base"
+                        onClick={() => {
+                          closeDropdown();
+                          router.push('/myhistory');
+                        }}
+                      >
+                        마이 히스토리
+                      </DropdownItem>
+                      <DropdownItem
+                        className="xl:text-base"
+                        onClick={() => {
+                          closeDropdown();
+                          router.push('/mypage');
+                        }}
+                      >
+                        계정 설정
+                      </DropdownItem>
+                      <DropdownItem
+                        className="xl:text-base"
+                        onClick={() => {
+                          closeDropdown();
+                          router.push('/invitation');
+                        }}
+                      >
+                        팀 참여
+                      </DropdownItem>
+                      <DropdownItem
+                        className="xl:text-base"
+                        onClick={() => {
+                          closeDropdown();
+                          handleLogout();
+                        }}
+                      >
+                        로그아웃
+                      </DropdownItem>
+                    </DropdownList>
+                  </Dropdown>
+                </div>
               </div>
             ) : (
               <div className="flex gap-4">
